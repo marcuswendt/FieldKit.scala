@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     FieldKit
+     compiles the project as jar with sources                                             
+     ====================================================================== -->
+<project name="FieldKit" default="dist">
+
+	<tstamp>
+		<format property="now" pattern="yyyy_MM_dd-HH_mm" />
+	</tstamp>
+
+	<!-- ================================= 
+         CONFIGURATION    
+         ================================= -->
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="project.author" value="Marcus Wendt (www.field.io)" />
+	<property name="javac.target" value="1.5" />
+
+	<!-- scala -->
+	<property name="scala.home" value="/opt/local/share/scala/" />
+	<property name="scalac.target" value="jvm-1.5" />
+	<property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
+
+	<path id="scala.classpath">
+		<pathelement location="${scala-library.jar}" />
+		<pathelement location="${build.dir}" />
+	</path>
+
+	<taskdef resource="scala/tools/ant/antlib.xml">
+		<classpath>
+			<pathelement location="${scala.home}/lib/scala-compiler.jar" />
+			<pathelement location="${scala-library.jar}" />
+		</classpath>
+	</taskdef>
+
+	<!-- BUILD FILES & DIRECTORIES -->
+	<property name="res" value="res" />
+	<property name="build" value="build" />
+	<property name="tmp" value="${build}/tmp" />
+	<property name="dist" value="${build}" />
+
+	<property name="jar.path" value="${dist}" />
+	<property name="lib.jar" value="${jar.path}/${project.name}.jar" />
+	<property name="fatlib.jar" value="${jar.path}/${project.name}.fat.jar" />
+
+	<fileset id="libraries.jar" dir="lib" includes="**/*.jar" />
+
+	<!-- ================================= 
+         TARGETS
+         ================================= -->
+	<target name="init">
+		<!-- <delete dir="${build}" /> -->
+		<delete dir="${tmp}" />
+		<mkdir dir="${tmp}" />
+		<mkdir dir="${dist}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<!-- compile scala sources -->
+		<scalac target="${scalac.target}" addparams="-optimise" srcdir="src" destdir="${tmp}">
+			<exclude name="**/test**" />
+
+			<classpath>
+				<pathelement location="${scala-library.jar}" />
+				<fileset refid="libraries.jar" />
+			</classpath>
+		</scalac>
+
+		<!-- compile java sources -->
+		<javac target="${javac.target}" srcdir="src" destdir="${tmp}">
+			<classpath>
+				<fileset refid="libraries.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<echo>building ${lib.jar}</echo>
+		<mkdir dir="${jar.path}" />
+
+		<jar destfile="${lib.jar}" index="true" filesetmanifest="skip">
+			<manifest>
+				<attribute name="Built-By" value="${project.author}" />
+				<attribute name="Build-Date" value="${now}" />
+			</manifest>
+
+			<fileset dir="${tmp}" />
+
+			<fileset dir="src">
+				<exclude name="**test**" />
+				<include name="**/*.java" />
+				<include name="**/*.scala" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="dist" depends="init">
+		<echo>----------------------------------------</echo>
+		<echo>building ${project.name} distribution...</echo>
+		<echo>----------------------------------------</echo>
+		<antcall target="jar" />
+		<!-- <antcall target="fatjar" /> -->
+		<echo>done</echo>
+	</target>
+</project>

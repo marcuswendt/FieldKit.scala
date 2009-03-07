@@ -7,7 +7,7 @@
 package field.kit.math
 
 /**
- * Base Class for all Vectors
+ * Base Class for all Vectors 
  */
 abstract class Vector[T](val size:Int) extends Collection[T] {
 }

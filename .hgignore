@@ -3,3 +3,5 @@ syntax: glob
 bin*
 *.DS_Store
 .manager/*
+syntax: regexp
+^build$
