@@ -6,33 +6,39 @@
 \*                                                                            */
 package field.kit
 
-
 /**
- * Logging Class 
+ * Implements a flexible Logging System 
  */
 object Logger extends Enumeration {
   val ALL = Value
   val FINE = Value
   val INFO = Value
+  val WARNING = Value
   val ERROR = Value
   val FATAL = Value
   val NONE = Value
   
+  var level = Logger.ALL
+  
   def log(l:Value, name:String, m:Seq[Any]) {
-    val s = if(l < ERROR) System.out else System.err
-    val prefix = name +":" 
-    s.println( (prefix /: m) (_ +" "+ _) )
+    if(l >= level) {
+      val s = if(l < ERROR) System.out else System.err
+    
+      val prefix = name +":" 
+      s.println( (prefix /: m) (_ +" "+ _) )
+    }
   }
 }
 
 trait Logger {
-  var logName = "Logger"
-  var logLevel = Logger.ALL
+  private var name = this.getClass.getCanonicalName  
+  private def log(l:Logger.Value, m:Seq[Any]) = Logger.log(l, name, m)
   
-  private def log(l:Logger.Value, m:Seq[Any]) = if(l >= logLevel) Logger.log(l, logName, m)
+  def logName(name:String) = this.name = name
   
   def fine(m:Any*) = log(Logger.FINE, m)
   def info(m:Any*) = log(Logger.INFO, m)
+  def warn(m:Any*) = log(Logger.WARNING, m)
   def error(m:Any*) = log(Logger.ERROR, m)
   
   def fatal(m:Any*):Unit = { log(Logger.FATAL, m); System.exit(-1) }
