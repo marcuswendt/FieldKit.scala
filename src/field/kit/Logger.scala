@@ -18,7 +18,7 @@ object Logger extends Enumeration {
   val FATAL = Value
   val NONE = Value
   
-  var level = Logger.ALL
+  var level = Logger.INFO
   
   def log(l:Value, name:String, m:Seq[Any]) {
     if(l >= level) {
@@ -31,7 +31,18 @@ object Logger extends Enumeration {
 }
 
 trait Logger {
-  private var name = this.getClass.getCanonicalName  
+  private var name = className
+  
+  private def className = {
+    var n = this.getClass.getCanonicalName
+    if(n.endsWith("$")) n = n.slice(0, n.length-1)
+    var dot = n.lastIndexOf('.')
+    if(dot > 0)
+      n.substring(dot+1)
+    else
+      n
+  }
+  
   private def log(l:Logger.Value, m:Seq[Any]) = Logger.log(l, name, m)
   
   def logName(name:String) = this.name = name
