@@ -54,11 +54,12 @@ abstract trait FileReader[T <: FileFormat] extends Logger {
   def read(file:File):T = {
     try {
       val f = read(new FileInputStream(file))
-      f.source = file
+      if(f != null) f.source = file
       f
     } catch {
-       case _ =>
+       case ex:Exception =>
         error("Couldn't open file", file)
+        ex.printStackTrace
         null.asInstanceOf[T]
     }
   }

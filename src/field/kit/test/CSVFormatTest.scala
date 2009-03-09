@@ -27,7 +27,7 @@ object CSVFormatTest extends Logger {
         println("")
         info("ROW", i)
         info("columns ", row.length )
-        info( ("" /: row) (_+", "+_))
+        info( ("" /: row) (_+"| "+_))
         i += 1
       }
       

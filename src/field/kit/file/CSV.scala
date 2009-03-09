@@ -20,15 +20,14 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
    * alternations: the first matches aquoted field, the second unquoted,
    * the third a null field. 
    */
-  //val pattern = "\"([^\"]+?)\",?|([^,]+),?|,"
-  val pattern = "\"([\"]+?)\",?|([^,]+),?|,"
+  val pattern = "\"([^\"]+?)\",?|([^,]+),?|,"
   val regex = new Regex(pattern)
   
   def read(s:InputStream):CSVFile = {
     import java.io.BufferedReader
     import java.io.InputStreamReader
     
-    // try to open the url and parse the file 
+    // try to parse the file 
     try {
       val r = new BufferedReader(new InputStreamReader(s))
       val f = new CSVFile
@@ -49,20 +48,30 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
       
     // log error and return null if that fails
     } catch {
-      case _ => {
-        error("Couldnt read stream:", s)
+      case ex:Exception => {
+        error("Couldnt read stream:", ex)
+        ex.printStackTrace
         null
       }
     }
   }
   
-  // TODO could be improved but works for now
-  def parse(line:String) = {
-    val l = new ArrayBuffer[String]()
+  /**
+   * decomposes each csv line via regular expression into an arraybuffer of string cells
+   * handles several special cases e.g. "xyz" "xy, z" and "x ""y"" z" within single cells
+   * since it works on a line by line basis
+   * 
+   * TODO could be improved but works for now
+   * TODO does not handle newlines within quoted blocks
+   */
+  def parse(_line:String) = {
+    val l = new ArrayBuffer[String]()    
+    val tmp = "@Quot@"
+    // replace double quotes with special token
+    val line = _line replaceAll("\"\"", tmp)
     
     regex findAllIn line foreach { m =>
       var e = m
-      
       if(e == null) e = null
       
       // trim trailing ,
@@ -70,15 +79,15 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
         e = e.substring(0, e.length - 1)
       
       // assume also ends with
-      if(e.startsWith("\"")) 
+      if(e.startsWith("\"") && e.length > 1) 
         e = e.substring(1, e.length - 1)
       
       if(e.length == 0)
         e = null
       
-      // replace double quotes with single quotes
+      // replace tokens back to single quotes
       if(e != null)
-        e = e.replaceAll("\"\"", "\"")
+        e = e.replaceAll(tmp, "\"")
       
       l += e
     }
