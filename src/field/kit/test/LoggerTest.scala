@@ -16,6 +16,6 @@ object LoggerTest {
     l.info("some info")
     l.warn("i warn you")
     l.error("an error")
-    l.fatal("a totally fatal mistake")
+    l.fatal("a totally fatal mistake") 
   }
 }

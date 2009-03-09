@@ -22,7 +22,7 @@ object Logger extends Enumeration {
   
   def log(l:Value, name:String, m:Seq[Any]) {
     if(l >= level) {
-      val s = if(l < ERROR) System.out else System.err
+      val s = if(l < WARNING) System.out else System.err
     
       val prefix = name +":" 
       s.println( (prefix /: m) (_ +" "+ _) )

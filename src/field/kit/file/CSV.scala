@@ -19,7 +19,7 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
     import java.io.BufferedReader
     import java.io.InputStreamReader
     
-    // try to open the url and parse the file
+    // try to open the url and parse the file 
     try {
       val r = new BufferedReader(new InputStreamReader(s))
       val f = new CSVFile
@@ -48,7 +48,7 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
   } 
 }
 
-class CSVFile extends CSVFormat with FileWriter {
+class CSVFile extends CSVFormat with FileWriter with Collection[Array[String]] {
   import java.io.File
   import scala.collection.mutable.ArrayBuffer
   
@@ -56,4 +56,7 @@ class CSVFile extends CSVFormat with FileWriter {
   var rows = new ArrayBuffer[Array[String]]
   
   def write(file:File) {}
+  
+  def size = rows.size
+  def elements = rows.elements
 }

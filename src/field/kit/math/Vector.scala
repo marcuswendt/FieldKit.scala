@@ -71,9 +71,9 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     dx * dx + dy * dy
   }
   
-  def elements:Iterator[Float] = new Iterator[Float] {
+  def elements = new Iterator[Float] {
     var i=0
-    def next:Float = {
+    def next = {
       i match {
         case 0 => x
         case 1 => y
@@ -139,9 +139,9 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     Math.acos(dotProduct).asInstanceOf[Float]
   }
 
-  def elements:Iterator[Float] = new Iterator[Float] {
+  def elements = new Iterator[Float] {
     var i=0
-    def next:Float = {
+    def next = {
       i match {
         case 0 => x
         case 1 => y
