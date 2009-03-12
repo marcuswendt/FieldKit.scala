@@ -4,6 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
+/* created March 07, 2009 */
 package field.kit.math
 
 /**

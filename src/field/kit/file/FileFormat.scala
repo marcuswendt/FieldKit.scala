@@ -4,6 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
+/* created March 09, 2009 */
 package field.kit.file
 
 import field.kit.Logger

@@ -45,7 +45,8 @@ trait Logger {
   
   private def log(l:Logger.Value, m:Seq[Any]) = Logger.log(l, name, m)
   
-  def logName(name:String) = this.name = name
+  def logName_=(name:String) = this.name = name
+  def logName = name
   
   def fine(m:Any*) = log(Logger.FINE, m)
   def info(m:Any*) = log(Logger.INFO, m)
