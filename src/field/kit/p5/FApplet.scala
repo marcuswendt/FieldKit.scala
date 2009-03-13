@@ -10,44 +10,53 @@ package field.kit.p5
 import processing.core.PApplet
 import field.kit.Logger
 
+/**
+ * base class for all Processing based Scala sketches
+ */
 abstract class FApplet extends PApplet with Logger {
   import processing.core.PConstants
   
   /**
    * custom initialisation, preventing papplets bad double init behaviour
+   * use -Djava.library.path=lib/jogl/ to use opengl
    */
-  val OPENGL = PConstants.OPENGL
-  private var initWidth = 0
-  private var initHeight = 0
-  private var initRenderer = ""
-
-  override def size(width:Int, height:Int, renderer:String) {
-    this.initWidth = width
-    this.initHeight = height
-    this.initRenderer = renderer
+  override def size(width:Int, height:Int) {
+    this.width = width
+    this.height = height
+    defaultSize = false
   }
 
   def main(args:Array[String]) = {
     import java.awt._
-    
-    info("main")
-    //PApplet.main(Array(this.getClass.getCanonicalName))
-    
-    val title = logName
+
     val titleHeight = 23
+
+    info("initialising "+ title +" (width: "+ width +" height: "+ height +")")
     
     frame = new Frame(title)
     frame.setBackground(Color.BLACK)
     frame.setResizable(false)
-    frame.setSize(initWidth, initHeight + titleHeight)
+    frame.setSize(width, height + titleHeight)
     frame.setLayout(null)
     frame.add(this)
-    this.init()
-    this.setSize(initWidth, initHeight + titleHeight)
-    this.setupFrameResizeListener
+    
+    setSize(width, height + titleHeight)
+    setPreferredSize(new Dimension(width, height + titleHeight))
+    setupFrameResizeListener
+    init // go!
+    
     frame.setVisible(true)
-    this.requestFocus
+    requestFocus
   }
   
+  override def start = {
+    info("starting...")
+    super.start
+  }
+  
+  /** always use the OpenGL renderer */
+  override def getSketchRenderer = PConstants.OPENGL
+  
+  def title = logName
   // --------------------------------------------------------------------
 }
