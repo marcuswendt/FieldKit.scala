@@ -13,7 +13,7 @@ import field.kit.Logger
 /**
  * base class for all Processing based Scala sketches
  */
-abstract class FApplet extends PApplet with Logger {
+abstract class Sketch extends PApplet with Logger {
   import processing.core.PConstants
   
   /**

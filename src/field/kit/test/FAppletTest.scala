@@ -7,9 +7,9 @@
 /* created March 12, 2009 */
 package field.kit.test
 
-import field.kit.p5.FApplet
+import field.kit.p5.Sketch
 
-object FAppletTest extends FApplet {
+object FAppletTest extends Sketch {
   import field.kit.math.Vec3
   
   info("FAppletTest created")
