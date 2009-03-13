@@ -9,12 +9,14 @@ package field.kit.test
 
 import field.kit.p5.Sketch
 
-object FAppletTest extends Sketch {
+object SketchTest extends Sketch {
   import field.kit.math.Vec3
   
   info("FAppletTest created")
   
-  size(1024,768)
+  init(1024,768, {
+	  info("in custom initializer")
+  })
   
   // init data
   val res = 10

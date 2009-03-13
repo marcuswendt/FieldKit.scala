@@ -14,8 +14,6 @@ import field.kit.Logger
  * contains global constants 
  */
 object Sketch extends PApplet {
-  val ONE = 1
-  val TWO = "the two"
 }
 
 /**
@@ -27,16 +25,22 @@ abstract class Sketch extends PApplet with Logger {
   /**
    * custom initialisation, preventing papplets bad double init behaviour
    */
-  def main(args:Array[String]) = init
-  
+  def main(args:Array[String]) = { }
+
   /** override init to allow specialized initialisation orders */
-  override def init {
+  def init(width:Int, height:Int):Unit = init(width, height, null)
+  
+  def init(width:Int, height:Int, initializer: => Unit) {
     import java.awt._
     import java.awt.event._
     
-    val titleHeight = 23
-
     info("initialising "+ title +" (width: "+ width +" height: "+ height +")")
+    
+    this.width = width
+    this.height = height
+    
+    defaultSize = false
+    val titleHeight = 23
     
     frame = new Frame(title)
     frame.addWindowListener(new WindowAdapter {
@@ -53,29 +57,23 @@ abstract class Sketch extends PApplet with Logger {
     setupFrameResizeListener
     this.sketchPath = "."
     this.args = args
+    
     super.init // go!
+    
+    initializer
     
     frame.setVisible(true)
     requestFocus
   } 
   
-  override def start {
-    info("starting...")
-    super.start
-  }
-
-  override def size(width:Int, height:Int) {
-    this.width = width
-    this.height = height
-    defaultSize = false
-  }
-  
   /** always use the OpenGL renderer */
   override def getSketchRenderer = PConstants.OPENGL
   
   override def draw = render
-  
   def render
+
+  final override def setup = {}
+  final override def size(w:Int, h:Int) = fatal("Dont use size in FieldKit/p5. Use init(...) instead")
   
   // --------------------------------------------------------------------
   /* helpers
@@ -99,7 +97,9 @@ abstract class Sketch extends PApplet with Logger {
   def min(a:Int, b:Int) = if(a > b) b else a
   def min(a:Float, b:Float) = if(a > b) b else a
   */
-    
+  
+  val SCREEN = PConstants.SCREEN
+  
   // --------------------------------------------------------------------
   /* extras */
   def title = logName
