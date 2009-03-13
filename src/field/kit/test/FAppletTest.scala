@@ -27,7 +27,7 @@ object FAppletTest extends Sketch {
     t.lines += l
   })
   
-  override def draw {
+  def render {
     background(0, 64, 32)
     
     stroke(255)
