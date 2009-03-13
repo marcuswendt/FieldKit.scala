@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Builds a Mac OS X Application package
+-->
+<project name="OSX" default="dist">
+	<target name="dist">
+		<echo>--------------------------</echo>
+		<echo>Building Mac OS Version...</echo>
+		<echo>--------------------------</echo>
+	
+		<property name="dist.dir" value="${build.dir}/${build.name}-OSX" />
+		<property name="dist.app" value="${build.name}.app" />
+		<property name="dist.contents" value="${dist.dir}/${dist.app}/Contents" />
+
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+
+		<!-- copy skeleton and add stuff -->
+		<copy todir="${dist.dir}/${dist.app}">
+			<fileset dir="${export.dir}/osx/skeleton.app" />
+		</copy>
+
+		<copy todir="${dist.contents}/Resources/" file="${export.dir}/osx/app.icns" />
+
+		<copy todir="${dist.contents}/Resources/Java" flatten="true">
+			<fileset file="${build.jar}" />
+			<!-- <fileset refid="libraries.jar" /> -->
+			<fileset refid="libraries.native" />
+		</copy>
+
+		<copy todir="${dist.dir}/">
+			<fileset refid="data.external" />
+		</copy>
+
+		<!-- process Info.plist template -->
+		<envgen destdir="${dist.contents}" overwrite="true" stripFileExtension="false" envPropertiesFile="${export.dir}/lib/envProperties.csv">
+			<source file="${export.dir}/osx/Info.plist" />
+			<sharedVariable name="buildName" value="${build.name}" />
+			<sharedVariable name="buildVersion" value="${project.version}" />
+			<sharedVariable name="buildJarName" value="${build.jar.name}" />
+			<sharedVariable name="projectMain" value="${project.main}" />
+		</envgen>
+
+		<!-- make application executeable -->
+		<exec executable="chmod">
+			<arg value="+x" />
+			<arg value="${dist.contents}/MacOS/JavaApplicationStub" />
+		</exec>
+	</target>
+</project>

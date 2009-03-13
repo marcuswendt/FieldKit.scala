@@ -1,0 +1,5 @@
+"# Example environment properties file",,,
+"// First column holds properties, other columns hold settings per environment",,,
+"env","devl","test","prod"
+"server","intel-010-d","intel-021-t","intel-025-p"
+"database","app-d1","app-t1","app-p1"

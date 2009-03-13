@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>${buildName}</string>
+	<key>CFBundleVersion</key>
+	<string>${buildVersion}</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<string>true</string>
+	<key>CFBundleExecutable</key>
+	<string>JavaApplicationStub</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleIconFile</key>
+	<string>app.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>${buildName}</string>
+	<key>Java</key>
+	<dict>
+		<key>VMOptions</key>
+		<string>-Xms256M -Xmx3G</string>
+		<key>MainClass</key>
+		<string>${projectMain}</string>
+		<key>JVMVersion</key>
+		<string>1.6+</string>
+		<key>ClassPath</key>
+		<string>$JAVAROOT/${buildJarName}:$APP_PACKAGE/:$APP_PACKAGE/../</string>
+		<key>Properties</key>
+		<dict>
+			<key>apple.laf.useScreenMenuBar</key>
+			<string>true</string>
+			<key>apple.awt.showGrowBox</key>
+			<string>false</string>
+			<key>com.apple.smallTabs</key>
+			<string>true</string>
+			<key>apple.awt.Antialiasing</key>
+			<string>true</string>
+			<key>apple.awt.TextAntialiasing</key>
+			<string>true</string>
+			<key>com.apple.hwaccel</key>
+			<string>true</string>
+			<key>apple.awt.use-file-dialog-packages</key>
+			<string>true</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ================================================ -->
+<!-- GENERIC JAVA APPLICATION EXPORT SCRIPT           -->
+<!-- Note: 
+     this script isnt meant to be executed directly.
+     you should call it from another ant file and define
+     / override some properties for your project e.g.
+     
+     <ant antfile="res/export/build.xml">
+		<property name="project.name" value="Viscous" />
+		<property name="project.version" value="1.0" />
+		<property name="project.author" value="Marcus Wendt (www.marcuswendt.com)" />
+		<property name="project.main" value="mw.haptiscript.viscous.Viscous01" />
+
+		<property name="libraries.jar.dir" value="../" />
+		<property name="libraries.jar.includes" value="hapticscript/lib/*.jar,libP5/core.jar,libP5/opengl.jar,libP5/jogl.jar,libP5/gluegen-rt.jar" />
+	</ant>
+-->
+<!-- ================================================ -->
+<project name="application" default="dist">
+	<!-- ================================================ -->
+	<!-- CONFIGURATION                                    -->
+	<!-- ================================================ -->
+	<property name="export.dir" location="res/export" />
+
+	<!-- PROJECT -->
+	<property name="project.name" value="Application" />
+	<property name="project.version" value="1.0" />
+	<property name="project.author" value="Johnny Coder" />
+	<property name="project.main" value="" />
+
+	<property name="project.src.includes" value="**" />
+	<property name="project.src.excludes" value="" />
+
+	<!-- LIBRARIES -->
+	<property name="libraries.jar.dir" value="lib" />
+	<property name="libraries.jar.includes" value="*.jar" />
+
+	<property name="libraries.native.dir" value="lib" />
+	<property name="libraries.native.includes" value="*.jnilib,*.dll" />
+
+	<!-- DATA -->
+	<property name="data.internal.dir" value="." />
+	<property name="data.internal.includes" value="data/**" />
+	<property name="data.internal.excludes" value="" />
+
+	<property name="data.external.dir" value="res" />
+	<property name="data.external.includes" value="**" />
+	<property name="data.external.excludes" value="**export**" />
+
+	<!-- BUILD -->
+	<property name="build.name" value="${project.name}-${project.version}" />
+	<property name="build.dir" value="build" />
+	<property name="build.tmp" value="${build.dir}/tmp" />
+	<property name="build.jar.name" value="app.jar" />
+	<property name="build.jar" value="${build.tmp}/${build.jar.name}" />
+
+	<!-- SYSTEM -->
+	<tstamp>
+		<format property="system.now" pattern="yyyy_MM_dd-HH_mm" />
+	</tstamp>
+	<!-- java -->
+	<property name="system.javac.target" value="1.5" />
+
+	<!-- scala -->
+	<property name="system.scala.home" value="/opt/local/share/scala/" />
+	<property name="system.scalac.target" value="jvm-1.5" />
+	<property name="system.scala-library.jar" value="${system.scala.home}lib/scala-library.jar" />
+
+	<!-- ================================================ -->
+	<!-- PATHS & FILES                                    -->
+	<!-- ================================================ -->
+	<path id="project.src">
+		<pathelement path="src/" />
+	</path>
+	<fileset id="project.src.fs" dir="src/" />
+
+	<fileset id="libraries.jar" dir="${libraries.jar.dir}" includes="${libraries.jar.includes}" />
+	<fileset id="libraries.native" dir="${libraries.native.dir}" includes="${libraries.native.includes}" />
+	<fileset id="data.internal" dir="${data.internal.dir}" includes="${data.internal.includes}" excludes="${data.internal.excludes}" />
+	<fileset id="data.external" dir="${data.external.dir}" includes="${data.external.includes}" excludes="${data.external.excludes}" />
+
+	<!-- ================================================ -->
+	<!-- UTILITY TARGETS                                  -->
+	<!-- ================================================ -->
+	<target name="clean">
+		<delete dir="${build.tmp}" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+
+		<!-- <delete dir="${build.tmp}" /> -->
+		<mkdir dir="${build.tmp}" />
+
+		<!-- load scala ant tasks -->
+		<taskdef resource="scala/tools/ant/antlib.xml">
+			<classpath>
+				<pathelement location="${system.scala.home}/lib/scala-compiler.jar" />
+				<pathelement location="${system.scala-library.jar}" />
+			</classpath>
+		</taskdef>
+	</target>
+
+	<!-- load envgen template processor task -->
+	<taskdef name="envgen" classname="com.basilv.envgen.EnvGenTask">
+		<classpath>
+			<pathelement location="${export.dir}/lib/EnvGen-with-dependencies.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="compile" depends="init">
+		<!-- addparams="-optimise" -->
+		<scalac target="${system.scalac.target}"  destdir="${build.tmp}">
+			<src refid="project.src" />
+
+			<include name="${project.src.includes}" />
+			<exclude name="${project.src.excludes}" />
+
+			<classpath>
+				<pathelement location="${system.scala-library.jar}" />
+				<fileset refid="libraries.jar" />
+			</classpath>
+		</scalac>
+
+		<!--
+		<javac target="${system.javac.target}" destdir="${build.tmp}" executable="${system.javac}">
+			<src refid="project.src" />
+			<exclude name="**test**" />
+			<exclude name="**Test**" />
+			<classpath>
+				<fileset refid="libraries.jar" />
+			</classpath>
+		</javac>
+		-->
+	</target>
+
+	<target name="jar" depends="compile">
+		<!-- extract all library .jars -->
+		<unzip dest="${build.tmp}">
+			<patternset>
+				<exclude name="**test**" />
+				<exclude name="**Test**" />
+			</patternset>
+			<fileset refid="libraries.jar" />
+		</unzip>
+
+		<!-- remove any existing manifests -->
+		<delete dir="${build.tmp}/META-INF" />
+
+		<!-- create new 'fat' .jar -->
+		<!-- http://java.sun.com/j2se/1.5.0/docs/guide/jar/jar.html#Manifest-Overview -->
+		<jar jarfile="${build.jar}" basedir="${build.tmp}" index="true" filesetmanifest="skip">
+			<manifest>
+				<attribute name="Project" value="${project.name}" />
+				<attribute name="Version" value="${project.version}" />
+				<attribute name="Built-By" value="${project.author}" />
+				<attribute name="Build-Date" value="${system.now}" />
+				<attribute name="Main-Class" value="${project.main}" />
+			</manifest>
+
+			<fileset dir="${build.tmp}" />
+			<fileset refid="data.internal" />
+
+			<!-- include source -->
+			<fileset refid="project.src.fs" />
+		</jar>
+	</target>
+
+	<!-- ================================================ -->
+	<!-- DISTRIBUTION                                     -->
+	<!-- ================================================ -->
+	<target name="dist">
+		<echo>==============================</echo>
+		<echo>Building ${build.name} ...</echo>
+		<echo>==============================</echo>
+
+		<antcall target="clean" />
+		<antcall target="jar" />
+		<ant antfile="res/export/osx/build.xml" inheritRefs="true" />
+	</target>
+
+	<!-- WINDOWS -->
+	<target name="dist.win" depends="jar">
+		<property name="dist.dir" value="${build.dir}/${build.name}-WIN" />
+	</target>
+
+	<!-- SOURCE -->
+	<target name="dist.src">
+		<property name="dist.dir" value="${build.dir}/${build.name}-SRC" />
+	</target>
+
+	<!-- ================================================ -->
+	<!-- RUN		                                      -->
+	<!-- ================================================ -->
+	<target name="run" depends="compile">
+		<echo>==============================</echo>
+		<echo>Starting ${build.name}...</echo>
+		<echo>(${project.main})</echo>
+		<echo>==============================</echo>
+
+		<java classname="${project.main}" fork="true" dir="./" classpath="${build.tmp}" maxmemory="500m">
+			<jvmarg value="-Djava.library.path=${libraries.native.dir}" />
+			<classpath>
+				<pathelement location="${system.scala-library.jar}" />
+				<pathelement location="./" />
+				<fileset refid="libraries.jar" />
+			</classpath>
+		</java>
+	</target>
+</project>
