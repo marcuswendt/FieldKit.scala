@@ -1,4 +1,5 @@
-#Sun Mar 08 16:27:44 CET 2009
+#Fri Mar 13 18:00:29 CET 2009
+<file>=false
 Xcheck-null=false
 Xcheckinit=false
 Xdisable-assertions=false
@@ -7,6 +8,7 @@ Xfuture=false
 Xlog-implicits=false
 Xno-uescape=false
 Xno-varargs-conversion=false
+Xwarninit=false
 Yclosure-elim=false
 Ydead-code=false
 Ydetach=false
@@ -16,9 +18,12 @@ Yno-generic-signatures=false
 Yno-imports=false
 Yno-predefs=false
 Yself-in-annots=false
+Ysuppress-vt-typer-warnings=false
 Ywarn-dead-code=false
+dependencyfile=.scala_dependencies
 eclipse.preferences.version=1
 g=vars
+make=all
 optimise=false
 scala.compiler.useProjectSettings=false
 target=jvm-1.5

@@ -11,6 +11,14 @@ import processing.core.PApplet
 import field.kit.Logger
 
 /**
+ * contains global constants 
+ */
+object Sketch extends PApplet {
+  val ONE = 1
+  val TWO = "the two"
+}
+
+/**
  * base class for all Processing based Scala sketches
  */
 abstract class Sketch extends PApplet with Logger {
@@ -24,11 +32,16 @@ abstract class Sketch extends PApplet with Logger {
   /** override init to allow specialized initialisation orders */
   override def init {
     import java.awt._
+    import java.awt.event._
+    
     val titleHeight = 23
 
     info("initialising "+ title +" (width: "+ width +" height: "+ height +")")
     
     frame = new Frame(title)
+    frame.addWindowListener(new WindowAdapter {
+    	override def windowClosing(e:WindowEvent) = System.exit(0)
+    })
     frame.setBackground(Color.BLACK)
     frame.setResizable(false)
     frame.setSize(width, height + titleHeight)
@@ -38,6 +51,8 @@ abstract class Sketch extends PApplet with Logger {
     setSize(width, height + titleHeight)
     setPreferredSize(new Dimension(width, height + titleHeight))
     setupFrameResizeListener
+    this.sketchPath = "."
+    this.args = args
     super.init // go!
     
     frame.setVisible(true)
@@ -67,9 +82,12 @@ abstract class Sketch extends PApplet with Logger {
    * in PApplet these methods are defined as static final meaning in Scala we have to use PApplet.min(...)
    * so we redefine them here again to keep the code concise
    */
+   /*
+  seems to fail validation at runtime =/
+
   def abs(n:Int) = if(n < 0) -n else n
   def abs(n:Float) = if(n < 0) -n else n
-  
+
   def sq(n:Float) = n*n
   def sqrt(a:Float) = Math.sqrt(a).asInstanceOf[Float]
   def log(a:Float) = Math.log(a).asInstanceOf[Float]
@@ -80,7 +98,8 @@ abstract class Sketch extends PApplet with Logger {
   def max(a:Float, b:Float) = if(a > b) a else b
   def min(a:Int, b:Int) = if(a > b) b else a
   def min(a:Float, b:Float) = if(a > b) b else a
-  
+  */
+    
   // --------------------------------------------------------------------
   /* extras */
   def title = logName
