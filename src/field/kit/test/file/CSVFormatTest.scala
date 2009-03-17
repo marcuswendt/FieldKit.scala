@@ -4,11 +4,9 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-package field.kit.test
+package field.kit.test.file
 
-import field.kit.Logger
-
-object CSVFormatTest extends Logger {
+object CSVFormatTest extends field.kit.Logger {
   import field.kit.file.CSVFile
   
   def main(args : Array[String]) : Unit = {

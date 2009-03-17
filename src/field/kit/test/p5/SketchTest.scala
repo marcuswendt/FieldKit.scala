@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 12, 2009 */
-package field.kit.test
+package field.kit.test.p5
 
 import field.kit.p5.Sketch
 
