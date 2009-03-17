@@ -4,6 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
+/* created March 07, 2009 */
 package field.kit
 
 /**
@@ -24,7 +25,7 @@ object Logger extends Enumeration {
     if(l >= level) {
       val s = if(l < WARNING) System.out else System.err
     
-      val prefix = name +":" 
+      val prefix = name
       s.println( (prefix /: m) (_ +" "+ _) )
     }
   }
