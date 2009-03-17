@@ -38,6 +38,8 @@ object BasicGraphTest extends field.kit.Logger {
     info("by absolute address ", c("/group C!!/var2"))
     info("by relative address ", c("var3"))
     
+    c("var3") = 444
+    
 //    info("-------- Constructing Addresses --------")
 //    val k1 = a1a % "../"  
 //    info("a1a parent: ", k1)

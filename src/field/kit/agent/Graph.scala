@@ -112,10 +112,7 @@ with Collection[Node] {
   def apply(index:Int):Node = children(index) 
   
   /** follows the given path and returns a Node or null */
-  def apply(path:String):Node = get(path)
-  
-  /** attempts to follow the given path and returns a Node or null */
-  def get(path:String):Node = {
+  def apply(path:String):Node = {
     val elements = path.split(Node.seperator)
     
     def recurse(branch:Branch, depth:Int):Node = {
@@ -140,6 +137,29 @@ with Collection[Node] {
       recurse(root, 0)
     } else {
       recurse(this, 0)
+    }
+  }
+  
+  /** sets the node's value at the given index to value */
+  def update[T](index:Int, value:T):Leaf[T] = {
+    val leaf = children(index).asInstanceOf[Leaf[T]]
+    leaf.value = value
+    leaf
+  }
+  
+  /** follows the path to its terminal node and attempts to set its value */
+  def update[T](path:String, value:T):Leaf[T] = {
+    val node = this(path)
+    if(node == null) {
+      null
+    } else {
+      if(node.isInstanceOf[Leaf[_]]) {
+        val leaf = node.asInstanceOf[Leaf[T]]
+        leaf.value = value
+        leaf
+      } else {
+        null
+      }
     }
   }
   
