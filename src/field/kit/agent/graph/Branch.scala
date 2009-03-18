@@ -16,41 +16,101 @@ with Collection[Node] {
   import scala.reflect.Manifest
   import scala.collection.mutable.ArrayBuffer
   import scala.collection.mutable.HashMap
-  
-  val children = new ArrayBuffer[Node]
- 
-  /** @return the child identified by its index */
-  def apply(index:Int):Node = children(index) 
-  
-  /** follows the given path and returns a Node or null */
-  def apply(path:String):Node = {
-    val elements = path.split(Node.seperator)
-    
-    def recurse(branch:Branch, depth:Int):Node = {
-      val next = elements(depth)
-      next match {
-        case "" => recurse(branch, depth + 1)
-        case _ => 
-          branch.children find(node => node.name == next) match {
-            case None => null
-            case Some(node) =>
-              if(depth == elements.length-1) 
-                node
-              else if(node.isInstanceOf[Branch])
-                recurse(node.asInstanceOf[Branch], depth+1)
-              else
-            	null
-          }
-      }
-    }
 
-    if(Node.isAbsolute(path)) {
-      recurse(root, 0)
-    } else {
-      recurse(this, 0)
+  /** signals that an option has neither found Some(x) or None but another unrequested x */
+  case class Result()
+  case class Nothing[A](val x:A, val name:String) extends Result
+  case class Requested[A](val x:A) extends Result
+  case class Another[A](val x:A, val name:String) extends Result
+  
+  /** a mutable list of all childnodes */
+  val children = new ArrayBuffer[Node]
+  
+  /** maps keys to nodes for faster node lookup */
+  // val map = new HashMap[Int,Tweak]
+  
+  
+  // -----------------------------------------------------------------------
+  // GETTER
+  // -----------------------------------------------------------------------
+  /** @return a Tweak for the given path or null if the specified node didnt exist */
+  def apply(path:String):Node = {
+//    val a = Address(this, path)
+//    val elements = a.elements
+//    
+//    def recurse(branch:Branch, depth:Int):Node = {
+//      val next = elements(depth)
+//      next match {
+//        case "" => recurse(branch, depth + 1)
+//        case _ => 
+//          branch.children find(node => node.name == next) match {
+//            case None => null
+//            case Some(node) =>
+//              if(depth == elements.length-1) 
+//                node
+//              else if(node.isInstanceOf[Branch])
+//                recurse(node.asInstanceOf[Branch], depth+1)
+//              else
+//            	null
+//          }
+//      }
+//    }
+//
+//    val node = if(a.isAbsolute) recurse(root, 0) else recurse(this, 0)
+//    node match {
+//      case b:Branch => new BranchTweak(b)
+//      case l:Leaf[_] => new LeafTweak(l)
+//      case _ => null
+//    }
+  	null
+  }
+
+  
+  def apply[T](path:String, default:T)(implicit m:Manifest[T]):Leaf[T] = 
+    apply(Address(this, path), default)
+  
+  def apply[T](address:Address, default:T)(implicit m:Manifest[T]):Leaf[T] = {
+//    println(" ")
+//    info("attempting to set", address)
+//    printTree
+    
+    find(address) match {
+      case Requested(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]      
+      case Requested(b:Branch) => throw new Exception("Unexpected branch: "+ b)
+      case Another(l:Leaf[_], name:String) => throw new Exception("Unexpected leaf:" + l)
+      case Another(b:Branch, name:String) => 
+        b += name
+        apply(address, default)
+
+      // the node is not set, yet
+      case Nothing(b:Branch, name:String) => b += (name, default)
     }
   }
   
+  protected def find(address:Address):Result = {
+    val elements = address.elements
+    
+    def recurse(branch:Branch, depth:Int):Result = {
+      val name = elements(depth)
+      val last = depth+1 == elements.length
+      
+      branch find(_.name == name) match {
+        case None => if(last) Nothing(branch, name) else Another(branch, name)
+        case Some(b:Branch) => if(last) Requested(b) else recurse(b, depth+1)
+        case Some(l:Leaf[_]) => if(last) Requested(l) else Another(l, name)
+      }
+    }
+    
+    if(address.isAbsolute) 
+      recurse(root, 0)
+    else 
+      recurse(this, 0) 
+  } 
+  
+  /*
+  // -----------------------------------------------------------------------
+  // SETTER
+  // -----------------------------------------------------------------------
   /** sets the node's value at the given index */
   def update[T](index:Int, value:T):Leaf[T] = {
     val leaf = children(index).asInstanceOf[Leaf[T]]
@@ -73,7 +133,11 @@ with Collection[Node] {
       }
     }
   }
+  */
   
+  // -----------------------------------------------------------------------
+  // OPERATORS
+  // -----------------------------------------------------------------------
   /** creates, adds and returns a named branch */
   // TODO check if name is a path
   def +=(name:String) = {
@@ -112,6 +176,9 @@ with Collection[Node] {
     }
   }
   
+  // -----------------------------------------------------------------------
+  // HELPERS
+  // -----------------------------------------------------------------------
   /** returns the index of a child with the given name or -1 */
   def indexOf(name:String) = children findIndexOf(_.name.equals(name))
   
@@ -134,11 +201,4 @@ with Collection[Node] {
     }    
     recurse(this, 0)
   }
-}
-
-/** helper class to hold hashmap keys */
-class Key(val address:String) {
-  val hash = address.hashCode
-  override def hashCode = hash
-  override def toString = "Key("+ address +") => "+ hash
 }

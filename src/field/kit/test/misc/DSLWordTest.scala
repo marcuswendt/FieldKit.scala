@@ -5,17 +5,16 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 18, 2009 */
-package field.kit.agent.graph
+package field.kit.test.misc
 
-import scala.reflect.Manifest
-
-/**
- * a special node that stores a value 
- */
-class Leaf[T]
-  (parent:Node, name:String, var value:T)
-  (implicit val clazz: Manifest[T]) 
-  extends Node(parent, name) {
-    
-  override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz  
+object DSLWordTest extends field.kit.Logger {
+  class Key {
+    def apply() = "a key"
+  }
+  
+  def main(args : Array[String]) : Unit = {
+    val k = new Key
+    val x = k()
+    info("k", k())
+  }
 }

@@ -11,5 +11,9 @@ package field.kit.agent.graph
  * the root of the whole graph
  */
 class Root extends Branch(null, "Root") {
+  parent = this
+  
+  override val address = new Address("")
+  
   override def toString = name
 }
