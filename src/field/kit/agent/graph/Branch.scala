@@ -15,7 +15,6 @@ extends Node(parent, name)
 with Collection[Node] {
   import scala.reflect.Manifest
   import scala.collection.mutable.ArrayBuffer
-  import scala.collection.mutable.HashMap
 
   /** signals that an option has neither found Some(x) or None but another unrequested x */
   case class Result()
@@ -26,15 +25,14 @@ with Collection[Node] {
   /** a mutable list of all childnodes */
   val children = new ArrayBuffer[Node]
   
-  /** maps keys to nodes for faster node lookup */
-  // val map = new HashMap[Int,Tweak]
-  
-  
   // -----------------------------------------------------------------------
   // GETTER
   // -----------------------------------------------------------------------
   def apply(path:String):Node = apply(Address(this, path))
   
+  /**
+   * @return the node at the given address or null if it didnt exist
+   */
   def apply(address:Address):Node = {
     find(address) match {
       case Requested(n:Node) => n
@@ -46,6 +44,10 @@ with Collection[Node] {
   def apply[T](path:String, default:T)(implicit m:Manifest[T]):Leaf[T] = 
     apply(Address(this, path), default)
   
+  /**
+   * @return the leaf at the given address 
+   * (eventually creates it first using the given default value)
+   */
   def apply[T](address:Address, default:T)(implicit m:Manifest[T]):Leaf[T] = {
     find(address) match {
       // find returned the requested leaf
@@ -88,33 +90,20 @@ with Collection[Node] {
       recurse(this, 0) 
   } 
   
-  /*
   // -----------------------------------------------------------------------
   // SETTER
-  // -----------------------------------------------------------------------
-  /** sets the node's value at the given index */
-  def update[T](index:Int, value:T):Leaf[T] = {
-    val leaf = children(index).asInstanceOf[Leaf[T]]
-    leaf.value = value
-    leaf
+  // -----------------------------------------------------------------------  
+  def update[T](path:String, value:T)(implicit m:Manifest[T]):Leaf[T] =
+    update(Address(this, path), value)      
+
+  /** attempts find the leaf at the given address and set its value */
+  def update[T](address:Address, value:T)(implicit m:Manifest[T]):Leaf[T] = {
+    this(address) match {
+      case l:Leaf[_] => l.asInstanceOf[Leaf[T]]() = value
+      case _ => null
+    }    
   }
-  
-  /** follows the path to its terminal node and attempts to set its value */
-  def update[T](path:String, value:T):Leaf[T] = {
-    val node = this(path)
-    if(node == null) {
-      null
-    } else {
-      if(node.isInstanceOf[Leaf[_]]) {
-        val leaf = node.asInstanceOf[Leaf[T]]
-        leaf.value = value
-        leaf
-      } else {
-        null
-      }
-    }
-  }
-  */
+
   
   // -----------------------------------------------------------------------
   // OPERATORS

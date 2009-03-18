@@ -12,13 +12,16 @@ import scala.reflect.Manifest
 /**
  * a special node that stores a value 
  */
-class Leaf[T](parent:Node, name:String, var value:T)(implicit val clazz: Manifest[T]) 
+class Leaf[T](parent:Node, name:String, private var value:T)(implicit val clazz: Manifest[T]) 
 extends Node(parent, name) {
   
   def apply():T = value
   
   // TODO consider implementing a subscriber-event mechanism
-  def update(value:T) = this.value = value
+  def update(value:T):Leaf[T] = {
+    this.value = value
+    this
+  }
     
   override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz
 }

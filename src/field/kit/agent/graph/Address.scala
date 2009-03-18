@@ -52,6 +52,7 @@ class Address {
 /** companion object to class Address */
 object Address extends Logger {
   import java.util.regex.Pattern
+  import scala.collection.mutable.HashMap
   
   val seperator = '/'
   val parent = "../"
@@ -59,18 +60,32 @@ object Address extends Logger {
   val elementsPattern = Pattern.compile(seperator.toString)
   val parentPattern = Pattern.compile("\\.\\./")
   
+  /** maps keys to nodes for faster node lookup */
+  val cache = new HashMap[Int,Address]
+  
+  /** @return the address of the given node */
   def apply(node:Node):Address = apply(node, "")
   
+  /** @return an address using the given path and relative to the given node */
   def apply(node:Node, path:String):Address = {
      resolve(node, path) match {
-       case path:String => new Address(path)
+       case path:String => {
+         val key = path.hashCode
+         cache.get(key) match {
+           // re-use address using cache
+           case Some(a:Address) => a
+           // address is not in cache -> store it now
+           case None => 
+             val a = new Address(path)
+             cache.put(key, a)
+             a
+         }
+       }
        case address:Address => address
      }
   }
   
   def resolve(node:Node, path:String) = {
-//    info("resolving "+ path +" from "+ node)
-    
     // address is absolute
     if(isAbsolute(path)) {
       path
@@ -78,13 +93,6 @@ object Address extends Logger {
     // address is relative, above this node
     } else if(isRelative(path)) {
       val elements = parentPattern.split(path)
-
-//      println("")
-//      info("isRelative "+ path, elements(0))
-//      print("elements: ")
-//      elements foreach(print(_))
-//      println("")
-//      println("")
       
       // address was just ../ return the parent
       if(elements.length == 0) {
