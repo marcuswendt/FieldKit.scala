@@ -33,60 +33,41 @@ with Collection[Node] {
   // -----------------------------------------------------------------------
   // GETTER
   // -----------------------------------------------------------------------
-  /** @return a Tweak for the given path or null if the specified node didnt exist */
-  def apply(path:String):Node = {
-//    val a = Address(this, path)
-//    val elements = a.elements
-//    
-//    def recurse(branch:Branch, depth:Int):Node = {
-//      val next = elements(depth)
-//      next match {
-//        case "" => recurse(branch, depth + 1)
-//        case _ => 
-//          branch.children find(node => node.name == next) match {
-//            case None => null
-//            case Some(node) =>
-//              if(depth == elements.length-1) 
-//                node
-//              else if(node.isInstanceOf[Branch])
-//                recurse(node.asInstanceOf[Branch], depth+1)
-//              else
-//            	null
-//          }
-//      }
-//    }
-//
-//    val node = if(a.isAbsolute) recurse(root, 0) else recurse(this, 0)
-//    node match {
-//      case b:Branch => new BranchTweak(b)
-//      case l:Leaf[_] => new LeafTweak(l)
-//      case _ => null
-//    }
-  	null
+  def apply(path:String):Node = apply(Address(this, path))
+  
+  def apply(address:Address):Node = {
+    find(address) match {
+      case Requested(n:Node) => n
+      case Another(n:Node, name:String) => null
+      case Nothing(b:Branch, name:String) => null
+    }
   }
-
   
   def apply[T](path:String, default:T)(implicit m:Manifest[T]):Leaf[T] = 
     apply(Address(this, path), default)
   
   def apply[T](address:Address, default:T)(implicit m:Manifest[T]):Leaf[T] = {
-//    println(" ")
-//    info("attempting to set", address)
-//    printTree
-    
     find(address) match {
-      case Requested(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]      
+      // find returned the requested leaf
+      case Requested(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]
+      
+      // find reached the end of the path but found a branch
       case Requested(b:Branch) => throw new Exception("Unexpected branch: "+ b)
+      
+      // find reached the end of the hierarchy and found a leaf
       case Another(l:Leaf[_], name:String) => throw new Exception("Unexpected leaf:" + l)
-      case Another(b:Branch, name:String) => 
-        b += name
-        apply(address, default)
+      
+      // find reached the end of the hierarchy at a branch
+      case Another(b:Branch, name:String) => b += name; apply(address, default)
 
-      // the node is not set, yet
+      // the leaf doesnt exist yet
       case Nothing(b:Branch, name:String) => b += (name, default)
     }
   }
   
+  /**
+   * attempts to resolve the given address to a node
+   */
   protected def find(address:Address):Result = {
     val elements = address.elements
     

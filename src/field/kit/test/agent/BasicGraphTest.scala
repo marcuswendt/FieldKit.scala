@@ -10,12 +10,16 @@ package field.kit.test.agent
 object BasicGraphTest extends field.kit.Logger {
   import field.kit.agent.graph._
   
+  def section(s:String) {
+    println("")
+    info("------------------------------------------------")
+    info(s)
+    info("------------------------------------------------")
+  }
+  
   def main(args : Array[String]) : Unit = {
-    
-    info("basic graph test")
-    info("--------------------------------")
-    info("constructing graph")
-    
+
+    section("constructing graph")
     val r = new Root
     val debug = r("debug", true)
     
@@ -26,63 +30,18 @@ object BasicGraphTest extends field.kit.Logger {
     
     r("/agents/1/behaviours/test/var1", 12345)
     
-    info("--  the tree --")
+    section("=> tree")
     r.printTree
     
-    /*
-    info("-------- Constructing Graph --------")
-    
-    val r = new Root
-    r += ("debug", true)
-    
-    val a = r += "group A"
-    val a1 = a += "subgroup 1"
-    val a1a = a1 += "sub-subgroup a1a"
-    a1a += ("check this shit out", 12345687890L)
-    
-    val b = r += "another group B"
-    val c = r += "group C!!"
-    c += ("var1", 1111111111)
-    c += ("var2", 22)
-    c += ("var3", 333)
-    
-    val d = r += "group C!!/a lot of/subgroups/to this/tree"
-    for(i <- 0 until 10)
-    	d += ("leaf "+i, i)
-    
+    section("access tests")
+    val particles = r("/settings/numParticles").asInstanceOf[Leaf[Int]]
+    info("numParticles", particles())
+
+    val objects = r("settings/numObjects", 4000)
+    objects() = 100
+
+    section("=> tree")
     r.printTree
-    
-    println("")
-    info("-------- Addresses --------")
-    info("by index c(0)", c(0))
-    info("by absolute address ", c("/group C!!/var2"))
-    info("by relative address ", c("var3"))
-    
-    c("var3") = 444
-    
-    println("")
-    info("-------- Keys --------")
-    
-    val k1 = c.key("../var2")
-    info("key1 ", k1, c(k1))
-    */
-    
-//    info("-------- Constructing Addresses --------")
-//    val k1 = a1a % "../"  
-//    info("a1a parent: ", k1)
-//    
-//    val k2 = a1a % "../subgroup 2"
-//    info("a1a subgroup 2: ", k2)
-//    
-//    k2 += ("var1", 100)
-//    k2 += ("var2", 200)
-//    k2 += ("var3", 300)
-    
-//    info("-------- Misc --------")
-//    info("a1a's address", a1a.address)
-//    info("a1a's hashCode", a1a.hashCode)
-//    
-//    r.printTree
     
   }
 }
