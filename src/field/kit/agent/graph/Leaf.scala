@@ -4,17 +4,18 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created March 17, 2009 */
-package field.kit.agent
+/* created March 18, 2009 */
+package field.kit.agent.graph
 
-import field.kit.agent.graph.Root
+import scala.reflect.Manifest
 
-/** Main container structure of the simulation */
-class Simulation extends Root {
-  import field.kit.agent.space._
-  var space = new Space
+/**
+ * a special node that stores a value
+ */
+class Leaf[T]
+  (parent:Node, name:String, var value:T)
+  (implicit val clazz: Manifest[T]) 
+  extends Node(parent, name) {
+    
+  override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz  
 }
-
-
-
-

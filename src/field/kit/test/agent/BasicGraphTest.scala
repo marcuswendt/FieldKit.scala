@@ -8,12 +8,12 @@
 package field.kit.test.agent
 
 object BasicGraphTest extends field.kit.Logger {
-  import field.kit.agent._
+  import field.kit.agent.graph._
   
   def main(args : Array[String]) : Unit = {
     info("-------- Constructing Graph --------")
     
-    val r = new Root[Branch]
+    val r = new Root
     r += ("debug", true)
     
     val a = r += "group A"

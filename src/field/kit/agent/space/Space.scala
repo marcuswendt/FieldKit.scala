@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 17, 2009 */
-package field.kit.agent
+package field.kit.agent.space
 
 /** holds information about the simulated environment */
 class Space {

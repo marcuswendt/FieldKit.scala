@@ -4,17 +4,14 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created March 17, 2009 */
+/* created March 18, 2009 */
 package field.kit.agent
 
-import field.kit.agent.graph.Root
+import field.kit.agent.graph.Node
 
-/** Main container structure of the simulation */
-class Simulation extends Root {
-  import field.kit.agent.space._
-  var space = new Space
+/** The simulated character that actually just is a parent context, wrapping a few subcontexts */
+// TODO needs any more methods/ actions?
+class Agent(parent:Node, name:String) 
+  extends Context(parent, name) {
+  
 }
-
-
-
-
