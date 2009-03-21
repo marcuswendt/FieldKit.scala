@@ -1,3 +1,4 @@
+
 /*                                                                            *\
 **           _____  __  _____  __     ____     FieldKit                       **
 **          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
@@ -57,12 +58,14 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
       case Another(l:Leaf[_], name:String) => throw new Exception("Unexpected leaf:" + l)
       
       // find reached the end of the hierarchy at a branch
-      case Another(b:Branch, name:String) => b += name; apply(address, default)
+      case Another(b:Branch, name:String) => b += name; this(address, default)
 
       // the leaf doesnt exist yet
       case Nothing(b:Branch, name:String) => b += (name, default)
     }
   }
+  
+  def get(path:String):Node = get(Address(this, path))
   
   def get(address:Address):Node = {
     find(address) match {
@@ -92,7 +95,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     if(address.isAbsolute) 
       recurse(root, 0)
     else 
-      recurse(this, 0) 
+      recurse(this, 0)
   } 
   
   protected def find(path:String):Result = find(Address(this, path))

@@ -26,7 +26,7 @@ object BasicGraphTest extends field.kit.Logger {
     r("/settings/numParticles", 1000)
     r("settings/numObjects", 2000)
     r("settings/X", 3000)
-    r("../settings/Y", false)
+    //r("../settings/Y", false)
     
     r("/agents/1/behaviours/test/var1", 12345)
     
@@ -39,6 +39,11 @@ object BasicGraphTest extends field.kit.Logger {
 
     val objects = r("settings/numObjects", 4000)
     objects() = 100
+    
+    // test access from another object - other than root
+    val s = r.get("settings").asInstanceOf[Branch]
+    val x = s("../debug")
+    info("x", x)
 
     section("=> tree")
     r.printTree

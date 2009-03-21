@@ -69,14 +69,14 @@ object Address extends Logger {
   /** @return an address using the given path and relative to the given node */
   def apply(node:Node, path:String):Address = {
      resolve(node, path) match {
-       case path:String => {
-         val key = path.hashCode
+       case p:String => {
+         val key = p.hashCode
          cache.get(key) match {
            // re-use address using cache
            case Some(a:Address) => a
            // address is not in cache -> store it now
            case None => 
-             val a = new Address(path)
+             val a = new Address(p)
              cache.put(key, a)
              a
          }
@@ -89,9 +89,6 @@ object Address extends Logger {
     // address of the node itself  
     if(path == null) {
       ""
-      
-//    } else if(node.parent == null) {
-//      "/"
 
     // address is absolute
     } else if(isAbsolute(path)) {
@@ -111,12 +108,10 @@ object Address extends Logger {
 	        node.parent.address
 	        
 	      } else {
-	        (node.parent.address.path /: elements) ((a:String, b:String) =>
-	          if(a == "")
-	            b
-	          else
-	            a + seperator + b
-	        )
+	        var p = (node.parent.address.path /: elements) (_ + seperator + _)
+	        
+	        // when elements contains a "" entry the resulting path might start with //
+	        if(p.startsWith("//")) p.substring(1) else p
 	      }
       }
     // address is below this node

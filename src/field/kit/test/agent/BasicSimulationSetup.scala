@@ -33,24 +33,29 @@ object BasicSimulationSetup extends field.kit.Logger {
       val p = a += new Context("Perception")
       
       p += ("Countdown", { c:Context =>
-        println("checking "+ name +" for context "+ c.name)
         val time = c("../time", 0)
-        val limit = c("limit", 10)
+        val limit = c("limit", 100)
+        time() = time() + 1
+        
+        println("checking "+ name +" for context "+ c.name +" time "+ time())
+        
         time() > limit()
       }, { (c:Context, dt:Float) => 
         info("hurrah "+ dt)
+        val done = c("../done", true)
+        done() = true
       })
       
       // reasoning context
       val r = a += new Context("Reasoning")
       
-      r += ("Time Updater", { c:Context => true }, { (c:Context, dt:Float) =>
-        
+      r += ("Feierabend Checker", { c:Context => 
+        val done = c("../done", false)      
+        done()
+      }, { (c:Context, dt:Float) =>
+        section("Done!")
         s.printTree
-        
-        val time = c[Int]("../time")
-    	println("the time is: "+ time())
-    	time() = time() + 1
+        System.exit(0)
       })
   
       // motor context
