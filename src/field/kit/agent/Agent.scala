@@ -11,7 +11,6 @@ import field.kit.agent.graph.Node
 
 /** The simulated character that actually just is a parent context, wrapping a few subcontexts */
 // TODO needs any more methods/ actions?
-class Agent(parent:Node, name:String) 
-  extends Context(parent, name) {
-  
+class Agent(name:String) extends Context(name) {
+  override def toString = "Agent("+name+")"
 }

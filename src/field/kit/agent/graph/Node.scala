@@ -29,13 +29,24 @@ import field.kit.Logger
  * 
  * TODO caching strategy for addresses!
  */
-abstract class Node(var parent:Node, val name:String) extends Logger {
-  /** a reference to the graphs root-node */
-  val root:Root = if(parent==null) this.asInstanceOf[Root] else parent.root 
+abstract class Node(var name:String) extends Logger {
+  var parent:Branch = null 
+  var root:Root = null
+
+  /** constructor */
+  def this(parent:Branch, name:String) = {
+    this(name)
+    this.parent(parent)
+  }
   
   /** @return an absolute path to this node as address string */
   def address = Address(this)
   
   /** resolves the given path into an absolute node-address */
   def address(path:String) = Address(this, path)
+  
+  def parent(node:Branch) {
+    this.parent = node
+    this.root = if(node==null) this.asInstanceOf[Root] else node.root
+  }
 }

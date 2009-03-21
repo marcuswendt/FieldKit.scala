@@ -10,9 +10,7 @@ package field.kit.agent.graph
 /**
  * a special node that contains several children
  */
-class Branch(parent:Node, name:String) 
-extends Node(parent, name) 
-with Collection[Node] {
+class Branch(name:String) extends Node(name) with Collection[Node] {
   import scala.reflect.Manifest
   import scala.collection.mutable.ArrayBuffer
 
@@ -24,6 +22,12 @@ with Collection[Node] {
   
   /** a mutable list of all childnodes */
   val children = new ArrayBuffer[Node]
+  
+  /** constructor */
+  def this(parent:Branch, name:String) {
+    this(name)
+    this.parent(parent)
+  }
   
   // -----------------------------------------------------------------------
   // GETTER
@@ -90,6 +94,8 @@ with Collection[Node] {
       recurse(this, 0) 
   } 
   
+  protected def find(path:String):Result = find(Address(this, path))
+  
   // -----------------------------------------------------------------------
   // SETTER
   // -----------------------------------------------------------------------  
@@ -109,16 +115,18 @@ with Collection[Node] {
   // OPERATORS
   // -----------------------------------------------------------------------
   /** creates, adds and returns a named branch */
-  // TODO check if name is a path
-  def +=(name:String) = {
-    val b = new Branch(this, name)
-    children += b
-    b
+  def +=(name:String):Branch = {
+    find(name) match {
+      case Nothing(n:Node, name:String) => this += new Branch(this, name)
+      case Requested(b:Branch) => b
+      case Another(b:Branch, name:String) => b
+      case _ => null
+    }
   }
   
   /** adds and returns the given branch as a child */
   // TODO check if name is a path
-  def +=(b:Branch) = {
+  def +=(b:Branch):Branch = {
     children += b
     b
   }

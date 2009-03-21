@@ -5,23 +5,28 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 18, 2009 */
-package field.kit.agent.graph
+package field.kit.test.agent
 
-import scala.reflect.Manifest
-
-/**
- * a special node that stores a value 
- */
-class Leaf[T](parent:Branch, name:String, private var value:T)(implicit val clazz: Manifest[T]) 
-extends Node(parent, name) {
+object BasicSimulationSetup extends field.kit.Logger {
+  import field.kit.agent._
   
-  def apply():T = value
-  
-  // TODO consider implementing a subscriber-event mechanism
-  def update(value:T):Leaf[T] = {
-    this.value = value
-    this
+  def section(s:String) {
+    println("")
+    info("------------------------------------------------")
+    info(s)
+    info("------------------------------------------------")
   }
+  
+  def main(args : Array[String]) : Unit = {
+    section("BasicSimulationSetup")
     
-  override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz
+    val s = new Simulation
+    s += "config"
+    
+    val a = s += new Agent("One")
+    
+    
+    
+    s.printTree
+  }
 }
