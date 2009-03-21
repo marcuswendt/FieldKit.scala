@@ -12,8 +12,8 @@ import scala.reflect.Manifest
 /**
  * a special node that stores a value 
  */
-class Leaf[T](parent:Branch, name:String, private var value:T)(implicit val clazz: Manifest[T]) 
-extends Node(parent, name) {
+class Leaf[T](name:String, private var value:T)(implicit val clazz: Manifest[T]) 
+extends Node(name) {
   
   def apply():T = value
   
@@ -23,5 +23,6 @@ extends Node(parent, name) {
     this
   }
     
-  override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz
+  //override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz
+  override def toString = name +":"+ clazz +" = "+ value
 }

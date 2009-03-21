@@ -10,8 +10,8 @@ package field.kit.agent.graph
 /**
  * the root of the whole graph
  */
-class Root extends Branch(null, "Root") {
-  parent = this
+class Root extends Branch("Root") {
+  this.root = this
   
   override val address = new Address("")
   

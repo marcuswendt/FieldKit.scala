@@ -64,7 +64,7 @@ object Address extends Logger {
   val cache = new HashMap[Int,Address]
   
   /** @return the address of the given node */
-  def apply(node:Node):Address = apply(node, "")
+  def apply(node:Node):Address = apply(node, null)
   
   /** @return an address using the given path and relative to the given node */
   def apply(node:Node, path:String):Address = {
@@ -86,27 +86,39 @@ object Address extends Logger {
   }
   
   def resolve(node:Node, path:String) = {
+    // address of the node itself  
+    if(path == null) {
+      ""
+      
+//    } else if(node.parent == null) {
+//      "/"
+
     // address is absolute
-    if(isAbsolute(path)) {
+    } else if(isAbsolute(path)) {
       path
       
     // address is relative, above this node
     } else if(isRelative(path)) {
-      val elements = parentPattern.split(path)
       
-      // address was just ../ return the parent
-      if(elements.length == 0) {
-        node.parent.address
+      if(node.parent == null) {
+        path
         
       } else {
-        (node.parent.address.path /: elements) ((a:String, b:String) =>
-          if(a == "")
-            b
-          else
-            a + seperator + b
-        )
+	      val elements = parentPattern.split(path)
+	      
+	      // address was just ../ return the parent
+	      if(elements.length == 0) {
+	        node.parent.address
+	        
+	      } else {
+	        (node.parent.address.path /: elements) ((a:String, b:String) =>
+	          if(a == "")
+	            b
+	          else
+	            a + seperator + b
+	        )
+	      }
       }
-      
     // address is below this node
     } else {
       node.address.path + seperator + path

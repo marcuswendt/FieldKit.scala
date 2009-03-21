@@ -23,25 +23,18 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   /** a mutable list of all childnodes */
   val children = new ArrayBuffer[Node]
   
-  /** constructor */
-  def this(parent:Branch, name:String) {
-    this(name)
-    this.parent(parent)
-  }
-  
   // -----------------------------------------------------------------------
   // GETTER
   // -----------------------------------------------------------------------
-  def apply(path:String):Node = apply(Address(this, path))
+  def apply[T](path:String):Leaf[T] = apply(Address(this, path))
   
   /**
    * @return the node at the given address or null if it didnt exist
    */
-  def apply(address:Address):Node = {
+  def apply[T](address:Address):Leaf[T] = {
     find(address) match {
-      case Requested(n:Node) => n
-      case Another(n:Node, name:String) => null
-      case Nothing(b:Branch, name:String) => null
+      case Requested(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]
+      case _ => null
     }
   }
   
@@ -68,6 +61,14 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
 
       // the leaf doesnt exist yet
       case Nothing(b:Branch, name:String) => b += (name, default)
+    }
+  }
+  
+  def get(address:Address):Node = {
+    find(address) match {
+      case Requested(n:Node) => n
+      case Another(n:Node, name:String) => null
+      case Nothing(b:Branch, name:String) => null
     }
   }
   
@@ -104,7 +105,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
 
   /** attempts find the leaf at the given address and set its value */
   def update[T](address:Address, value:T)(implicit m:Manifest[T]):Leaf[T] = {
-    this(address) match {
+    get(address) match {
       case l:Leaf[_] => l.asInstanceOf[Leaf[T]]() = value
       case _ => null
     }    
@@ -114,32 +115,33 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   // -----------------------------------------------------------------------
   // OPERATORS
   // -----------------------------------------------------------------------
+  /** adds the given node to this branch and returns it */
+  def +=[T <: Node](node:T):T = {
+    node.parent(this)
+    children += node
+    node
+  }
+  
   /** creates, adds and returns a named branch */
   def +=(name:String):Branch = {
     find(name) match {
-      case Nothing(n:Node, name:String) => this += new Branch(this, name)
+      case Nothing(n:Node, name:String) => this += new Branch(name)
       case Requested(b:Branch) => b
       case Another(b:Branch, name:String) => b
       case _ => null
     }
   }
   
-  /** adds and returns the given branch as a child */
-  // TODO check if name is a path
-  def +=(b:Branch):Branch = {
-    children += b
-    b
-  }
-  
   /** adds and returns a named leaf of type T */
   // TODO check if name is a path
   def +=[T](name:String, value:T)
   	(implicit m:Manifest[T]):Leaf[T] = {
-	val leaf = new Leaf[T](this, name, value)
+	val leaf = new Leaf[T](name, value)
+	leaf.parent(this)
 	children += leaf
     leaf
   }
-
+   
   /** removes the child with the given name
    * returns the child on success or null */
   // TODO check if name is a path
@@ -173,7 +175,13 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   def printTree = {
     def recurse(n:Node, d:Int):Unit = {
       for(i <- 0 until d) print("  ")
-      println(n)
+      
+      n match {
+        case l:Leaf[_] => println("-"+ l)
+        case b:Branch => println("+"+ b)
+        case _ => println(n)
+      }
+      
       if(n.isInstanceOf[Branch]) 
         n.asInstanceOf[Branch].children.foreach(recurse(_, d+1))
     }    

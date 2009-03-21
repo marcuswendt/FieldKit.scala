@@ -13,19 +13,12 @@ import field.kit.agent.graph._
 class Simulation extends Root {
   name = "Simulation"
   
-//  import scala.collection.mutable.ArrayBuffer
-//  val agents = new ArrayBuffer[Agent]
-  
-  var agents:Branch = this += "agents"
+  var agents:Branch = this += new Branch("agents")
   
   import field.kit.agent.space._
   var space = new Space
   
-  def +=(a:Agent) = {
-    a.parent(this)
-    agents += a
-    a
-  }
+  def update(dt:Float) = agents.foreach(_.asInstanceOf[Agent].update(dt))
 }
 
 

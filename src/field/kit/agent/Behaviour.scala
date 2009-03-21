@@ -7,12 +7,16 @@
 /* created March 18, 2009 */
 package field.kit.agent
 
+import field.kit.agent.graph.Node
+import field.kit.Logger
+
 /** defines a singule action-block within the context-tree */
-class Behaviour {
+abstract class Behaviour(name:String) extends Node(name) with Logger {
+  logName = name +"Behaviour"
   
-//  (trigger: => Boolean, action: => Unit)
-//  def apply(a:Agent, c:Context) = {
-//    if(trigger) action
-//  }
+  def apply(c:Context, dt:Float):Unit = if(trigger(c)) update(c,dt)
+  def trigger(c:Context):Boolean
+  def update(c:Context, dt:Float)
   
+  override def toString = name +"Behaviour"
 }

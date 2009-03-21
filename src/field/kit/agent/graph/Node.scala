@@ -49,4 +49,6 @@ abstract class Node(var name:String) extends Logger {
     this.parent = node
     this.root = if(node==null) this.asInstanceOf[Root] else node.root
   }
+  
+  override def toString = "Node("+name+")"
 }
