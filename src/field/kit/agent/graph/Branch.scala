@@ -137,14 +137,20 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   
   /** adds and returns a named leaf of type T */
   // TODO check if name is a path
-  def +=[T](name:String, value:T)
-  	(implicit m:Manifest[T]):Leaf[T] = {
+  def +=[T](name:String, value:T)(implicit m:Manifest[T]):Leaf[T] = {
 	val leaf = new Leaf[T](name, value)
 	leaf.parent(this)
 	children += leaf
     leaf
   }
    
+  /** removes the given node from this branch */
+  def -=(node:Node):Node = {
+    children -= node
+    node
+  }
+   
+  /*
   /** removes the child with the given name
    * returns the child on success or null */
   // TODO check if name is a path
@@ -158,6 +164,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
       null
     }
   }
+  */
   
   // -----------------------------------------------------------------------
   // HELPERS

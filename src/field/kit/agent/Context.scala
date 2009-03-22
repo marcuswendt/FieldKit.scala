@@ -11,8 +11,6 @@ import field.kit.agent.graph._
 
 /** Holds information about behaviours, subcontexts and memory of a certain part of the agents brain */
 class Context(name:String) extends Branch(name) {
-  logName = "Context("+ name +")"
-    
   import scala.collection.mutable.ArrayBuffer
   // TODO how do we set priorities here, simply by order of adding/ removing?
   // is ArrayBuffers positioning reliable?
@@ -24,16 +22,22 @@ class Context(name:String) extends Branch(name) {
     b
   }
   
-  def +=(name:String, 
-         t: (Context) => Boolean, 
-         u: (Context, Float) => Unit):Behaviour = {
-    this += new Behaviour(name) {
-      def trigger(c:Context):Boolean = t(c)
-      def update(c:Context, dt:Float):Unit = u(c,dt)
+  def -=(b:Behaviour):Behaviour = {
+    super.-=(b)
+    behaviours -= b
+    b
+  }
+  
+  /** executes all behaviours in the list as long they return true */
+  def update(c:Context, dt:Float) {
+    var continue = true
+    val i = behaviours.elements
+    while(i.hasNext && continue) {
+      continue = i.next.apply(c, dt)
     }
   }
   
-  def update(dt:Float) = behaviours.foreach(_.apply(this, dt))
+  def update(dt:Float):Unit = update(this, dt)
   
   def simulation = root.asInstanceOf[Simulation]
   

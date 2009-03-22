@@ -32,9 +32,28 @@ object BasicSimulationSetup extends field.kit.Logger {
       // perception context
       val p = a += new Context("Perception")
       
+      val countdown = p += new Behaviour("Countdown") {
+        def apply = {
+          val time = local[Int]("time")
+          time() = time() + 1
+          info("the time is", time())
+          time() > 100
+        }
+      }
+      
+      countdown += new Behaviour("Alarm") {
+        def apply = {
+          info("Alarm!")
+          s.printTree
+          System.exit(0)
+          false
+        }
+      }
+      
+  /*    
       p += ("Countdown", { c:Context =>
         val time = c("../time", 0)
-        val limit = c("limit", 100)
+        val limit = c("limit", 10)
         time() = time() + 1
         
         println("checking "+ name +" for context "+ c.name +" time "+ time())
@@ -55,8 +74,9 @@ object BasicSimulationSetup extends field.kit.Logger {
       }, { (c:Context, dt:Float) =>
         section("Done!")
         s.printTree
-        System.exit(0)
+        System.exit
       })
+  */
   
       // motor context
       val m = a += new Context("Motor")
