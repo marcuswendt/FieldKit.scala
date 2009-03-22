@@ -7,9 +7,11 @@
 /* created March 18, 2009 */
 package field.kit.agent
 
-abstract class Behaviour(name:String) extends Context(name) {
+import field.kit.Logger
+
+/* a single behaviour */
+abstract class Behaviour(name:String) extends Group with Logger {
   import scala.reflect.Manifest
-  import field.kit.agent.graph.Leaf
   
   logName = name +"Behaviour"
   
@@ -37,40 +39,22 @@ abstract class Behaviour(name:String) extends Context(name) {
   
   def apply:Boolean
   
-  //
-  // Helpers
-  //
-  def local[T](name:String)(implicit m:Manifest[T]):Leaf[T] = {
-    c.children find(_.name == name) match {
-      case Some(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]
-      case _ => c += (name, default(m))
-    }
-  }
+  def apply[T](name:String, default:T)(implicit m:Manifest[T]):T =
+    c.apply(name, default).apply()
   
-  /** returns the default value for a given object */
-  def default[T](m:Manifest[T]):T = {
-    val d = m.toString match {
-      case "boolean" => true
-      case "byte" => 0x0
-      case "char" => ' '
-      case "double" => 0.0
-      case "float" => 0f
-      case "int" => 0
-      case "long" => 0L
-      case "String" => ""
-      case _ => null
-    }
-    d.asInstanceOf[T]
-  }
+  def update[T](name:String, value:T)(implicit m:Manifest[T]) =
+    c.apply(name, value).update(value)
   
   override def toString = name +"Behaviour"
 }
 
+/*
 /** companion object to behaviour */
 object Behaviour {
-  def apply(name:String, body: => Boolean) = {
-    new Behaviour(name) {
-      def apply() = body
-    }
+  def apply(name:String, body: () => Boolean) = {
+    val b = new Behaviour(name) 
+    b.apply = body
+    b
   }
 }
+*/

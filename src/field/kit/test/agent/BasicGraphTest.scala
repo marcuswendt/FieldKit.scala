@@ -34,14 +34,14 @@ object BasicGraphTest extends field.kit.Logger {
     r.printTree
     
     section("access tests")
-    val particles = r("/settings/numParticles").asInstanceOf[Leaf[Int]]
+    val particles = r("settings")("numParticles", 1000)
     info("numParticles", particles())
 
     val objects = r("settings/numObjects", 4000)
     objects() = 100
     
     // test access from another object - other than root
-    val s = r.get("settings").asInstanceOf[Branch]
+    val s = r("settings")
     val x = s("../debug")
     info("x", x)
 

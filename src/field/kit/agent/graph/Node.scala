@@ -26,29 +26,7 @@ import field.kit.Logger
  * 
  * @see http://en.wikipedia.org/wiki/Tree_data_structure
  * @see http://www.openendedgroup.com/index.php/publications/thesis-downie/
- * 
- * TODO caching strategy for addresses!
  */
 abstract class Node(var name:String) extends Logger {
-  var parent:Branch = null 
-  var root:Root = null
-
-  /** constructor */
-  def this(parent:Branch, name:String) = {
-    this(name)
-    this.parent(parent)
-  }
   
-  /** @return an absolute path to this node as address string */
-  def address = Address(this)
-  
-  /** resolves the given path into an absolute node-address */
-  def address(path:String) = Address(this, path)
-  
-  def parent(node:Branch) {
-    this.parent = node
-    this.root = if(node==null) this.asInstanceOf[Root] else node.root
-  }
-  
-  override def toString = "Node("+name+")"
 }

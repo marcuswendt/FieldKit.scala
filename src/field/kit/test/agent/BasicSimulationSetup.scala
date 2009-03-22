@@ -23,7 +23,7 @@ object BasicSimulationSetup extends field.kit.Logger {
     section("BasicSimulationSetup")
     
     val s = new Simulation
-    s += "config"
+    s += new Branch("config")
 
 //    for(name <- Seq("One", "Two", "Three")) {
 	for(name <- Seq("One")) {
@@ -32,14 +32,18 @@ object BasicSimulationSetup extends field.kit.Logger {
       // perception context
       val p = a += new Context("Perception")
       
-      val countdown = p += new Behaviour("Countdown") {
+      //var countdown = p += new Behaviour("Countdown") {
+      val countdown = new Behaviour("Countdown") {
         def apply = {
-          val time = local[Int]("time")
-          time() = time() + 1
-          info("the time is", time())
-          time() > 100
+          val time = this("time",0)
+          
+          this("time") = time + 1
+          info("the time is", time)
+          time > 100
         }
       }
+      
+      p += countdown
       
       countdown += new Behaviour("Alarm") {
         def apply = {
