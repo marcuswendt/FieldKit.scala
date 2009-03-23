@@ -16,8 +16,7 @@ class Leaf[T](name:String, private var value:T)(implicit val clazz: Manifest[T])
 extends Node(name) {
   
   def apply():T = value
-  
-  //def value():T = value
+  def get:T = value
   
   // TODO consider implementing a subscriber-event mechanism
   def update(value:T):Leaf[T] = {
