@@ -29,7 +29,13 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     get(name) match {
       case Some(b:Branch) => b
       case None => this += new Branch(name)
-    }         
+    }     
+  
+  def apply[T <: Branch](name:String, branch:T):T =
+    get(name) match {
+      case Some(b:Branch) => b.asInstanceOf[T]
+      case None => this += branch
+    }
   
   def update[T](name:String, value:T)(implicit m:Manifest[T]):Leaf[T] =
     get(name) match {
@@ -74,8 +80,9 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
         case _ => println(n)
       }
       
-      if(n.isInstanceOf[Branch]) 
+      if(n.isInstanceOf[Branch]) {
         n.asInstanceOf[Branch].children.values.foreach(recurse(_, d+1))
+      }
     }    
     recurse(this, 0)
   }
