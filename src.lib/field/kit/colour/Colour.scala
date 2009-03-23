@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 18, 2009 */
-package field.kit // note NOT .p5
+package field.kit // note NOT .colour
 
 class Colour(
   var r:Float,
@@ -13,6 +13,26 @@ class Colour(
   var b:Float,
   var a:Float
 ) extends Logger {
+  
+  /** @return this colour as argb packed integer */
+  def argb = {
+    (((a * 255).asInstanceOf[Int] & 0xFF) << 24) | 
+    (((r * 255).asInstanceOf[Int] & 0xFF) << 16) | 
+    (((g * 255).asInstanceOf[Int] & 0xFF) << 8) | 
+    (((b * 255).asInstanceOf[Int] & 0xFF))
+  }
+  
+  /** @return this colour as rgba packed integer */
+  def rgba = {
+    (((r * 255).asInstanceOf[Int] & 0xFF) << 24) | 
+    (((g * 255).asInstanceOf[Int] & 0xFF) << 16) | 
+    (((b * 255).asInstanceOf[Int] & 0xFF) << 8) | 
+    (((a * 255).asInstanceOf[Int] & 0xFF))
+  }
+  
+  def toInt = argb
+  
+  override def toString = "Colour(r:"+ r +" g:"+ g +" b:"+ b +" a:"+ a +")"
 }
 
 object Colour {

@@ -17,6 +17,8 @@ extends Node(name) {
   
   def apply():T = value
   
+  //def value():T = value
+  
   // TODO consider implementing a subscriber-event mechanism
   def update(value:T):Leaf[T] = {
     this.value = value

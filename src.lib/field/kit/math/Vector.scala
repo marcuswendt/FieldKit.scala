@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 07, 2009 */
-package field.kit // note NOT .p5
+package field.kit // note NOT .math
 
 /**
  * Base Class for all Vectors 
