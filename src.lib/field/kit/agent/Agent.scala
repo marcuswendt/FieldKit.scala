@@ -9,20 +9,15 @@ package field.kit.agent
 
 import field.kit.agent.graph.Branch
 
-/** The simulated character that actually just is a parent context, wrapping a few subcontexts */
-class Agent(name:String) extends Context(name) {
+/** the simulated character is just another context wrapping several subcontexts */
+class Agent(name:String) extends Branch(name) {
   logName = "Agent("+name+")"
   
   def update(dt:Float) {
     foreach { n => 
     	if(n.isInstanceOf[Context]) 
-    		n.asInstanceOf[Context].update(this, dt)
+    		n.asInstanceOf[Context].update(dt)
     }
-  }
-  
-  override def update(c:Context, dt:Float):Boolean = { 
-    fatal("Not supposed to call this method")
-    false
   }
   
   override def toString = "Agent("+ name +")"

@@ -180,5 +180,5 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     def hasNext = i==size
   }
   
-  override def toString = "Vec3("+ x +","+ y +","+ z +")"
+  override def toString = "Vec3("+ x +", "+ y +", "+ z +")"
 }

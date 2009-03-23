@@ -25,7 +25,7 @@ object Logger extends Enumeration {
     if(l >= level) {
       val s = if(l < WARNING) System.out else System.err
     
-      val prefix = name
+      val prefix = "["+ name +"]"
       s.println( (prefix /: m) (_ +" "+ _) )
     }
   }

@@ -26,7 +26,5 @@ extends Node(name) {
   def get:T = value
   def set(value:T) = this.value = value
   
-    
-  //override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz
   override def toString = name +":"+ clazz +" = "+ value
 }

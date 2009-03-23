@@ -36,7 +36,8 @@ class Colour(
   
   def toInt = argb
   
-  override def toString = "Colour(r:"+ r +" g:"+ g +" b:"+ b +" a:"+ a +")"
+  //override def toString = "Colour(r:"+ r +" g:"+ g +" b:"+ b +" a:"+ a +")"
+  override def toString = "Colour("+ r +", "+ g +", "+ b +", "+ a +")"
 }
 
 object Colour {

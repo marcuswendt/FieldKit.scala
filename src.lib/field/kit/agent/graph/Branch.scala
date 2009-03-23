@@ -1,4 +1,3 @@
-
 /*                                                                            *\
 **           _____  __  _____  __     ____     FieldKit                       **
 **          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
@@ -74,10 +73,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     }
   }
   
-  def set[T <: Branch](name:String, branch:T):T = {
-    children.put(name, branch)
-    branch
-  }
+  def set[T <: Branch](name:String, branch:T):T = this += branch
   
   def sub(name:String):Branch = {
     child(name) match {
@@ -97,12 +93,14 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     }
   
   def +=[T <: Node](node:T):T = {
+    node.attach(this)
     children.put(node.name, node)
     node
   }
   
   def -=(node:Node) = {
     // TODO implement this
+    node.detach
     throw new Error("Not implemented!")
     node
   }
@@ -143,8 +141,8 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
           println("+"+ b)
           b.children.values foreach(recurseNodes(_, d+1))
           
-          if(b.isInstanceOf[Group]) 
-            b.asInstanceOf[Group].behaviours foreach(recurseBehaviours(_, d + 1))
+          if(b.isInstanceOf[Context]) 
+            b.asInstanceOf[Context].behaviours foreach(recurseBehaviours(_, d + 1))
           
         case _ => println(n)
       }
