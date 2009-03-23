@@ -25,7 +25,12 @@ abstract class Behaviour(var name:String) extends Group with Logger {
   var dt:Float = 0f
   
   override def update(c:Context, dt:Float):Boolean = {
-    this.c = c
+    // check if we're still operating in the same context
+    if(this.c != c) {
+      this.c = c
+      switch
+    }
+    
     this.dt = dt
     
     // when this behaviour is just a single action -> execute it and feedback
@@ -40,16 +45,22 @@ abstract class Behaviour(var name:String) extends Group with Logger {
     }
   }
   
+  // overrideables
+  /** called when the behaviour context is switched */
+  def switch {}
+  
   def apply:Boolean
   
+  // tree-node accessors
   def apply[T](name:String, default:T)(implicit m:Manifest[T]):T =
-    c.apply(name, default).apply()
+    c.apply(name, default).get
   
   def update[T](name:String, value:T)(implicit m:Manifest[T]) =
     c.apply(name, value).update(value)
   
   def parent = c.parent
   
+  // helpers
   override def toString = "Behaviour("+ name +")"
 }
 

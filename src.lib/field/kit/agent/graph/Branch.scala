@@ -44,7 +44,23 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     }
   
   def get(name:String) = children.get(name)
-
+  
+  def value[T](name:String)(implicit m:Manifest[T]):T = {
+    get(name) match {
+      case Some(l:Leaf[_]) => l.asInstanceOf[Leaf[T]].get
+      case Some(b:Branch) => 
+        throw new Exception("Expected a leaf but found a branch ('"+ name +"'))")
+      case None =>
+        info("couldnt find "+ name +" creating new leaf")
+        val value = default(m)
+        this += new Leaf(name, value)
+        value
+    }
+  }
+  
+  def value[T](name:String, default:T)(implicit m:Manifest[T]):T = 
+    this(name, default).get
+  
   /** checks wether a given node exists */
   def exists(name:String):Boolean =
     children.get(name) match {
@@ -66,6 +82,25 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   /** required by the Collection trait to make this iterable */
   def size = children.size
   def elements = children.values
+  
+  /** @return a default value for the given manifest-clazz type */
+  def default[T](m:Manifest[T]):T = {
+    import field.kit._
+    val d = m.toString match {
+      case "boolean" => true
+      case "byte" => 0x0
+      case "char" => ' '
+      case "double" => 0.0
+      case "float" => 0f
+      case "int" => 0
+      case "long" => 0L
+      case "String" => ""
+      case "field.kit.Vec3" => new Vec3
+      case "field.kit.Colour" => new Colour
+      case _ => null
+    }
+    d.asInstanceOf[T]
+  }
   
   override def toString = "Branch("+name+")"
   

@@ -9,9 +9,11 @@ package field.kit.agent.space
 
 /** holds information about the simulated environment */
 class Space {
-  var width = 1000f
-  var height = 1000f
-  var depth = 1000f
+  var dimension = new Vec3(1000f, 1000f, 1000f)
+  
+  def width = dimension.x
+  def height = dimension.y
+  def depth = dimension.z
   
   def center = new Vec3(width/2f, height/2f, depth/2f)
 }

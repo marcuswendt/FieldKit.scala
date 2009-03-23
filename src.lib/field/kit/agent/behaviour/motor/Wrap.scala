@@ -7,45 +7,62 @@
 /* created March 23, 2009 */
 package field.kit.agent.behaviour.motor
 
-import field.kit.agent._
+import field.kit.agent.Behaviour
 
 /** makes sure an agents location is within a defined cube-volume */
-class Wrap extends Behaviour("wrap") {
+class Wrap(s:Simulation) extends Behaviour("wrap") {
   import field.kit.Vector
   
-  var min = Vec3()
-  var max = Vec3()
+  protected var _min = Vec3()
+  protected var _max = Vec3()
+  
+  // set default values
+  min(0,0,0)
+  max(1,1,1)
+
+  var location:Vec3 = null
+  
+  override def switch {
+  	location = parent.value[Vec3]("location")    
+  }
   
   def apply = {
-    val location = parent("location", Vec3()).get
-    
     var outside = false
     def out = outside=true
     
-    if(location.x < min.x) {
-      location.x = max.x
+    if(location.x < _min.x) {
+      location.x = _max.x
       out
-    } else if(location.x > max.x) {
-      location.x = min.x
-      out
-    }
-
-    if(location.y < min.y) {
-      location.y = max.y
-      out
-    } else if(location.y > max.y) {
-      location.y = min.y
+    } else if(location.x > _max.x) {
+      location.x = _min.x
       out
     }
 
-    if (location.z < min.z) {
-      location.z = max.z
+    if(location.y < _min.y) {
+      location.y = _max.y
       out
-    } else if (location.z > max.z) {
-      location.z = min.z
+    } else if(location.y > _max.y) {
+      location.y = _min.y
+      out
+    }
+
+    if (location.z < _min.z) {
+      location.z = _max.z
+      out
+    } else if (location.z > _max.z) {
+      location.z = _min.z
       out
     }
     
     outside
   }
+  
+  // setters
+  def margin(offset:Float) {
+    min(-offset, -offset, -offset)
+    max(1 + offset, 1 + offset, 1 + offset)
+  }
+  
+  def min(x:Float, y:Float, z:Float) = _min(x,y,z) *= s.space.dimension
+  def max(x:Float, y:Float, z:Float) = _max(x,y,z) *= s.space.dimension
 }

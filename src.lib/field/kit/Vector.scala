@@ -104,7 +104,8 @@ object Vec3 {
 class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   def this() = this(0,0,0) 
   
-  def set(x:Float, y:Float, z:Float) = { this.x=x; this.y=y; this.z=z }
+  def apply(x:Float, y:Float, z:Float) = set(x,y,z)
+  def set(x:Float, y:Float, z:Float) = { this.x=x; this.y=y; this.z=z; this }
   def zero = set(0,0,0)
   
   def +=(s:Float) = { x+=s; y+=s; z+=s; this }

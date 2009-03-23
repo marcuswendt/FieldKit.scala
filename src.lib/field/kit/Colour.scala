@@ -13,6 +13,10 @@ class Colour(
   var b:Float,
   var a:Float
 ) extends Logger {
+  def this() = this(0f,0f,0f,1f)
+  def this(r:Float,g:Float,b:Float) = this(r,g,b,1f)
+  def this(grey:Float) = this(grey,grey,grey,1f)
+  def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
   /** @return this colour as argb packed integer */
   def argb = {
