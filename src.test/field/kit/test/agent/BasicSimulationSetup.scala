@@ -36,9 +36,9 @@ object BasicSimulationSetup extends Logger {
       //var countdown = p += new Behaviour("Countdown") {
       val countdown = new Behaviour("Countdown") {
         def apply = {
-          val time = this("time",0)
+          val time = get("time",0)
           
-          this("time") = time + 1
+          set("time", time + 1)
           info("the time is", time)
           time > 100
         }

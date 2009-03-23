@@ -12,6 +12,7 @@ import field.kit.agent.graph._
 /** Main container structure of the simulation */
 class Simulation(name:String) extends Root(name) {
   import field.kit.agent.space._
+  var timeStep = 1000 / 60f
   var space = new Space
   var agents:Branch = this += new Branch("agents")  
   def update(dt:Float) = agents.foreach(_.asInstanceOf[Agent].update(dt))

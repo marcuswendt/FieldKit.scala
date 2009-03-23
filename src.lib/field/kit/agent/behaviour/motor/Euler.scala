@@ -7,15 +7,17 @@
 /* created March 23, 2009 */
 package field.kit.agent.behaviour.motor
 
-import field.kit.agent.Behaviour
+import field.kit.agent._
 
 /** performs euler integration of the velocity on the location vector */
-class Euler extends Behaviour("euler") {
+class Euler(s:Simulation) extends Behaviour("euler") {
   import field.kit.Vector
   
   var velocity:Vec3 = null
   var steer:Vec3 = null
   var location:Vec3 = null
+  
+  protected val absVelocity = new Vec3
   
   override def switch {
   	// get fields
@@ -25,12 +27,22 @@ class Euler extends Behaviour("euler") {
   }
   
   def apply = {
-    val friction = parent.get("friction", 0.97f)
-        
+    val friction = get("friction", 0.97f)
+    val steerMax = get("steerMax", 1f)
+    val velocityMax = get("velocityMax", 10f)
+    
+    // update driving force
+    steer.clamp(steerMax)
     velocity += steer
-    steer.zero
+    velocity.clamp(velocityMax)
+    
+    // make velocity time invariant
+    absVelocity(velocity) *= (dt / s.timeStep)
+    location += absVelocity
+
+    // clean up
     velocity *= friction
-    location += velocity
+    steer.zero
     
     // always continue
     true

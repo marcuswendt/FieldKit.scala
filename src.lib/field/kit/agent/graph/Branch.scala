@@ -14,10 +14,10 @@ package field.kit.agent.graph
  */
 class Branch(name:String) extends Node(name) with Collection[Node] {
   import scala.reflect.Manifest
-  import scala.collection.mutable.HashMap
+  import scala.collection.mutable.LinkedHashMap
   
   /** a mutable list of all childnodes */
-  val children = new HashMap[String,Node]
+  val children = new LinkedHashMap[String,Node]
   
   def apply[T](name:String, default:T)(implicit m:Manifest[T]):Leaf[T] =
     child(name) match {
@@ -62,7 +62,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   def get[T](name:String, default:T)(implicit m:Manifest[T]):T = 
     this(name, default).get
   
-  def set[T](name:String, value:T)(implicit m:Manifest[T]) = {
+  def set[T](name:String, value:T)(implicit m:Manifest[T]) {
     child(name) match {
       case Some(l:Leaf[_]) =>
         l.asInstanceOf[Leaf[T]].set(value)
@@ -71,6 +71,12 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
       case None => this += new Leaf(name, value)
     }
   }
+  
+  def set[T <: Branch](name:String, branch:T):T = {
+    children.put(name, branch)
+    branch
+  }
+  
   // ---------------------------------------------------------------------------
   /** checks wether a given node exists */
   def exists(name:String):Boolean =

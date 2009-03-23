@@ -31,9 +31,18 @@ class SimpleRunner(s:Simulation) extends Runner(s) with Runnable {
   }
   
   def run {
+    def time = System.currentTimeMillis
+    var last = time
+    
 	while(isRunning) {
-	  s.update(0)
-	  Thread.sleep(1000/60)
+	  val now = time
+	  val dt = now - last
+	  last = now
+   
+	  // run the update
+	  s.update(dt)
+   
+	  Thread.sleep(s.timeStep.asInstanceOf[Long])
 	}
   }
 }

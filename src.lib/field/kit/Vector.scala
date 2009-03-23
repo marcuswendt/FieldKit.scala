@@ -105,7 +105,11 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   def this() = this(0,0,0) 
   
   def apply(x:Float, y:Float, z:Float) = set(x,y,z)
+  def apply(v:Vec3) = set(v)
+  
   def set(x:Float, y:Float, z:Float) = { this.x=x; this.y=y; this.z=z; this }
+  def set(v:Vec3) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
+  
   def zero = set(0,0,0)
   
   def +=(s:Float) = { x+=s; y+=s; z+=s; this }
@@ -151,6 +155,16 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     Math.acos(dotProduct).asInstanceOf[Float]
   }
 
+  /** makes sure this vector does not exceed a certain length */
+  def clamp(max:Float) = {
+    val l = length
+    if(l > max) {
+      this /= l
+      this *= max
+    }
+    this
+  }
+  
   def elements = new Iterator[Float] {
     var i=0
     def next = {

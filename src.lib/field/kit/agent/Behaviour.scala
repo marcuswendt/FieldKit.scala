@@ -52,11 +52,11 @@ abstract class Behaviour(var name:String) extends Group with Logger {
   def apply:Boolean
   
   // tree-node accessors
-  def apply[T](name:String, default:T)(implicit m:Manifest[T]):T =
-    c.apply(name, default).get
+  def get[T](name:String)(implicit m:Manifest[T]):T = c.get(name)
   
-  def update[T](name:String, value:T)(implicit m:Manifest[T]) =
-    c.apply(name, value).update(value)
+  def get[T](name:String, default:T)(implicit m:Manifest[T]):T = c.get(name, default)
+  
+  def set[T](name:String, value:T)(implicit m:Manifest[T]) = c.set(name, value)
   
   def parent = c.parent
   
