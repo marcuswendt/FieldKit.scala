@@ -10,7 +10,7 @@ package field.kit.agent
 import field.kit.Logger
 
 /* a single behaviour */
-abstract class Behaviour(name:String) extends Group with Logger {
+abstract class Behaviour(var name:String) extends Group with Logger {
   import scala.reflect.Manifest
   
   logName = name +"Behaviour"
@@ -47,7 +47,7 @@ abstract class Behaviour(name:String) extends Group with Logger {
   
   def parent = c.parent
   
-  override def toString = name +"Behaviour"
+  override def toString = "Behaviour("+ name +")"
 }
 
 /*

@@ -96,6 +96,9 @@ object Vec3 {
   val UNIT_Y = new Vec3(0, 1, 0)
   val UNIT_Z = new Vec3(0, 0, 1)
   val UNIT_XYZ = new Vec3(1, 1, 1)
+  
+  def apply() = new Vec3(0,0,0)
+  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
 }
 
 class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {

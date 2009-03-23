@@ -71,19 +71,27 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   
   /** recursively goes through the whole subtree structure from this node and prints it*/
   def printTree = {
-    def recurse(n:Node, d:Int):Unit = {
+    def recurseNodes(n:Node, d:Int):Unit = {
       for(i <- 0 until d) print("  ")
       
       n match {
         case l:Leaf[_] => println("-"+ l)
-        case b:Branch => println("+"+ b)
+        case b:Branch => 
+          println("+"+ b)
+          b.children.values foreach(recurseNodes(_, d+1))
+          
+          if(b.isInstanceOf[Group]) 
+            b.asInstanceOf[Group].behaviours foreach(recurseBehaviours(_, d + 1))
+          
         case _ => println(n)
       }
-      
-      if(n.isInstanceOf[Branch]) {
-        n.asInstanceOf[Branch].children.values.foreach(recurse(_, d+1))
-      }
-    }    
-    recurse(this, 0)
+    }
+    
+    def recurseBehaviours(b:Behaviour, d:Int):Unit = {
+      for(i <- 0 until d) print("  ")
+      println("*"+ b)
+      b.behaviours foreach(recurseBehaviours(_, d + 1))
+    }
+    recurseNodes(this, 0)
   }
 }
