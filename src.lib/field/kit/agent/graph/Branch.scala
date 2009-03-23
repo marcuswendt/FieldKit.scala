@@ -77,6 +77,15 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     branch
   }
   
+  def sub(name:String):Branch = {
+    child(name) match {
+      case Some(b:Branch) => b
+      case Some(l:Leaf[_]) =>
+        throw new Exception("Expected a branch but found a leaf ('"+ name +"'))")
+      case None => null
+    }
+  }
+  
   // ---------------------------------------------------------------------------
   /** checks wether a given node exists */
   def exists(name:String):Boolean =

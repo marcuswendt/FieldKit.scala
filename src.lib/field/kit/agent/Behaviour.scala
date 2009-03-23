@@ -13,21 +13,22 @@ import field.kit.Logger
  * TODO evtl. add a verify/init method where the behaviour can check wether
  * its context is in the right shape
  */
-abstract class Behaviour(var name:String) extends Group with Logger {
+//abstract class Behaviour(var name:String) extends Group with Logger {
+abstract class Behaviour(name:String) extends Context(name) {
   import scala.reflect.Manifest
   
   logName = name +"Behaviour"
   
-  /** the current context this behaviour acts on */
-  var c:Context = null
+//  /** the current context this behaviour acts on */
+//  var c:Context = null
   
   /** the delta time since the last call */
   var dt:Float = 0f
   
-  override def update(c:Context, dt:Float):Boolean = {
+  override def update(parent:Context, dt:Float):Boolean = {
     // check if we're still operating in the same context
-    if(this.c != c) {
-      this.c = c
+    if(this.parent != parent) {
+      this.parent = parent
       switch
     }
     
@@ -40,7 +41,7 @@ abstract class Behaviour(var name:String) extends Group with Logger {
     // when this behaviour has subactions -> execute subactions when this 
     // behaviour returns true
     } else {
-      if(apply) super.update(c, dt)
+      if(apply) super.update(parent, dt)
       true
     }
   }
@@ -51,14 +52,14 @@ abstract class Behaviour(var name:String) extends Group with Logger {
   
   def apply:Boolean
   
-  // tree-node accessors
-  def get[T](name:String)(implicit m:Manifest[T]):T = c.get(name)
-  
-  def get[T](name:String, default:T)(implicit m:Manifest[T]):T = c.get(name, default)
-  
-  def set[T](name:String, value:T)(implicit m:Manifest[T]) = c.set(name, value)
-  
-  def parent = c.parent
+//  // tree-node accessors
+//  def get[T](name:String)(implicit m:Manifest[T]):T = c.get(name)
+//  
+//  def get[T](name:String, default:T)(implicit m:Manifest[T]):T = c.get(name, default)
+//  
+//  def set[T](name:String, value:T)(implicit m:Manifest[T]) = c.set(name, value)
+//  
+//  def parent = c.parent
   
   // helpers
   override def toString = "Behaviour("+ name +")"
