@@ -102,7 +102,9 @@ object Vec3 {
 }
 
 class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
-  def this() = this(0,0,0) 
+  def this() = this(0,0,0)
+  def this(v:Vec2) = this(v.x, v.y, 0)
+  def this(v:Vec3) = this(v.x, v.y, v.z)
   
   def apply(x:Float, y:Float, z:Float) = set(x,y,z)
   def apply(v:Vec3) = set(v)

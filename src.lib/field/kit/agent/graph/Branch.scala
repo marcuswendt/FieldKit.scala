@@ -52,7 +52,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
       case Some(b:Branch) => 
         throw new Exception("Expected a leaf but found a branch ('"+ name +"'))")
       case None =>
-        info("couldnt find "+ name +" creating new leaf")
+        fine("couldnt get "+ name +" creating new leaf")
         val value = default(m)
         this += new Leaf(name, value)
         value
@@ -68,7 +68,9 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
         l.asInstanceOf[Leaf[T]].set(value)
       case Some(b:Branch) =>
         throw new Exception("Expected a leaf but found a branch ('"+ name +"'))")
-      case None => this += new Leaf(name, value)
+      case None =>
+        fine("couldnt set "+ name +" creating new leaf")
+        this += new Leaf(name, value)
     }
   }
   

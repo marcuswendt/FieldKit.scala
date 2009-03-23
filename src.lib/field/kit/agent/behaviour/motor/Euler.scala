@@ -23,7 +23,7 @@ class Euler(s:Simulation) extends Behaviour("euler") {
   	// get fields
     velocity = parent.get[Vec3]("velocity")
     steer = parent("steer", Vec3()).get
-    location = parent("location", Vec3()).get    
+    location = parent("location", new Vec3(s.space.center)).get    
   }
   
   def apply = {
