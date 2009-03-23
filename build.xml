@@ -34,6 +34,7 @@
 	</taskdef>
 
 	<!-- BUILD FILES & DIRECTORIES -->
+	<property name="src" value="src.lib" />
 	<property name="res" value="res" />
 	<property name="build" value="build" />
 	<property name="tmp" value="${build}/tmp" />
@@ -57,9 +58,7 @@
 
 	<target name="compile" depends="init">
 		<!-- compile scala sources -->
-		<scalac target="${scalac.target}" addparams="-optimise" srcdir="src" destdir="${tmp}">
-			<exclude name="**test**" />
-
+		<scalac target="${scalac.target}" addparams="-optimise" srcdir="${src}" destdir="${tmp}">
 			<classpath>
 				<pathelement location="${scala-library.jar}" />
 				<fileset refid="libraries.jar" />
@@ -67,7 +66,7 @@
 		</scalac>
 
 		<!-- compile java sources -->
-		<javac target="${javac.target}" srcdir="src" destdir="${tmp}">
+		<javac target="${javac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath>
 				<fileset refid="libraries.jar" />
 			</classpath>
@@ -86,8 +85,7 @@
 
 			<fileset dir="${tmp}" />
 
-			<fileset dir="src">
-				<exclude name="**test**" />
+			<fileset dir="${src}">
 				<include name="**/*.java" />
 				<include name="**/*.scala" />
 			</fileset>
