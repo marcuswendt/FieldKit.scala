@@ -21,7 +21,7 @@ abstract class Behaviour(name:String) extends Group with Logger {
   /** the delta time since the last call */
   var dt:Float = 0f
   
-  def apply(c:Context, dt:Float):Boolean = {
+  override def update(c:Context, dt:Float):Boolean = {
     this.c = c
     this.dt = dt
     
@@ -32,7 +32,7 @@ abstract class Behaviour(name:String) extends Group with Logger {
     // when this behaviour has subactions -> execute subactions when this 
     // behaviour returns true
     } else {
-      if(apply) update(c, dt)
+      if(apply) super.update(c, dt)
       true
     }
   }
@@ -44,6 +44,8 @@ abstract class Behaviour(name:String) extends Group with Logger {
   
   def update[T](name:String, value:T)(implicit m:Manifest[T]) =
     c.apply(name, value).update(value)
+  
+  def parent = c.parent
   
   override def toString = name +"Behaviour"
 }

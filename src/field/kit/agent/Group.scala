@@ -14,15 +14,16 @@ trait Group {
   // TODO how do we set priorities here, simply by order of adding/ removing?
   // is ArrayBuffers positioning reliable?
   var behaviours = new ArrayBuffer[Behaviour]
-  def +=(b:Behaviour) = behaviours += b
-  def -=(b:Behaviour) = behaviours -= b
+  def +=(b:Behaviour) = { behaviours += b; b }
+  def -=(b:Behaviour) = { behaviours -= b; b }
   
   /** executes all behaviours in the list as long they return true */
-  def update(c:Context, dt:Float) {
+  def update(c:Context, dt:Float):Boolean = {
     var continue = true
     val i = behaviours.elements
     while(i.hasNext && continue) {
-      continue = i.next.apply(c, dt)
+      continue = i.next.update(c, dt)
     }
+    true
   }
 }

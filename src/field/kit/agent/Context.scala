@@ -11,8 +11,14 @@ import field.kit.agent.graph._
 
 /** Holds information about behaviours, subcontexts and memory of a certain part of the agents brain */
 class Context(name:String) extends Branch(name) with Group {
+    
+  /* the parent context of the current update cycle */
+  var parent:Context = null
   
-  def update(dt:Float):Unit = update(this, dt)
+  override def update(c:Context, dt:Float) = {
+    this.parent = c
+    super.update(this, dt)
+  }
   
   override def toString = "Context("+ name +")"
 }

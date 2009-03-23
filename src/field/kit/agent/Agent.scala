@@ -7,24 +7,22 @@
 /* created March 18, 2009 */
 package field.kit.agent
 
-import field.kit.agent.graph.Node
+import field.kit.agent.graph.Branch
 
 /** The simulated character that actually just is a parent context, wrapping a few subcontexts */
 class Agent(name:String) extends Context(name) {
   logName = "Agent("+name+")"
   
-  import scala.collection.mutable.ArrayBuffer
-  var contexts = new ArrayBuffer[Context]
-  
-  override def update(dt:Float) = {
-    super.update(dt)
-    contexts.foreach(_.update(dt))
+  def update(dt:Float) {
+    foreach { n => 
+    	if(n.isInstanceOf[Context]) 
+    		n.asInstanceOf[Context].update(this, dt)
+    }
   }
   
-  def +=(c:Context):Context = {
-    super.+=(c)
-    contexts += c
-    c
+  override def update(c:Context, dt:Float):Boolean = { 
+    fatal("Not supposed to call this method")
+    false
   }
   
   override def toString = "Agent("+ name +")"
