@@ -19,11 +19,11 @@ class Euler(s:Simulation) extends Behaviour("euler") {
   
   protected val absVelocity = new Vec3
   
-  override def switch {
+  override def init {
   	// get fields
-    velocity = parent.get[Vec3]("velocity")
-    steer = parent("steer", Vec3()).get
-    location = parent("location", new Vec3(s.space.center)).get    
+    velocity = current.get[Vec3]("velocity")
+    steer = current.get[Vec3]("steer")
+    location = current.get[Vec3]("location", new Vec3(s.space.center))    
   }
   
   def apply = {

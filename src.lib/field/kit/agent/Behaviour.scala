@@ -19,8 +19,8 @@ abstract class Behaviour(name:String) extends Context(name) {
   
   logName = name +"Behaviour"
   
-//  /** the current context this behaviour acts on */
-//  var c:Context = null
+  /** the current context this behaviour acts on */
+  var current:Context = null
   
   /** the delta time since the last call */
   var dt:Float = 0f
@@ -28,8 +28,9 @@ abstract class Behaviour(name:String) extends Context(name) {
   override def update(parent:Context, dt:Float):Boolean = {
     // check if we're still operating in the same context
     if(this.parent != parent) {
-      this.parent = parent
-      switch
+      this.current = parent
+      this.parent = parent.parent
+      init
     }
     
     this.dt = dt
@@ -48,7 +49,7 @@ abstract class Behaviour(name:String) extends Context(name) {
   
   // overrideables
   /** called when the behaviour context is switched */
-  def switch {}
+  def init {}
   
   def apply:Boolean
   

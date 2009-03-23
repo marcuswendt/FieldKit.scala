@@ -22,8 +22,8 @@ class Wrap(s:Simulation) extends Behaviour("wrap") {
 
   var location:Vec3 = null
   
-  override def switch {
-  	location = parent.get[Vec3]("location")    
+  override def init {
+  	location = current.get[Vec3]("location")    
   }
   
   def apply = {
