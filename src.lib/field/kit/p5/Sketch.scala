@@ -5,10 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 12, 2009 */
-package field.kit.p5
+package field.kit // note NOT .p5
 
 import processing.core.PApplet
-import field.kit.Logger
 
 /**
  * contains global constants 

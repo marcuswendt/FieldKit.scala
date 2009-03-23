@@ -5,9 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 18, 2009 */
-package field.kit.colour
-
-import field.kit.Logger
+package field.kit // note NOT .p5
 
 class Colour(
   var r:Float,
@@ -17,7 +15,7 @@ class Colour(
 ) extends Logger {
 }
 
-object Color {
+object Colour {
   def apply() = new Colour(0f,0f,0f,1f)
   def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
   def apply(grey:Float) = new Colour(grey,grey,grey,1f)

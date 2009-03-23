@@ -58,7 +58,7 @@
 	<target name="compile" depends="init">
 		<!-- compile scala sources -->
 		<scalac target="${scalac.target}" addparams="-optimise" srcdir="src" destdir="${tmp}">
-			<exclude name="**/test**" />
+			<exclude name="**test**" />
 
 			<classpath>
 				<pathelement location="${scala-library.jar}" />

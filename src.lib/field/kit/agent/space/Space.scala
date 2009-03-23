@@ -16,7 +16,7 @@ class Space {
 
 /** marks the given object as having a position */
 trait Spaceable {
-  import field.kit.math.Vec3
+  import field.kit._
   var location = new Vec3
 }
 

@@ -21,12 +21,12 @@ import field.kit.Logger
  * </p>
  * 
  * <p>It is also inspired by Marc Downies concept of a ContextTree described in his Master Thesis:<br />
- * p. 206, Chapter 6 "The Context Tree Ñ a new Òworking memoryÓ for agents"
+ * p. 206, Chapter 6 "The Context Tree ï¿½ a new ï¿½working memoryï¿½ for agents"
  * </p>
  * 
  * @see http://en.wikipedia.org/wiki/Tree_data_structure
  * @see http://www.openendedgroup.com/index.php/publications/thesis-downie/
  */
 abstract class Node(var name:String) extends Logger {
-  
+   
 }

@@ -7,10 +7,9 @@
 /* created March 12, 2009 */
 package field.kit.test.p5
 
-import field.kit.p5.Sketch
+import field.kit._
 
 object SketchTest extends Sketch {
-  import field.kit.math.Vec3
   
   info("FAppletTest created")
   
@@ -50,7 +49,6 @@ object SketchTest extends Sketch {
   
   class Line {
     import scala.collection.mutable.ArrayBuffer
-    import field.kit.math.Vec3
     val points = new ArrayBuffer[Vec3]()
   }
 }
