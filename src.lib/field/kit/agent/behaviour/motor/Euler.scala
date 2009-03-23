@@ -19,13 +19,13 @@ class Euler extends Behaviour("euler") {
   
   override def switch {
   	// get fields
-    velocity = parent.value[Vec3]("velocity")
+    velocity = parent.get[Vec3]("velocity")
     steer = parent("steer", Vec3()).get
     location = parent("location", Vec3()).get    
   }
   
   def apply = {
-    val friction = parent.value("friction", 0.97f)
+    val friction = parent.get("friction", 0.97f)
         
     velocity += steer
     steer.zero

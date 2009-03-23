@@ -20,33 +20,34 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   val children = new HashMap[String,Node]
   
   def apply[T](name:String, default:T)(implicit m:Manifest[T]):Leaf[T] =
-    get(name) match {
+    child(name) match {
       case Some(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]
       case None => this += new Leaf(name, default)
     }
   
   def apply(name:String):Branch =
-    get(name) match {
+    child(name) match {
       case Some(b:Branch) => b
       case None => this += new Branch(name)
     }     
   
   def apply[T <: Branch](name:String, branch:T):T =
-    get(name) match {
+    child(name) match {
       case Some(b:Branch) => b.asInstanceOf[T]
       case None => this += branch
     }
   
   def update[T](name:String, value:T)(implicit m:Manifest[T]):Leaf[T] =
-    get(name) match {
+    child(name) match {
       case Some(l:Leaf[_]) => l.asInstanceOf[Leaf[T]]() = value
       case None => this += new Leaf(name, value)
     }
   
-  def get(name:String) = children.get(name)
+  def child(name:String) = children.get(name)
   
-  def value[T](name:String)(implicit m:Manifest[T]):T = {
-    get(name) match {
+  // ---------------------------------------------------------------------------
+  def get[T](name:String)(implicit m:Manifest[T]):T = {
+    child(name) match {
       case Some(l:Leaf[_]) => l.asInstanceOf[Leaf[T]].get
       case Some(b:Branch) => 
         throw new Exception("Expected a leaf but found a branch ('"+ name +"'))")
@@ -58,9 +59,19 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     }
   }
   
-  def value[T](name:String, default:T)(implicit m:Manifest[T]):T = 
+  def get[T](name:String, default:T)(implicit m:Manifest[T]):T = 
     this(name, default).get
   
+  def set[T](name:String, value:T)(implicit m:Manifest[T]) = {
+    child(name) match {
+      case Some(l:Leaf[_]) =>
+        l.asInstanceOf[Leaf[T]].set(value)
+      case Some(b:Branch) =>
+        throw new Exception("Expected a leaf but found a branch ('"+ name +"'))")
+      case None => this += new Leaf(name, value)
+    }
+  }
+  // ---------------------------------------------------------------------------
   /** checks wether a given node exists */
   def exists(name:String):Boolean =
     children.get(name) match {

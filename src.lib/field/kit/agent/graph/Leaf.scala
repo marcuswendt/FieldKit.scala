@@ -16,13 +16,16 @@ class Leaf[T](name:String, private var value:T)(implicit val clazz: Manifest[T])
 extends Node(name) {
   
   def apply():T = value
-  def get:T = value
   
   // TODO consider implementing a subscriber-event mechanism
   def update(value:T):Leaf[T] = {
     this.value = value
     this
   }
+  
+  def get:T = value
+  def set(value:T) = this.value = value
+  
     
   //override def toString = "Leaf("+name+") => "+ value +" type: "+ clazz
   override def toString = name +":"+ clazz +" = "+ value
