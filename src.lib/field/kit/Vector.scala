@@ -117,6 +117,11 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   def *=(v:Vec3) = { x*=v.x; y*=v.y; z*=v.z; this }
   def /=(v:Vec3) = { x/=v.x; y/=v.y; z/=v.z; this }
   
+  def +=(x:Float, y:Float, z:Float) = { this.x+=x; this.y+=y; this.z+=z; this }
+  def -=(x:Float, y:Float, z:Float) = { this.x-=x; this.y-=y; this.z-=z; this }
+  def *=(x:Float, y:Float, z:Float) = { this.x*=x; this.y*=y; this.z*=z; this }
+  def /=(x:Float, y:Float, z:Float) = { this.x/=x; this.y/=y; this.z/=z; this }
+  
   def dot(v:Vec3) = x * v.x + y * v.y + z * v.z
   
   def cross(v:Vec3) = {

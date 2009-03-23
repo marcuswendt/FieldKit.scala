@@ -9,7 +9,10 @@ package field.kit.agent
 
 import field.kit.Logger
 
-/* a single behaviour */
+/** a single behaviour 
+ * TODO evtl. add a verify/init method where the behaviour can check wether
+ * its context is in the right shape
+ */
 abstract class Behaviour(var name:String) extends Group with Logger {
   import scala.reflect.Manifest
   
