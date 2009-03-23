@@ -22,7 +22,7 @@ object BasicSimulationSetup extends field.kit.Logger {
   def main(args : Array[String]) : Unit = {
     section("BasicSimulationSetup")
     
-    val s = new Simulation
+    val s = new Simulation("Test Simulation")
     s += new Branch("config")
 
 //    for(name <- Seq("One", "Two", "Three")) {

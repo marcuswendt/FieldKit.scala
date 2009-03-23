@@ -20,7 +20,7 @@ object BasicGraphTest extends field.kit.Logger {
   def main(args : Array[String]) : Unit = {
 
     section("constructing graph")
-    val r = new Root
+    val r = new Root("The Root")
     val debug = r("debug", true)
     
     r("/settings/numParticles", 1000)

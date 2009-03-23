@@ -29,7 +29,7 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
     get(name) match {
       case Some(b:Branch) => b
       case None => this += new Branch(name)
-    }
+    }         
   
   def update[T](name:String, value:T)(implicit m:Manifest[T]):Leaf[T] =
     get(name) match {

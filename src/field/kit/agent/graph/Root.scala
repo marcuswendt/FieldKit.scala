@@ -10,6 +10,6 @@ package field.kit.agent.graph
 /**
  * the root of the whole graph
  */
-class Root extends Branch("Root") {
+class Root(name:String) extends Branch(name) {
   override def toString = name
 }
