@@ -137,22 +137,20 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
       
       n match {
         case l:Leaf[_] => println("-"+ l)
+        
+        case c:Context =>
+          println("*"+ c)
+          c.children.values foreach(recurseNodes(_, d+1))
+          c.behaviours foreach(recurseNodes(_, d+1))
+          
         case b:Branch => 
           println("+"+ b)
           b.children.values foreach(recurseNodes(_, d+1))
-          
-          if(b.isInstanceOf[Context]) 
-            b.asInstanceOf[Context].behaviours foreach(recurseBehaviours(_, d + 1))
           
         case _ => println(n)
       }
     }
     
-    def recurseBehaviours(b:Behaviour, d:Int):Unit = {
-      for(i <- 0 until d) print("  ")
-      println("*"+ b)
-      b.behaviours foreach(recurseBehaviours(_, d + 1))
-    }
     recurseNodes(this, 0)
   }
 }
