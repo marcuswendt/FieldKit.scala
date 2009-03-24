@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 07, 2009 */
-package field.kit
+package field.kit.math
 
 /** provides various randomness-generators */
 object Random {

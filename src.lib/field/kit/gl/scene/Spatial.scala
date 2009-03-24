@@ -11,7 +11,7 @@ import field.kit.gl.render.Renderable
 
 /** base class for all scene-graph elements */
 abstract class Spatial(var name:String) extends Renderable {
-  import field.kit._
+  import field.kit.math._
   
   var translation = new Vec3
   var scale = new Vec3(1,1,1)

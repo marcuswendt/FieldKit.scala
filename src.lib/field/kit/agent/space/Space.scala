@@ -9,6 +9,8 @@ package field.kit.agent.space
 
 /** holds information about the simulated environment */
 class Space {
+  import field.kit.math._
+  
   var dimension = new Vec3(1000f, 1000f, 1000f)
   
   def width = dimension.x
@@ -20,7 +22,7 @@ class Space {
 
 /** marks the given object as having a position */
 trait Spaceable {
-  import field.kit._
+  import field.kit.math._
   var location = new Vec3
 }
 

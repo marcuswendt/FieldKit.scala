@@ -10,6 +10,7 @@ package field.kit.gl.scene
 /** base class for all geometric objects in the scene-graph */
 abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
+  import field.kit.math._
   import java.nio.FloatBuffer
   
   var colour = new Colour(1,1,1)

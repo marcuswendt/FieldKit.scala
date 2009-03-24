@@ -112,6 +112,8 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
   /** @return a default value for the given manifest-clazz type */
   def default[T](m:Manifest[T]):T = {
     import field.kit._
+    import field.kit.math._
+    
     val d = m.toString match {
       case "boolean" => true
       case "byte" => 0x0
@@ -121,7 +123,8 @@ class Branch(name:String) extends Node(name) with Collection[Node] {
       case "int" => 0
       case "long" => 0L
       case "String" => ""
-      case "field.kit.Vec3" => new Vec3
+      case "field.kit.math.Vec2" => new Vec2
+      case "field.kit.math.Vec3" => new Vec3
       case "field.kit.Colour" => new Colour
       case _ => null
     }

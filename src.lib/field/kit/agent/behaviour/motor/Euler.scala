@@ -11,7 +11,7 @@ import field.kit.agent._
 
 /** performs euler integration of the velocity on the location vector */
 class Euler(s:Simulation) extends Behaviour("euler") {
-  import field.kit.Vector
+  import field.kit.math._
   
   var velocity:Vec3 = null
   var steer:Vec3 = null

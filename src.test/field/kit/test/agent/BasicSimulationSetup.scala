@@ -12,6 +12,7 @@ import field.kit._
 object BasicSimulationSetup extends Logger {
   import field.kit.agent._
   import field.kit.agent.graph._
+  import field.kit.math._
   
   def section(s:String) {
     println("")

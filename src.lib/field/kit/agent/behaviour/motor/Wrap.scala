@@ -11,7 +11,7 @@ import field.kit.agent.Behaviour
 
 /** makes sure an agents location is within a defined cube-volume */
 class Wrap(s:Simulation) extends Behaviour("wrap") {
-  import field.kit.Vector
+  import field.kit.math._
   
   protected var _min = Vec3()
   protected var _max = Vec3()

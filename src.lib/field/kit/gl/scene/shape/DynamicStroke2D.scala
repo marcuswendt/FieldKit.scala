@@ -24,6 +24,7 @@ object DynamicStroke2D {
 /** a dynamic stroke with variable thickness */
 class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   import java.nio.FloatBuffer
+  import field.kit.math._
   
   /** line end/start style */
   var capMode = DynamicStroke2D.Cap.FLAT
@@ -97,7 +98,7 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   }
   
   /** updates all points of this stroke */
-  def update {
+  def update() {
     if(length > 2) {
       points.rewind
       weights.rewind
