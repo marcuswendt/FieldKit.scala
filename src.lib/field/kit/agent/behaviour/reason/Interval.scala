@@ -13,12 +13,9 @@ package field.kit.agent.behaviour.reason
 class Interval extends Behaviour("interval") {
   var time = 0f
   
-  override def init = set("interval", Math.random.asInstanceOf[Float] * 1000f)
-  
   def apply = {
     time += dt
-    
-    val trigger = time > get[Float]("interval")
+    val trigger = time > get[Float]("interval", 1000f)
     if(trigger) time = 0
     trigger  
   }

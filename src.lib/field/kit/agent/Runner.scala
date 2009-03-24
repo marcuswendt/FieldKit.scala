@@ -20,13 +20,23 @@ abstract class Runner(s:Simulation) extends Logger {
 }
 
 class SimpleRunner(s:Simulation) extends Runner(s) with Runnable {
-  var t:Thread = null
+  info("init")
   
+  var t:Thread = null
+
   override def start = {
     if(!isRunning) {
+      info("start")
       super.start
       t = new Thread(this)
       t.start
+    }
+  }
+  
+  override def stop = {
+    if(isRunning) {
+      info("stop")
+      super.stop
     }
   }
   

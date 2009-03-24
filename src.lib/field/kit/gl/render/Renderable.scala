@@ -4,16 +4,19 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created March 07, 2009 */
-package field.kit
+/* created March 24, 2009 */
+package field.kit.gl.render
 
-/** provides various randomness-generators */
-object Random {
-  val rnd = new java.util.Random
+/** base trait for all renderable elements in the scene */
+trait Renderable {
+  import javax.media.opengl.GL
+  import javax.media.opengl.GLContext
   
-  def apply() = rnd.nextFloat
+  var isVisible = true
   
-  def apply(min:Float, max:Float) = rnd.nextFloat * (max - min) + min
+  def toggleVisibility = isVisible = !isVisible
+
+  def gl = GLContext.getCurrent.getGL
   
-  def apply(scale:Float) = rnd.nextFloat * scale
+  def render:Unit
 }

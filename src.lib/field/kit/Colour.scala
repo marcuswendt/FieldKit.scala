@@ -18,6 +18,10 @@ class Colour(
   def this(grey:Float) = this(grey,grey,grey,1f)
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
+  def set(c:Colour) = { this.r = c.r; this.g=c.g; this.b=c.b; this.a=c.a; this }
+  def set(r:Float,g:Float,b:Float) = { this.r = r; this.g=g; this.b=b; this }
+  def set(r:Float,g:Float,b:Float,a:Float) = { this.r = r; this.g=g; this.b=b; this.a=a; this }
+  
   /** @return this colour as argb packed integer */
   def argb = {
     (((a * 255).asInstanceOf[Int] & 0xFF) << 24) | 
