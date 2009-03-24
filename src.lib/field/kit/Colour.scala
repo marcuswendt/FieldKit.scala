@@ -15,6 +15,9 @@ class Colour(
 ) extends Logger {
   def this() = this(0f,0f,0f,1f)
   def this(r:Float,g:Float,b:Float) = this(r,g,b,1f)
+  def this(r:Int,g:Int,b:Int) = this(r/255f,g/255f,b/255f,1f)
+  def this(r:Int,g:Int,b:Int,a:Int) = this(r/255f,g/255f,b/255f,a/255f)
+  
   def this(grey:Float) = this(grey,grey,grey,1f)
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
@@ -40,16 +43,15 @@ class Colour(
   
   def toInt = argb
   
-  //override def toString = "Colour(r:"+ r +" g:"+ g +" b:"+ b +" a:"+ a +")"
   override def toString = "Colour("+ r +", "+ g +", "+ b +", "+ a +")"
 }
 
 object Colour {
-  def apply() = new Colour(0f,0f,0f,1f)
-  def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
-  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
-  def apply(grey:Float, a:Float) = new Colour(grey,grey,grey,a)
-  
-  val BLACK = apply(0)
-  val WHITE = apply(1)
+//  def apply() = new Colour(0f,0f,0f,1f)
+//  def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
+//  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
+//  def apply(grey:Float, a:Float) = new Colour(grey,grey,grey,a)
+//  
+  val BLACK = new Colour(0)
+  val WHITE = new Colour(1)
 }

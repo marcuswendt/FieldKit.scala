@@ -21,6 +21,7 @@ object Sketch extends PApplet {
 abstract class Sketch extends PApplet with Logger {
   import processing.core.PConstants
   import processing.opengl.PGraphicsOpenGL
+  import field.kit.p5.FGraphicsOpenGL
   
   /**
    * custom initialisation, preventing papplets bad double init behaviour
@@ -64,15 +65,19 @@ abstract class Sketch extends PApplet with Logger {
     
     frame.setVisible(true)
     requestFocus
-  } 
+  }
   
   /** always use the OpenGL renderer */
-  override def getSketchRenderer = PConstants.OPENGL
+  override def getSketchRenderer = classOf[FGraphicsOpenGL].getCanonicalName
   
   override def draw = render
+  
   def render
 
-  final override def setup = {}
+  final override def setup = {
+//    hint(PConstants.ENABLE_OPENGL_4X_SMOOTH)
+//    smooth
+  }
   final override def size(w:Int, h:Int) = fatal("Dont use size in FieldKit/p5. Use init(...) instead")
   
   // --------------------------------------------------------------------
