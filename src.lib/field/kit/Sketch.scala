@@ -20,6 +20,7 @@ object Sketch extends PApplet {
  */
 abstract class Sketch extends PApplet with Logger {
   import processing.core.PConstants
+  import processing.opengl.PGraphicsOpenGL
   
   /**
    * custom initialisation, preventing papplets bad double init behaviour
@@ -79,6 +80,8 @@ abstract class Sketch extends PApplet with Logger {
    * in PApplet these methods are defined as static final meaning in Scala we have to use PApplet.min(...)
    * so we redefine them here again to keep the code concise
    */
+  def pgl = g.asInstanceOf[PGraphicsOpenGL] 
+  
    /*
   seems to fail validation at runtime =/
 

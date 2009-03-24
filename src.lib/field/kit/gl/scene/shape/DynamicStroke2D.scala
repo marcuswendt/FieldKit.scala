@@ -9,22 +9,24 @@ package field.kit.gl.scene.shape
 
 import field.kit.gl.scene._
 
+object DynamicStroke2D {
+	object Side extends Enumeration {
+	  val LEFT = Value
+	  val RIGHT = Value
+	}
+	
+	object Cap extends Enumeration {
+	  val FLAT = Value
+	  val ACUTE = Value
+	}  
+}
+
 /** a dynamic stroke with variable thickness */
 class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   import java.nio.FloatBuffer
   
-  object Side extends Enumeration {
-    val LEFT = Value
-    val RIGHT = Value
-  }
-  
-  object Cap extends Enumeration {
-    val FLAT = Value
-    val ACUTE = Value
-  }
-  
   /** line end/start style */
-  var capMode = Cap.FLAT
+  var capMode = DynamicStroke2D.Cap.FLAT
   
   /** current number of points */
   var length = 0
@@ -83,11 +85,11 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
 		length += 1
 		
 		// cant inflate with less than 2 points
-		if(length >= 2) {
+		if(length > 2) {
 		  //for (int i = length - 1; i > length - 3; i--) {	
 		  for(i <- length-3 until length-1) {
-			calcOutlinePoint(Side.LEFT, i, weight)
-			calcOutlinePoint(Side.RIGHT, i, -weight)
+			calcOutlinePoint(DynamicStroke2D.Side.LEFT, i, weight)
+			calcOutlinePoint(DynamicStroke2D.Side.RIGHT, i, -weight)
 		  }
 		}
       }
@@ -96,13 +98,13 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   
   /** updates all points of this stroke */
   def update {
-    if(length >= 2) {
+    if(length > 2) {
       points.rewind
       weights.rewind
       for(i <- 0 until length) {
         val weight = weights.get(i)
-        calcOutlinePoint(Side.LEFT, i, weight)
-        calcOutlinePoint(Side.RIGHT, i, -weight)
+        calcOutlinePoint(DynamicStroke2D.Side.LEFT, i, weight)
+        calcOutlinePoint(DynamicStroke2D.Side.RIGHT, i, -weight)
       }
     }
   }
@@ -118,20 +120,20 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   //
   // Line Inflation
   //
-  protected def getOutlineIndex(side:Side.Value, index:Int) =
+  def outlineIndex(side:DynamicStroke2D.Side.Value, index:Int) = 
     index * 2 + side.id
-
-  protected def calcOutlinePoint(side:Side.Value, i:Int, weight:Float) {
-    vPrev.set(points, if(i == 0) 0 else i - 1)
+  
+  protected def calcOutlinePoint(side:DynamicStroke2D.Side.Value, i:Int, weight:Float) {
+    vPrev.set(points, Math.max(0, i-1))
     vCur.set(points, i)
     vNext.set(points, i + 1)
     
-    val index = getOutlineIndex(side, i)
+    val index = outlineIndex(side, i)
     
     // start
     if(i == 0) {
       capMode match {
-      	case Cap.FLAT =>
+      	case DynamicStroke2D.Cap.FLAT =>
       	  v1(vNext)
       	  v1 -= vCur
 
@@ -143,7 +145,7 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
       	  p1(vCur)
       	  p1 += v2
         
-      	case Cap.ACUTE =>
+      	case DynamicStroke2D.Cap.ACUTE =>
       	  p1(vCur)
       }
       p1.put(outline, index)
@@ -151,7 +153,7 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
     // end
     } else if(i == length-1) {
       capMode match {
-      	case Cap.FLAT =>
+      	case DynamicStroke2D.Cap.FLAT =>
       	  v1(vPrev)
       	  v1 -= vCur
 
@@ -163,7 +165,7 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
       	  p1(vCur)
       	  p1 += v2
         
-      	case Cap.ACUTE =>
+      	case DynamicStroke2D.Cap.ACUTE =>
       	  p1(vCur)
       }
       p1.put(outline, index)
@@ -180,6 +182,9 @@ class DynamicStroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
       v2.normalize
       v2 *= weight
       
+      p1(vCur)
+      p1 += v2
+   
       // vector NEXT->CUR
       v3(vCur)
       v3 -= vNext
