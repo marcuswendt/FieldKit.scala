@@ -22,6 +22,8 @@ class Colour(
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
   def set(c:Colour) = { this.r = c.r; this.g=c.g; this.b=c.b; this.a=c.a; this }
+  def set(grey:Float) = {this.r=grey; this.g=grey; this.b=grey; this}
+  def set(grey:Float,a:Float) = {this.r=grey; this.g=grey; this.b=grey; this.a=a; this}
   def set(r:Float,g:Float,b:Float) = { this.r = r; this.g=g; this.b=b; this }
   def set(r:Float,g:Float,b:Float,a:Float) = { this.r = r; this.g=g; this.b=b; this.a=a; this }
   
