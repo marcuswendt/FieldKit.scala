@@ -11,7 +11,7 @@ package field.kit.util
 class Timer {
   def time = System.nanoTime
   val resolution = 1000000000f
-  val time2millisec = resolution * 1000f
+  val time2millisec = 1f/ resolution * 1000f
   
   var last = time
   var dt = 0f
@@ -19,7 +19,7 @@ class Timer {
   /** update delta time since last update */
   def update = {
     val now = time
-    dt = (now - last) / time2millisec
+    dt = (now - last) * time2millisec
     last = now
     dt
   }

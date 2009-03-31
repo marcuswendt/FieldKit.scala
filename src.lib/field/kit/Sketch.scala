@@ -39,6 +39,8 @@ abstract class Sketch extends PApplet with Logger {
     
     this.width = width
     this.height = height
+    this.hwidth = width / 2f
+	this.hheight = height / 2f
     
     defaultSize = false
     val titleHeight = 23
@@ -87,4 +89,7 @@ abstract class Sketch extends PApplet with Logger {
   /* extras */
   def title = logName
   val pgl = g.asInstanceOf[PGraphicsOpenGL]
+  
+  var hwidth = 0f
+  var hheight = 0f
 }
