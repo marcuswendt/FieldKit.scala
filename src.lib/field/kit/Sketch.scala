@@ -74,10 +74,6 @@ abstract class Sketch extends PApplet with Logger {
   
   def render
 
-  final override def setup = {
-//    hint(PConstants.ENABLE_OPENGL_4X_SMOOTH)
-//    smooth
-  }
   final override def size(w:Int, h:Int) = fatal("Dont use size in FieldKit/p5. Use init(...) instead")
   
   // --------------------------------------------------------------------
@@ -85,29 +81,10 @@ abstract class Sketch extends PApplet with Logger {
    * in PApplet these methods are defined as static final meaning in Scala we have to use PApplet.min(...)
    * so we redefine them here again to keep the code concise
    */
-  def pgl = g.asInstanceOf[PGraphicsOpenGL] 
-  
-   /*
-  seems to fail validation at runtime =/
-
-  def abs(n:Int) = if(n < 0) -n else n
-  def abs(n:Float) = if(n < 0) -n else n
-
-  def sq(n:Float) = n*n
-  def sqrt(a:Float) = Math.sqrt(a).asInstanceOf[Float]
-  def log(a:Float) = Math.log(a).asInstanceOf[Float]
-  def exp(a:Float) = Math.exp(a).asInstanceOf[Float]
-  def pow(a:Float, b:Float) = Math.pow(a,b).asInstanceOf[Float]
-  
-  def max(a:Int, b:Int) = if(a > b) a else b
-  def max(a:Float, b:Float) = if(a > b) a else b
-  def min(a:Int, b:Int) = if(a > b) b else a
-  def min(a:Float, b:Float) = if(a > b) b else a
-  */
-  
   val SCREEN = PConstants.SCREEN
   
   // --------------------------------------------------------------------
   /* extras */
   def title = logName
+  val pgl = g.asInstanceOf[PGraphicsOpenGL]
 }
