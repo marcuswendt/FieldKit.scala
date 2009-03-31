@@ -10,7 +10,7 @@ package field.kit // note NOT .p5
 import processing.core.PApplet
 
 /**
- * contains global constants 
+ * contains global constants
  */
 object Sketch extends PApplet {
 }

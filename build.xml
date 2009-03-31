@@ -66,11 +66,13 @@
 		</scalac>
 
 		<!-- compile java sources -->
+		<!--
 		<javac target="${javac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath>
 				<fileset refid="libraries.jar" />
 			</classpath>
 		</javac>
+		-->
 	</target>
 
 	<target name="jar" depends="compile">
