@@ -5,3 +5,5 @@ bin*
 .manager/*
 syntax: regexp
 ^build$
+syntax: regexp
+^res/export/tmp$

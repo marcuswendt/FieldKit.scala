@@ -25,7 +25,11 @@
 		<copy todir="${dist.contents}/Resources/Java" flatten="true">
 			<fileset file="${build.jar}" />
 			<!-- <fileset refid="libraries.jar" /> -->
-			<fileset refid="libraries.native" />
+			<fileset refid="libraries.native">
+				<include name="**/*.jnilib"/>
+				<exclude name="**/*.dll" />
+				<exclude name="**/*.so" />
+			</fileset>
 		</copy>
 
 		<copy todir="${dist.dir}/">

@@ -6,11 +6,10 @@
      you should call it from another ant file and define
      / override some properties for your project e.g.
      
-     <ant antfile="res/export/build.xml">
-		<property name="project.name" value="Viscous" />
-		<property name="project.version" value="1.0" />
-		<property name="project.author" value="Marcus Wendt (www.marcuswendt.com)" />
-		<property name="project.main" value="mw.haptiscript.viscous.Viscous01" />
+	<ant dir="../FieldKit/res/export/">
+		<property name="project.name" value="HelloTest" />
+		<property name="project.main" value="field.test.export.HelloTest" />
+		<property name="project.dir" location="./" />
 
 		<property name="libraries.jar.dir" value="../" />
 		<property name="libraries.jar.includes" value="hapticscript/lib/*.jar,libP5/core.jar,libP5/opengl.jar,libP5/jogl.jar,libP5/gluegen-rt.jar" />
@@ -21,39 +20,43 @@
 	<!-- ================================================ -->
 	<!-- CONFIGURATION                                    -->
 	<!-- ================================================ -->
-	<property name="export.dir" location="res/export" />
-
 	<!-- PROJECT -->
-	<property name="project.name" value="Application" />
-	<property name="project.version" value="1.0" />
-	<property name="project.author" value="Johnny Coder" />
+	<property name="project.name" value="FieldSketch" />
+	<property name="project.author" value="Marcus Wendt (www.field.io)" />
 	<property name="project.main" value="" />
+	<property name="project.dir" location="./" />
 
-	<property name="project.src.includes" value="**" />
-	<property name="project.src.excludes" value="" />
+	<!-- DISTRIBUTIONS -->
+	<property name="dist.osx" value="true" />
+	<property name="dist.win" value="false" />
+	<property name="dist.lin" value="false" />
+	<property name="dist.src" value="false" />
+
+	<!-- SOURCE -->
+	<property name="source.dir" location="${project.dir}/src" />
+	<property name="source.dir.includes" value="**" />
+	<property name="source.dir.excludes" value="" />
 
 	<!-- LIBRARIES -->
-	<property name="libraries.jar.dir" value="lib" />
-	<property name="libraries.jar.includes" value="*.jar" />
-
-	<property name="libraries.native.dir" value="lib" />
-	<property name="libraries.native.includes" value="*.jnilib,*.dll" />
+	<property name="libraries.dir" value="${project.dir}/lib" />
+	<property name="libraries.includes" value="*.*" />
 
 	<!-- DATA -->
 	<property name="data.internal.dir" value="." />
-	<property name="data.internal.includes" value="data/**" />
+	<property name="data.internal.includes" value="${project.dir}/data/**" />
 	<property name="data.internal.excludes" value="" />
 
-	<property name="data.external.dir" value="res" />
+	<property name="data.external.dir" value="${project.dir}/res" />
 	<property name="data.external.includes" value="**" />
 	<property name="data.external.excludes" value="**export**" />
 
 	<!-- BUILD -->
-	<property name="build.name" value="${project.name}-${project.version}" />
-	<property name="build.dir" value="build" />
-	<property name="build.tmp" value="${build.dir}/tmp" />
-	<property name="build.jar.name" value="app.jar" />
-	<property name="build.jar" value="${build.tmp}/${build.jar.name}" />
+	<property name="build.name" value="${project.name}" />
+	<property name="build.dir" location="${project.dir}/build" />
+	<property name="tmp.dir" location="./tmp" />
+	<property name="tmp.bin" location="${tmp.dir}/bin" />
+	<property name="tmp.src" location="${tmp.dir}/src" />
+	<property name="tmp.lib" location="${tmp.dir}/lib" />
 
 	<!-- SYSTEM -->
 	<tstamp>
@@ -70,62 +73,69 @@
 	<!-- ================================================ -->
 	<!-- PATHS & FILES                                    -->
 	<!-- ================================================ -->
-	<path id="project.src">
-		<pathelement path="src/" />
+	<path id="source.dir.path">
+		<pathelement path="${source.dir}" />
 	</path>
-	<fileset id="project.src.fs" dir="src/" />
+	<fileset id="source.dir.fs" dir="${source.dir}" />
 
-	<fileset id="libraries.jar" dir="${libraries.jar.dir}" includes="${libraries.jar.includes}" />
-	<fileset id="libraries.native" dir="${libraries.native.dir}" includes="${libraries.native.includes}" />
+	<!--
+	<fileset id="libraries.fs" dir="${libraries.dir}" includes="${libraries.includes}" />
 	<fileset id="data.internal" dir="${data.internal.dir}" includes="${data.internal.includes}" excludes="${data.internal.excludes}" />
 	<fileset id="data.external" dir="${data.external.dir}" includes="${data.external.includes}" excludes="${data.external.excludes}" />
+	-->
 
 	<!-- ================================================ -->
-	<!-- UTILITY TARGETS                                  -->
+	<!-- LOAD EXTRA TASKS                                 -->
 	<!-- ================================================ -->
-	<target name="clean">
-		<delete dir="${build.tmp}" />
-	</target>
+	<!-- load ant contrib tasks -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="lib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
 
-	<target name="init">
-		<mkdir dir="${build.dir}" />
-
-		<!-- <delete dir="${build.tmp}" /> -->
-		<mkdir dir="${build.tmp}" />
-
-		<!-- load scala ant tasks -->
-		<taskdef resource="scala/tools/ant/antlib.xml">
-			<classpath>
-				<pathelement location="${system.scala.home}/lib/scala-compiler.jar" />
-				<pathelement location="${system.scala-library.jar}" />
-			</classpath>
-		</taskdef>
-	</target>
+	<!-- load scala ant tasks -->
+	<taskdef resource="scala/tools/ant/antlib.xml">
+		<classpath>
+			<pathelement location="${system.scala.home}/lib/scala-compiler.jar" />
+			<pathelement location="${system.scala-library.jar}" />
+		</classpath>
+	</taskdef>
 
 	<!-- load envgen template processor task -->
 	<taskdef name="envgen" classname="com.basilv.envgen.EnvGenTask">
 		<classpath>
-			<pathelement location="${export.dir}/lib/EnvGen-with-dependencies.jar" />
+			<pathelement location="lib/EnvGen-with-dependencies.jar" />
 		</classpath>
 	</taskdef>
 
-	<target name="compile" depends="init">
-		<!-- addparams="-optimise" -->
-		<scalac target="${system.scalac.target}"  destdir="${build.tmp}">
-			<src refid="project.src" />
+	<!-- ================================================ -->
+	<!-- UTILITY TARGETS                                  -->
+	<!-- ================================================ -->
+	<target name="init" description="creates the build structure">
+		<delete dir="${tmp.dir}" />
+		<mkdir dir="${tmp.bin}" />
+		<mkdir dir="${tmp.lib}" />
+		<mkdir dir="${build.dir}" />
+	</target>
 
-			<include name="${project.src.includes}" />
-			<exclude name="${project.src.excludes}" />
+	<target name="compile">
+		<!-- addparams="-optimise" -->
+		<scalac target="${system.scalac.target}" destdir="${tmp.bin}">
+			<src refid="source.dir.path" />
+
+			<include name="${source.dir.includes}" />
+			<exclude name="${source.dir.excludes}" />
 
 			<classpath>
 				<pathelement location="${system.scala-library.jar}" />
-				<fileset refid="libraries.jar" />
+				<fileset dir="${tmp.lib}" includes="*.jar" />
 			</classpath>
 		</scalac>
 
 		<!--
 		<javac target="${system.javac.target}" destdir="${build.tmp}" executable="${system.javac}">
-			<src refid="project.src" />
+			<src refid="source.dir" />
 			<exclude name="**test**" />
 			<exclude name="**Test**" />
 			<classpath>
@@ -135,64 +145,87 @@
 		-->
 	</target>
 
-	<target name="jar" depends="compile">
-		<!-- extract all library .jars -->
-		<unzip dest="${build.tmp}">
-			<patternset>
-				<exclude name="**test**" />
-				<exclude name="**Test**" />
-			</patternset>
-			<fileset refid="libraries.jar" />
-		</unzip>
+	<target name="fieldkit" description="compiles the fieldkit library and copies it to the tmp.lib dir">
+		<echo>compiling fieldkit...</echo>
+		<ant dir="../../">
+			<property name="project.name" value="FieldKit" />
+		</ant>
+		<echo>copying fieldkit...</echo>
+		<copy todir="${tmp.lib}" flatten="true" includeemptydirs="false">
+			<fileset dir="../../build/FieldKit/" />
+		</copy>
+	</target>
 
-		<!-- remove any existing manifests -->
-		<delete dir="${build.tmp}/META-INF" />
+	<target name="libraries" description="copies the projects libraries into the temp folder">
+		<available file="${libraries.dir}" type="dir" property="project.lib.present" />
+		<if>
+			<equals arg1="${project.lib.present}" arg2="true" />
+			<then>
+				<echo>copying libraries...</echo>
+				<copy todir="${tmp.lib}" flatten="true" includeemptydirs="false">
+					<fileset dir="${libraries.dir}" includes="${libraries.includes}" />
+				</copy>
+			</then>
+		</if>
+	</target>
 
-		<!-- create new 'fat' .jar -->
-		<!-- http://java.sun.com/j2se/1.5.0/docs/guide/jar/jar.html#Manifest-Overview -->
-		<jar jarfile="${build.jar}" basedir="${build.tmp}" index="true" filesetmanifest="skip">
-			<manifest>
-				<attribute name="Project" value="${project.name}" />
-				<attribute name="Version" value="${project.version}" />
-				<attribute name="Built-By" value="${project.author}" />
-				<attribute name="Build-Date" value="${system.now}" />
-				<attribute name="Main-Class" value="${project.main}" />
-			</manifest>
-
-			<fileset dir="${build.tmp}" />
-			<fileset refid="data.internal" />
-
-			<!-- include source -->
-			<fileset refid="project.src.fs" />
-		</jar>
+	<target name="source" description="copies the projects sources into the temp folder">
+		<echo>copying sources...</echo>
+		<copy todir="${tmp.src}" includeemptydirs="true">
+			<fileset dir="${source.dir}" />
+		</copy>
 	</target>
 
 	<!-- ================================================ -->
 	<!-- DISTRIBUTION                                     -->
 	<!-- ================================================ -->
 	<target name="dist">
-		<echo>==============================</echo>
+		<echo>===========================================================</echo>
 		<echo>Building ${build.name} ...</echo>
-		<echo>==============================</echo>
+		<echo>===========================================================</echo>
+		<echo>Project ${project.dir}</echo>
+		<echo>Source ${source.dir}</echo>
+		<echo>Build ${build.dir}</echo>
+		<echo>Tmp ${tmp.dir}</echo>
+		<echo>-----------------------------------------------------------</echo>
 
-		<antcall target="clean" />
-		<antcall target="jar" />
-		<ant antfile="res/export/osx/build.xml" inheritRefs="true" />
-	</target>
+		<echo>preparing...</echo>
+		<antcall target="init" />
+		<antcall target="fieldkit" />
+		<antcall target="libraries" />
+		<antcall target="source" />
 
-	<!-- WINDOWS -->
-	<target name="dist.win" depends="jar">
-		<property name="dist.dir" value="${build.dir}/${build.name}-WIN" />
-	</target>
+		<antcall target="compile" />
 
-	<!-- SOURCE -->
-	<target name="dist.src">
-		<property name="dist.dir" value="${build.dir}/${build.name}-SRC" />
+		<echo>creating distributions...</echo>
+		<if>
+			<equals arg1="${dist.osx}" arg2="true" />
+			<then>
+				<ant antfile="osx/build.xml" inheritRefs="true" />
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${dist.win}" arg2="true" />
+			<then>
+				<ant antfile="win/build.xml" inheritRefs="true" />
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${dist.src}" arg2="true" />
+			<then>
+				<ant antfile="src.xml" inheritRefs="true" />
+			</then>
+		</if>
+
+		<echo>done</echo>
 	</target>
 
 	<!-- ================================================ -->
 	<!-- RUN		                                      -->
 	<!-- ================================================ -->
+	<!--
 	<target name="run" depends="compile">
 		<echo>==============================</echo>
 		<echo>Starting ${build.name}...</echo>
@@ -208,4 +241,5 @@
 			</classpath>
 		</java>
 	</target>
+	-->
 </project>

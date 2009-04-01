@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Source" default="dist">
+	<description>
+		creates a source distribution from a project
+    </description>
+
+	<target name="dist">
+		<!-- TODO implement this -->
+	</target>
+</project>

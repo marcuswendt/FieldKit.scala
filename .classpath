@@ -18,6 +18,5 @@
 	<classpathentry kind="lib" path="lib/p5/itext.jar"/>
 	<classpathentry kind="lib" path="lib/p5/opengl.jar"/>
 	<classpathentry kind="lib" path="lib/p5/pdf.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Processing"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

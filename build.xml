@@ -38,10 +38,9 @@
 	<property name="res" value="res" />
 	<property name="build" value="build" />
 	<property name="tmp" value="${build}/tmp" />
-	<property name="dist" value="${build}" />
+	<property name="dist" value="${build}/${project.name}" />
 
-	<property name="jar.path" value="${dist}" />
-	<property name="lib.jar" value="${jar.path}/${project.name}.jar" />
+	<property name="lib.jar" value="${tmp}/${project.name}.jar" />
 	<property name="fatlib.jar" value="${jar.path}/${project.name}.fat.jar" />
 
 	<fileset id="libraries.jar" dir="lib" includes="**/*.jar" />
@@ -50,9 +49,9 @@
          TARGETS
          ================================= -->
 	<target name="init">
-		<!-- <delete dir="${build}" /> -->
 		<delete dir="${tmp}" />
 		<mkdir dir="${tmp}" />
+		<delete dir="${dist}" />
 		<mkdir dir="${dist}" />
 	</target>
 
@@ -77,7 +76,6 @@
 
 	<target name="jar" depends="compile">
 		<echo>building ${lib.jar}</echo>
-		<mkdir dir="${jar.path}" />
 
 		<jar destfile="${lib.jar}" index="true" filesetmanifest="skip">
 			<manifest>
@@ -94,12 +92,17 @@
 		</jar>
 	</target>
 
-	<target name="dist" depends="init">
+	<target name="dist">
 		<echo>----------------------------------------</echo>
 		<echo>building ${project.name} distribution...</echo>
 		<echo>----------------------------------------</echo>
+
 		<antcall target="jar" />
-		<!-- <antcall target="fatjar" /> -->
-		<echo>done</echo>
+
+		<move file="${lib.jar}" todir="${dist}" />
+		<copy todir="${dist}" flatten="true" includeemptydirs="false">
+			<fileset dir="lib" />
+			<fileset file="${scala-library.jar}" />
+		</copy>
 	</target>
 </project>
