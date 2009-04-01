@@ -14,6 +14,9 @@
 		<property name="libraries.jar.dir" value="../" />
 		<property name="libraries.jar.includes" value="hapticscript/lib/*.jar,libP5/core.jar,libP5/opengl.jar,libP5/jogl.jar,libP5/gluegen-rt.jar" />
 	</ant>
+	
+	TODO could implement <outofdate> to improve performance
+	http://ant-contrib.sourceforge.net/tasks/tasks/outofdate.html
 -->
 <!-- ================================================ -->
 <project name="application" default="dist">
@@ -22,9 +25,12 @@
 	<!-- ================================================ -->
 	<!-- PROJECT -->
 	<property name="project.name" value="FieldSketch" />
+	<property name="project.version" value="1.0" />
 	<property name="project.author" value="Marcus Wendt (www.field.io)" />
 	<property name="project.main" value="" />
 	<property name="project.dir" location="./" />
+
+	<property name="clean" value="false" />
 
 	<!-- DISTRIBUTIONS -->
 	<property name="dist.osx" value="true" />
@@ -50,13 +56,17 @@
 	<property name="data.external.includes" value="**" />
 	<property name="data.external.excludes" value="**export**" />
 
-	<!-- BUILD -->
-	<property name="build.name" value="${project.name}" />
-	<property name="build.dir" location="${project.dir}/build" />
+	<!-- TMP -->
 	<property name="tmp.dir" location="./tmp" />
 	<property name="tmp.bin" location="${tmp.dir}/bin" />
 	<property name="tmp.src" location="${tmp.dir}/src" />
 	<property name="tmp.lib" location="${tmp.dir}/lib" />
+
+	<!-- BUILD -->
+	<property name="build.name" value="${project.name}" />
+	<property name="build.dir" location="${project.dir}/build" />
+	<property name="build.jar.name" value="${build.name}.jar" />
+	<property name="build.jar" location="${tmp.dir}/${build.jar.name}" />
 
 	<!-- SYSTEM -->
 	<tstamp>
@@ -78,11 +88,9 @@
 	</path>
 	<fileset id="source.dir.fs" dir="${source.dir}" />
 
-	<!--
-	<fileset id="libraries.fs" dir="${libraries.dir}" includes="${libraries.includes}" />
+	<fileset id="libraries.jar" dir="${tmp.lib}" includes="*.jar" />
 	<fileset id="data.internal" dir="${data.internal.dir}" includes="${data.internal.includes}" excludes="${data.internal.excludes}" />
 	<fileset id="data.external" dir="${data.external.dir}" includes="${data.external.includes}" excludes="${data.external.excludes}" />
-	-->
 
 	<!-- ================================================ -->
 	<!-- LOAD EXTRA TASKS                                 -->
@@ -145,6 +153,22 @@
 		-->
 	</target>
 
+	<target name="jar" description="creates a .jar file from the compiled sources">
+		<!-- create project .jar -->
+		<jar jarfile="${build.jar}" basedir="${tmp.bin}" index="true" filesetmanifest="skip">
+			<manifest>
+				<attribute name="Project" value="${project.name}" />
+				<attribute name="Version" value="${project.version}" />
+				<attribute name="Built-By" value="${project.author}" />
+				<attribute name="Build-Date" value="${system.now}" />
+				<attribute name="Main-Class" value="${project.main}" />
+			</manifest>
+
+			<fileset dir="${tmp.bin}" />
+			<fileset refid="data.internal" />
+		</jar>
+	</target>
+
 	<target name="fieldkit" description="compiles the fieldkit library and copies it to the tmp.lib dir">
 		<echo>compiling fieldkit...</echo>
 		<ant dir="../../">
@@ -190,12 +214,17 @@
 		<echo>-----------------------------------------------------------</echo>
 
 		<echo>preparing...</echo>
-		<antcall target="init" />
-		<antcall target="fieldkit" />
-		<antcall target="libraries" />
+		<if>
+			<equals arg1="${clean}" arg2="true" />
+			<then>
+				<antcall target="init" />
+				<antcall target="fieldkit" />
+				<antcall target="libraries" />
+			</then>
+		</if>
 		<antcall target="source" />
-
 		<antcall target="compile" />
+		<antcall target="jar" />
 
 		<echo>creating distributions...</echo>
 		<if>

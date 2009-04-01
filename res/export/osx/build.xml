@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Builds a Mac OS X Application package
--->
 <project name="OSX" default="dist">
+	<description>Builds a Mac OS X Application package</description>
+
 	<target name="dist">
-		<echo>--------------------------</echo>
-		<echo>Building Mac OS Version...</echo>
-		<echo>--------------------------</echo>
-	
+		<echo>----------------------------</echo>
+		<echo>Building Mac OS X Version...</echo>
+		<echo>----------------------------</echo>
+
+		<!-- prepare -->
 		<property name="dist.dir" value="${build.dir}/${build.name}-OSX" />
 		<property name="dist.app" value="${build.name}.app" />
 		<property name="dist.contents" value="${dist.dir}/${dist.app}/Contents" />
@@ -15,34 +15,47 @@
 		<delete dir="${dist.dir}" />
 		<mkdir dir="${dist.dir}" />
 
-		<!-- copy skeleton and add stuff -->
+		<!-- copy application skeleton -->
 		<copy todir="${dist.dir}/${dist.app}">
-			<fileset dir="${export.dir}/osx/skeleton.app" />
+			<fileset dir="osx/skeleton.app" />
 		</copy>
 
-		<copy todir="${dist.contents}/Resources/" file="${export.dir}/osx/app.icns" />
+		<copy todir="${dist.contents}/Resources/" file="osx/app.icns" />
 
 		<copy todir="${dist.contents}/Resources/Java" flatten="true">
 			<fileset file="${build.jar}" />
-			<!-- <fileset refid="libraries.jar" /> -->
-			<fileset refid="libraries.native">
-				<include name="**/*.jnilib"/>
-				<exclude name="**/*.dll" />
-				<exclude name="**/*.so" />
+			<fileset refid="libraries.jar" />
+			<fileset dir="${tmp.lib}">
+				<include name="*.jnilib" />
+				<include name="*.dylib" />
 			</fileset>
 		</copy>
 
-		<copy todir="${dist.dir}/">
-			<fileset refid="data.external" />
-		</copy>
+		<!-- copy external data -->
+		<available file="${data.external.dir}" type="dir" property="data.external.present" />
+		<if>
+			<equals arg1="${data.external.present}" arg2="true" />
+			<then>
+				<copy todir="${dist.dir}/">
+					<fileset refid="data.external" />
+				</copy>
+			</then>
+		</if>
+
+		<!-- concatenate .jar filenames to colon separated list -->
+		<pathconvert targetos="unix" property="libraries.jar.list" refid="libraries.jar">
+			<map from="${tmp.lib}/" to="$JAVAROOT/" />
+		</pathconvert>
+
+		<property name="project.classpath" value="$JAVAROOT/${build.jar.name}:${libraries.jar.list}" />
 
 		<!-- process Info.plist template -->
-		<envgen destdir="${dist.contents}" overwrite="true" stripFileExtension="false" envPropertiesFile="${export.dir}/lib/envProperties.csv">
-			<source file="${export.dir}/osx/Info.plist" />
+		<envgen destdir="${dist.contents}" overwrite="true" stripFileExtension="false" envPropertiesFile="lib/envProperties.csv">
+			<source file="osx/Info.plist" />
 			<sharedVariable name="buildName" value="${build.name}" />
 			<sharedVariable name="buildVersion" value="${project.version}" />
-			<sharedVariable name="buildJarName" value="${build.jar.name}" />
-			<sharedVariable name="projectMain" value="${project.main}" />
+			<sharedVariable name="buildClassPath" value="${project.classpath}" />
+			<sharedVariable name="buildMain" value="${project.main}" />
 		</envgen>
 
 		<!-- make application executeable -->

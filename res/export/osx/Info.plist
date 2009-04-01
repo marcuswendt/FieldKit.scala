@@ -27,11 +27,11 @@
 		<key>VMOptions</key>
 		<string>-Xms256M -Xmx3G</string>
 		<key>MainClass</key>
-		<string>${projectMain}</string>
+		<string>${buildMain}</string>
 		<key>JVMVersion</key>
 		<string>1.6+</string>
 		<key>ClassPath</key>
-		<string>$JAVAROOT/${buildJarName}:$APP_PACKAGE/:$APP_PACKAGE/../</string>
+		<string>${buildClassPath}</string>
 		<key>Properties</key>
 		<dict>
 			<key>apple.laf.useScreenMenuBar</key>
