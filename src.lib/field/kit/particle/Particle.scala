@@ -29,6 +29,7 @@ class Particle extends Logger {
   
   protected val absVelocity = new Vec3
 
+  // perform euler integration
   def update(dt:Float) {
     age += dt
     
