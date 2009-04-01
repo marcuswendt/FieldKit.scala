@@ -11,6 +11,7 @@
 		<property name="dist.dir" value="${build.dir}/${build.name}-OSX" />
 		<property name="dist.app" value="${build.name}.app" />
 		<property name="dist.contents" value="${dist.dir}/${dist.app}/Contents" />
+		<property name="dist.ressources" value="${dist.contents}/Ressources" />
 
 		<delete dir="${dist.dir}" />
 		<mkdir dir="${dist.dir}" />
@@ -20,9 +21,9 @@
 			<fileset dir="osx/skeleton.app" />
 		</copy>
 
-		<copy todir="${dist.contents}/Resources/" file="osx/app.icns" />
+		<copy todir="${dist.ressources}" file="osx/app.icns" />
 
-		<copy todir="${dist.contents}/Resources/Java" flatten="true">
+		<copy todir="${dist.ressources}/Java" flatten="true">
 			<fileset file="${build.jar}" />
 			<fileset refid="libraries.jar" />
 			<fileset dir="${tmp.lib}">
@@ -31,7 +32,14 @@
 			</fileset>
 		</copy>
 
+		<!-- copy internal data -->
+		<echo>copying internal data...</echo>
+		<copy todir="${dist.ressources}">
+			<fileset refid="data.internal" />
+		</copy>
+
 		<!-- copy external data -->
+		<!--
 		<available file="${data.external.dir}" type="dir" property="data.external.present" />
 		<if>
 			<equals arg1="${data.external.present}" arg2="true" />
@@ -41,13 +49,14 @@
 				</copy>
 			</then>
 		</if>
+		-->
 
 		<!-- concatenate .jar filenames to colon separated list -->
 		<pathconvert targetos="unix" property="libraries.jar.list" refid="libraries.jar">
 			<map from="${tmp.lib}/" to="$JAVAROOT/" />
 		</pathconvert>
 
-		<property name="project.classpath" value="$JAVAROOT/${build.jar.name}:${libraries.jar.list}" />
+		<property name="project.classpath" value="$JAVAROOT/${build.jar.name}:${libraries.jar.list}:$JAVAROOT/../" />
 
 		<!-- process Info.plist template -->
 		<envgen destdir="${dist.contents}" overwrite="true" stripFileExtension="false" envPropertiesFile="lib/envProperties.csv">

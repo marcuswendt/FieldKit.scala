@@ -26,8 +26,10 @@ abstract class Sketch extends PApplet with Logger {
   /**
    * custom initialisation, preventing papplets bad double init behaviour
    */
-  def main(args:Array[String]) = { }
-
+  def main(args:Array[String]):Unit = { 
+    info("main")
+  }
+  
   /** override init to allow specialized initialisation orders */
   def init(width:Int, height:Int):Unit = init(width, height, null)
   
@@ -89,7 +91,7 @@ abstract class Sketch extends PApplet with Logger {
   // --------------------------------------------------------------------
   /* extras */
   def title = logName
-  val pgl = g.asInstanceOf[PGraphicsOpenGL]
+  def pgl = g.asInstanceOf[PGraphicsOpenGL]
   
   var hwidth = 0f
   var hheight = 0f

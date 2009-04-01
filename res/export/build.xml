@@ -30,7 +30,7 @@
 	<property name="project.main" value="" />
 	<property name="project.dir" location="./" />
 
-	<property name="clean" value="false" />
+	<property name="clean" value="true" />
 
 	<!-- DISTRIBUTIONS -->
 	<property name="dist.osx" value="true" />
@@ -48,8 +48,8 @@
 	<property name="libraries.includes" value="*.*" />
 
 	<!-- DATA -->
-	<property name="data.internal.dir" value="." />
-	<property name="data.internal.includes" value="${project.dir}/data/**" />
+	<property name="data.internal.dir" value="${project.dir}" />
+	<property name="data.internal.includes" value="data/**" />
 	<property name="data.internal.excludes" value="" />
 
 	<property name="data.external.dir" value="${project.dir}/res" />
@@ -124,6 +124,7 @@
 		<delete dir="${tmp.dir}" />
 		<mkdir dir="${tmp.bin}" />
 		<mkdir dir="${tmp.lib}" />
+		<mkdir dir="${tmp.src}" />
 		<mkdir dir="${build.dir}" />
 	</target>
 

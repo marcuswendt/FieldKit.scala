@@ -85,10 +85,12 @@
 
 			<fileset dir="${tmp}" />
 
+			<!--
 			<fileset dir="${src}">
 				<include name="**/*.java" />
 				<include name="**/*.scala" />
 			</fileset>
+			-->
 		</jar>
 	</target>
 
