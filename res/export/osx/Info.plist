@@ -29,7 +29,7 @@
 		<key>ClassPath</key>
 		<string>${buildClassPath}</string>
 		<key>JVMVersion</key>
-		<string>1.5+</string>
+		<string>1.6+</string>
 		<key>MainClass</key>
 		<string>${buildMain}</string>
 		<key>Properties</key>

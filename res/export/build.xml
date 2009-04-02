@@ -228,7 +228,8 @@
 		<if>
 			<equals arg1="${dist.osx}" arg2="true" />
 			<then>
-				<ant antfile="osx/build.xml" target="dist" inheritRefs="true" />
+				<!-- <ant antfile="osx/build.xml" target="distFatJar" inheritRefs="true" /> -->
+				<ant antfile="osx/build.xml" inheritRefs="true" />
 			</then>
 		</if>
 

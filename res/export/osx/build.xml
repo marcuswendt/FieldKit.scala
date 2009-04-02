@@ -121,12 +121,10 @@
 		</jar>
 
 		<!-- repack -->
-		<!--
 		<echo>packing jar...</echo>
 		<property name="tmp.jar" value="${dist.tmp}/tmp.jar" />
 		<move file="${fat.jar}" tofile="${tmp.jar}" />
 		<pack200 src="${tmp.jar}" destfile="${fat.jar}" repack="true" />
-		-->
 
 		<!-- copy application skeleton -->
 		<copy todir="${dist.dir}/${dist.app}">
