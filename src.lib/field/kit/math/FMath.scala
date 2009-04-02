@@ -85,4 +85,11 @@ object FMath {
     val exp = Math.pow(10, precision)
     Math.round(value * exp) / exp
   }
+  
+  def clamp(value:Float, min:Float, max:Float) = {
+    var result = value
+    if(result > max) result = max
+    if(result < min) result = min
+    result
+  }
 }

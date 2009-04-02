@@ -8,23 +8,23 @@
 package field.kit.particle
 
 import field.kit.Logger
+import scala.reflect.Manifest
 
 /** represents a group of particles within the system */
-class Flock[P <: Particle](ps:ParticleSystem) extends Logger {
+class Flock[P <: Particle](val ps:ParticleSystem)(implicit m:Manifest[P]) extends Logger {
   import scala.collection.mutable.ArrayBuffer
   fine("init")
   
   var behaviours = new ArrayBuffer[Behaviour]
-  var emitter = new Emitter
+  var emitter = new Emitter[P](this)
   var particles = new ArrayBuffer[P]
 
+  emitter.position(ps.space.center)
+  
   def update(dt:Float) = {
-    // emit new particles
-    val emission = emitter.update(dt)
-    for(i <- 0 until emission) {
-      0
-    }
-    
+    // update emitter / creates new particles
+    emitter.update(dt)
+      
     // prepare behaviours
     behaviours foreach { b => 
       if(b.isEnabled) b.prepare

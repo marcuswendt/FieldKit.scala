@@ -7,23 +7,53 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-/* represents a simple point-emitter */
-class Emitter {
+import field.kit.Logger
+import scala.reflect.Manifest
+
+/** represents a simple point-emitter */
+class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Logger {
   import field.kit.math.Vec3
+  import scala.collection.mutable.ArrayBuffer
+  fine("init")
+  
   var position = new Vec3
   var rate = 1
-  var interval = 100f
+  var interval = 1000f
+
+  var behaviours = new ArrayBuffer[Behaviour]
   
-  var time = 0f
+  // internal
+  protected var time = 0f
   
-  def update(dt:Float) = {
+  def update(dt:Float) {
     time += dt
     
     if(time >= interval) {
       time = 0
-      rate
-    } else {
-      0
+      
+      // emit particels
+      for(i <- 0 until rate) {
+        val p = create
+        p.position(position) 
+        flock += p
+      }
     }
+  }
+  
+  /** instantiates a new object from the parameterized type */
+  def create = {
+    fine("creating new "+ m)
+    val clazz = Class.forName(m.toString)
+    clazz.newInstance.asInstanceOf[P]
+  }
+  
+  // ---------------------------------------------------------------------------
+  // HELPERS
+  // ---------------------------------------------------------------------------
+  def +=(b:Behaviour) = {
+    fine("adding", b)
+    b.flock = flock
+    b.ps = flock.ps
+    behaviours += b
   }
 }

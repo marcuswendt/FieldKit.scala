@@ -13,9 +13,11 @@ import field.kit.Logger
 class ParticleSystem extends Logger {
   import scala.collection.mutable.ArrayBuffer
   fine("init")
+  
   var friction = 0.97f
   var timeStep = 60f
   
+  var space = new Space
   var flocks = new ArrayBuffer[Flock[_]]
   def update(dt:Float) = flocks.foreach(_.update(dt))
   
