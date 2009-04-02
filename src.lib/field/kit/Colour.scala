@@ -13,6 +13,8 @@ class Colour(
   var b:Float,
   var a:Float
 ) extends Logger {
+  import field.kit.math._
+  
   def this() = this(0f,0f,0f,1f)
   def this(r:Float,g:Float,b:Float) = this(r,g,b,1f)
   def this(r:Int,g:Int,b:Int) = this(r/255f,g/255f,b/255f,1f)
@@ -45,6 +47,13 @@ class Colour(
   
   def toInt = argb
   
+  def randomize = {
+    r = Random()
+    g = Random()
+    b = Random()
+    a = Random()
+    this
+  }
   override def toString = "Colour("+ r +", "+ g +", "+ b +", "+ a +")"
 }
 
