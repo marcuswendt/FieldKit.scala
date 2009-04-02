@@ -8,7 +8,7 @@
 package field.kit
 
 /**
- * Implements a flexible Logging System
+ * Implements a flexible Logging System  
  */
 object Logger extends Enumeration {
   val ALL = Value

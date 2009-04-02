@@ -30,8 +30,6 @@
 	<property name="project.main" value="" />
 	<property name="project.dir" location="./" />
 
-	<property name="clean" value="true" />
-
 	<!-- DISTRIBUTIONS -->
 	<property name="dist.osx" value="true" />
 	<property name="dist.win" value="false" />
@@ -102,6 +100,10 @@
 		</classpath>
 	</taskdef>
 
+	<!-- Pack/Unpack200 Tasks -->
+	<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar" />
+	<taskdef name="unpack200" classname="com.sun.tools.apache.ant.pack200.Unpack200Task" classpath="lib/Pack200Task.jar" />
+
 	<!-- load scala ant tasks -->
 	<taskdef resource="scala/tools/ant/antlib.xml">
 		<classpath>
@@ -156,6 +158,7 @@
 
 	<target name="jar" description="creates a .jar file from the compiled sources">
 		<!-- create project .jar -->
+		<!-- http://java.sun.com/j2se/1.5.0/docs/guide/jar/jar.html#Manifest-Overview -->
 		<jar jarfile="${build.jar}" basedir="${tmp.bin}" index="true" filesetmanifest="skip">
 			<manifest>
 				<attribute name="Project" value="${project.name}" />
@@ -166,7 +169,6 @@
 			</manifest>
 
 			<fileset dir="${tmp.bin}" />
-			<fileset refid="data.internal" />
 		</jar>
 	</target>
 
@@ -215,14 +217,9 @@
 		<echo>-----------------------------------------------------------</echo>
 
 		<echo>preparing...</echo>
-		<if>
-			<equals arg1="${clean}" arg2="true" />
-			<then>
-				<antcall target="init" />
-				<antcall target="fieldkit" />
-				<antcall target="libraries" />
-			</then>
-		</if>
+		<antcall target="init" />
+		<antcall target="fieldkit" />
+		<antcall target="libraries" />
 		<antcall target="source" />
 		<antcall target="compile" />
 		<antcall target="jar" />
@@ -231,7 +228,7 @@
 		<if>
 			<equals arg1="${dist.osx}" arg2="true" />
 			<then>
-				<ant antfile="osx/build.xml" inheritRefs="true" />
+				<ant antfile="osx/build.xml" target="dist" inheritRefs="true" />
 			</then>
 		</if>
 

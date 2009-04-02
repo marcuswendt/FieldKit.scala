@@ -3,15 +3,15 @@
 	<description>Builds a Mac OS X Application package</description>
 
 	<target name="dist">
-		<echo>----------------------------</echo>
-		<echo>Building Mac OS X Version...</echo>
-		<echo>----------------------------</echo>
+		<echo>---------------------------------</echo>
+		<echo>Building Mac OS X Distribution...</echo>
+		<echo>---------------------------------</echo>
 
 		<!-- prepare -->
 		<property name="dist.dir" value="${build.dir}/${build.name}-OSX" />
 		<property name="dist.app" value="${build.name}.app" />
 		<property name="dist.contents" value="${dist.dir}/${dist.app}/Contents" />
-		<property name="dist.ressources" value="${dist.contents}/Ressources" />
+		<property name="dist.resources" value="${dist.contents}/Resources" />
 
 		<delete dir="${dist.dir}" />
 		<mkdir dir="${dist.dir}" />
@@ -21,9 +21,9 @@
 			<fileset dir="osx/skeleton.app" />
 		</copy>
 
-		<copy todir="${dist.ressources}" file="osx/app.icns" />
+		<copy todir="${dist.resources}" file="osx/app.icns" />
 
-		<copy todir="${dist.ressources}/Java" flatten="true">
+		<copy todir="${dist.resources}/Java" flatten="true">
 			<fileset file="${build.jar}" />
 			<fileset refid="libraries.jar" />
 			<fileset dir="${tmp.lib}">
@@ -34,12 +34,11 @@
 
 		<!-- copy internal data -->
 		<echo>copying internal data...</echo>
-		<copy todir="${dist.ressources}">
+		<copy todir="${dist.resources}">
 			<fileset refid="data.internal" />
 		</copy>
 
 		<!-- copy external data -->
-		<!--
 		<available file="${data.external.dir}" type="dir" property="data.external.present" />
 		<if>
 			<equals arg1="${data.external.present}" arg2="true" />
@@ -49,7 +48,6 @@
 				</copy>
 			</then>
 		</if>
-		-->
 
 		<!-- concatenate .jar filenames to colon separated list -->
 		<pathconvert targetos="unix" property="libraries.jar.list" refid="libraries.jar">
@@ -70,7 +68,118 @@
 		<!-- make application executeable -->
 		<exec executable="chmod">
 			<arg value="+x" />
-			<arg value="${dist.contents}/MacOS/JavaApplicationStub" />
+			<arg value="${dist.contents}/MacOS/FieldApp" />
 		</exec>
 	</target>
+
+	<target name="distFatJar">
+		<echo>---------------------------------</echo>
+		<echo>Building Mac OS X Distribution...</echo>
+		<echo>---------------------------------</echo>
+
+		<!-- prepare -->
+		<property name="dist.dir" value="${build.dir}/${build.name}-OSX" />
+		<property name="dist.app" value="${build.name}.app" />
+		<property name="dist.contents" value="${dist.dir}/${dist.app}/Contents" />
+		<property name="dist.resources" value="${dist.contents}/resources" />
+		<property name="dist.tmp" value="${tmp.dir}/osx" />
+
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+
+		<!-- make fat jar -->
+		<mkdir dir="${dist.tmp}" />
+		<property name="fat.jar.name" value="app.jar" />
+		<property name="fat.jar" value="${dist.tmp}/${fat.jar.name}" />
+
+		<!-- extract all library .jars -->
+		<unzip dest="${dist.tmp}">
+			<patternset>
+				<exclude name="**test**" />
+				<exclude name="**Test**" />
+			</patternset>
+			<fileset refid="libraries.jar" />
+		</unzip>
+
+		<!-- remove any existing manifests -->
+		<delete dir="${dist.tmp}/META-INF" />
+		<delete file="${dist.tmp}/library.properties" />
+
+		<!-- create new 'fat' .jar -->
+		<jar jarfile="${fat.jar}" basedir="${dist.tmp}" index="true" filesetmanifest="skip">
+			<manifest>
+				<attribute name="Project" value="${project.name}" />
+				<attribute name="Version" value="${project.version}" />
+				<attribute name="Built-By" value="${project.author}" />
+				<attribute name="Build-Date" value="${system.now}" />
+				<attribute name="Main-Class" value="${project.main}" />
+			</manifest>
+
+			<fileset dir="${dist.tmp}" />
+			<fileset dir="${tmp.bin}" />
+			<fileset refid="data.internal" />
+		</jar>
+
+		<!-- repack -->
+		<!--
+		<echo>packing jar...</echo>
+		<property name="tmp.jar" value="${dist.tmp}/tmp.jar" />
+		<move file="${fat.jar}" tofile="${tmp.jar}" />
+		<pack200 src="${tmp.jar}" destfile="${fat.jar}" repack="true" />
+		-->
+
+		<!-- copy application skeleton -->
+		<copy todir="${dist.dir}/${dist.app}">
+			<fileset dir="osx/skeleton.app" />
+		</copy>
+
+		<copy todir="${dist.resources}" file="osx/app.icns" />
+
+		<copy todir="${dist.resources}/Java" flatten="true">
+			<fileset file="${fat.jar}" />
+			<fileset dir="${tmp.lib}">
+				<include name="*.jnilib" />
+				<include name="*.dylib" />
+			</fileset>
+		</copy>
+
+		<!-- copy internal data -->
+		<!--
+		<echo>copying internal data...</echo>
+		<copy todir="${dist.resources}">
+			<fileset refid="data.internal" />
+		</copy>
+		-->
+
+		<!-- copy external data -->
+		<available file="${data.external.dir}" type="dir" property="data.external.present" />
+		<if>
+			<equals arg1="${data.external.present}" arg2="true" />
+			<then>
+				<copy todir="${dist.dir}/">
+					<fileset refid="data.external" />
+				</copy>
+			</then>
+		</if>
+
+		<!-- concatenate .jar filenames to colon separated list -->
+		<property name="project.classpath" value="$JAVAROOT/${fat.jar.name}" />
+
+		<!-- process Info.plist template -->
+		<envgen destdir="${dist.contents}" overwrite="true" stripFileExtension="false" envPropertiesFile="lib/envProperties.csv">
+			<source file="osx/Info.plist" />
+			<sharedVariable name="buildName" value="${build.name}" />
+			<sharedVariable name="buildVersion" value="${project.version}" />
+			<sharedVariable name="buildClassPath" value="${project.classpath}" />
+			<sharedVariable name="buildMain" value="${project.main}" />
+		</envgen>
+
+		<!-- make application executeable -->
+		<exec executable="chmod">
+			<arg value="+x" />
+			<arg value="${dist.contents}/MacOS/FieldApp" />
+		</exec>
+	</target>
+
+
 </project>
