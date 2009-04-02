@@ -31,11 +31,22 @@ class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Log
     if(time >= interval) {
       time = 0
       
+      // prepare behaviours
+      behaviours foreach { b => 
+      	if(b.isEnabled) b.prepare
+      }
+    
       // emit particels
       for(i <- 0 until rate) {
+        // create particle
         val p = create
         p.position(position) 
         flock += p
+        
+        // apply behaviours      
+        behaviours foreach { b =>
+        	if(b.isEnabled) b.apply(p,dt)
+        }
       }
     }
   }
