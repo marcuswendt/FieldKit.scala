@@ -12,12 +12,16 @@ abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
   import java.nio.FloatBuffer
+  import java.nio.IntBuffer
   
   var colour = new Colour(1,1,1)
-  var vertices:FloatBuffer = null
-  var texCoords:FloatBuffer = null
-  var colours:FloatBuffer = null
+  var vertices:FloatBuffer = _
+  var texCoords:FloatBuffer = _
+  var colours:FloatBuffer = _
+  var indices:IntBuffer = _
   var size = 0
+  
+  var useIndices = false
   
   def allocate(size:Int) {
     import field.kit.util.BufferUtil
@@ -25,6 +29,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
     vertices = BufferUtil.vec3(size)
     texCoords = BufferUtil.vec2(size)
     colours = BufferUtil.colour(size)
+    if(useIndices) indices = BufferUtil.int(size)
     solidColour(colour)
   }
   

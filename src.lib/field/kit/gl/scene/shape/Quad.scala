@@ -7,13 +7,15 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene.shape
 
+import field.kit.gl.scene._
+
 /** a simple quadrilateral often used for billboards, shaders, etc */
 object Quad extends Enumeration {
   val TOP_LEFT = Value
   val CENTER = Value
 }
 
-class Quad(name:String, mode:Quad) extends TriMesh(name) {
+class Quad(name:String, mode:Quad.Value) extends TriMesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
   

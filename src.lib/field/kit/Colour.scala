@@ -65,4 +65,8 @@ object Colour {
 //  
   val BLACK = new Colour(0)
   val WHITE = new Colour(1)
+  
+  val RED = new Colour(1f, 0f, 0f)
+  val GREEN = new Colour(0f, 1f, 0f)
+  val BLUE = new Colour(0f, 0f, 1f)
 }

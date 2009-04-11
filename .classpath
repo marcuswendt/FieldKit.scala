@@ -13,10 +13,14 @@
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JOGL"/>
-	<classpathentry kind="lib" path="lib/p5/core.jar"/>
-	<classpathentry kind="lib" path="lib/p5/itext.jar"/>
-	<classpathentry kind="lib" path="lib/p5/opengl.jar"/>
-	<classpathentry kind="lib" path="lib/p5/pdf.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/JOGL">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FieldKit/lib/jogl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/p5/itext.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/p5/opengl.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/p5/pdf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

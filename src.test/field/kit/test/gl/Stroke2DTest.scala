@@ -10,10 +10,10 @@ package field.kit.test.gl
 import field.kit._
 
 /** test to make sure the DynamicStroke2D is working properly */
-object DynamicStrokeTest extends Sketch {
+object Stroke2DTest extends Sketch {
   import field.kit.gl.scene.shape._
   
-  var stroke = new DynamicStroke2D("test", 1000)
+  var stroke = new Stroke2D("test", 1000)
   var time = 0f
   
   init(1024, 768)
@@ -44,13 +44,13 @@ object DynamicStrokeTest extends Sketch {
     
     // draw outline
     for(i <- 0 until stroke.length) {
-      var index = stroke.outlineIndex(DynamicStroke2D.Side.LEFT, i)
+      var index = stroke.outlineIndex(Stroke2D.Side.LEFT, i)
       fill(255, 0, 0)
       rect( stroke.outline.get(index), 
             stroke.outline.get(index+1), 
             2, 2)
       
-      index = stroke.outlineIndex(DynamicStroke2D.Side.RIGHT, i)
+      index = stroke.outlineIndex(Stroke2D.Side.RIGHT, i)
       fill(0, 255, 0)
       rect( stroke.outline.get(index), 
             stroke.outline.get(index+1), 

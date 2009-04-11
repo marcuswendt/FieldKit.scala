@@ -5,11 +5,12 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 24, 2009 */
-package field.kit.gl.scene
+package field.kit.gl.scene.shape
 
 /** base class for all triangle meshes */
 class TriMesh(name:String) extends Geometry(name) {
   import javax.media.opengl.GL
+  
   var glGeometryMode = GL.GL_TRIANGLES
   
   def render {
@@ -26,7 +27,12 @@ class TriMesh(name:String) extends Geometry(name) {
       gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, texCoords)
       gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
       gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
-      gl.glDrawArrays(glGeometryMode, 0, size)
+      
+      if(useIndices) {
+        gl.glDrawElements(glGeometryMode, size, GL.GL_UNSIGNED_INT, indices)
+      } else {
+        gl.glDrawArrays(glGeometryMode, 0, size)
+      }
 
       gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
       gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
