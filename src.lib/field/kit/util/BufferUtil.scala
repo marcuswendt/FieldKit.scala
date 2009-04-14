@@ -31,4 +31,5 @@ object BufferUtil {
   def colour(size:Int) = float(size * 4)
   
   def put(buf:FloatBuffer, src:Float*) = buf.put(src.toArray)
+  def put(buf:IntBuffer, src:Int*) = buf.put(src.toArray)
 }

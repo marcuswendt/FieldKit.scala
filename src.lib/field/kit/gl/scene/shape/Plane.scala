@@ -14,6 +14,7 @@ import field.kit._
 class Plane(name:String) extends TriMesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
+  import field.kit.math.FMath
   
   var width:Float = _
   var height:Float = _
@@ -21,23 +22,24 @@ class Plane(name:String) extends TriMesh(name) {
   var cols:Int = _
   
   //glGeometryMode = GL.GL_TRIANGLES
-  glGeometryMode = GL.GL_QUADS
+//  glGeometryMode = GL.GL_QUADS
+  useIndices = true
  
   // init defaults
   init(2,2)
   resize(1f, 1f)
   
   /** auxilliary constructor */
-  def this(name:String, _width:Float, _height:Float, _rows:Int, _cols:Int) = {
+  def this(name:String, _width:Float, _height:Float, _cols:Int, _rows:Int) = {
     this(name)
-    init(_rows, _cols)
+    init(_cols, _rows)
     resize(_width, _height)
   }
   
   /** auxilliary constructor */
-  def this(name:String, _rows:Int, _cols:Int) = {
+  def this(name:String, _cols:Int, _rows:Int) = {
     this(name)
-    init(_rows, _cols)
+    init(_cols, _rows)
   }
   
   /** auxilliary constructor */
@@ -46,11 +48,33 @@ class Plane(name:String) extends TriMesh(name) {
     resize(_width, _height)
   }
   
+  override def indicesCount = (cols-1) * (rows-1) * 2 * 3
+  
   /** initializes the buffers for the given number of rows and cols */
-  def init(_rows:Int, _cols:Int) {
-	this.rows = _rows
-	this.cols = _cols
-	allocate(rows * cols)
+  def init(_cols:Int, _rows:Int) {
+    def index(x:Int, y:Int) = y * rows + x
+    
+	this.cols = FMath.max(1, _cols)
+    this.rows = FMath.max(1, _rows)
+	allocate(cols * rows)
+ 
+	// statically initialize shared vertices
+	// adds two triangles per cell 
+    indices.clear
+	for(y <- 0 until (cols-1)) {
+	  for(x <- 0 until (rows-1)) {
+	    // triangle a
+	    BufferUtil.put(indices, index(x, y))
+	    BufferUtil.put(indices, index(x + 1, y + 1))
+        BufferUtil.put(indices, index(x, y + 1))
+        
+        // triangle b
+	    BufferUtil.put(indices, index(x, y))
+	    BufferUtil.put(indices, index(x + 1, y + 1))
+        BufferUtil.put(indices, index(x + 1, y))
+	  }
+	}
+	indices.rewind
   }
   
   /** sets the width and height and recalculates the vertex and texture coordinates
@@ -60,8 +84,6 @@ class Plane(name:String) extends TriMesh(name) {
     this.width = _width
     this.height = _height
     
-    println("resize w"+ width +" h"+ height +" rows "+ rows +" cols "+ cols)
-    
     vertices.rewind
     texCoords.rewind
     
@@ -69,8 +91,6 @@ class Plane(name:String) extends TriMesh(name) {
       for(x <- 0 until rows) {
         val u = (x / (rows.asInstanceOf[Float]-1)) * width
         val v = (y / (cols.asInstanceOf[Float]-1)) * height
-        
-        println("x "+ x +" y "+ y +" u "+ u +" v "+ v)
         
         BufferUtil.put(vertices, u, v, 0.0f)
         BufferUtil.put(texCoords, u, v)
@@ -80,7 +100,4 @@ class Plane(name:String) extends TriMesh(name) {
     vertices.rewind
     texCoords.rewind
   }
-  
-  /** TODO could do a boundary check here */
-  def index(x:Int, y:Int) = y * rows + x
 }

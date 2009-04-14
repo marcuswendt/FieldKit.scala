@@ -21,16 +21,17 @@ abstract class Geometry(name:String) extends Spatial(name) {
   var indices:IntBuffer = _
   var size = 0
   
-  var useIndices = false
-  
+  protected var useIndices = false
+  protected def indicesCount = 0 // change this if you're using indices & dont use triangles
+    
   def allocate(size:Int) {
     import field.kit.util.BufferUtil
     this.size = size
     vertices = BufferUtil.vec3(size)
     texCoords = BufferUtil.vec2(size)
     colours = BufferUtil.colour(size)
-    if(useIndices) indices = BufferUtil.int(size)
     solidColour(colour)
+    if(useIndices) indices = BufferUtil.int(indicesCount)
   }
   
   override def renderPre {
