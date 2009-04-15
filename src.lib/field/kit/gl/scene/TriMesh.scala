@@ -34,15 +34,6 @@ class TriMesh(name:String) extends Geometry(name) {
         gl.glDrawArrays(glGeometryMode, 0, size)
       }
       
-      // ----
-      // debug
-      gl.glPointSize(8f)
-//      gl.glEnable(GL.GL_BLEND)
-      gl.glDisableClientState(GL.GL_COLOR_ARRAY)
-      gl.glColor4f(1f, 0, 0, 0.5f)
-      gl.glDrawElements(GL.GL_POINTS, indicesCount, GL.GL_UNSIGNED_INT, indices)
-//      gl.glDisable(GL.GL_BLEND)
-      
       gl.glDisableClientState(GL.GL_COLOR_ARRAY)
       gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
       gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)

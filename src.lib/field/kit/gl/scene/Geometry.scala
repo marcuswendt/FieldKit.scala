@@ -11,8 +11,11 @@ package field.kit.gl.scene
 abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
+  import field.kit.gl.render.RenderState
+  
   import java.nio.FloatBuffer
   import java.nio.IntBuffer
+  import scala.collection.mutable.ArrayBuffer
   
   var colour = new Colour(1,1,1)
   var vertices:FloatBuffer = _
@@ -20,6 +23,8 @@ abstract class Geometry(name:String) extends Spatial(name) {
   var colours:FloatBuffer = _
   var indices:IntBuffer = _
   var size = 0
+  
+  var states = new ArrayBuffer[RenderState]
   
   protected var useIndices = false
   protected def indicesCount = 0 // change this if you're using indices & dont use triangles
@@ -38,23 +43,11 @@ abstract class Geometry(name:String) extends Spatial(name) {
     super.renderPre
     gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
   }
+
+  // Render States
+  def enableStates = states foreach(_.enable(this))
   
-  // TODO add renderstate management!
-  def applyStates {
-    // TODO implement this
-  }
-  
-  def disableStates {
-    // TODO implement this
-  }
-  
-  def addRenderState() {
-    // TODO implement this
-  }
-  
-  def removeRenderState() {
-    // TODO implement this
-  }
+  def disableStates = states foreach(_.disable(this))
   
   def solidColour(c:Colour) {
     colour.set(c)
