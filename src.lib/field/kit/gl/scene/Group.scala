@@ -7,21 +7,10 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.render.Renderable
+import field.kit.gl.render.Drawable
+import field.kit.structure.graph.Branch
 
-/** a node is a basic scene graph element that can have children **/
-class Node[T <: Renderable](name:String) extends Spatial(name) {
-  import scala.collection.mutable.ArrayBuffer
-  var children = new ArrayBuffer[T]()
-  
-  def render {
-    if(isVisible) {
-      renderPre
-      children foreach(_.render)
-      renderPost
-    }
-  }
-  
-  def +=(child:T) = children += child
-  def -=(child:T) = children -= child
+/** basic scene-graph element that contains a group of spatials **/
+class Group(name:String) extends Branch[Spatial](name) with Drawable {
+  def draw = children foreach(_.render)
 }

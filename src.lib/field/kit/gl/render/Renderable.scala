@@ -12,11 +12,14 @@ trait Renderable {
   import javax.media.opengl.GL
   import javax.media.opengl.GLContext
   
-  var isVisible = true
-  
-  def toggleVisibility = isVisible = !isVisible
-
   def gl = GLContext.getCurrent.getGL
-  
-  def render:Unit
+  def render
+}
+
+trait Drawable extends Renderable {
+  var isVisible = true
+  def toggleVisibility = isVisible = !isVisible
+    
+  def render = if(isVisible) draw
+  def draw
 }

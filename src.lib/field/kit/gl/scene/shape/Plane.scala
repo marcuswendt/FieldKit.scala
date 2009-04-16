@@ -11,7 +11,7 @@ import field.kit.gl.scene._
 import field.kit._
 
 /** implements a planeoid mesh with variable subdivisions along its two axes */
-class Plane(name:String) extends TriMesh(name) {
+class Plane(name:String) extends Mesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
   import field.kit.math.FMath

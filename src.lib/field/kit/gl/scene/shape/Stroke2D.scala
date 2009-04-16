@@ -232,7 +232,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   //
   // Render
   //
-  def render {
+  def draw {
     import javax.media.opengl.GL
     
     gl.glPushMatrix
@@ -240,7 +240,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
     gl.glScalef(scale.x, scale.y, scale.z)
     gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
     
-    applyStates
+    enableStates
     
     // enable gl vertex & texture coord arrays
     gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
@@ -250,6 +250,9 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
     gl.glDrawArrays(GL.GL_QUAD_STRIP, 0, length * 2)
     
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
+    
+    disableStates
+    
     gl.glPopMatrix
   }
 }

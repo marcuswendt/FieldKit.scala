@@ -4,15 +4,13 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created March 24, 2009 */
-package field.kit.gl.render
+/* created April 15, 2009 */
+package field.kit.structure.graph
 
-/** base class for all render states */
-abstract class RenderState extends Renderable {
-  import field.kit.gl.scene.Geometry
-  
-  def enable(geo:Geometry)
-  def disable(geo:Geometry)
-  
-  final override def render {}
+/** 
+ * a special node that has a number of children
+ */
+class Branch[T <: Node](name:String) extends Node(name) {
+  import scala.collection.mutable.ArrayBuffer
+  var children = new ArrayBuffer[T]
 }

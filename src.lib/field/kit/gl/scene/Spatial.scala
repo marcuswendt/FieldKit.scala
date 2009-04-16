@@ -7,28 +7,32 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.render.Renderable
+import field.kit.gl.render.Drawable
+import field.kit.structure.graph.Node
 
 /** base class for all scene-graph elements */
-abstract class Spatial(var name:String) extends Renderable {
+abstract class Spatial(name:String) extends Node(name) with Drawable {
   import field.kit.math._
   
   var translation = new Vec3
   var scale = new Vec3(1,1,1)
   var rotation = new Vec3
   
-  def renderPre {
-    gl.glPushMatrix
-    gl.glTranslatef(translation.x, translation.y, translation.z)
+  override def render {
+    if(isVisible) {
+      gl.glPushMatrix
+      gl.glTranslatef(translation.x, translation.y, translation.z)
     
-    gl.glRotatef(rotation.x, 1.0f, 0.0f, 0.0f)
-    gl.glRotatef(rotation.y, 0.0f, 1.0f, 0.0f)
-    gl.glRotatef(rotation.z, 0.0f, 0.0f, 1.0f)
+      gl.glRotatef(rotation.x, 1.0f, 0.0f, 0.0f)
+      gl.glRotatef(rotation.y, 0.0f, 1.0f, 0.0f)
+      gl.glRotatef(rotation.z, 0.0f, 0.0f, 1.0f)
     
-    gl.glScalef(scale.x, scale.y, scale.z)
-  }
-  
-  def renderPost {
-    gl.glPopMatrix
+      gl.glScalef(scale.x, scale.y, scale.z)
+      
+      // draw the actual object
+      draw
+      
+      gl.glPopMatrix  
+    }
   }
 }

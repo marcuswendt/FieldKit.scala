@@ -7,6 +7,8 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
+import field.kit.structure.graph.Node
+
 /** base class for all geometric objects in the scene-graph */
 abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
@@ -38,13 +40,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
     solidColour(colour)
     if(useIndices) indices = BufferUtil.int(indicesCount)
   }
-  
-  override def renderPre {
-    super.renderPre
-    gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
-  }
 
-  // Render States
   def enableStates = states foreach(_.enable(this))
   
   def disableStates = states foreach(_.disable(this))

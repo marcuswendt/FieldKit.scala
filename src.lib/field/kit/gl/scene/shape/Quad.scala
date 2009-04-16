@@ -15,7 +15,7 @@ object Quad extends Enumeration {
   val CENTER = Value
 }
 
-class Quad(name:String, mode:Quad.Value) extends TriMesh(name) {
+class Quad(name:String, mode:Quad.Value) extends Mesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
   
