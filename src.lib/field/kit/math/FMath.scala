@@ -49,6 +49,9 @@ object FMath {
   def min(a:Int, b:Int) = if(a > b) b else a
   def min(a:Float, b:Float) = if(a > b) b else a
 
+  def floor(n:Float) = Math.floor(n).asInstanceOf[Float]
+  def ceil(n:Float) = Math.ceil(n).asInstanceOf[Float]
+  
   // --------------------------------------------------------------------------
   // trigonomentry
   // --------------------------------------------------------------------------
@@ -85,6 +88,8 @@ object FMath {
     val exp = Math.pow(10, precision)
     Math.round(value * exp) / exp
   }
+  
+  def clamp(value:Float):Float = clamp(value, 0f, 1f)
   
   def clamp(value:Float, min:Float, max:Float) = {
     var result = value

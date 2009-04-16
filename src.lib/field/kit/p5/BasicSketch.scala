@@ -80,6 +80,7 @@ abstract class BasicSketch extends PApplet with Logger {
    * so we redefine them here again to keep the code concise
    */
   val SCREEN = PConstants.SCREEN
+  val CENTER = PConstants.CENTER
   
   // --------------------------------------------------------------------
   /* extras */

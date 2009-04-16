@@ -7,14 +7,17 @@
 /* created March 07, 2009 */
 package field.kit.math
 
+// —————————————————————————————————————————————————————————————————————————————
+// Base classes
+// —————————————————————————————————————————————————————————————————————————————
 /**
- * Base Class for all Vectors 
+ * Base class for all Vectors 
  */
 abstract class Vector[T](val size:Int) extends Collection[T] {
 }
 
 /**
- * Base Class for all Float Vector Types
+ * Base class for all Float Vector Types
  */
 abstract class VecF(size:Int) extends Vector[Float](size) {
   def +=(s:Float)
@@ -34,9 +37,12 @@ abstract class VecF(size:Int) extends Vector[Float](size) {
       this /= l
     else
       this /= 1
+    this
   }
 }
 
+
+// —————————————————————————————————————————————————————————————————————————————
 /**
  * 2 Dimensional Float Vector
  */
@@ -74,8 +80,8 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   def set(v:Vec2) = {this.x=v.x; this.y=v.y; this}
   def set(buffer:FloatBuffer, index:Int) = {
     val i = index * 2
-    this.x = buffer.get(i)
-    this.y = buffer.get(i + 1)
+    this.x = buffer get i
+    this.y = buffer get i+1
     this
   }
 
@@ -143,6 +149,8 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   override def toString = "Vec2("+ x +","+ y+")"
 }
 
+
+// —————————————————————————————————————————————————————————————————————————————
 /**
  * 3 Dimensional Float Vector
  */
@@ -158,6 +166,8 @@ object Vec3 {
 }
 
 class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
+  import java.nio.FloatBuffer
+  
   def this() = this(0,0,0)
   def this(v:Vec2) = this(v.x, v.y, 0)
   def this(v:Vec3) = this(v.x, v.y, v.z)
@@ -167,6 +177,22 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   
   def set(x:Float, y:Float, z:Float) = { this.x=x; this.y=y; this.z=z; this }
   def set(v:Vec3) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
+  
+  def set(buffer:FloatBuffer, index:Int) = {
+    val i = index * 3
+    this.x = buffer get i
+    this.y = buffer get i + 1
+    this.z = buffer get i + 2
+    this
+  }
+
+  def put(buffer:FloatBuffer, index:Int) = {
+    val i = index * 2
+    buffer put (i, x)
+    buffer put (i+1, y)
+    buffer put (i+2, z)
+    this    
+  }
   
   def zero = set(0,0,0)
   
