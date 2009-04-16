@@ -13,4 +13,7 @@ package field.kit.structure.graph
 class Branch[T <: Node](name:String) extends Node(name) {
   import scala.collection.mutable.ArrayBuffer
   var children = new ArrayBuffer[T]
+  
+  def +=(child:T) = children += child
+  def -=(child:T) = children -= child
 }
