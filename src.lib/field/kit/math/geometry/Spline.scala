@@ -20,39 +20,7 @@ package field.kit.math.geometry
 class Spline(capacity:Int) extends Curve(capacity) {
   import field.kit.math._
   
-//  /** determines how the curve fits to the vertex points */
-//  protected var _tightness = 0f
-//  tightness(0)
-//  
-//  protected var basisMat = new Mat4
-//  protected var drawMat = new Mat4
-  
-  /** alternative constructor */
-  def this() = this(100)
-
-//  def tightness(s:Float) {
-//    _tightness = s
-//    basisMat.set((s-1)/2f, (s+3)/2f,  (-3-s)/2f, (1-s)/2f,
-//                 (1-s),    (-5-s)/2f, (s+2),     (s-1)/2f,
-//                 (s-1)/2f, 0,         (1-s)/2f,  0,
-//                 0,        1,         0,         0)
-//
-//  }
-//  
-//  def segment = {
-//    
-//  }
-  
-  override def +=(x:Float, y:Float, z:Float) {
-    super.+=(x,y,z)
-    update
-  }
-  
-  override def clear {
-    super.clear
-    update
-  }
-  
+  // internal fields used for calculating points on the curve
   private val tmp0 = new Vec3
   private val tmp1 = new Vec3
   private val tmp2 = new Vec3
@@ -64,7 +32,24 @@ class Spline(capacity:Int) extends Curve(capacity) {
   private val beforeLast = new Vec3
   private val last = new Vec3
   
+  private var needsUpdate = false
+  
+  /** alternative constructor */
+  def this() = this(100)
+  
+  override def +=(x:Float, y:Float, z:Float) {
+    super.+=(x,y,z)
+    needsUpdate = true
+  }
+  
+  override def clear {
+    super.clear
+    needsUpdate = true
+  }
+  
+  /** needs to be called when modifcations to the control vertices were made */
   def update {
+    needsUpdate = false
     vertex(0, first)
     vertex(1, second)
     vertex(size-2, beforeLast)
@@ -82,61 +67,63 @@ class Spline(capacity:Int) extends Curve(capacity) {
    */
   def point(time:Float, p:Vec3) = {
     if(size > 0) {
-	    // first point
-	    if(time < 0) {
-	      p(first)
-	    
-	    // last point
-	    } else if(time > 1) {
-	      p(last)
-	    
-	    // in between
-	    } else {
-	      val partPercentage = 1.0f / (size - 1)
-	      val timeBetween = time / partPercentage
-	      var i = FMath.floor(timeBetween).asInstanceOf[Int]
-	      
-	      val normalizedTime = timeBetween - i;
-       
-	      val t = normalizedTime * 0.5f
-	      val t2 = t * normalizedTime
-	      val t3 = t2 * normalizedTime
-	      i -= 1
-	      
-	      if(i == -1) {
-			tmp0(second).-=(first).normalize.*=(0.000001f)
-			tmp1(first) -= tmp0
-	      } else {
-	        tmp1.set(vertices, i)
-	      }
-	      
-	      i += 1
-	      tmp2.set(vertices, i)
-	      
-	      i += 1
-	      tmp3.set(vertices, i)
-	      
-	      i += 1
-	      if(i == size) {
-	        tmp0(beforeLast).-=(last).normalize.*=(0.000001f)
-			tmp4(last) -= tmp0
-	      } else {
-	        tmp4.set(vertices, i)
-	      }
-	   
-	      // calculate point
-	      tmp1 *= -t3 + 2 * t2 -t
-	      p(tmp1)
-       
-	      tmp2 *= 3 * t3 - 5 * t2 + 1
-	      p += tmp2
-       		      
-	      tmp3 *= -3 * t3 + 4 * t2 + t
-	      p += tmp3
-
-	      tmp4 *= t3 - t2
-	      p += tmp4
-	    }
+      if(needsUpdate) update
+      
+      // first point
+      if(time < 0) {
+        p(first)
+        
+      // last point
+      } else if(time > 1) {
+        p(last)
+        
+      // in between
+      } else {
+        val partPercentage = 1.0f / (size - 1)
+        val timeBetween = time / partPercentage
+        var i = FMath.floor(timeBetween).asInstanceOf[Int]
+        
+        val normalizedTime = timeBetween - i
+        
+        val t = normalizedTime * 0.5f
+        val t2 = t * normalizedTime
+        val t3 = t2 * normalizedTime
+        i -= 1
+        
+        if(i == -1) {
+          tmp0(second).-=(first).normalize.*=(0.000001f)
+          tmp1(first) -= tmp0
+        } else {
+          tmp1.set(vertices, i)
+        }
+        
+        i += 1
+        tmp2.set(vertices, i)
+        
+        i += 1
+        tmp3.set(vertices, i)
+        
+        i += 1
+        if(i == size) {
+          tmp0(beforeLast).-=(last).normalize.*=(0.000001f)
+          tmp4(last) -= tmp0
+        } else {
+          tmp4.set(vertices, i)
+        }
+        
+        // calculate point
+        tmp1 *= -t3 + 2 * t2 -t
+        p(tmp1)
+        
+        tmp2 *= 3 * t3 - 5 * t2 + 1
+        p += tmp2
+        
+        tmp3 *= -3 * t3 + 4 * t2 + t
+        p += tmp3
+        
+        tmp4 *= t3 - t2
+        p += tmp4
+      }
     }
     p
   }

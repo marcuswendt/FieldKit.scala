@@ -40,7 +40,15 @@ abstract class Geometry(name:String) extends Spatial(name) {
     solidColour(colour)
     if(useIndices) indices = BufferUtil.int(indicesCount)
   }
-
+  
+  def clear {
+    this.size = 0
+    vertices.clear
+    texCoords.clear
+    colours.clear
+    if(useIndices) indices.clear
+  }
+  
   def enableStates = states foreach(_.enable(this))
   
   def disableStates = states foreach(_.disable(this))

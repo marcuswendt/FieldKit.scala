@@ -11,7 +11,6 @@ package field.kit.math
  * various helpers
  */
 object FMath {
-  
   // --------------------------------------------------------------------------
   // implements various interpolation and easing functions
   // @see http://en.wikipedia.org/wiki/Interpolation

@@ -111,7 +111,8 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   }
   
   /** resets this stroke */
-  def clear {
+  override def clear {
+    super.clear
     length = 0
     points.rewind
     weights.rewind

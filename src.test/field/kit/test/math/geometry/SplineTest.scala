@@ -9,6 +9,7 @@ package field.kit.test.math.geometry
 
 import field.kit._
 
+/** test for the spline math class */
 object SplineTest extends Sketch {
   import field.kit.math.geometry.Spline
   import field.kit.math._
@@ -20,13 +21,8 @@ object SplineTest extends Sketch {
   def render {
     background(235)
     
-//    // draw mouse
-//    noStroke
-//    fill(0)
-//    rectMode(CENTER)
-//    rect(mouseX, mouseY, 3, 3)
-    
     // draw spline vertices
+    noStroke
     fill(255,0,0)
     val v = new Vec3
     for(i <- 0 until s.size) {

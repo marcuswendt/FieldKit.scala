@@ -91,6 +91,11 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     buffer.put(i + 1, y)
     this    
   }
+  def put(buffer:FloatBuffer) = {
+    buffer put x
+    buffer put y
+    this    
+  }
   
   def zero = set(0,0)
   
@@ -191,6 +196,12 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     buffer put (i, x)
     buffer put (i+1, y)
     buffer put (i+2, z)
+    this    
+  }
+  def put(buffer:FloatBuffer) = {
+    buffer put x
+    buffer put y
+    buffer put z
     this    
   }
   
