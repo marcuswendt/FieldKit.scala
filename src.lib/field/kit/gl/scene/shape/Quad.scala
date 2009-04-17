@@ -15,31 +15,38 @@ object Quad extends Enumeration {
   val CENTER = Value
 }
 
-class Quad(name:String, mode:Quad.Value) extends Mesh(name) {
+class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
   
-  glGeometryMode = GL.GL_QUADS
+  var mode = Quad.CENTER
   allocate(4)
+  vertexCount = 4
   
-  mode match {
-  	case Quad.TOP_LEFT =>
-  	  BufferUtil.put(vertices, 0.0f, 1.0f, 0.0f)
-  	  BufferUtil.put(vertices, 1.0f, 1.0f, 0.0f)
-  	  BufferUtil.put(vertices, 1.0f, 0.0f, 0.0f)
-  	  BufferUtil.put(vertices, 0.0f, 0.0f, 0.0f)
-
-  	case Quad.CENTER => 
-  	  BufferUtil.put(vertices, -0.5f, 0.5f, 0.0f)
-  	  BufferUtil.put(vertices, 0.5f, 0.5f, 0.0f)
-  	  BufferUtil.put(vertices, 0.5f, -0.5f, 0.0f)
-  	  BufferUtil.put(vertices, -0.5f, -0.5f, 0.0f)
+  BufferUtil.put(coords, 0f, 0f)
+  BufferUtil.put(coords, 1f, 0f)
+  BufferUtil.put(coords, 1f, 1f)
+  BufferUtil.put(coords, 0f, 1f)	
+  coords.rewind
+  
+  resize(width, height)
+  
+  def resize(width:Float, height:Float) {
+    val hw = width * 0.5f
+    val hh = height * 0.5f
+    mode match {
+      case Quad.TOP_LEFT =>
+        BufferUtil.put(vertices, 0, height, 0)
+        BufferUtil.put(vertices, width, height, 0)
+        BufferUtil.put(vertices, width, 0, 0)
+        BufferUtil.put(vertices, 0, 0, 0)
+      
+      case Quad.CENTER => 
+        BufferUtil.put(vertices, -hw, hh, 0)
+        BufferUtil.put(vertices, hw, hh, 0)
+        BufferUtil.put(vertices, hw, -hh, 0)
+        BufferUtil.put(vertices, -hw, -hh, 0)
+	  }
+	  vertices.rewind
   }
-  vertices.rewind
-  
-  BufferUtil.put(texCoords, 0f, 0f)
-  BufferUtil.put(texCoords, 1f, 0f)
-  BufferUtil.put(texCoords, 1f, 1f)
-  BufferUtil.put(texCoords, 0f, 1f)	
-  texCoords.rewind
 }

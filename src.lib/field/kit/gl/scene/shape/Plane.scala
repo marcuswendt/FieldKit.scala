@@ -7,11 +7,11 @@
 /* created April 11, 2009 */
 package field.kit.gl.scene.shape
 
-import field.kit.gl.scene._
+import field.kit.gl.scene.TriMesh
 import field.kit._
 
 /** implements a planeoid mesh with variable subdivisions along its two axes */
-class Plane(name:String) extends Mesh(name) {
+class Plane(name:String) extends TriMesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
   import field.kit.math.FMath
@@ -20,10 +20,6 @@ class Plane(name:String) extends Mesh(name) {
   var height:Float = _
   var rows:Int = _
   var cols:Int = _
-  
-  //glGeometryMode = GL.GL_TRIANGLES
-//  glGeometryMode = GL.GL_QUADS
-  useIndices = true
  
   // init defaults
   init(2,2)
@@ -48,14 +44,15 @@ class Plane(name:String) extends Mesh(name) {
     resize(_width, _height)
   }
   
-  override def indicesCount = (cols-1) * (rows-1) * 2 * 3
-  
   /** initializes the buffers for the given number of rows and cols */
   def init(_cols:Int, _rows:Int) {
     def index(x:Int, y:Int) = y * rows + x
     
 	this.cols = FMath.max(1, _cols)
     this.rows = FMath.max(1, _rows)
+    this.indexCount = (cols-1) * (rows-1) * 2 * 3
+    this.vertexCount = rows * cols
+
 	allocate(cols * rows)
  
 	// statically initialize shared vertices
@@ -75,7 +72,12 @@ class Plane(name:String) extends Mesh(name) {
 	  }
 	}
 	indices.rewind
+ 
+	// reinit vertices
+	if(width != 0 && height != 0) resize(width, height)
   }
+  
+  override def allocateIndices = BufferUtil.int(indexCount)
   
   /** sets the width and height and recalculates the vertex and texture coordinates
    * TODO could add a plane parameter to determine which axes are meant
@@ -84,20 +86,17 @@ class Plane(name:String) extends Mesh(name) {
     this.width = _width
     this.height = _height
     
-    vertices.rewind
-    texCoords.rewind
-    
     for(y <- 0 until cols) {
       for(x <- 0 until rows) {
         val u = (x / (rows.asInstanceOf[Float]-1)) * width
         val v = (y / (cols.asInstanceOf[Float]-1)) * height
         
         BufferUtil.put(vertices, u, v, 0.0f)
-        BufferUtil.put(texCoords, u, v)
+        BufferUtil.put(coords, u, v)
       }
     }
     
     vertices.rewind
-    texCoords.rewind
+    coords.rewind
   }
 }

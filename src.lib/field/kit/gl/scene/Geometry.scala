@@ -14,45 +14,52 @@ abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
   import field.kit.gl.render.RenderState
+  import field.kit.util.BufferUtil
   
   import java.nio.FloatBuffer
-  import java.nio.IntBuffer
   import scala.collection.mutable.ArrayBuffer
   
   var colour = new Colour(1,1,1)
-  var vertices:FloatBuffer = _
-  var texCoords:FloatBuffer = _
-  var colours:FloatBuffer = _
-  var indices:IntBuffer = _
-  var size = 0
   
+  // TODO consider switching to a datastructure with a predictable order e.g. ArrayList
   var states = new ArrayBuffer[RenderState]
   
-  protected var useIndices = false
-  protected def indicesCount = 0 // change this if you're using indices & dont use triangles
-    
-  def allocate(size:Int) {
-    import field.kit.util.BufferUtil
-    this.size = size
-    vertices = BufferUtil.vec3(size)
-    texCoords = BufferUtil.vec2(size)
-    colours = BufferUtil.colour(size)
+  var vertices:FloatBuffer = _
+  var coords:FloatBuffer = _
+  var colours:FloatBuffer = _
+  
+  /** the maximum number of vertices this geometry object can hold */
+  var capacity = 0
+  
+  /** the number of actual vertices in the buffer */
+  var vertexCount = 0
+
+  // Buffer Management
+  def allocate(capacity:Int) {
+    this.capacity = capacity
+    vertices = allocateVertices
+    coords = allocateCoords
+    colours = allocateColours
     solidColour(colour)
-    if(useIndices) indices = BufferUtil.int(indicesCount)
   }
+  
+  protected def allocateVertices = BufferUtil.vec3(capacity)
+  protected def allocateCoords = BufferUtil.vec2(capacity)
+  protected def allocateColours = BufferUtil.colour(capacity)
   
   def clear {
-    this.size = 0 // ?
+    vertexCount = 0
     vertices.clear
-    texCoords.clear
+    coords.clear
     colours.clear
-    if(useIndices) indices.clear
   }
   
+  // Render States
   def enableStates = states foreach(_.enable(this))
   
   def disableStates = states foreach(_.disable(this))
   
+  // Colours
   def solidColour(c:Colour) {
     colour.set(c)
     if(colours!=null) {

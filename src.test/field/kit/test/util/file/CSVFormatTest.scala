@@ -4,11 +4,11 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-package field.kit.test.file
+package field.kit.test.util.file
 
 object CSVFormatTest extends field.kit.Logger {
-  import field.kit.file.CSVFile
-  
+  import field.kit.util.file._
+    
   def main(args : Array[String]) : Unit = {
      if(args.length != 1) {
       fatal("INVALID ARGUMENTS")

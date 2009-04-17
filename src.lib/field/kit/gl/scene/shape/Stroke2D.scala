@@ -21,7 +21,12 @@ object Stroke2D {
 	}  
 }
 
-/** a dynamic stroke with variable thickness */
+/** 
+ * A dynamic stroke with variable thickness 
+ * 
+ * The original code was written in Java for the NervousInk drawing tool
+ * @see <a href="http://www.field.io/project/nervous-ink">Nervous Ink</a>
+ */
 class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   import java.nio.FloatBuffer
   import field.kit.math._
@@ -59,18 +64,18 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   // resize to default
   allocate(defaultCapacity)
   
-  override def allocate(size:Int) {
+  override def allocate(capacity:Int) {
     import field.kit.util.BufferUtil
-    this.size = size
-    points = BufferUtil.vec2(size)
-    weights = BufferUtil.float(size)
-    outline = BufferUtil.vec2(size * 2)
+    this.capacity = capacity
+    points = BufferUtil.vec2(capacity)
+    weights = BufferUtil.float(capacity)
+    outline = BufferUtil.vec2(capacity * 2)
   }
   
   /** adds a point to this stroke and incrementally updates the outline */
   def +=(x:Float, y:Float, weight:Float) {
     // dont add when buffers are full
-    if(length < size-1) {
+    if(length < capacity-1) {
       // skip point when distance to previous point is < minDistance
       var isTooClose = false
       if(length > 0) {
