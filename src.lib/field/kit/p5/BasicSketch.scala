@@ -87,6 +87,9 @@ abstract class BasicSketch extends PApplet with Logger {
   def title = logName
   def pgl = g.asInstanceOf[PGraphicsOpenGL]
   
+  def beginGL = pgl.beginGL
+  def endGL = pgl.endGL
+  
   var hwidth = 0f
   var hheight = 0f
 }

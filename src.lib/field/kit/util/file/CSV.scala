@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 09, 2009 */
-package field.kit.file
+package field.kit.util.file
 
 import scala.collection.mutable.ArrayBuffer
 import field.kit.Logger

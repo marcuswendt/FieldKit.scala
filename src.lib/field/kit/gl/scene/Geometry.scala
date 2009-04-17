@@ -42,7 +42,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
   }
   
   def clear {
-    this.size = 0
+    this.size = 0 // ?
     vertices.clear
     texCoords.clear
     colours.clear
