@@ -8,6 +8,7 @@
 package field.kit.gl.scene
 
 import field.kit.gl.render.Renderable
+import field.kit.gl.scene.transform._
 
 /** Base class for all sorts of polygon mesh geometry */
 abstract class Mesh(name:String) extends Geometry(name) {
@@ -32,8 +33,10 @@ abstract class Mesh(name:String) extends Geometry(name) {
 }
 
 /** Base class for all triangle based polygon meshes */
-class TriMesh(name:String) extends Mesh(name) {
+class TriMesh(name:String) extends Mesh(name) with Triangulator {
   import javax.media.opengl.GL
+  
+  def triangulate:Unit = triangulate(vertexCount, vertices, indices)
   
   def draw {
     // enable gl vertex & texture coord arrays

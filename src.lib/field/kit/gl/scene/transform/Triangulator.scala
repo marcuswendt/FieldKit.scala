@@ -22,8 +22,6 @@ trait Triangulator {
   private var orderedVertices:Array[Int] = Array(0)
   var triangleCount = 0
   
-  def triangulate(m:Mesh):Unit = triangulate(m.vertexCount, m.vertices, m.indices)
-  
   /**
    * Reads vertices from the vertexbuffer and constructs triangles from it
    * 
