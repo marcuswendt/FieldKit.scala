@@ -9,16 +9,18 @@ package field.kit.test.gl.scene.shape
 
 import field.kit._
 
-/** tests the simple/ fast triangulator trait */
-object TriangulatorTest extends Sketch {
+abstract class TriangulatorTest extends Sketch {
+  init(1024,768)
+}
+
+/** 
+ * tests the simple/ fast triangulator using an incremental line-drawing approach 
+ */
+object FastIncrementalTriangulatorTest extends TriangulatorTest {
   import field.kit.gl.scene._
   import field.kit.math._
   
   var p = new Polygon(100)
-  var geoWidth = 500f
-  var geoHeight = 500f
-  
-  init(1024,768)
   
   def render {
     background(10)
@@ -102,5 +104,84 @@ object TriangulatorTest extends Sketch {
       curve.clear
       update
     }
+  }
+}
+
+
+/** 
+ * tests the simple/ fast triangulator using a set of points lying on two circles 
+ */
+object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
+  import field.kit.gl.scene._
+  import field.kit.math._
+  
+  var p = new Polygon(100)
+  
+  def render {
+    background(10)
+    
+    // TODO improve rendering with points, need to figure out renderstates first
+    // draw polygon
+    beginGL
+    p.render
+    endGL
+    
+    // draw spline vertices
+    noStroke
+    fill(255,0,0)
+    val v = new Vec3
+    p.vertices.rewind
+    for(i <- 0 until p.vertexCount) {
+      rect(p.vertices.get, p.vertices.get, 6, 6)
+      p.vertices.get
+    }
+    p.vertices.rewind
+  }
+  
+  class Polygon(capacity:Int) extends TriMesh("polygon") {
+    import field.kit.math.geometry.Spline
+    import field.kit.math._
+    import field.kit.Colour
+    import field.kit.util.BufferUtil
+    
+    import javax.media.opengl.GL
+    
+    allocate(capacity)
+    
+    override def allocateIndices = BufferUtil.int(capacity * 3)
+    
+    val offsetX = width/2f
+    val offsetY = height/2f
+    
+    // draw outer circle
+    val r1 = 350f
+    var numPoints = (capacity * 0.66).asInstanceOf[Int]
+    for(i <- 0 until numPoints) {
+      val t = (i / numPoints.asInstanceOf[Float]) * FMath.TWO_PI
+      vertices put FMath.sin(t) * r1 + offsetX
+      vertices put FMath.cos(t) * r1 + offsetY
+      vertices put 0
+      vertexCount += 1
+    }
+    
+    // draw inner circle
+    val r2 = 50f
+    numPoints = (capacity * 0.33).asInstanceOf[Int]
+    for(i <- 0 until numPoints) {
+      val t = (i / numPoints.asInstanceOf[Float]) * FMath.TWO_PI
+      vertices put FMath.sin(t) * r2 + offsetX
+      vertices put FMath.cos(t) * r2 + offsetY
+      vertices put 0
+      vertexCount += 1
+    }
+    
+    // --
+    vertices.rewind
+    //vertexCount = capacity
+    
+    triangulate
+    indexCount = triangleCount * 3
+    
+    solidColour(Colour.WHITE)
   }
 }
