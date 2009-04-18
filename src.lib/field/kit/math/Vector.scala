@@ -14,6 +14,7 @@ package field.kit.math
  * Base class for all Vectors 
  */
 abstract class Vector[T](val size:Int) extends Collection[T] {
+  def update(i:Int, value:T)
 }
 
 /**
@@ -72,6 +73,12 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   
   def this() = this(0,0)
   def this(v:Vec2) = this(v.x,v.y)
+  
+  def update(i:Int, value:Float) = 
+    i match {
+      case 0 => this.x = value
+      case 1 => this.y = value
+    }
   
   def apply(x:Float, y:Float) = set(x,y)
   def apply(v:Vec2) = set(v)
@@ -176,6 +183,13 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   def this() = this(0,0,0)
   def this(v:Vec2) = this(v.x, v.y, 0)
   def this(v:Vec3) = this(v.x, v.y, v.z)
+  
+  def update(i:Int, value:Float) = 
+    i match {
+      case 0 => this.x = value
+      case 1 => this.y = value
+      case 2 => this.y = value
+    }
   
   def apply(x:Float, y:Float, z:Float) = set(x,y,z)
   def apply(v:Vec3) = set(v)
