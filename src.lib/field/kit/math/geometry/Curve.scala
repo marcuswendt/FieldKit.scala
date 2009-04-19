@@ -72,11 +72,11 @@ abstract class Curve(var capacity:Int) {
    * calculates a point on the curve based on the time, where time is [0, 1]. 
    * How the point is calculated is defined by the subclass. 
    */
-  def point(time:Float):Vec3 = point(time, new Vec3)
+  def point(time:Float):Unit = point(time, new Vec3)
   
   /** 
    * calculates a point on the curve based on the time, where time is [0, 1]. 
    * How the point is calculated is defined by the subclass. 
    */
-  def point(time:Float, v:Vec3):Vec3
+  def point(time:Float, result:Object):Unit
 }

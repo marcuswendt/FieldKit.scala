@@ -7,8 +7,40 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.render.Renderable
-import field.kit.gl.scene.transform._
+object Mesh extends Enumeration {
+  import javax.media.opengl.GL
+  
+  /** individual points */
+  val POINTS = Value(GL.GL_POINTS)
+  
+  /** pairs of vertices interpreted as individual line segments */
+  val LINES = Value(GL.GL_LINES)
+  
+  /** series of connected line segments */
+  val LINE_STRIP = Value(GL.GL_LINE_STRIP)
+  
+  /** same as above, with a segment added between last and first vertices */
+  val LINE_LOOP = Value(GL.GL_LINE_LOOP)
+  
+  /** triples of vertices interpreted as triangles */
+  val TRIANGLES = Value(GL.GL_TRIANGLES)
+  
+  /** linked strip of triangles */
+  val TRIANGLE_STRIP = Value(GL.GL_TRIANGLE_STRIP)
+  
+  /** linked fan of triangles */
+  val TRIANGLE_FAN = Value(GL.GL_TRIANGLE_FAN)
+  
+  /** quadruples of vertices interpreted as four-sided polygons */
+  val QUADS = Value(GL.GL_QUADS)
+  
+  /** linked strip of quadrilaterals */
+  val QUAD_STRIP = Value(GL.GL_QUAD_STRIP)
+  
+  /** boundary of a simple, convex polygon */
+  val POLYGON = Value(GL.GL_POLYGON)
+}
+
 
 /** Base class for all sorts of polygon mesh geometry */
 abstract class Mesh(name:String) extends Geometry(name) {
@@ -18,6 +50,8 @@ abstract class Mesh(name:String) extends Geometry(name) {
   var indices:IntBuffer = _
   var indexCount = 0
   
+  protected var geometryType = Mesh.TRIANGLES
+    
   override def allocate(capacity:Int) {
     super.allocate(capacity)
     indices = allocateIndices
@@ -32,9 +66,13 @@ abstract class Mesh(name:String) extends Geometry(name) {
   }
 }
 
+import field.kit.gl.scene.transform._
+
 /** Base class for all triangle based polygon meshes */
 class TriMesh(name:String) extends Mesh(name) with Triangulator {
   import javax.media.opengl.GL
+  
+  geometryType = Mesh.TRIANGLES
   
   def triangulate:Unit = triangulate(vertexCount, vertices, indices)
   
@@ -51,9 +89,9 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
     gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
     
     if(indexCount > 0) {
-      gl.glDrawElements(GL.GL_TRIANGLES, indexCount, GL.GL_UNSIGNED_INT, indices)
+      gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
     } else {
-      gl.glDrawArrays(GL.GL_TRIANGLES, 0, vertexCount)
+      gl.glDrawArrays(geometryType.id, 0, vertexCount)
     }
     
     gl.glDisableClientState(GL.GL_COLOR_ARRAY)
@@ -64,12 +102,15 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
   }
 }
 
+
 /** Base class for all quad based polygon meshes */
 class QuadMesh(name:String) extends Mesh(name) {
-  import javax.media.opengl.GL
+  
+  geometryType = Mesh.QUADS
   
   def draw {
-    // enable gl vertex & texture coord arrays
+    import javax.media.opengl.GL
+    
 	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
     gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
     gl.glEnableClientState(GL.GL_COLOR_ARRAY)
@@ -81,9 +122,9 @@ class QuadMesh(name:String) extends Mesh(name) {
     gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
     
     if(indexCount > 0) {
-      gl.glDrawElements(GL.GL_QUADS, indexCount, GL.GL_UNSIGNED_INT, indices)
+      gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
     } else {
-      gl.glDrawArrays(GL.GL_QUADS, 0, vertexCount)
+      gl.glDrawArrays(geometryType.id, 0, vertexCount)
     }
     
     gl.glDisableClientState(GL.GL_COLOR_ARRAY)
@@ -92,4 +133,9 @@ class QuadMesh(name:String) extends Mesh(name) {
     
     disableStates
   }
+}
+
+
+class QuadStripMesh(name:String) extends QuadMesh(name) {
+   geometryType = Mesh.QUAD_STRIP
 }

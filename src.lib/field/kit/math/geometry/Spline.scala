@@ -20,12 +20,15 @@ package field.kit.math.geometry
 class Spline(capacity:Int) extends Curve(capacity) {
   import field.kit.math._
   
+  val EPSILON = 0.000001f
+  
   // internal fields used for calculating points on the curve
   private val tmp0 = new Vec3
   private val tmp1 = new Vec3
   private val tmp2 = new Vec3
   private val tmp3 = new Vec3
   private val tmp4 = new Vec3
+  private val tmpResult = new Vec3
   
   private val first = new Vec3
   private val second = new Vec3
@@ -65,23 +68,25 @@ class Spline(capacity:Int) extends Curve(capacity) {
    * 
    * @see field.kit.math.geometry.Curve#point(float)
    */
-  def point(time:Float, p:Vec3) = {
+  def point(time:Float, result:Object) {
+    import java.nio.FloatBuffer
+    
     if(size > 0) {
       if(needsUpdate) update
       
       // first point
       if(time < 0) {
-        p(first)
+        tmpResult(first)
         
       // last point
       } else if(time > 1) {
-        p(last)
+        tmpResult(last)
         
       // in between
       } else {
         val partPercentage = 1.0f / (size - 1)
         val timeBetween = time / partPercentage
-        var i = FMath.floor(timeBetween).asInstanceOf[Int]
+        var i = Math.floor(timeBetween).asInstanceOf[Int]
         
         val normalizedTime = timeBetween - i
         
@@ -91,7 +96,7 @@ class Spline(capacity:Int) extends Curve(capacity) {
         i -= 1
         
         if(i == -1) {
-          tmp0(second).-=(first).normalize.*=(0.000001f)
+          tmp0(second).-=(first).normalize.*=(EPSILON)
           tmp1(first) -= tmp0
         } else {
           tmp1.set(vertices, i)
@@ -105,7 +110,7 @@ class Spline(capacity:Int) extends Curve(capacity) {
         
         i += 1
         if(i == size) {
-          tmp0(beforeLast).-=(last).normalize.*=(0.000001f)
+          tmp0(beforeLast).-=(last).normalize.*=(EPSILON)
           tmp4(last) -= tmp0
         } else {
           tmp4.set(vertices, i)
@@ -113,18 +118,28 @@ class Spline(capacity:Int) extends Curve(capacity) {
         
         // calculate point
         tmp1 *= -t3 + 2 * t2 -t
-        p(tmp1)
+        tmpResult(tmp1)
         
         tmp2 *= 3 * t3 - 5 * t2 + 1
-        p += tmp2
+        tmpResult += tmp2
         
         tmp3 *= -3 * t3 + 4 * t2 + t
-        p += tmp3
+        tmpResult += tmp3
         
         tmp4 *= t3 - t2
-        p += tmp4
+        tmpResult += tmp4
+      }
+      
+      // set result
+      result match {
+        case b:FloatBuffer => 
+          b put tmpResult.x
+          b put tmpResult.y
+          b put tmpResult.z
+          
+        case v:Vec3 => 
+          v set tmpResult
       }
     }
-    p
   }
 }
