@@ -135,6 +135,16 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     this
   }
   
+  /**
+   * interpolates towards the given target Vector
+   * @see <a href="http://en.wikipedia.org/wiki/Slerp">spherical linear interpolation</a>
+   */
+  def slerp(target:Vec2, delta:Float) = {
+    this.x = x * (1 - delta) + target.x * delta
+    this.y = y * (1 - delta) + target.y * delta
+    this
+  }
+  
   /** checks wether one or several components of this vector are Not a Number or Infinite */
   def isNaNOrInfinite = { 
     import java.lang.Float
@@ -271,6 +281,17 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
       this /= l
       this *= max
     }
+    this
+  }
+  
+  /**
+   * interpolates towards the given target Vector
+   * @see <a href="http://en.wikipedia.org/wiki/Slerp">spherical linear interpolation</a>
+   */
+  def slerp(target:Vec3, delta:Float) = {
+    this.x = x * (1 - delta) + target.x * delta
+    this.y = y * (1 - delta) + target.y * delta
+    this.z = z * (1 - delta) + target.z * delta
     this
   }
   
