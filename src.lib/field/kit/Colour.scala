@@ -39,7 +39,6 @@ class Colour(
     } else {
       fromRGB(i)
     }
-    info("set "+ i)
     this
   }
   
@@ -61,23 +60,23 @@ class Colour(
   }
  
   def fromRGB(i:Int) {
-    r = i >> 16 & 0xFF
-    g = i >> 8 & 0xFF
-    b = i & 0xFF
+    r = (i >> 16 & 0xFF) / 255f
+    g = (i >> 8 & 0xFF) / 255f
+    b = (i & 0xFF) / 255f
   }
   
   def fromRGBA(i:Int) {
-    r = i >> 24 & 0xFF
-    g = i >> 16 & 0xFF
-    b = i >> 8 & 0xFF
-    a = i & 0xFF
+    r = (i >> 24 & 0xFF) / 255f
+    g = (i >> 16 & 0xFF) / 255f
+    b = (i >> 8 & 0xFF) / 255f
+    a = (i & 0xFF) / 255f
   }
   
   def fromARGB(i:Int) {
-    a = i >> 24 & 0xFF
-    r = i >> 16 & 0xFF
-    g = i >> 8 & 0xFF
-    b = i & 0xFF
+    a = (i >> 24 & 0xFF) / 255f
+    r = (i >> 16 & 0xFF) / 255f
+    g = (i >> 8 & 0xFF) / 255f
+    b = (i & 0xFF) / 255f
   }
   
   def randomize = {
