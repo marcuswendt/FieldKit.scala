@@ -11,7 +11,8 @@ import field.kit.Logger
 import scala.reflect.Manifest
 
 /** represents a group of particles within the system */
-class Flock[P <: Particle](val ps:ParticleSystem)(implicit m:Manifest[P]) extends Logger {
+class Flock[P <: Particle](val ps:ParticleSystem)(implicit m:Manifest[P]) 
+extends Logger with Collection[P] {
   import scala.collection.mutable.ArrayBuffer
   fine("init")
   
@@ -65,4 +66,8 @@ class Flock[P <: Particle](val ps:ParticleSystem)(implicit m:Manifest[P]) extend
     fine("removing", p)
     particles -= p 
   }
+  
+  def size = particles.size
+  
+  def elements = particles.elements
 }

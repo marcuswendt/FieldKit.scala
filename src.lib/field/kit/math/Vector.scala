@@ -231,6 +231,11 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   
   def zero = set(0,0,0)
   
+//  TODO implement non-local operations 
+//  def -(s:Float) = {
+//    
+//  }
+  
   def +=(s:Float) = { x+=s; y+=s; z+=s; this }
   def -=(s:Float) = { x-=s; y-=s; z-=s; this }
   def *=(s:Float) = { x*=s; y*=s; z*=s; this }
