@@ -65,6 +65,7 @@ class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Log
     fine("adding", b)
     b.flock = flock
     b.ps = flock.ps
+    b.init
     behaviours += b
   }
 }

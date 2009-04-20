@@ -52,6 +52,7 @@ extends Logger with Collection[P] {
     fine("adding", b)
     b.flock = this
     b.ps = ps
+    b.init
     behaviours += b
   }
    

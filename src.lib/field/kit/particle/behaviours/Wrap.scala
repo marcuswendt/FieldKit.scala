@@ -18,9 +18,11 @@ class Wrap extends Behaviour("Wrap") {
   protected var _min = new Vec3
   protected var _max = new Vec3
   
-  // set default values
-  min(0,0,0)
-  max(1,1,1)
+  override def init {
+    // set default values
+    min(0,0,0)
+    max(1,1,1)
+  }
   
   def apply(p:Particle, dt:Float) {
     val pos = p.position
