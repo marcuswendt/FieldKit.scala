@@ -17,6 +17,6 @@ abstract class Behaviour(name:String) extends Logger {
   var ps:ParticleSystem = null
   var flock:Flock[_] = null
   var isEnabled = true
-  def prepare {}
+  def prepare(dt:Float) {}
   def apply(p:Particle, dt:Float)
 }

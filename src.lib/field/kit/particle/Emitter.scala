@@ -33,7 +33,7 @@ class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Log
       
       // prepare behaviours
       behaviours foreach { b => 
-      	if(b.isEnabled) b.prepare
+      	if(b.isEnabled) b.prepare(dt)
       }
     
       // emit particels

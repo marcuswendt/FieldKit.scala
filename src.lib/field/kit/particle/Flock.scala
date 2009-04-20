@@ -28,7 +28,7 @@ extends Logger with Collection[P] {
       
     // prepare behaviours
     behaviours foreach { b => 
-      if(b.isEnabled) b.prepare
+      if(b.isEnabled) b.prepare(dt)
     }
 
     particles foreach { p =>

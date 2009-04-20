@@ -10,7 +10,7 @@ package field.kit.particle
 import field.kit.Logger
 
 /** a single particle from the flock */
-class Particle extends Logger {
+trait Particle extends Logger {
   import field.kit.math.Vec3
   fine("init")
   

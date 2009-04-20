@@ -19,7 +19,7 @@ class DirectionalForce(name:String) extends Behaviour(name) {
   protected var _direction = new Vec3
   protected val tmp = new Vec3
   
-  override def prepare = tmp(_direction) *= (_weight)
+  override def prepare(dt:Float) = tmp(_direction) *= (_weight)
   
   def apply(p:Particle, dt:Float) = p.steer += tmp
   
