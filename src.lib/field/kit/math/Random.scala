@@ -15,5 +15,7 @@ object Random {
   
   def apply(min:Float, max:Float) = rnd.nextFloat * (max - min) + min
   
+  def apply(min:Int, max:Int) = (rnd.nextFloat * (max - min) + min).asInstanceOf[Int]
+  
   def apply(scale:Float) = rnd.nextFloat * scale
 }

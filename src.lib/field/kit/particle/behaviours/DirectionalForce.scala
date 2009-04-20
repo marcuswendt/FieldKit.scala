@@ -35,5 +35,5 @@ class Wind extends DirectionalForce("Wind") {
 }
 
 class Gravity extends DirectionalForce("Gravity") {
-  direction = new Vec3(0, -1f, 0)
+  direction = new Vec3(0, 1f, 0)
 }

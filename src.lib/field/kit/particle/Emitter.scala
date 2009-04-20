@@ -36,7 +36,7 @@ class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Log
       	if(b.isEnabled) b.prepare(dt)
       }
     
-      // emit particels
+      // emit particles
       for(i <- 0 until rate) {
         // create particle
         val p = create
@@ -57,6 +57,9 @@ class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Log
     val clazz = Class.forName(m.toString)
     clazz.newInstance.asInstanceOf[P]
   }
+  
+  /** ignores the timer and forces the emitter to create new particles immediatly */
+  def now = time = interval
   
   // ---------------------------------------------------------------------------
   // HELPERS
