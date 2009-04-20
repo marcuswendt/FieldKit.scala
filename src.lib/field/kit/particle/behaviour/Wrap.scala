@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created April 20, 2009 */
-package field.kit.particle.behaviours
+package field.kit.particle.behaviour
 
 import field.kit.particle.Behaviour
 

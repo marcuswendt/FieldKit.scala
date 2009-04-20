@@ -21,6 +21,7 @@ class Colour(
   def this(r:Int,g:Int,b:Int,a:Int) = this(r/255f,g/255f,b/255f,a/255f)
   
   def this(i:Int) = { this(); set(i) }
+  def this(c:Colour) = { this(); set(c) }
   def this(grey:Float) = this(grey,grey,grey,1f)
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
