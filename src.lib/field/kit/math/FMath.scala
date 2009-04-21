@@ -30,7 +30,17 @@ object FMath {
   
   def linear(current:Double, target:Double, delta:Double):Double =
     (target - current) * delta + current  
-    
+
+  def slerpAngle(cur:Float, to:Float, delta:Float) = {
+    var result = cur
+    if(cur < 0 && to > 0) {
+      if(abs(cur) > HALF_PI && abs(to) > HALF_PI) result += TWO_PI
+    } else if (cur > 0 && to < 0) {
+      if (abs(cur) > HALF_PI && abs(to) > HALF_PI) result -= TWO_PI
+    }
+    result * (1 - delta) + to * delta
+  }
+  
   // --------------------------------------------------------------------------
   // helpers from PApplet
   // --------------------------------------------------------------------------
@@ -68,12 +78,14 @@ object FMath {
   def acos(f:Float) = Math.acos(f).asInstanceOf[Float]
   def tan(f:Float) = Math.tan(f).asInstanceOf[Float]
   def atan(f:Float) = Math.atan(f).asInstanceOf[Float]
+  def atan2(x:Float, y:Float) = Math.atan2(x,y).asInstanceOf[Float]
   
   def sin(f:Double) = Math.sin(f)
   def cos(f:Double) = Math.cos(f)
   def acos(f:Double) = Math.acos(f)
   def tan(f:Double) = Math.tan(f)
   def atan(f:Double) = Math.atan(f)
+  def atan2(x:Double, y:Double) = Math.atan2(x,y)
   
   // --------------------------------------------------------------------------
   // misc
