@@ -25,16 +25,16 @@ object SwingUtil extends Logger {
   }
   
   def openURL(url:String ) {
-    val osName = System.getProperty("os.name")
+    import field.kit.util.OSUtil
     val errMsg = "Error attempting to launch web browser"
     
     try {
-      if (osName.startsWith("Mac OS")) {
+      if(OSUtil.isMac) {
         val fileMgr = Class.forName("com.apple.eio.FileManager")
         val openURL = fileMgr.getDeclaredMethod("openURL", Array(classOf[String]):_*)
         openURL.invoke(null, Array(url):_*)
         
-      } else if(osName.startsWith("Windows")) {
+      } else if(OSUtil.isWindows) {
         Runtime.getRuntime.exec("rundll32 url.dll,FileProtocolHandler " + url)
       
       } else { //assume Unix or Linux

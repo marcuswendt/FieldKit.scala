@@ -85,16 +85,14 @@ abstract class Sketch extends BasicSketch {
   }
 
   // -- System Tweaks ----------------------------------------------------------
-  def osMac = System.getProperty("os.name").toLowerCase.startsWith("mac os x")
-  def osWindows = System.getProperty("os.name").startsWith("Windows")
-  
   /** 
   	* Sets a few system dependent tweaks. 
   	* @see <a href="http://developer.apple.com/documentation/Java/Reference/Java_PropertiesRef/Articles/JavaSystemProperties.html#//apple_ref/doc/uid/TP40001975">JavaSystemProperties</a>
   	*/
-  protected def systemTweaks {
+  protected def applySystemTweaks {
+    import field.kit.util.OSUtil
     // osx
-    if(osMac) {
+    if(OSUtil.isMac) {
       System.setProperty("apple.laf.useScreenMenuBar", "true")
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", meta.name)
       
@@ -126,16 +124,16 @@ abstract class Sketch extends BasicSketch {
       })
     
     // windows
-    } else if(osWindows) {
+    } else if(OSUtil.isWindows) {
       import javax.swing.UIManager
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
     }
   }
   
   // apply tweaks
-  systemTweaks
+  applySystemTweaks
   
-//  override def init(w:Int, h:Int, initializer: => Unit) {
-//    super.init(w,h,initializer)
-//  }
+  // -- Menubar ----------------------------------------------------------------
+  import javax.swing.JMenuBar
+  var menu = new JMenuBar 
 }
