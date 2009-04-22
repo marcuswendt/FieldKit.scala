@@ -7,14 +7,15 @@
 /* created March 12, 2009 */
 package field.kit
 
-import field.kit.p5.BasicSketch
 import processing.core.PApplet
+
+import field.kit.p5.BasicSketch
+import field.kit.math.FMath
 
 /**
  * contains global constants 
  */
-object Sketch extends PApplet {
-}
+object Sketch extends PApplet {}
 
 /**
  * extends the BasicSketch with useful features
@@ -34,6 +35,7 @@ abstract class Sketch extends BasicSketch {
   import javax.swing.JFrame
   protected var aboutMenu:JFrame = null
   protected def showAbout {
+    info("showAbout")
     if(aboutMenu == null) {
       import field.kit.util.SwingUtil
       import javax.swing.WindowConstants
@@ -48,7 +50,7 @@ abstract class Sketch extends BasicSketch {
       <head>
       	<title>test</title>
       </head>
-      <body style="margin: 10px">
+      <body style="margin: 1em">
       	<h1>{meta.name}</h1>
         <em>by <a href={meta.url}>{meta.author}</a></em>
       	{meta.description}
@@ -134,6 +136,46 @@ abstract class Sketch extends BasicSketch {
   applySystemTweaks
   
   // -- Menubar ----------------------------------------------------------------
-  import javax.swing.JMenuBar
-  var menu = new JMenuBar 
+  /** Called from init to create a system menubar */
+  protected def initMenuBar = {
+    import java.awt.MenuBar
+    import java.awt.Menu
+    import field.kit.util.SwingUtil
+    
+    val m = new MenuBar
+    
+    // file menu
+    val file = new Menu("File")
+    file add SwingUtil.menuItem("Record Screenshot", rec.screenshot)
+    file add SwingUtil.menuItem("Quit", exit)
+    m add file
+    
+    // help menu
+    val help = new Menu("Help")    
+    help add SwingUtil.menuItem("About", showAbout)
+    m add help
+    
+    m
+  }
+  
+  override def init(w:Int, h:Int, initializer: => Unit) {
+    super.init(w,h,initializer)
+    frame.setMenuBar(initMenuBar)
+  }
+  
+  // -- Screen Recorder---------------------------------------------------------
+  import field.kit.p5.Recorder
+  var rec = new Recorder
+  rec.name = meta.name
+  
+  /** enables/disabled the vertical sync, prevents tearing */
+  var vsyncEnabled = true
+  
+  override def draw {
+    if(vsyncEnabled) pgl.gl.setSwapInterval(1)
+    
+    rec.pre
+    render
+    rec.post
+  }
 }

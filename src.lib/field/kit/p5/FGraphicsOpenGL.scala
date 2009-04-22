@@ -26,6 +26,7 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
 
       // need to get proper opengl context since will be needed below
       gl = context.getGL
+      
       // Flag defaults to be reset on the next trip into beginDraw().
       settingsInited = false
       

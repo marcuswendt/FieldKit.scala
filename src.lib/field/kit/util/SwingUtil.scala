@@ -17,6 +17,7 @@ object SwingUtil extends Logger {
 
   import javax.swing.JFrame
   
+  /** Centers the given frame on the default screen. */
   def center(frame:JFrame) {
     val env = GraphicsEnvironment.getLocalGraphicsEnvironment
     val dev = env.getDefaultScreenDevice
@@ -24,6 +25,7 @@ object SwingUtil extends Logger {
     frame.setLocation(mode.getWidth / 2 - frame.getWidth / 2, mode.getHeight / 2 - frame.getHeight / 2)
   }
   
+  /** Opens the given url with the systems default browser. */
   def openURL(url:String ) {
     import field.kit.util.OSUtil
     val errMsg = "Error attempting to launch web browser"
@@ -58,6 +60,24 @@ object SwingUtil extends Logger {
         warn(errMsg, e.getMessage)
   	}
   }
-  	
+  
+  /** Creates a <code>java.awt.MenuItem</code> */
+  def menuItem(name:String, action: => Unit) = {
+    import java.awt.MenuItem
+    import java.awt.event.ActionListener
+    import java.awt.event.ActionEvent
+    
+    /*
+     * TODO add shortcuts 
+     * int mask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+     * saveMenuItem.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_S, mask + KeyEvent.SHIFT_MASK)); 
+     */
+    
+    val i = new MenuItem(name)
+    i.addActionListener(new ActionListener {
+      def actionPerformed(e:ActionEvent) = action
+    })
+    i
+  }
 }
     

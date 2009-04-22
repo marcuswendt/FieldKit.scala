@@ -8,9 +8,14 @@
 package field.kit.math
 
 /**
- * various helpers
+ * same as <code>trait FMath</code> but singletonized
  */
-object FMath {
+object FMath extends FMath {}
+
+/**
+ * interpolation, trigonometry and other helper methods for mathematical problems
+ */
+trait FMath {
   // --------------------------------------------------------------------------
   // implements various interpolation and easing functions
   // @see http://en.wikipedia.org/wiki/Interpolation
