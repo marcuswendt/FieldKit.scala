@@ -95,8 +95,6 @@ abstract class Sketch extends BasicSketch {
   protected def systemTweaks {
     // osx
     if(osMac) {
-      info("systemTweaks")
-      
       System.setProperty("apple.laf.useScreenMenuBar", "true")
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", meta.name)
       
