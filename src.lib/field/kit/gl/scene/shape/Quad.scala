@@ -31,6 +31,11 @@ class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
   
   resize(width, height)
   
+  /** auxilliary constructor */
+  def this(name:String) {
+    this(name,1f,1f)
+  }
+           
   def resize(width:Float, height:Float) {
     val hw = width * 0.5f
     val hh = height * 0.5f

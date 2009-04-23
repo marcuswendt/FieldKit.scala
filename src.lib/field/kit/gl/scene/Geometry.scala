@@ -25,6 +25,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
   var states = new ArrayBuffer[RenderState]
   
   var vertices:FloatBuffer = _
+  var normals:FloatBuffer = _
   var coords:FloatBuffer = _
   var colours:FloatBuffer = _
   
@@ -38,12 +39,14 @@ abstract class Geometry(name:String) extends Spatial(name) {
   def allocate(capacity:Int) {
     this.capacity = capacity
     vertices = allocateVertices
+    normals = allocateNormals
     coords = allocateCoords
     colours = allocateColours
     solidColour(colour)
   }
   
   protected def allocateVertices = BufferUtil.vec3(capacity)
+  protected def allocateNormals = BufferUtil.vec3(capacity)
   protected def allocateCoords = BufferUtil.vec2(capacity)
   protected def allocateColours = BufferUtil.colour(capacity)
   

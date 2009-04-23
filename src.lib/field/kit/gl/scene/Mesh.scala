@@ -81,12 +81,14 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
 	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
     gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
     gl.glEnableClientState(GL.GL_COLOR_ARRAY)
+    gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
     
     enableStates
 
     gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
     gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
     gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
+    gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
     
     if(indexCount > 0) {
       gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
@@ -94,11 +96,12 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
       gl.glDrawArrays(geometryType.id, 0, vertexCount)
     }
     
+    disableStates
+    
+    gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
     gl.glDisableClientState(GL.GL_COLOR_ARRAY)
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
     gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-    
-    disableStates
   }
 }
 
@@ -114,12 +117,14 @@ class QuadMesh(name:String) extends Mesh(name) {
 	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
     gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
     gl.glEnableClientState(GL.GL_COLOR_ARRAY)
+    gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
     
     enableStates
 
     gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
     gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
     gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
+    gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
     
     if(indexCount > 0) {
       gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
@@ -127,11 +132,12 @@ class QuadMesh(name:String) extends Mesh(name) {
       gl.glDrawArrays(geometryType.id, 0, vertexCount)
     }
     
+    disableStates
+    
+    gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
     gl.glDisableClientState(GL.GL_COLOR_ARRAY)
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
     gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-    
-    disableStates
   }
 }
 

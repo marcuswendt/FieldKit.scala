@@ -11,6 +11,6 @@ import field.kit.gl.render.Drawable
 import field.kit.structure.graph.Branch
 
 /** basic scene-graph element that contains a group of spatials **/
-class Group(name:String) extends Branch[Spatial](name) with Drawable {
+class Group(name:String) extends Spatial(name) with Branch[Spatial] {
   def draw = children foreach(_.render)
 }

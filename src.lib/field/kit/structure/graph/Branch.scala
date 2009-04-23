@@ -10,7 +10,7 @@ package field.kit.structure.graph
 /** 
  * a special node that has a number of children
  */
-class Branch[T <: Node](name:String) extends Node(name) {
+trait Branch[T <: Node] {
   import scala.collection.mutable.ArrayBuffer
   var children = new ArrayBuffer[T]
   

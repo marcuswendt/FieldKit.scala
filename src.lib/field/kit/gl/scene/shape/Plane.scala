@@ -10,7 +10,10 @@ package field.kit.gl.scene.shape
 import field.kit.gl.scene.TriMesh
 import field.kit._
 
-/** implements a planeoid mesh with variable subdivisions along its two axes */
+/** 
+ * implements a planeoid mesh with variable subdivisions along its two axes
+ * @author Marcus Wendt
+ */
 class Plane(name:String) extends TriMesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
@@ -86,6 +89,9 @@ class Plane(name:String) extends TriMesh(name) {
     this.width = _width
     this.height = _height
     
+    vertices.clear
+    coords.clear
+    
     for(y <- 0 until cols) {
       for(x <- 0 until rows) {
         val u = (x / (rows.asInstanceOf[Float]-1)) * width
@@ -98,5 +104,35 @@ class Plane(name:String) extends TriMesh(name) {
     
     vertices.rewind
     coords.rewind
+  }
+  
+  def update {
+    import field.kit.math.Vec3
+    val cur = new Vec3
+    val left = new Vec3
+    val up = new Vec3
+    
+    val v1 = new Vec3
+    val v2 = new Vec3
+    
+    normals.clear
+    def index(x:Int, y:Int) = y * rows + x
+      
+    for(y <- 0 until cols) {
+      for(x <- 0 until rows) {
+        cur.set(vertices, index(x,y))
+        left.set(vertices, index(if(x+1 == rows) x-1 else x+1, y))
+        up.set(vertices, index(x, if(y+1 == cols) y-1 else y+1))
+        
+        v1(up) -= cur
+        v2(left) -= cur
+        v1 cross v2
+        
+        normals put v1.x
+        normals put v1.y
+        normals put v1.z
+      }
+    }
+    normals.rewind
   }
 }

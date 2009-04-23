@@ -30,6 +30,7 @@ abstract class Sketch extends BasicSketch {
     var description:Elem = _
     var author:String = _
     var url:String = _
+    var date:String = "March 12, 2009"
   }
 
   import javax.swing.JFrame
@@ -45,26 +46,15 @@ abstract class Sketch extends BasicSketch {
       import javax.swing.JScrollPane
       import java.awt.BorderLayout
       
-      // create about html document
-      val about = <html>
-      <head>
-      	<title>test</title>
-      </head>
-      <body style="margin: 1em">
-      	<h1>{meta.name}</h1>
-        <em>by <a href={meta.url}>{meta.author}</a></em>
-      	{meta.description}
-      </body>
-      </html>
-      
       // create frame to display the html
       val f = new JFrame
       f.setLayout(new BorderLayout)
       f.setAlwaysOnTop(true)
+      f.setResizable(false)
       f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
       f.setSize(300, 450)
       
-      val ep = new JEditorPane("text/html", about.toString)
+      val ep = new JEditorPane("text/html", htmlAbout.toString)
       ep.setEditable(false)  
       ep.setOpaque(false)  
       ep.addHyperlinkListener(new HyperlinkListener() {
@@ -85,6 +75,15 @@ abstract class Sketch extends BasicSketch {
     }
     aboutMenu.setVisible(true)
   }
+  
+  /** @return returns the html document that is displayed within the sketches about window */
+  def htmlAbout = <html>
+  	<body style="margin: 10px">
+     <h1>{meta.name}</h1>
+     <em>by <a href={meta.url}>{meta.author}</a>, {meta.date}</em>
+     {meta.description}
+   </body>
+   </html>
 
   // -- System Tweaks ----------------------------------------------------------
   /** 
