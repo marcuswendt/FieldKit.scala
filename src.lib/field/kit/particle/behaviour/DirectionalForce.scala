@@ -13,6 +13,7 @@ import field.kit.math._
 /**
  * a simple force that is applied to the steering vector of a particle
  * e.g. Wind or Gravity
+ * @author Marcus Wendt
  */
 class DirectionalForce(name:String) extends Behaviour(name) {
   protected var _weight = 1f

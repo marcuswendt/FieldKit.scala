@@ -7,7 +7,10 @@
 /* created March 31, 2009 */
 package field.kit.util
 
-/** a simple helper for making sketches time-invariant */
+/** 
+ * a simple helper for making sketches time-invariant
+ * @author Marcus Wendt
+ */
 class Timer {
   def time = System.nanoTime
   val resolution = 1000000000f

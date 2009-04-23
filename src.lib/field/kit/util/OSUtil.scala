@@ -7,7 +7,10 @@
 /* created April 22, 2009 */
 package field.kit.util
 
-/** various utility methods to deal with cross-platform issues */
+/** 
+ * various utility methods to deal with cross-platform issues
+ * @author Marcus Wendt
+ */
 object OSUtil {
   /** the current operating system name in lowercase */
   val osName = System.getProperty("os.name").toLowerCase

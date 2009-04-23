@@ -14,11 +14,13 @@ import field.kit.math.FMath
 
 /**
  * contains global constants 
+ * @author Marcus Wendt
  */
 object Sketch extends PApplet {}
 
 /**
  * extends the BasicSketch with useful features
+ * @author Marcus Wendt
  */
 abstract class Sketch extends BasicSketch {
   

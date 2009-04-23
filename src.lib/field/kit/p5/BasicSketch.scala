@@ -11,6 +11,7 @@ import processing.core.PApplet
 
 /**
  * base class for all Scala-Processing based applets
+ * @author Marcus Wendt
  */
 abstract class BasicSketch extends PApplet with Logger {
   import processing.core.PConstants

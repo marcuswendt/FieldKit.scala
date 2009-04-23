@@ -14,6 +14,7 @@ package field.kit.math.geometry
  * where as <code>Point</code> refers to an arbitrary calculated point on this curve
  * 
  * @see Inspired by <a href="http://code.google.com/p/jmonkeyengine/source/browse/trunk/src/com/jme/curve/Curve.java">JMonkeyEngines Curve class</a>
+ * @author Marcus Wendt
  */
 abstract class Curve(var capacity:Int) {
   import java.nio.FloatBuffer

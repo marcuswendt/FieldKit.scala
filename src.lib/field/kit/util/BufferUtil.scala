@@ -7,7 +7,10 @@
 /* created March 24, 2009 */
 package field.kit.util
 
-/** utility methods for dealing with java.nio buffers */
+/** 
+ * utility methods for dealing with java.nio buffers
+ * @author Marcus Wendt
+ */
 object BufferUtil {
   import java.nio.ByteBuffer
   import java.nio.ByteOrder

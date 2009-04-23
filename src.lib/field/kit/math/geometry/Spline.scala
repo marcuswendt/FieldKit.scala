@@ -16,6 +16,7 @@ package field.kit.math.geometry
  * @see <a href="http://www.mvps.org/directx/articles/catmull/">Catmull-Rom Splines</a>
  * @see <a href="http://en.wikipedia.org/wiki/Spline_(mathematics)">Spline (mathematics)</a>
  * @see <a href="http://en.wikipedia.org/wiki/Hermite_curve#Catmull.E2.80.93Rom_spline">Hermite Curve</a>
+ * @author Marcus Wendt
  */
 class Spline(capacity:Int) extends Curve(capacity) {
   import field.kit.math._

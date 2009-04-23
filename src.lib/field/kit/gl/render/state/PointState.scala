@@ -9,7 +9,10 @@ package field.kit.gl.render.state
 
 import field.kit.gl.render.RenderState
 
-/** draws a mesh as points */
+/** 
+ * Draws a mesh as a cloud of points
+ * @author Marcus Wendt
+ */
 class PointState extends RenderState {
   import field.kit.gl.scene.Geometry
   

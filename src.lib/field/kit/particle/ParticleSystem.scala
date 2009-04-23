@@ -9,7 +9,10 @@ package field.kit.particle
 
 import field.kit.Logger
 
-/** a simple particle system */
+/** 
+ * a simple particle system
+ * @author Marcus Wendt
+ */
 class ParticleSystem extends Logger {
   import scala.collection.mutable.ArrayBuffer
   fine("init")

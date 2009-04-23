@@ -9,7 +9,10 @@ package field.kit.util.file
 
 import field.kit.Logger
 
-/* base classes to implement all sorts of file format readers/writers */
+/* 
+ * base classes to implement all sorts of file format readers/writers
+ * @author Marcus Wendt
+ */
 abstract class FileFormat(var suffix:String) {
   import java.io.File
   

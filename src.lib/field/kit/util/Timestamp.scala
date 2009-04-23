@@ -7,7 +7,10 @@
 /* created March 31, 2009 */
 package field.kit.util
 
-/** convenience class for uniformly formatted timestamps */
+/** 
+ * convenience class for uniformly formatted timestamps
+ * @author Marcus Wendt
+ */
 object Timestamp {
   import java.text.SimpleDateFormat
   import java.util.Date

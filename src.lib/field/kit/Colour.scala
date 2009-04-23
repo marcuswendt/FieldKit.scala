@@ -7,6 +7,10 @@
 /* created March 18, 2009 */
 package field.kit // note NOT .colour
 
+/**
+ * A versatile RGBA Colour utility, used as datatype and for conversion 
+ * @author Marcus Wendt
+ */
 class Colour(
   var r:Float,
   var g:Float,

@@ -12,6 +12,7 @@ package field.kit.math
 // —————————————————————————————————————————————————————————————————————————————
 /**
  * Base class for all Matrizes
+ * @author Marcus Wendt
  */
 abstract class Matrix[T](val size:Int) {
   /** @return Returns the value at the given position in the matrix. */
@@ -26,6 +27,7 @@ abstract class Matrix[T](val size:Int) {
 
 /**
  * Base class for all Float Matrizes
+ * @author Marcus Wendt
  */
 abstract class MatrixF(size:Int) extends Matrix[Float](size) {
   

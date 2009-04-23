@@ -7,7 +7,10 @@
 /* created March 07, 2009 */
 package field.kit.math
 
-/** provides various randomness-generators */
+/** 
+ * provides various randomness-generators
+ * @author Marcus Wendt
+ */
 object Random {
   val rnd = new java.util.Random
   

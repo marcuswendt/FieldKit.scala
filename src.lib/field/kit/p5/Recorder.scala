@@ -11,6 +11,7 @@ package field.kit.p5
  * provides screenshot, sequence and tile recording for a renderer
  * 
  * @see <a href="https://dev.field.io/hg/opensource/libAGL/raw-file/9d7bd472280f/src/field/lib/agl/util/recorder/Recorder.scala">libAGL Recorder</a>
+ * @author Marcus Wendt
  */
 class Recorder extends field.kit.Logger {
   import java.io.File

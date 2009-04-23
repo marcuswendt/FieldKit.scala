@@ -9,6 +9,7 @@ package field.kit.structure.graph
 
 /** 
  * a special node that has a number of children
+ * @author Marcus Wendt
  */
 trait Branch[T <: Node] {
   import scala.collection.mutable.ArrayBuffer

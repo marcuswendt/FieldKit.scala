@@ -7,7 +7,10 @@
 /* created March 24, 2009 */
 package field.kit.gl.render
 
-/** base trait for all renderable elements in the scene */
+/** 
+ * base trait for all renderable elements in the scene
+ * @author Marcus Wendt
+ */
 trait Renderable {
   import javax.media.opengl.GL
   import javax.media.opengl.GLContext

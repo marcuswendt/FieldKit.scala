@@ -9,7 +9,10 @@ package field.kit.util
 
 import field.kit.Logger
 
-/** utility methods for swing interfaces */
+/** 
+ * utility methods for swing interfaces
+ * @author Marcus Wendt
+ */
 object SwingUtil extends Logger {
   import java.awt.DisplayMode
   import java.awt.GraphicsDevice

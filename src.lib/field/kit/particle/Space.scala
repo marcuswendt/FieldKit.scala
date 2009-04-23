@@ -7,7 +7,10 @@
 /* created April 02, 2009 */
 package field.kit.particle
 
-/** represents a cubic space */
+/** 
+ * represents a cubic space
+ * @author Marcus Wendt
+ */
 class Space(w:Float, h:Float, d:Float) {
   import field.kit.math._
   

@@ -9,6 +9,9 @@ package field.kit.p5
 
 import processing.opengl.PGraphicsOpenGL
 
+/**
+ * @author Marcus Wendt
+ */
 class FGraphicsOpenGL extends PGraphicsOpenGL {
   
   override protected def allocate {

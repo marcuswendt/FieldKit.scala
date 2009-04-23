@@ -7,7 +7,10 @@
 /* created March 24, 2009 */
 package field.kit.gl.render
 
-/** base class for all render states */
+/** 
+ * base class for all render states
+ * @author Marcus Wendt
+ */
 abstract class RenderState extends Renderable {
   import field.kit.gl.scene.Geometry
   

@@ -10,7 +10,10 @@ package field.kit.particle
 import field.kit.Logger
 import scala.reflect.Manifest
 
-/** represents a simple point-emitter */
+/** 
+ * represents a simple point-emitter
+ * @author Marcus Wendt
+ */
 class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Logger {
   import field.kit.math.Vec3
   import scala.collection.mutable.ArrayBuffer

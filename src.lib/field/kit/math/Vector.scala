@@ -11,7 +11,8 @@ package field.kit.math
 // Base classes
 // —————————————————————————————————————————————————————————————————————————————
 /**
- * Base class for all Vectors 
+ * Base class for all Vectors
+ * @author Marcus Wendt
  */
 abstract class Vector[T](val size:Int) extends Collection[T] {
   def update(i:Int, value:T)
@@ -19,6 +20,7 @@ abstract class Vector[T](val size:Int) extends Collection[T] {
 
 /**
  * Base class for all Float Vector Types
+ * @author Marcus Wendt
  */
 abstract class VecF(size:Int) extends Vector[Float](size) {
   def +=(s:Float)
@@ -46,6 +48,7 @@ abstract class VecF(size:Int) extends Vector[Float](size) {
 // —————————————————————————————————————————————————————————————————————————————
 /**
  * 2 Dimensional Float Vector
+ * @author Marcus Wendt
  */
 object Vec2 {
   val ZERO = new Vec2(0, 0)
@@ -175,6 +178,7 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
 // —————————————————————————————————————————————————————————————————————————————
 /**
  * 3 Dimensional Float Vector
+ * @author Marcus Wendt
  */
 object Vec3 {
   val ZERO = new Vec3(0, 0, 0)

@@ -9,7 +9,10 @@ package field.kit.particle
 
 import field.kit.Logger
 
-/** a block of code that is applied to all particles, makes them do something */
+/** 
+ * a block of code that is applied to all particles, makes them do something
+ * @author Marcus Wendt
+ */
 abstract class Behaviour(name:String) extends Logger {
   logName = name +"Behaviour"
   fine("init")

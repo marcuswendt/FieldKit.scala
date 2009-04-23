@@ -10,9 +10,15 @@ package field.kit.util.file
 import scala.collection.mutable.ArrayBuffer
 import field.kit.Logger
 
+/**
+ * @author Marcus Wendt
+ */
 class CSVFormat extends FileFormat("csv") {
 }
 
+/**
+ * @author Marcus Wendt
+ */
 object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
   import java.io.InputStream
   import scala.util.matching.Regex

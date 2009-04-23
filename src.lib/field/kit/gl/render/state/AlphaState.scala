@@ -9,6 +9,10 @@ package field.kit.gl.render.state
 
 import field.kit.gl.render.RenderState
 
+/**
+ * Stores blend type constants for the <code>AlphaState</code> class
+ * @author Marcus Wendt
+ */
 object AlphaState extends Enumeration {
   import javax.media.opengl.GL
   
@@ -46,7 +50,10 @@ object AlphaState extends Enumeration {
   val SRC_ALPHA_SATURATE = Value(GL.GL_SRC_ALPHA_SATURATE)
 }
 
-/** applies alpha blending to an object */
+/** 
+ * Applies alpha blending to an object
+ * @author Marcus Wendt
+ */
 class AlphaState extends RenderState {
   import field.kit.gl.scene.Geometry
   import javax.media.opengl.GL

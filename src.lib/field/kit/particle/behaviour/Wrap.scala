@@ -11,6 +11,7 @@ import field.kit.particle.Behaviour
 
 /**
  * makes sure the particle stays within a defined cube-volume by wrapping it around its edges
+ * @author Marcus Wendt
  */
 class Wrap extends Behaviour("Wrap") {
   import field.kit.math.Vec3
