@@ -8,7 +8,7 @@
 package field.kit.gl.scene
 
 import field.kit.gl.render.Drawable
-import field.kit.structure.graph.Branch
+import field.kit.util.datatype.graph.Branch
 
 /** basic scene-graph element that contains a group of spatials **/
 class Group(name:String) extends Spatial(name) with Branch[Spatial] {

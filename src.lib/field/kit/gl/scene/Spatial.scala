@@ -8,7 +8,7 @@
 package field.kit.gl.scene
 
 import field.kit.gl.render.Drawable
-import field.kit.structure.graph.Node
+import field.kit.util.datatype.graph.Node
 
 /** base class for all scene-graph elements */
 abstract class Spatial(name:String) extends Node(name) with Drawable {

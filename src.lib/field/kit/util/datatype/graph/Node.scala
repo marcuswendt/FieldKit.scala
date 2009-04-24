@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created April 15, 2009 */
-package field.kit.structure.graph
+package field.kit.util.datatype.graph
 
 import field.kit.Logger
 

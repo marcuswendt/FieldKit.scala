@@ -7,7 +7,7 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.structure.graph.Node
+import field.kit.util.datatype.graph.Node
 
 /** base class for all geometric objects in the scene-graph */
 abstract class Geometry(name:String) extends Spatial(name) {
