@@ -15,6 +15,7 @@ package field.kit.math
  * @author Marcus Wendt
  */
 abstract class Vector[T](val size:Int) extends Collection[T] {
+  def set(s:String):Vector[T]
   def update(i:Int, value:T)
 }
 
@@ -76,6 +77,7 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   
   def this() = this(0,0)
   def this(v:Vec2) = this(v.x,v.y)
+  def this(s:String) = { this(); set(s); this }
   
   def update(i:Int, value:Float) = 
     i match {
@@ -94,7 +96,6 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     this.y = buffer get i+1
     this
   }
-
   def put(buffer:FloatBuffer, index:Int) = {
     val i = index * 2
     buffer.put(i, x)
@@ -105,6 +106,12 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     buffer put x
     buffer put y
     this    
+  }
+  def set(s:String) = {
+    val a = s.split(Array(':',' '))
+    this.x = java.lang.Float.parseFloat(a(1))
+    this.y = java.lang.Float.parseFloat(a(3))
+    this
   }
   
   def zero = set(0,0)
@@ -171,7 +178,10 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     def hasNext = i==size
   }
   
-  override def toString = "Vec2("+ x +","+ y+")"
+  // helpers
+  override def toString = "Vec2("+ toLabel +")"
+  
+  def toLabel = "x:"+ x +" y:"+ y
 }
 
 
@@ -197,6 +207,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   def this() = this(0,0,0)
   def this(v:Vec2) = this(v.x, v.y, 0)
   def this(v:Vec3) = this(v.x, v.y, v.z)
+  def this(s:String) = { this(); set(s); this }
   
   def update(i:Int, value:Float) = 
     i match {
@@ -218,6 +229,15 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     this.z = buffer get i + 2
     this
   }
+  
+  def set(s:String) = {
+    val a = s.split(Array(':',' '))
+    this.x = java.lang.Float.parseFloat(a(1))
+    this.y = java.lang.Float.parseFloat(a(3))
+    this.z = java.lang.Float.parseFloat(a(5))
+    this
+  }
+  
 
   def put(buffer:FloatBuffer, index:Int) = {
     val i = index * 2
@@ -330,5 +350,6 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     def hasNext = i==size
   }
   
-  override def toString = "Vec3("+ x +", "+ y +", "+ z +")"
+  override def toString = "Vec3("+ toLabel +")"
+  def toLabel = "x:"+ x +" y:"+ y +" z:"+ z
 }

@@ -26,6 +26,7 @@ class Colour(
   
   def this(i:Int) = { this(); set(i) }
   def this(c:Colour) = { this(); set(c) }
+  def this(s:String) = { this(); set(s) }
   def this(grey:Float) = this(grey,grey,grey,1f)
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
@@ -44,6 +45,15 @@ class Colour(
     } else {
       fromRGB(i)
     }
+    this
+  }
+  
+  def set(s:String) = {
+    val a = s.split(Array(':',' '))
+    this.r = java.lang.Float.parseFloat(a(1))
+    this.g = java.lang.Float.parseFloat(a(3))
+    this.b = java.lang.Float.parseFloat(a(5))
+    this.a = java.lang.Float.parseFloat(a(7))
     this
   }
   
@@ -95,6 +105,7 @@ class Colour(
   // -- helpers ----------------------------------------------------------------
   def toInt = toARGB
   override def toString = "Colour("+ r +", "+ g +", "+ b +", "+ a +")"
+  def toLabel = "r:"+ r +" g:"+ g +" b:"+ b +" a:"+ a
 }
 
 object Colour {
