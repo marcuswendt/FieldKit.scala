@@ -1,9 +1,9 @@
 syntax: glob
+.metadata/*
 *Icon*
-bin*
+*/bin*
 *.DS_Store
-.manager/*
+*/.manager/*
+*/build/*
 syntax: regexp
-^build$
-syntax: regexp
-^res/export/tmp$
+^FieldKit/res/export/tmp$

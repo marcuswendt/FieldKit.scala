@@ -49,11 +49,20 @@ class Colour(
   }
   
   def set(s:String) = {
-    val a = s.split(Array(':',' '))
-    this.r = java.lang.Float.parseFloat(a(1))
-    this.g = java.lang.Float.parseFloat(a(3))
-    this.b = java.lang.Float.parseFloat(a(5))
-    this.a = java.lang.Float.parseFloat(a(7))
+    info("set", s)
+    if(s != null) {
+      val a = s.split(Array(':',' '))
+      if(a.length == 8) {
+        try {
+          this.r = java.lang.Float.parseFloat(a(1))
+          this.g = java.lang.Float.parseFloat(a(3))
+          this.b = java.lang.Float.parseFloat(a(5))
+          this.a = java.lang.Float.parseFloat(a(7))
+        } catch {
+          case e:Exception => warn(e, "set: ", s)
+        }
+      }
+    }
     this
   }
   
