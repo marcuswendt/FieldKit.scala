@@ -11,7 +11,7 @@ package field.kit
  * Implements a flexible Logging System
  * @author Marcus Wendt
  */
-object Logger extends Enumeration {
+object Logger extends Enumeration { 
   val ALL = Value
   val FINE = Value
   val INFO = Value

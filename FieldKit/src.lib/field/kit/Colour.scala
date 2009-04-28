@@ -16,7 +16,7 @@ class Colour(
   var g:Float,
   var b:Float,
   var a:Float
-) extends Logger {
+) extends Logger {  
   import field.kit.math._
   
   def this() = this(0f,0f,0f,1f)
