@@ -49,7 +49,6 @@ class Colour(
   }
   
   def set(s:String) = {
-    info("set", s)
     if(s != null) {
       val a = s.split(Array(':',' '))
       if(a.length == 8) {

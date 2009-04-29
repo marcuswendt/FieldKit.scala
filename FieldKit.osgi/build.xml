@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Apr 29, 2009 10:49:24 AM                                                                                                                        
+     ====================================================================== -->
+<project name="project" default="update">
+	<description>
+    	updates the osgi plugin with a fresh build of the fieldkit libraries
+    </description>
+
+	<property name="fieldkit" value="../FieldKit" />
+
+	<target name="update" description="update the libraries">
+		<ant dir="${fieldkit}/" target="dist" />
+		<copy todir="." overwrite="true">
+			<fileset dir="${fieldkit}/build/FieldKit/">
+				<include name="*.jar" />
+				<exclude name="*scala*" />
+			</fileset>
+		</copy>
+	</target>
+</project>
