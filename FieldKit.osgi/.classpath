@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="FieldKit.jar"/>
 	<classpathentry exported="true" kind="lib" path="core.jar"/>
@@ -9,5 +8,7 @@
 	<classpathentry exported="true" kind="lib" path="jogl.jar"/>
 	<classpathentry exported="true" kind="lib" path="opengl.jar"/>
 	<classpathentry exported="true" kind="lib" path="pdf.jar"/>
+	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

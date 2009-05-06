@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: FieldKit Osgi Plug-in
 Bundle-SymbolicName: FieldKit.osgi
-Bundle-Version: 1.0.4
+Bundle-Version: 1.0.0
 Bundle-ClassPath: FieldKit.jar,
  core.jar,
  gluegen-rt.jar,

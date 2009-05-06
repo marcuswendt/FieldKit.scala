@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: FieldKit Eclipse RCP Plug-in
+Bundle-SymbolicName: FieldKit.rcp
+Bundle-Version: 1.0.0
+Bundle-Vendor: field.io
+Require-Bundle: FieldKit.osgi;bundle-version="1.0.0",
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ScalaLibrary.osgi;bundle-version="2.7.4"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
