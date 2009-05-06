@@ -107,10 +107,32 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     buffer put y
     this    
   }
+  
   def set(s:String) = {
-    val a = s.split(Array(':',' '))
-    this.x = java.lang.Float.parseFloat(a(1))
-    this.y = java.lang.Float.parseFloat(a(3))
+    if(s != null) {
+      val iter = FMath.DECIMAL findAllIn s
+      val list = iter.toList
+      var index = 0
+      
+      val next = { 
+        var f = FMath.abs(list(index).toFloat)
+        index += 1
+        f
+      }
+      
+      list.size match {
+        // set xy to a scalar
+        case 1 =>
+          val f = next
+          this.x = f 
+          this.y = f
+        // set xy independently
+        case 2 =>
+          this.x = next 
+          this.y = next    
+        case _ => throw new Exception("Couldnt parse String '"+ s +"'")
+      } 
+    }
     this
   }
   
@@ -181,7 +203,7 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   // helpers
   override def toString = "Vec2("+ toLabel +")"
   
-  def toLabel = "x:"+ x +" y:"+ y
+  def toLabel = "X"+ x +" Y"+ y
 }
 
 
@@ -231,13 +253,34 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   }
   
   def set(s:String) = {
-    val a = s.split(Array(':',' '))
-    this.x = java.lang.Float.parseFloat(a(1))
-    this.y = java.lang.Float.parseFloat(a(3))
-    this.z = java.lang.Float.parseFloat(a(5))
+    if(s != null) {
+      val iter = FMath.DECIMAL findAllIn s
+      val list = iter.toList
+      var index = 0
+      
+      val next = { 
+        var f = FMath.abs(list(index).toFloat)
+        index += 1
+        f
+      }
+      
+      list.size match {
+        // set xyz to a scalar
+        case 1 =>
+          val f = next
+          this.x = f 
+          this.y = f
+          this.z = f
+        // set xyz independently
+        case 3 =>
+          this.x = next 
+          this.y = next
+          this.z = next
+        case _ => throw new Exception("Couldnt parse String '"+ s +"'")
+      } 
+    }
     this
   }
-  
 
   def put(buffer:FloatBuffer, index:Int) = {
     val i = index * 2
@@ -351,5 +394,5 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   }
   
   override def toString = "Vec3("+ toLabel +")"
-  def toLabel = "x:"+ x +" y:"+ y +" z:"+ z
+  def toLabel = "X"+ x +" Y"+ y +" Z"+ z
 }

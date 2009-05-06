@@ -50,16 +50,45 @@ class Colour(
   
   def set(s:String) = {
     if(s != null) {
-      val a = s.split(Array(':',' '))
-      if(a.length == 8) {
-        try {
-          this.r = java.lang.Float.parseFloat(a(1))
-          this.g = java.lang.Float.parseFloat(a(3))
-          this.b = java.lang.Float.parseFloat(a(5))
-          this.a = java.lang.Float.parseFloat(a(7))
-        } catch {
-          case e:Exception => warn(e, "set: ", s)
-        }
+      val iter = FMath.DECIMAL findAllIn s
+      val list = iter.toList
+      var index = 0
+      
+      val next = { 
+        var f = FMath.abs(list(index).toFloat)
+        index += 1
+        // normalize values above 1.0
+        if(f > 1.0f) f /= 255f
+        f
+      }
+      
+      list.size match {
+        // set all 
+        case 1 =>
+          val f = next
+          this.r = f
+          this.g = f
+          this.b = f
+          this.a = f
+        // set rgb and alpha
+        case 2 =>
+          val f = next
+          this.r = f
+          this.g = f
+          this.b = f
+          this.a = next
+        // set the rgb values
+        case 3 =>
+          this.r = next 
+          this.g = next
+          this.b = next
+        // set rgba independently
+        case 4 =>
+          this.r = next 
+          this.g = next
+          this.b = next
+          this.a = next
+        case _ => throw new Exception("Couldnt parse String '"+ s +"' (matches:"+ list.size +")")
       }
     }
     this
@@ -112,8 +141,8 @@ class Colour(
   
   // -- helpers ----------------------------------------------------------------
   def toInt = toARGB
-  override def toString = "Colour("+ r +", "+ g +", "+ b +", "+ a +")"
-  def toLabel = "r:"+ r +" g:"+ g +" b:"+ b +" a:"+ a
+  override def toString = "Colour("+ toLabel +")"
+  def toLabel = "R"+ r +" G"+ g +" B"+ b +" A"+ a
 }
 
 object Colour {

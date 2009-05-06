@@ -18,6 +18,9 @@ object FMath extends FMath {}
  * @author Marcus Wendt
  */
 trait FMath {
+  /** regular expression to detect a number within a string with optional minus and fractional part */
+  val DECIMAL = """(-)?(\d+)(\.\d*)?""".r
+    
   // --------------------------------------------------------------------------
   // implements various interpolation and easing functions
   // @see http://en.wikipedia.org/wiki/Interpolation
