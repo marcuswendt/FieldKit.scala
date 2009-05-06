@@ -52,9 +52,9 @@ class Colour(
     if(s != null) {
       val iter = FMath.DECIMAL findAllIn s
       val list = iter.toList
-      var index = 0
       
-      val next = { 
+      var index = 0
+      def next = { 
         var f = FMath.abs(list(index).toFloat)
         index += 1
         // normalize values above 1.0

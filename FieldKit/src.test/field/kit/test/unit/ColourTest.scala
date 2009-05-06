@@ -42,5 +42,11 @@ class ColourTest extends TestCase {
    assertEquals(c.g, 0.2f)
    assertEquals(c.b, 0.3f)
    assertEquals(c.a, 0.4f)
+   
+   c = new Colour("R1.0 G0.1254902 B0.96862745 A1.0")
+   assertEquals(1.0f, c.r)
+   assertEquals(0.1254902f, c.g)
+   assertEquals(0.96862745f, c.b)
+   assertEquals(1.0f, c.a)
  }
 }
