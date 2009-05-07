@@ -137,26 +137,38 @@ abstract class Sketch extends BasicSketch {
   applySystemTweaks
   
   // -- Menubar ----------------------------------------------------------------
+  import java.awt.MenuBar
+  import java.awt.Menu
+  protected var menuBar:MenuBar = null
+  
   /** Called from init to create a system menubar */
   protected def initMenuBar = {
-    import java.awt.MenuBar
-    import java.awt.Menu
-    import field.kit.util.SwingUtil
-    
-    val m = new MenuBar
+    menuBar = new MenuBar
     
     // file menu
     val file = new Menu("File")
-    file add SwingUtil.menuItem("Record Screenshot", rec.screenshot)
-    file add SwingUtil.menuItem("Quit", exit)
-    m add file
+    initFileMenu(file)
+    menuBar add file
     
     // help menu
     val help = new Menu("Help")    
-    help add SwingUtil.menuItem("About", showAbout)
-    m add help
+    initHelpMenu(help)
+    menuBar add help
     
-    m
+    menuBar
+  }
+  
+  protected def initFileMenu(file:Menu) {
+    import field.kit.util.SwingUtil
+    import java.awt.event.KeyEvent
+    
+    file add SwingUtil.menuItem("Record Screenshot", KeyEvent.VK_R, false, rec.screenshot)
+    file add SwingUtil.menuItem("Quit", KeyEvent.VK_Q, false, exit)
+  }
+  
+  protected def initHelpMenu(help:Menu) {
+    import field.kit.util.SwingUtil
+    help add SwingUtil.menuItem("About", showAbout)
   }
   
   override def init(w:Int, h:Int, initializer: => Unit) {
@@ -166,7 +178,7 @@ abstract class Sketch extends BasicSketch {
   
   // -- Screen Recorder---------------------------------------------------------
   import field.kit.p5.Recorder
-  var rec = new Recorder
+  var rec = new Recorder(this)
   rec.name = meta.name
   
   /** enables/disabled the vertical sync, prevents tearing */

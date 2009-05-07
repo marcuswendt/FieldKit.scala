@@ -32,7 +32,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   import field.kit.math._
   
   /** line end/start style */
-  var capMode = Stroke2D.Cap
+  var capMode = Stroke2D.Cap.FLAT
   
   /** current number of points */
   var length = 0

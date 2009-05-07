@@ -90,6 +90,11 @@
 	<fileset id="data.internal" dir="${data.internal.dir}" includes="${data.internal.includes}" excludes="${data.internal.excludes}" />
 	<fileset id="data.external" dir="${data.external.dir}" includes="${data.external.includes}" excludes="${data.external.excludes}" />
 
+	<path id="cp">
+		<pathelement location="${system.scala-library.jar}" />
+		<fileset refid="libraries.jar" />
+	</path>
+
 	<!-- ================================================ -->
 	<!-- LOAD EXTRA TASKS                                 -->
 	<!-- ================================================ -->
@@ -134,26 +139,17 @@
 		<!-- addparams="-optimise" -->
 		<scalac target="${system.scalac.target}" destdir="${tmp.bin}">
 			<src refid="source.dir.path" />
-
 			<include name="${source.dir.includes}" />
 			<exclude name="${source.dir.excludes}" />
-
-			<classpath>
-				<pathelement location="${system.scala-library.jar}" />
-				<fileset dir="${tmp.lib}" includes="*.jar" />
-			</classpath>
+			<classpath refid="cp" />
 		</scalac>
 
-		<!--
-		<javac target="${system.javac.target}" destdir="${build.tmp}" executable="${system.javac}">
-			<src refid="source.dir" />
-			<exclude name="**test**" />
-			<exclude name="**Test**" />
-			<classpath>
-				<fileset refid="libraries.jar" />
-			</classpath>
+		<javac target="${system.javac.target}" destdir="${tmp.bin}">
+			<src refid="source.dir.path" />
+			<include name="${source.dir.includes}" />
+			<exclude name="${source.dir.excludes}" />
+			<classpath refid="cp" />
 		</javac>
-		-->
 	</target>
 
 	<target name="jar" description="creates a .jar file from the compiled sources">
@@ -218,6 +214,7 @@
 
 		<echo>preparing...</echo>
 		<antcall target="init" />
+		
 		<antcall target="fieldkit" />
 		<antcall target="libraries" />
 		<antcall target="source" />

@@ -17,7 +17,7 @@ object Timestamp {
   
   var format = new SimpleDateFormat("yy.MM.dd-H.mm.ss")
   
-  def now = {
+  def apply() = {
     val now = new Date
     format.format(now)
   }

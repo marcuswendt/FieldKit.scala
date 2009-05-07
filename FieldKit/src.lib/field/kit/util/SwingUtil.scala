@@ -64,9 +64,13 @@ object SwingUtil extends Logger {
   	}
   }
   
+  // ---------------------------------------------------------------------------
+  // menu bars & items
+  import java.awt.MenuItem
+  def menuItem(name:String, action: => Unit):MenuItem = menuItem(name, -1, false, action)
+  
   /** Creates a <code>java.awt.MenuItem</code> */
-  def menuItem(name:String, action: => Unit) = {
-    import java.awt.MenuItem
+  def menuItem(name:String, shortcut:Int, useShift:Boolean, action: => Unit) = {
     import java.awt.event.ActionListener
     import java.awt.event.ActionEvent
     
@@ -77,10 +81,59 @@ object SwingUtil extends Logger {
      */
     
     val i = new MenuItem(name)
+    
+    if(shortcut != -1) {
+      import java.awt.Toolkit
+      import java.awt.MenuShortcut
+      import javax.swing.KeyStroke
+      import java.awt.event.KeyEvent
+      import java.awt.event.InputEvent
+
+//      val mask = Toolkit.getDefaultToolkit.getMenuShortcutKeyMask
+//      val key = KeyStroke.getKeyStroke(KeyEvent.VK_S, mask + InputEvent.SHIFT_MASK)
+//      
+      i.setShortcut(new MenuShortcut(shortcut, useShift));
+    }
+    
     i.addActionListener(new ActionListener {
       def actionPerformed(e:ActionEvent) = action
     })
     i
   }
+  
+  // ---------------------------------------------------------------------------
+  // file chooser
+  import java.awt.FileDialog
+  import java.awt.Frame
+  import java.io.File
+  import java.io.FilenameFilter
+  
+  def chooseFile(mode:Int, parent:Frame, suffix:String, title:String) = {
+    val fd = new java.awt.FileDialog(parent, title, mode)
+    fd.setFilenameFilter(new FilenameFilter {
+      def accept(dir:File, name:String) =
+        name.toLowerCase.endsWith(suffix.toLowerCase)
+    })
+    fd.setVisible(true)
+    
+    if(fd.getFile != null) {
+      var path = fd.getDirectory + fd.getFile
+      
+      // append suffix when necessary
+      if(mode == FileDialog.SAVE) {
+        if(!path.toLowerCase.endsWith("." + suffix)) path += "." + suffix
+      }
+      
+      path
+    } else {
+      null
+    }
+  }
+  
+  def loadFile(parent:Frame, suffix:String, title:String) =
+    chooseFile(FileDialog.LOAD, parent, suffix, title)
+    
+  def saveFile(parent:Frame, suffix:String, title:String) =
+    chooseFile(FileDialog.SAVE, parent, suffix, title)
 }
     
