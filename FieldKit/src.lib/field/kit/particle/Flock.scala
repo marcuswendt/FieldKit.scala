@@ -44,7 +44,7 @@ extends Logger with Collection[P] {
       p.update(dt)
       
       // remove dead particles
-      if(p.age > p.lifeTime) this -= p
+      if(p.age > p.lifeTime && p.lifeTime != Particle.INFINITE) this -= p
     }
   }
   

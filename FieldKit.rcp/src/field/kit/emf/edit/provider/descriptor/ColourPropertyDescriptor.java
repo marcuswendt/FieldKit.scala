@@ -36,8 +36,8 @@ public class ColourPropertyDescriptor extends PropertyDescriptor {
 			IItemPropertyDescriptor itemPropertyDescriptor) {
 		super(object, itemPropertyDescriptor);
 
-		int width = 32;
-		int height = 32;
+		int width = 24;
+		int height = 24;
 		device = Display.getCurrent();
 		labelImage = new Image(device, width, height);
 		labelImage.setBackground(new Color(device, 0, 0, 0));

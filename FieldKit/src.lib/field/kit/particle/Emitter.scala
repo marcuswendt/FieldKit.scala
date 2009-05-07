@@ -11,10 +11,10 @@ import field.kit.Logger
 import scala.reflect.Manifest
 
 /** 
- * represents a simple point-emitter
+ * represents a point based emitter
  * @author Marcus Wendt
  */
-class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Logger {
+class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends Logger {
   import field.kit.math.Vec3
   import scala.collection.mutable.ArrayBuffer
   fine("init")
@@ -41,17 +41,24 @@ class Emitter[P <: Particle](flock:Flock[P])(implicit m:Manifest[P]) extends Log
     
       // emit particles
       for(i <- 0 until rate) {
-        // create particle
-        val p = create
-        p.position(position) 
-        flock += p
-        
-        // apply behaviours      
-        behaviours foreach { b =>
-        	if(b.isEnabled) b.apply(p,dt)
-        }
+        emit
       }
     }
+  }
+  
+  /** emits a single particle and applies the emitter behaviours */
+  def emit = {
+    // create particle
+    val p = create
+    p.position(position) 
+    flock += p
+        
+    // apply behaviours      
+    behaviours foreach { b =>
+      if(b.isEnabled) b.apply(p,0)
+    }
+    
+    p
   }
   
   /** instantiates a new object from the parameterized type */

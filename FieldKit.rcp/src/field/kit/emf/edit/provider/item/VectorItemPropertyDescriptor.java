@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -14,61 +16,69 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 /**
  * @author marcus
- *
  */
 public class VectorItemPropertyDescriptor extends ItemPropertyDescriptor {
 	public static final String ID_X = "X";
 	public static final String ID_Y = "Y";
 	public static final String ID_Z = "Z";
-	
-	private String propertyId;
-	
-	public VectorItemPropertyDescriptor(
-			String propertyId,
-			AdapterFactory adapterFactory,
-		    ResourceLocator resourceLocator,
-		    String displayName,
-		    String description,
-		    EStructuralFeature feature,
-		    boolean isSettable,
-		    boolean multiLine,
-		    boolean sortChoices,
-		    Object staticImage,
-		    String category,
-		    String[] filterFlags) {
-		super(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags);
-		this.propertyId = propertyId;
+
+	private String componentId;
+
+	public VectorItemPropertyDescriptor(String componentId,
+			AdapterFactory adapterFactory, ResourceLocator resourceLocator,
+			String displayName, String description, EStructuralFeature feature,
+			boolean isSettable, boolean multiLine, boolean sortChoices,
+			Object staticImage, String category, String[] filterFlags) {
+
+		super(adapterFactory, resourceLocator, displayName, description,
+				feature, isSettable, multiLine, sortChoices, staticImage,
+				category, filterFlags);
+
+		this.componentId = componentId;
 	}
-	
-	@Override
-    public String getId(Object thisObject)
-    {
-      return displayName + propertyId;
-    }	
 
 	@Override
-	public String getDisplayName(Object object) 
-	{
-		return displayName +" "+ propertyId;	
+	public String getId(Object thisObject) {
+		return displayName + componentId;
+	}
+
+	@Override
+	public String getDisplayName(Object object) {
+		return displayName + " " + componentId;
 	}
 
 	@Override
 	public Object getPropertyValue(Object object) {
-		System.out.println("FloatItemDescrpt getPropertyValue "+ object);
+		info("getPropertyValue " + object);
+		
+		EObject eObject = (EObject) object;
+		if (feature instanceof EAttribute) {
+			EAttribute attribute = (EAttribute) feature;
+			Object result = getValue(eObject, attribute);
+			
+			info("getPropertyValue result: " + result);
+			
+			if (result == null) {
+				return 0f;
+			} else {
+				 return createPropertyValueWrapper(object, result);
+			}
+		}
+
 		return null;
 	}
-	
+
 	@Override
 	public void resetPropertyValue(Object object) {
-		System.out.println("FloatItemDescrpt resetPropertyValue "+ object);	
-		
+		info("resetPropertyValue " + object);
+
 	}
 
 	@Override
 	public void setPropertyValue(Object object, Object value) {
-		System.out.println("FloatItemDescript setPropertyValue "+ object +" value "+ value);
+		info("setPropertyValue " + object + " value " + value);
 	}
-	
+
 	@Override
 	public boolean canSetProperty(Object object) {
 		return isSettable;
@@ -113,10 +123,11 @@ public class VectorItemPropertyDescriptor extends ItemPropertyDescriptor {
 			}
 
 			public String getText(Object object) {
-				System.out.println("FloatItemDescript label "+ object);
-				return "test";
+//				info("label " + object);
+//				return componentId;
+				return object.toString();
 			}
-			
+
 		};
 	}
 
@@ -144,5 +155,19 @@ public class VectorItemPropertyDescriptor extends ItemPropertyDescriptor {
 	@Override
 	public boolean isSortChoices(Object object) {
 		return false;
+
+	}
+
+	public String getComponentId() {
+		return componentId;
+	}
+
+	public void setComponentId(String componentId) {
+		this.componentId = componentId;
+	}
+
+	private void info(Object o) {
+		System.out.println(this.getClass().getSimpleName() + ": "
+				+ o.toString());
 	}
 }

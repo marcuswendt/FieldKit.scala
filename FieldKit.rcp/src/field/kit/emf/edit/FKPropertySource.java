@@ -10,6 +10,8 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import field.kit.Colour;
 import field.kit.emf.edit.provider.descriptor.ColourPropertyDescriptor;
+import field.kit.emf.edit.provider.descriptor.VectorPropertyDescriptor;
+import field.kit.math.Vec2;
 
 /**
  * based on the tutorial from
@@ -35,27 +37,27 @@ public class FKPropertySource extends PropertySource {
 		if (eType instanceof EDataType) {
 			EDataType dataType = (EDataType) eType;
 			Class<?> dataClass = dataType.getInstanceClass();
-			String dataName = dataType.getInstanceClassName();
+			// String dataName = dataType.getInstanceClassName();
 
 			if (dataClass == Colour.class) {
 				return new ColourPropertyDescriptor(object,
 						itemPropertyDescriptor);
-				//
-				// } else if (dataClass == Vec3.class) {
-				// return new Vec3PropertyDescriptor(object,
-				// itemPropertyDescriptor);
-				//
+
+			} else if (dataClass == Vec2.class) {
+				return new VectorPropertyDescriptor(object,
+						itemPropertyDescriptor);
+
 				// } else if (dataClass == Float.class) {
 				// return new FloatPropertyDescriptor(object,
 				// itemPropertyDescriptor);
 				//
-			} else if (dataName == "float") {
+				// } else if (dataName == "float") {
 				// return new FloatPropertyDescriptor(object,
 				// itemPropertyDescriptor);
 
-			} else {
-				System.out.println("unknown type createPropertyDescriptor "
-						+ dataType.getInstanceClassName());
+				// } else {
+				// System.out.println("unknown type createPropertyDescriptor "
+				// + dataType.getInstanceClassName());
 			}
 		}
 

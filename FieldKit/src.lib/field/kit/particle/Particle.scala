@@ -50,3 +50,7 @@ class Particle extends Logger {
     steer.zero
   }
 }
+
+object Particle {
+  val INFINITE = -1
+}
