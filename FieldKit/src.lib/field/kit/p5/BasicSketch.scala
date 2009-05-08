@@ -92,6 +92,9 @@ abstract class BasicSketch extends PApplet with Logger {
     		  		   (screenDim.height - sketchDim.height) / 2,
     		  		    sketchDim.width, 
     		  		    sketchDim.height)
+      
+      this.setSize(sketchDim.width, sketchDim.height)
+      
     } else {
       frame.pack
       val insets = frame.getInsets
