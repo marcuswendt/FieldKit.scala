@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="FieldKit.jar" sourcepath="/FieldKit/src.lib"/>
-	<classpathentry exported="true" kind="lib" path="core.jar"/>
+	<classpathentry exported="true" kind="lib" path="core.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/core/src"/>
 	<classpathentry exported="true" kind="lib" path="gluegen-rt.jar"/>
 	<classpathentry exported="true" kind="lib" path="itext.jar"/>
 	<classpathentry exported="true" kind="lib" path="jogl.jar"/>

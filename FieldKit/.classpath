@@ -18,7 +18,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FieldKit/lib/jogl"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/core/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/itext.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/opengl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/pdf.jar"/>

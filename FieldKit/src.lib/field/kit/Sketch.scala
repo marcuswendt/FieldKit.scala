@@ -122,6 +122,7 @@ abstract class Sketch extends BasicSketch {
     	  override def handleQuit(e:ApplicationEvent) {
     	    fine("system: quit")
     	    e.setHandled(true)
+    	    stop
     	    exit
     	  }
       })
@@ -162,6 +163,7 @@ abstract class Sketch extends BasicSketch {
     import field.kit.util.SwingUtil
     import java.awt.event.KeyEvent
     
+    file add SwingUtil.menuItem("Present", KeyEvent.VK_0, false, this.toggleFullscreen)
     file add SwingUtil.menuItem("Record Screenshot", KeyEvent.VK_R, false, rec.screenshot)
     file add SwingUtil.menuItem("Quit", KeyEvent.VK_Q, false, exit)
   }
@@ -171,9 +173,14 @@ abstract class Sketch extends BasicSketch {
     help add SwingUtil.menuItem("About", showAbout)
   }
   
-  override def init(w:Int, h:Int, initializer: => Unit) {
-    super.init(w,h,initializer)
+  override def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
+    super.init(width,height,fullscreen,initializer)
     frame.setMenuBar(initMenuBar)
+  }
+  
+  override def deinit {
+    frame.setMenuBar(null)
+    super.deinit
   }
   
   // -- Screen Recorder---------------------------------------------------------
