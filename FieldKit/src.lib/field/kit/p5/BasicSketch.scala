@@ -101,8 +101,8 @@ abstract class BasicSketch extends PApplet with Logger {
       this.setBounds(insets.left + insets.right,
                      insets.top + insets.bottom,
                      sketchDim.width,
-                     sketchDim.height
-      				)
+                     sketchDim.height)
+      
       frame.setBounds( (screenDim.width - sketchDim.width) / 2,
     		  		   (screenDim.height - sketchDim.height) / 2,
     		  		    sketchDim.width + insets.left + insets.right, 
