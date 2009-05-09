@@ -239,11 +239,19 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     }
   
   def apply(x:Float, y:Float, z:Float) = set(x,y,z)
+  
   def apply(v:Vec3) = set(v)
   
+  /** sets xyz to a single scalar */
+  def set(s:Float) = { this.x=s; this.y=s; this.z=s; this }
+  
+  /** sets the xyz components individually */
   def set(x:Float, y:Float, z:Float) = { this.x=x; this.y=y; this.z=z; this }
+  
+  /** sets the xyz components to the given vectors xyz components */
   def set(v:Vec3) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
   
+  /** sets the xyz components to the data from a given buffer at a given index */
   def set(buffer:FloatBuffer, index:Int) = {
     val i = index * 3
     this.x = buffer get i
@@ -252,6 +260,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     this
   }
   
+  /** will parse the given string and attempts to set the xyz components accordingly */
   def set(s:String) = {
     if(s != null) {
       val iter = FMath.DECIMAL findAllIn s

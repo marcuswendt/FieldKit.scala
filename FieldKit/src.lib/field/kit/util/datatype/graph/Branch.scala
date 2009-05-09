@@ -11,9 +11,11 @@ package field.kit.util.datatype.graph
  * a special node that has a number of children
  * @author Marcus Wendt
  */
-trait Branch[T <: Node] {
+trait Branch[T <: Node] extends Collection[T] {
   import scala.collection.mutable.ArrayBuffer
   var children = new ArrayBuffer[T]
+  def size = children.size
+  def elements = children.elements
   
   def +=(child:T) = children += child
   def -=(child:T) = children -= child

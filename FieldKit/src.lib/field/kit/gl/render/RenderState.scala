@@ -14,6 +14,8 @@ package field.kit.gl.render
 abstract class RenderState extends Renderable {
   import field.kit.gl.scene.Geometry
   
+  var isEnabled = true
+  
   def enable(geo:Geometry)
   def disable(geo:Geometry)
   

@@ -57,12 +57,24 @@ abstract class Geometry(name:String) extends Spatial(name) {
     colours.clear
   }
   
-  // Render States
-  def enableStates = states foreach(_.enable(this))
+  // -- Render States ----------------------------------------------------------
+  protected def enableStates = states foreach(s => 
+    if(s.isEnabled) s.enable(this)
+  )
   
-  def disableStates = states foreach(_.disable(this))
+  protected def disableStates = states foreach(s => 
+    if(s.isEnabled) s.disable(this)
+  )
   
-  // Colours
+  /** @return the first <code>RenderState</code> that matches the given <code>Class</code> or null */
+  def state[T <: RenderState](clazz:Class[T]):T = {
+    states find (_.getClass == clazz) match {
+      case Some(r:RenderState) => r.asInstanceOf[T]
+      case _ => null.asInstanceOf[T]
+    }
+  }
+  
+  // -- Colours ----------------------------------------------------------------
   def solidColour(c:Colour) {
     colour.set(c)
     if(colours!=null) {

@@ -48,6 +48,25 @@ object AlphaState extends Enumeration {
   
   /** color is multiplied by MIN(src_alpha,1-dst_alpha) */
   val SRC_ALPHA_SATURATE = Value(GL.GL_SRC_ALPHA_SATURATE)
+  
+  object Equation extends Enumeration {
+    //val glBlendEquation
+  }
+  
+  object BlendMode extends Enumeration {
+    val OFF = Value("Off")
+    
+    /** default normal transparency */
+    val NORMAL = Value("Normal")
+    
+    val MULTIPLY = Value("Multiply")
+    
+    /** additive blending with alpha */
+    val ADD = Value("Add")
+    
+    /** additive blending without alpha */
+    val SCREEN = Value("Screen")
+  }
 }
 
 /** 
@@ -66,10 +85,13 @@ class AlphaState extends RenderState {
   
   def this(src:AlphaState.Value, dst:AlphaState.Value) {
     this()
-    this.src = src
-    this.dst = dst
+    set(src,dst)
   }
   
+  /**
+   * @see http://www.opengl.org/sdk/docs/man/xhtml/glBlendFunc.xml
+   * @see http://www.opengl.org/sdk/docs/man/xhtml/glBlendEquation.xml
+   */
   def enable(geo:Geometry) {
     gl.glEnable(GL.GL_BLEND)
     gl.glBlendFunc(src.id, dst.id)
@@ -77,5 +99,29 @@ class AlphaState extends RenderState {
   
   def disable(geo:Geometry) {
     gl.glDisable(GL.GL_BLEND)
-  }	
+  }
+  
+  def set(src:AlphaState.Value, dst:AlphaState.Value) {
+    this.src = src
+    this.dst = dst
+  }
+  
+  def set(mode:AlphaState.BlendMode.Value) {
+    mode match {
+      case AlphaState.BlendMode.OFF =>
+        set(AlphaState.ONE, AlphaState.ZERO)
+       
+      case AlphaState.BlendMode.NORMAL =>
+        set(AlphaState.SRC_ALPHA, AlphaState.ONE_MINUS_SRC_ALPHA)
+        
+      case AlphaState.BlendMode.MULTIPLY =>
+        set(AlphaState.DST_COLOR, AlphaState.ZERO)
+        
+      case AlphaState.BlendMode.ADD =>
+        set(AlphaState.SRC_ALPHA, AlphaState.ONE) 
+        
+      case AlphaState.BlendMode.SCREEN =>
+        set(AlphaState.ONE, AlphaState.ONE) 
+    }
+  }
 }
