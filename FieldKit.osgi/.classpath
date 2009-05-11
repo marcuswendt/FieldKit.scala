@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="FieldKit.jar" sourcepath="/FieldKit/src.lib"/>
 	<classpathentry exported="true" kind="lib" path="core.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/core/src"/>
-	<classpathentry exported="true" kind="lib" path="gluegen-rt.jar"/>
-	<classpathentry exported="true" kind="lib" path="itext.jar"/>
-	<classpathentry exported="true" kind="lib" path="jogl.jar"/>
-	<classpathentry exported="true" kind="lib" path="opengl.jar"/>
-	<classpathentry exported="true" kind="lib" path="pdf.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="gluegen-rt.jar" sourcepath="FieldKit.osgisrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="itext.jar" sourcepath="FieldKit.osgisrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="jogl.jar" sourcepath="FieldKit.osgisrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="opengl.jar" sourcepath="FieldKit.osgisrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="pdf.jar" sourcepath="FieldKit.osgisrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

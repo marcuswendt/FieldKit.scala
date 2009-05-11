@@ -12,6 +12,7 @@
 	<target name="update" description="update the libraries">
 		<ant dir="${fieldkit}/" target="dist" />
 		<copy todir="." overwrite="true">
+
 			<fileset dir="${fieldkit}/build/FieldKit/">
 				<include name="*.jar" />
 				<exclude name="*scala*" />

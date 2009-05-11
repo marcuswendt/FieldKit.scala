@@ -54,7 +54,7 @@
 			<map from="${tmp.lib}/" to="$JAVAROOT/" />
 		</pathconvert>
 
-		<property name="project.classpath" value="$JAVAROOT/${build.jar.name}:${libraries.jar.list}:$JAVAROOT/../" />
+		<property name="project.classpath" value="$JAVAROOT/${build.jar.name}:${libraries.jar.list}:$JAVAROOT/../:$JAVAROOT/../../../../" />
 
 		<!-- process Info.plist template -->
 		<envgen destdir="${dist.contents}" overwrite="true" stripFileExtension="false" envPropertiesFile="lib/envProperties.csv">

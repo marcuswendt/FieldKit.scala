@@ -15,4 +15,3 @@ Export-Package: field.kit.emf.edit,
  field.kit.emf.edit.provider,
  field.kit.emf.edit.provider.descriptor,
  field.kit.emf.edit.provider.item
-Main: 
