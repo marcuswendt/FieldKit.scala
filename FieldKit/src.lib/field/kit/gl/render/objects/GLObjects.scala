@@ -12,16 +12,23 @@ import javax.media.opengl.GL
 /**
  * Provides usage constants for the <code>VertexBuffer</code> class
  */
-object VertexBuffer extends Enumeration {
-  val STATIC_DRAW = Value(GL.GL_STATIC_DRAW_ARB)
-  val STATIC_READ = Value(GL.GL_STATIC_READ_ARB)
-  val STATIC_COPY = Value(GL.GL_STATIC_COPY_ARB)
-  val DYNAMIC_DRAW = Value(GL.GL_DYNAMIC_DRAW_ARB)
-  val DYNAMIC_READ = Value(GL.GL_DYNAMIC_READ_ARB)
-  val DYNAMIC_COPY = Value(GL.GL_DYNAMIC_COPY_ARB)
-  val STREAM_DRAW = Value(GL.GL_STREAM_DRAW_ARB)
-  val STREAM_READ = Value(GL.GL_STREAM_READ_ARB)
-  val STREAM_COPY = Value(GL.GL_STREAM_COPY_ARB)
+object VertexBuffer extends Enumeration with Renderable {
+  val STATIC_DRAW = Value(GL.GL_STATIC_DRAW)
+  val STATIC_READ = Value(GL.GL_STATIC_READ)
+  val STATIC_COPY = Value(GL.GL_STATIC_COPY)
+  val DYNAMIC_DRAW = Value(GL.GL_DYNAMIC_DRAW)
+  val DYNAMIC_READ = Value(GL.GL_DYNAMIC_READ)
+  val DYNAMIC_COPY = Value(GL.GL_DYNAMIC_COPY)
+  val STREAM_DRAW = Value(GL.GL_STREAM_DRAW)
+  val STREAM_READ = Value(GL.GL_STREAM_READ)
+  val STREAM_COPY = Value(GL.GL_STREAM_COPY)
+  
+  def isSupported = gl.isFunctionAvailable("glGenBuffers") &&
+  	gl.isFunctionAvailable("glBindBuffer") &&
+  	gl.isFunctionAvailable("glBufferData") &&
+  	gl.isFunctionAvailable("glDeleteBuffers")
+  
+  def render {}
 }
 
 /**
@@ -49,22 +56,19 @@ class VertexBuffer extends GLObject {
   
   def bind {
      gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
-     gl.glBindBuffer(GL.GL_ARRAY_BUFFER_ARB, id)
+     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id)
   }
 
   def unbind {
-    gl.glBindBuffer(GL.GL_ARRAY_BUFFER_ARB, 0)
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
   }
   
-  // see also:
-  // glBufferDataARB
-  // glBufferSubDataARB
-  def data(size:Int, data:FloatBuffer, usage:VertexBuffer.Value) = 
-    gl.glBufferDataARB(GL.GL_ARRAY_BUFFER_ARB, size, data, usage.id)
+  def data(size:Int, data:FloatBuffer, usage:VertexBuffer.Value) =
+    gl.glBufferData(GL.GL_ARRAY_BUFFER, size * java.lang.Float.SIZE, data, usage.id)
   
   def data(offset:Int, size:Int, data:FloatBuffer) =  
-    gl.glBufferSubDataARB(GL.GL_ARRAY_BUFFER_ARB, offset, size, data)
+    gl.glBufferSubData(GL.GL_ARRAY_BUFFER, offset, size * java.lang.Float.SIZE, data)
 }
 
 /**
