@@ -21,10 +21,11 @@ abstract class BasicSketch extends PApplet with Logger {
   /** set to true when the sketch currently spans the full screen */
   var isFullscreen = false
   
-  var isInitialized = false
+  protected var isInitialized = false
   
   /** the function used when initializing/ reinitializing the sketch */
-  private var initializer:Unit = null
+  //private var initializer:Unit = null
+  private var initializer:(() => Unit) = null
     
   /**
    * custom initialisation, preventing papplets bad double init behaviour
@@ -61,7 +62,7 @@ abstract class BasicSketch extends PApplet with Logger {
     this.hwidth = width / 2f
 	this.hheight = height / 2f
 	this.isFullscreen = fullscreen
-    this.initializer = initializer
+    this.initializer = () => initializer
     
     defaultSize = false
     val titleHeight = 23
@@ -116,8 +117,8 @@ abstract class BasicSketch extends PApplet with Logger {
     
     // go!
     isInitialized = true
-    super.init 
-    initializer
+    super.init
+    this.initializer()
     
     frame.setVisible(true)
     requestFocus
