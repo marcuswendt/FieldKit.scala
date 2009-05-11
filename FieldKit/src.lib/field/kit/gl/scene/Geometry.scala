@@ -19,9 +19,9 @@ abstract class Geometry(name:String) extends Spatial(name) {
   import java.nio.FloatBuffer
   import scala.collection.mutable.ArrayBuffer
   
-  var colour = new Colour(1,1,1)
+  var colour = new Colour(Colour.WHITE)
   
-  // TODO consider switching to a datastructure with a predictable order e.g. ArrayList
+  // TODO consider switching to a datastructure with a predictable order
   var states = new ArrayBuffer[RenderState]
   
   var vertices:FloatBuffer = _

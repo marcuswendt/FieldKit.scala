@@ -81,7 +81,7 @@ abstract class BasicSketch extends PApplet with Logger {
     	override def windowClosing(e:WindowEvent) = System.exit(0)
     })
     frame.setBackground(Color.BLACK)
-    //frame.setResizable(false)
+    frame.setResizable(false)
 
     frame.setLayout(null)
     frame.add(this)

@@ -5,9 +5,8 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created April 23, 2009 */
-package field.kit.gl.render.globject
+package field.kit.gl.render.objects
 
-import field.kit.gl.render.GLObject
 import javax.media.opengl.GL
 
 /**

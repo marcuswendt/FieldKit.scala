@@ -175,8 +175,8 @@ object Colour {
 //  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
 //  def apply(grey:Float, a:Float) = new Colour(grey,grey,grey,a)
 //  
-  val BLACK = new Colour(0)
-  val WHITE = new Colour(1)
+  val BLACK = new Colour(0f)
+  val WHITE = new Colour(1f)
   
   val RED = new Colour(1f, 0f, 0f)
   val GREEN = new Colour(0f, 1f, 0f)

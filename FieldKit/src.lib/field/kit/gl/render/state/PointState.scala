@@ -21,4 +21,6 @@ class PointState extends RenderState {
   
   def disable(geo:Geometry) {
   }	
+  
+  def destroy {}
 }

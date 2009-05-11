@@ -101,6 +101,8 @@ class AlphaState extends RenderState {
     gl.glDisable(GL.GL_BLEND)
   }
   
+  def destroy {}
+  
   def set(src:AlphaState.Value, dst:AlphaState.Value) {
     this.src = src
     this.dst = dst
