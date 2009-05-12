@@ -77,19 +77,29 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
   def triangulate:Unit = triangulate(vertexCount, vertices, indices)
   
   def draw {
+    val coloursEnabled = colours != null
+    val normalsEnabled = normals != null
+    
     // enable gl vertex & texture coord arrays
 	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
     gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-    gl.glEnableClientState(GL.GL_COLOR_ARRAY)
-    gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
+    if(coloursEnabled) gl.glEnableClientState(GL.GL_COLOR_ARRAY)
+    if(normalsEnabled) gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
     
     enableStates
 
     gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
     gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
-    gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
-    gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
     
+    // set colour array or single solid colour
+    if(coloursEnabled) 
+      gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
+    else
+      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+    
+    if(normalsEnabled) gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
+    
+    // draw the mesh
     if(indexCount > 0) {
       gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
     } else {
@@ -98,8 +108,8 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
     
     disableStates
     
-    gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
-    gl.glDisableClientState(GL.GL_COLOR_ARRAY)
+    if(normalsEnabled) gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
+    if(coloursEnabled) gl.glDisableClientState(GL.GL_COLOR_ARRAY)
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
     gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
   }
@@ -107,41 +117,11 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
 
 
 /** Base class for all quad based polygon meshes */
-class QuadMesh(name:String) extends Mesh(name) {
-  
+class QuadMesh(name:String) extends TriMesh(name) {
   geometryType = Mesh.QUADS
-  
-  def draw {
-    import javax.media.opengl.GL
-    
-	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
-    gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-    gl.glEnableClientState(GL.GL_COLOR_ARRAY)
-    gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
-    
-    enableStates
-
-    gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
-    gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
-    gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
-    gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
-    
-    if(indexCount > 0) {
-      gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
-    } else {
-      gl.glDrawArrays(geometryType.id, 0, vertexCount)
-    }
-    
-    disableStates
-    
-    gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
-    gl.glDisableClientState(GL.GL_COLOR_ARRAY)
-    gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
-    gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-  }
 }
 
 
 class QuadStripMesh(name:String) extends QuadMesh(name) {
-   geometryType = Mesh.QUAD_STRIP
+  geometryType = Mesh.QUAD_STRIP
 }
