@@ -16,14 +16,25 @@ class Timer {
   val resolution = 1000000000f
   val time2millisec = 1f/ resolution * 1000f
   
+  var elapsed = 0f
   var last = time
-  var dt = 0f
+  
+  private var dt = 0f
+  
+  reset
   
   /** update delta time since last update */
   def update = {
     val now = time
     dt = (now - last) * time2millisec
+    elapsed += dt
     last = now
     dt
+  }
+  
+  /** resets this timer*/
+  def reset = {
+    elapsed = 0
+    last = time
   }
 }
