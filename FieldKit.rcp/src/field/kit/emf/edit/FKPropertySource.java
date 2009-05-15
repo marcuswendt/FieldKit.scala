@@ -1,15 +1,19 @@
 package field.kit.emf.edit;
 
+import java.net.URI;
+
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import field.kit.Colour;
 import field.kit.emf.edit.provider.descriptor.ColourPropertyDescriptor;
+import field.kit.emf.edit.provider.descriptor.URIPropertyDescriptor;
 import field.kit.emf.edit.provider.descriptor.VectorPropertyDescriptor;
 import field.kit.math.Vec2;
 
@@ -23,9 +27,12 @@ import field.kit.math.Vec2;
  */
 public class FKPropertySource extends PropertySource {
 
-	public FKPropertySource(Object object,
-			IItemPropertySource itemPropertySource) {
+	private EditorPart editor;
+
+	public FKPropertySource(EditorPart editor,
+			Object object, IItemPropertySource itemPropertySource) {
 		super(object, itemPropertySource);
+		this.editor = editor;
 	}
 
 	protected IPropertyDescriptor createPropertyDescriptor(
@@ -45,6 +52,10 @@ public class FKPropertySource extends PropertySource {
 
 			} else if (dataClass == Vec2.class) {
 				return new VectorPropertyDescriptor(object,
+						itemPropertyDescriptor);
+
+			} else if (dataClass == URI.class) {
+				return new URIPropertyDescriptor(editor, object,
 						itemPropertyDescriptor);
 
 				// } else if (dataClass == Float.class) {

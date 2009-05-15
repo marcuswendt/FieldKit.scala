@@ -39,6 +39,7 @@ class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
   def resize(width:Float, height:Float) {
     val hw = width * 0.5f
     val hh = height * 0.5f
+    vertices.clear
     mode match {
       case Quad.TOP_LEFT =>
         BufferUtil.put(vertices, 0, height, 0)
@@ -52,6 +53,6 @@ class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
         BufferUtil.put(vertices, hw, -hh, 0)
         BufferUtil.put(vertices, -hw, -hh, 0)
 	  }
-	  vertices.rewind
+    vertices.rewind
   }
 }

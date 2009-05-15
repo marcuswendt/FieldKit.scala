@@ -18,39 +18,66 @@ object Image extends field.kit.Logger {
   import javax.imageio.ImageIO
   import java.nio.ByteBuffer
   
+  import scala.collection.mutable.HashMap
+  
   import field.kit.util.BufferUtil
+  
+  private val DEFAULT_USE_CACHE = true
+  
+  val cache = new HashMap[URL, Image]
   
   /** Creates a new Image with the given dimensions and alpha */
   def apply(width:Int, height:Int, alpha:Boolean) = create(width, height, alpha)
 
   /** Resolves the given string as URL and returns an Image */
-  def apply(file:String) = load(file)
+  def apply(file:String) = load(file, DEFAULT_USE_CACHE)
   
   /** Loads the image from the given URL */
-  def apply(file:URL) = load(file)
+  def apply(file:URL) = load(file, DEFAULT_USE_CACHE)
+  
+  /** Resolves the given string as URL and returns an Image */
+  def apply(file:String, useCache:Boolean) = load(file, useCache)
+  
+  /** Loads the image from the given URL */
+  def apply(file:URL, useCache:Boolean) = load(file, useCache)
     
   // -- Loading & Creating -----------------------------------------------------
   /** Resolves the given string as URL and returns an Image */
-  def load(file:String):Image = {
-    ClassLoader.getSystemResource(file) match {
+  def load(file:String, useCache:Boolean):Image = {
+    import field.kit.util.Loader
+    Loader.get(file) match {
       case null => warn("load: Couldnt find file '"+ file +"'"); null
-      case url:URL => load(url)
+      case url:URL => load(url, useCache)
     }
   }
   
-  /** Loads the image from the given URL */
-  def load(url:URL):Image = {
+  /** 
+   * Loads the image from the given URL and stores it in the cache 
+   */
+  def load(url:URL, useCache:Boolean):Image = {
+    var image:Image = null
+    
     if(url == null) { 
       warn("load: No URL given")
       null
+      
+    } else if(cache.contains(url) && useCache) {
+      info("reusing", url)
+      image = cache(url)
+      
     } else {
       info("loading", url)
-      
+    
       if(url.getFile.toLowerCase.endsWith(".tga"))
-        loadTGA(url)
+        image = loadTGA(url)
       else
-        loadImage(ImageIO.read(url))
+        image = loadImage(ImageIO.read(url))
+      
+      // put image into cache
+      if(image != null && useCache) cache(url) = image
     }
+    
+    image
   }
   
   protected def loadTGA(url:URL) = {
