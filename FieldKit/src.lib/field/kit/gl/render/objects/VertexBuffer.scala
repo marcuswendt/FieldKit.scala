@@ -55,10 +55,10 @@ object VertexBuffer extends Renderable {
  * @see <a href="http://www.songho.ca/opengl/gl_vbo.html">Songho.ca VBO</a>
  * @author Marcus Wendt
  */
-class VertexBuffer extends GLObject {
+class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   import java.nio.FloatBuffer
   
-  var state = VertexBuffer.State.VERTEX
+  def this() = this(VertexBuffer.State.VERTEX)
   
   def create {
     val ids = new Array[Int](1)
@@ -74,8 +74,8 @@ class VertexBuffer extends GLObject {
   }
 
   def unbind = {
-    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
     gl.glDisableClientState(state.id)
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
   }
   
   def data(size:Int, data:FloatBuffer, usage:VertexBuffer.Usage.Value) =

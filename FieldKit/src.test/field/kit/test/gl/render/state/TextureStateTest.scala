@@ -47,11 +47,18 @@ object TextureStateTest extends field.kit.Sketch {
 //  qc.solidColour(new Colour(1f, 0.75f))
   qc.states += TextureState("res/test/test.tga")
   
+  var qd = new Quad("gif", w, h)
+  qd.states += new AlphaState
+  qd.translation.x = offset + w
+  qd.translation.y = offset - h
+  qd.states += TextureState("res/test/test.gif")
+  
   val scene = new Group("scene")
   scene += qr
   scene += qg
   scene += qb
   scene += qc
+  scene += qd
   
   var mode = AlphaState.BlendMode.OFF
   var onBlack = false

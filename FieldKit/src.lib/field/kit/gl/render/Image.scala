@@ -95,7 +95,22 @@ object Image extends field.kit.Logger {
     val height = awtImage.getHeight
     val alpha = hasAlpha(awtImage)
     
-    val data = awtImage.getRaster.getDataElements(0, 0, width, height, null).asInstanceOf[Array[Byte]]
+    //info("image", awtImage , "depth", awtImage.getColorModel.getNumColorComponents )
+    
+    var rasterData = awtImage.getRaster.getDataElements(0, 0, width, height, null)
+    
+    // check if data is really a byte array, otherwise we need to convert it
+    // this only seems to happen with 1.5 jre's
+    val data:Array[Byte] = rasterData match {
+      case byte:Array[Byte] => byte
+      case _ => 
+        val tmp = new BufferedImage(width, height, 
+                                    if(alpha) BufferedImage.TYPE_4BYTE_ABGR 
+                                    else BufferedImage.TYPE_3BYTE_BGR)
+        val g = tmp.getGraphics
+        g.drawImage(awtImage, 0, 0, null)
+        tmp.getRaster.getDataElements(0, 0, width, height, null).asInstanceOf[Array[Byte]]
+    }
     
     val image = create(width, height, alpha)
     image.data.put(data)
@@ -110,8 +125,6 @@ object Image extends field.kit.Logger {
   
   /** Creates a new Image with the given dimensions and format */
   def create(width:Int, height:Int, format:Format.Value, data:ByteBuffer) = {
-    val bpp = if(hasAlpha(format)) 4 else 3
-    
     val image = new Image
     image.format = format
     image.width = width
@@ -119,7 +132,7 @@ object Image extends field.kit.Logger {
     
     // creates an empty data buffer
     if(data == null) {
-      val scratch = BufferUtil.byte(bpp * width * height)
+      val scratch = BufferUtil.byte(width * height * bitdepth(format))
       scratch.limit(scratch.capacity)
       image.data = scratch
       
@@ -132,6 +145,15 @@ object Image extends field.kit.Logger {
   }
   
   // -- Helpers ----------------------------------------------------------------
+  def bitdepth(format:Format.Value) = 
+    format match {
+      case Image.Format.RGBA => 4
+      case Image.Format.RGB => 3
+      case Image.Format.BGRA => 4
+      case Image.Format.BGR => 3
+      case Image.Format.GREY => 1 
+    }
+  
   def hasAlpha(format:Image.Format.Value) = 
     format == Image.Format.RGBA || format == Image.Format.BGRA 
   
@@ -161,6 +183,7 @@ object Image extends field.kit.Logger {
     val RGB = Value("RGB")
     val BGR = Value("BGR")
     val BGRA = Value("BGRA")
+    val GREY = Value("GREYSCALE")
   }
 }
 
@@ -217,23 +240,25 @@ class Image extends field.kit.Logger {
       case Image.Format.RGBA =>
          glFormat = GL.GL_RGBA8
          glDataFormat = GL.GL_RGBA
-         glDataType = GL.GL_UNSIGNED_BYTE
          
       case Image.Format.RGB =>
         glFormat = GL.GL_RGB8
         glDataFormat = GL.GL_RGB
-        glDataType = GL.GL_UNSIGNED_BYTE
         
       case Image.Format.BGRA =>
         glFormat = GL.GL_RGBA8
         glDataFormat = GL.GL_BGRA
-        glDataType = GL.GL_UNSIGNED_BYTE
         
       case Image.Format.BGR =>
         glFormat = GL.GL_RGB8
         glDataFormat = GL.GL_BGR
-        glDataType = GL.GL_UNSIGNED_BYTE
+        
+      case Image.Format.GREY =>
+        glFormat = GL.GL_LUMINANCE
+        glDataFormat = GL.GL_LUMINANCE
     }
+    
+    glDataType = GL.GL_UNSIGNED_BYTE
   }
   
   def destroy {
