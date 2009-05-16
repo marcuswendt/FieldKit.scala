@@ -110,6 +110,7 @@ class Texture extends GLObject {
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, filter.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, wrap.id)
+        
         unbind
       } catch {
         case e:java.lang.IndexOutOfBoundsException => 
@@ -121,22 +122,39 @@ class Texture extends GLObject {
     }
   }
   
+  /** checks if the associated texture is still valid */
+  def isValid = gl.glIsTexture(this.id)
+  
   def create {
     val ids = new Array[Int](1)
     gl.glGenTextures(ids.length, ids, 0)
     this.id = ids(0)
   }
   
-  def destroy = gl.glDeleteTextures(1, Array(id), 0)
+  def destroy = 
+    if(isValid)
+      gl.glDeleteTextures(1, Array(id), 0)
   
   def bind {
+    // check if texture is still valid
+    if(!isValid && this.id != Texture.UNDEFINED) {
+      warn("need to recreate texture "+ this.id)
+      this.id = Texture.UNDEFINED
+      needsUpdate = true
+    }
+    
     if(needsUpdate) update
-    gl.glEnable(GL.GL_TEXTURE_2D)
-    gl.glBindTexture(GL.GL_TEXTURE_2D, this.id)
+    
+    if(isValid) {
+      gl.glEnable(GL.GL_TEXTURE_2D)
+      gl.glBindTexture(GL.GL_TEXTURE_2D, this.id)
+    }
   }
   
   def unbind {
-    gl.glDisable(GL.GL_TEXTURE_2D)
-    gl.glBindTexture(GL.GL_TEXTURE_2D, 0)
+    if(isValid) {
+      gl.glDisable(GL.GL_TEXTURE_2D)
+      gl.glBindTexture(GL.GL_TEXTURE_2D, 0)
+    }
   }
 }
