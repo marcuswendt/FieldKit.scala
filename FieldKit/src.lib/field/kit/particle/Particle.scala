@@ -9,6 +9,16 @@ package field.kit.particle
 
 import field.kit.Logger
 
+object Particle {
+  val INFINITE = -1
+  
+  object State extends Enumeration {
+    val TRANSITIONING = Value("transitioning")
+    val ALIVE = Value("alive") 
+    val DEAD = Value("dead")
+  }
+}
+
 /**
  * a single particle from the flock
  * @author Marcus Wendt
@@ -31,11 +41,14 @@ class Particle extends Logger {
   var velocityMax = 10f
   
   protected val absVelocity = new Vec3
-
+  
+  /** called automatically when the particle is added to the flock */
+  def init {}
+  
   // perform euler integration
   def update(dt:Float) {
     age += dt
-    
+        
     // update driving force
     steer.clamp(steerMax)
     velocity += steer
@@ -49,8 +62,4 @@ class Particle extends Logger {
     velocity *= ps.friction
     steer.zero
   }
-}
-
-object Particle {
-  val INFINITE = -1
 }

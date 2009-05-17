@@ -24,5 +24,9 @@ class ParticleSystem extends Logger {
   var flocks = new ArrayBuffer[Flock[_]]
   def update(dt:Float) = flocks.foreach(_.update(dt))
   
-  def +=(f:Flock[_]) = flocks += f
+  def +=(f:Flock[_]) {
+    f.ps = this
+    f.init
+    flocks += f
+  }
 }

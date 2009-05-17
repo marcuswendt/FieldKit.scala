@@ -51,7 +51,6 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     // create particle
     val p = create
     p.position(position) 
-    flock += p
         
     // apply behaviours      
     behaviours foreach { b =>
@@ -65,7 +64,9 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
   def create = {
     fine("creating new "+ m)
     val clazz = Class.forName(m.toString)
-    clazz.newInstance.asInstanceOf[P]
+    val p = clazz.newInstance.asInstanceOf[P]
+    flock += p
+    p
   }
   
   /** ignores the timer and forces the emitter to create new particles immediatly */

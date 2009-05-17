@@ -14,18 +14,22 @@ import scala.reflect.Manifest
  * represents a group of particles within the system
  * @author Marcus Wendt
  */
-class Flock[P <: Particle](val ps:ParticleSystem)(implicit m:Manifest[P]) 
+class Flock[P <: Particle](implicit m:Manifest[P]) 
 extends Logger with Collection[P] {
   import scala.collection.mutable.ArrayBuffer
   fine("init")
   
+  var ps:ParticleSystem = null
   var behaviours = new ArrayBuffer[Behaviour]
   var emitter = new Emitter[P](this)
   var particles = new ArrayBuffer[P]
 
-  emitter.position(ps.space.center)
+  /** called automatically when the flock is added to the particle system */
+  def init {
+    emitter.position(ps.space.center)
+  }
   
-  def update(dt:Float) = {
+  def update(dt:Float) {
     // update emitter / creates new particles
     emitter.update(dt)
       
@@ -51,7 +55,7 @@ extends Logger with Collection[P] {
   // ---------------------------------------------------------------------------
   // HELPERS
   // ---------------------------------------------------------------------------
-  def +=(b:Behaviour) = {
+  def +=(b:Behaviour) {
     fine("adding", b)
     b.flock = this
     b.ps = ps
@@ -59,14 +63,15 @@ extends Logger with Collection[P] {
     behaviours += b
   }
    
-  def +=(p:P) = {
+  def +=(p:P) {
     fine("adding", p)
     p.flock = this
     p.ps = ps
+    p.init
     particles += p
   }
   
-  def -=(p:P) = {
+  def -=(p:P) {
     fine("removing", p)
     particles -= p 
   }

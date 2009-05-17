@@ -105,7 +105,7 @@ class Texture extends GLObject {
         gl.glBindTexture(GL.GL_TEXTURE_2D, this.id)
       
         gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, image.glFormat, image.width, image.height, 
-                      0, image.glDataFormat, image.glDataType, image.data)
+                        0, image.glDataFormat, image.glDataType, image.data)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, filter.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, filter.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)
@@ -113,11 +113,12 @@ class Texture extends GLObject {
         
         unbind
       } catch {
-        case e:java.lang.IndexOutOfBoundsException => 
+        case e:java.lang.IndexOutOfBoundsException => { 
           warn("update: Couldnt upload image", e)
+          id = Texture.UNDEFINED
           image = null
+        }
       }
-      
       needsUpdate = false
     }
   }
