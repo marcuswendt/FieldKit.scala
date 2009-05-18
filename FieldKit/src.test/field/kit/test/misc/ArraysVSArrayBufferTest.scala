@@ -16,7 +16,7 @@ object ArraysVSArrayBufferTest extends Logger {
   
   def main(args : Array[String]) : Unit = {
     import scala.collection.mutable.ArrayBuffer
-    val iterations = 1000000 * 30
+    val iterations = 100000 * 30
     
     // static array
     var ar = new Array[Int](iterations)

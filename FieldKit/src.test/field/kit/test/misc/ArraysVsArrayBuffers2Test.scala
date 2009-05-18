@@ -37,7 +37,7 @@ object ArraysVSArrayBuffer2Test extends Logger {
     import scala.collection.mutable.ArrayBuffer
     import scala.collection.mutable.ListBuffer
     //val iterations = 1000000 * 10
-    val iterations = 10000
+    val iterations = 1000
     
     val dt = 0.1f
     
@@ -68,35 +68,62 @@ object ArraysVSArrayBuffer2Test extends Logger {
     	  ab += new PrimitiveAgent(i)
     })
     
-    test("ArrayBuffer for-loop update", {
-    	for(i <- 0 until ab.length)
+    test("ArrayBuffer for-loop update w/ arg", {
+    	for(i <- 0 until iterations)
     		ab(i).update(dt)
+    })
+    
+    test("ArrayBuffer for-loop update no arg", {
+    	for(i <- 0 until iterations)
+    		ab(i).update
     })
     
     test("ArrayBuffer functional foreach update with arg", ab.foreach(_.update(dt)) )
     test("ArrayBuffer functional foreach update no arg", ab.foreach(_.update) )
     
-    import java.util.ArrayList
-    val al = new ArrayList[PrimitiveAgent]()
-    
-    test("ArrayList for-loop fill", {
+    // -- Java ArrayList -------------------------------------------------------
+    val al = new java.util.ArrayList[PrimitiveAgent]()
+    test("Java ArrayList for-loop fill", {
       for(i <- 0 until iterations)
     	  al.add(new PrimitiveAgent(i))
     })
     
-    test("ArrayList for-loop update with arg", {
+    test("Java ArrayList for-loop update with arg", {
       for(i <- 0 until al.size)
         al.get(i).update(dt)
     })
 
-    test("ArrayList for-loop update no arg", {
+    test("Java ArrayList for-loop update no arg", {
       for(i <- 0 until al.size)
         al.get(i).update
     })
 
-    // ----------------------------------------------------------------------------------------
+    // -- Scala JCL ArrayList --------------------------------------------------------
+    val al2 = new collection.jcl.ArrayList[PrimitiveAgent]
+    test("JCL ArrayList for-loop fill", {
+      for(i <- 0 until iterations)
+    	  al2 += new PrimitiveAgent(i)
+    })
     
-    // listbuffer
+    test("JCL ArrayList functional for-loop update with arg", {
+    	al2 foreach(_.update(dt))
+    })
+
+    test("JCL ArrayList functional for-loop update no arg", {
+      al2 foreach(_.update)
+    })
+    
+    test("JCL ArrayList for-loop update with arg", {
+      for(i <- 0 until al2.size)
+        al2(i).update(dt)
+    })
+
+    test("JCL ArrayList for-loop update no arg", {
+      for(i <- 0 until al2.size)
+        al2(i).update
+    })
+    
+    // -- ListBuffer -----------------------------------------------------------
     val lb = new ListBuffer[PrimitiveAgent]    
     
     test("ListBuffer for-loop fill", {
@@ -111,6 +138,35 @@ object ArraysVSArrayBuffer2Test extends Logger {
     
     test("ListBuffer functional foreach update with arg", lb.foreach(_.update(dt)) )
     test("ListBuffer functional foreach update no arg", lb.foreach(_.update) )
+    
+    // -- Immutable -------------------------------------------------------------
+    var s:List[PrimitiveAgent] = Nil 
+    test("Seq for-loop fill", {
+      for(i <- 0 until iterations)
+    	  s = new PrimitiveAgent(i) :: s
+    })
+    
+    test("Seq functional for-loop update with arg", {
+      s foreach(_.update(dt))
+//      for(i <- 0 until al.size)
+//        al2(i).update(dt)
+    })
+
+    test("Seq functional for-loop update no arg", {
+      s foreach(_.update(dt))
+//      for(i <- 0 until al.size)
+//        al2(i).update
+    })
+    
+    test("Seq for-loop update with arg", {
+      for(i <- 0 until s.size)
+        s(i).update(dt)
+    })
+
+    test("Seq for-loop update no arg", {
+      for(i <- 0 until s.size)
+        s(i).update
+    })
   }
   
   
@@ -120,7 +176,12 @@ object ArraysVSArrayBuffer2Test extends Logger {
     val start = System.nanoTime
     func
     val dur = (System.nanoTime - start) / 1000000.0
-    info(name + ":"+ dur +"ms")
+    
+    var fill = ":"
+    for(i <- 0 until 50 - name.length)
+      fill += " "
+    
+    info(name + fill + dur +"ms")
   }
   
   class PrimitiveAgent(val id:Int) {
