@@ -123,6 +123,10 @@ abstract class BasicSketch extends PApplet with Logger {
     frame.setVisible(true)
     requestFocus
   }
+  
+//  override def paint() {
+//    // optimization - do nothing cause PApplet paint leaks memory
+//  }
 
   /** 
    * called when the sketch is getting initialized but was already displayed before

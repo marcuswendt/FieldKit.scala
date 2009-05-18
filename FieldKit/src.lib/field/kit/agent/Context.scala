@@ -11,7 +11,7 @@ import field.kit.agent.graph._
 
 /** Holds information about behaviours, subcontexts and memory of a certain part of the agents brain */
 class Context(name:String) extends Branch(name) {
-  import scala.collection.mutable.ArrayBuffer
+  import field.kit.util.datatype.collection.ArrayBuffer
   
   // TODO how do we set priorities here, simply by order of adding/ removing?
   // is ArrayBuffers positioning reliable?

@@ -17,7 +17,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit.util.BufferUtil
   
   import java.nio.FloatBuffer
-  import scala.collection.mutable.ArrayBuffer
+  import field.kit.util.datatype.collection.ArrayBuffer
   
   var colour = new Colour(Colour.WHITE)
   
@@ -58,13 +58,29 @@ abstract class Geometry(name:String) extends Spatial(name) {
   }
   
   // -- Render States ----------------------------------------------------------
-  protected def enableStates = states foreach(s => 
-    if(s.isEnabled) s.enable(this)
-  )
+  protected def enableStates = {
+//    states foreach(s => 
+//    if(s.isEnabled) s.enable(this)
+//  )
+    var i=0
+    while(i < states.size) {
+      val s = states(i)
+      if(s.isEnabled) s.enable(this)
+      i += 1
+    }
+  }
   
-  protected def disableStates = states foreach(s => 
-    if(s.isEnabled) s.disable(this)
-  )
+  protected def disableStates = {
+//    states foreach(s => 
+//    if(s.isEnabled) s.disable(this)
+//  )
+	var i=0
+    while(i < states.size) {
+      val s = states(i)
+      if(s.isEnabled) s.disable(this)
+      i += 1
+    }                              
+  }
   
   /** @return the first <code>RenderState</code> that matches the given <code>Class</code> or null */
   def state[T <: RenderState](clazz:Class[T]):T = {

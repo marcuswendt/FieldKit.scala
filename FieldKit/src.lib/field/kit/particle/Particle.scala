@@ -10,12 +10,16 @@ package field.kit.particle
 import field.kit.Logger
 
 object Particle {
-  val INFINITE = -1
+  val UNDEFINED = -1
+  
+  val ALIVE = 0
+  val TRANSITIONING = 1
+  val DEAD = 2
   
   object State extends Enumeration {
-    val TRANSITIONING = Value("transitioning")
-    val ALIVE = Value("alive") 
-    val DEAD = Value("dead")
+    val TRANSITIONING = Value
+    val ALIVE = Value
+    val DEAD = Value
   }
 }
 

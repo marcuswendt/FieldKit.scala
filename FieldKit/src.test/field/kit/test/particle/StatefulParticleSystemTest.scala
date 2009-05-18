@@ -18,10 +18,11 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
   val ps = new ParticleSystem
   val f = new StatefulFlock[StatefulParticle]
   f.emitter.rate = 1
-  f.emitter.interval = 100
+  f.emitter.interval = 50
   
   ps += f
   f += new Wind
+  f += new Gravity
   f += new Wrap
   
   val timer = new Timer
@@ -43,8 +44,11 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
     noStroke
     fill(255)
     
-    for(p <- f) {  
-      rect(p.position.x, p.position.y, 3, 3) 
+    var i=0
+    while(i < f.particles.size) {
+      val p = f.particles(i)
+      rect(p.position.x, p.position.y, 3, 3)
+      i += 1
     }
   }
 }

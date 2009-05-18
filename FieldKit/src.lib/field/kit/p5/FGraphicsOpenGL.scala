@@ -32,8 +32,23 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
       
       // Flag defaults to be reset on the next trip into beginDraw().
       settingsInited = false
-      
     } else {
-      reapplySettings}
-	}
+      reapplySettings
+    }
+  }
+  
+  /*
+  private var isCurrent = false
+  
+  // PGraphicsOpenGL.detainContext leaks memory, so try to call it as rarely as possible
+  override def detainContext {
+    if(!isCurrent) {
+      super.detainContext
+      isCurrent = true
+    }
+  }
+  
+  override def releaseContext {
+  }
+  */
 }

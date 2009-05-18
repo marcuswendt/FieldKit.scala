@@ -11,11 +11,12 @@ package field.kit.particle
  * Extends the basic particle with a state machine, allowing to reuse particles
  */
 class StatefulParticle extends Particle {
+  
   /** the current state */
-  var state:Particle.State.Value = null
+  var state = Particle.UNDEFINED
   
   /** the next state after the transition*/
-  var nextState:Particle.State.Value = null
+  var nextState = Particle.UNDEFINED
   
   /** the current time in this state */
   var time = 0f
@@ -25,19 +26,19 @@ class StatefulParticle extends Particle {
   
   /** called when this particle instance is reused by the emitter again */
   def reinit {
-    state = Particle.State.ALIVE
+    state = Particle.ALIVE
     age = 0
     position.zero
     velocity.zero
     steer.zero
   }
   
-  def switch(newState:Particle.State.Value, transitionDuration:Float) {
+  def switch(newState:Int, transitionDuration:Float) {
     if(transitionDuration == 0) {
       this.state = newState
-      this.nextState = null
+      this.nextState = Particle.UNDEFINED
     } else {
-      this.state = Particle.State.TRANSITIONING
+      this.state = Particle.TRANSITIONING
       this.nextState = newState
       this.transitionDuration = transitionDuration
     }
@@ -45,21 +46,21 @@ class StatefulParticle extends Particle {
   }
   
   /** @return true when this particle is alive or transitioning otherwise false */
-  def isAlive = state != Particle.State.DEAD
+  def isAlive = state != Particle.DEAD
   
   /** @return true when this particle is definitively dead ;) */
-  def isDead = state == Particle.State.DEAD
+  def isDead = state == Particle.DEAD
   
   override def update(dt:Float) {
     super.update(dt)
     time += dt
     
     // check if we reached the new state
-    if(state == Particle.State.TRANSITIONING && time >= transitionDuration) 
+    if(state == Particle.TRANSITIONING && time >= transitionDuration) 
       switch(nextState, 0)
     
     // check wether particle is dead
-    if(age > lifeTime && lifeTime != Particle.INFINITE) 
-      switch(Particle.State.DEAD, 0)
+    if(age > lifeTime && lifeTime != Particle.UNDEFINED) 
+      switch(Particle.DEAD, 0)
   }
 }

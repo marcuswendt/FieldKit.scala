@@ -12,7 +12,7 @@ package field.kit.util.datatype.graph
  * @author Marcus Wendt
  */
 trait Branch[T <: Node] extends Collection[T] {
-  import scala.collection.mutable.ArrayBuffer
+  import field.kit.util.datatype.collection.ArrayBuffer
   var children = new ArrayBuffer[T]
   def size = children.size
   def elements = children.elements

@@ -17,7 +17,27 @@ extends Emitter[P](flock) {
   
   override def create = {
     // look for a reuseable dead particle first
-    flock.find(_.isDead) match {
+    var i = 0
+    var result:Any = null
+    while(i < flock.size) {
+      val p = flock.particles(i)
+      if(p.isDead) {
+        result = p
+        i = flock.size
+      }
+      i += 1
+    }
+    
+    if(result == null) {
+      super.create
+    } else {
+      val p = result.asInstanceOf[P]
+      p.reinit
+      p
+    }
+    /*
+    // look for a reuseable dead particle first
+    flock.particles.find(_.isDead) match {
       // no particle available -> create new
       case None => super.create
       // otherwise reuse previous particle
@@ -25,5 +45,6 @@ extends Emitter[P](flock) {
         p.reinit
         p.asInstanceOf[P]
     }
+    */
   }
 }

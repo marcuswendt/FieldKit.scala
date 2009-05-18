@@ -15,14 +15,17 @@ import scala.reflect.Manifest
  * @author Marcus Wendt
  */
 class Flock[P <: Particle](implicit m:Manifest[P]) 
-extends Logger with Collection[P] {
-  import scala.collection.mutable.ArrayBuffer
+extends Logger { 
+  // with Collection[P] - DO NOT inherit from Collection because this circumvents
+  // the optimized field ArrayBuffer and creates memory leaks
+  
+  import field.kit.util.datatype.collection.ArrayBuffer
   fine("init")
   
   var ps:ParticleSystem = null
-  var behaviours = new ArrayBuffer[Behaviour]
   var emitter = new Emitter[P](this)
   var particles = new ArrayBuffer[P]
+  var behaviours = new ArrayBuffer[Behaviour]
 
   /** called automatically when the flock is added to the particle system */
   def init {
@@ -34,10 +37,38 @@ extends Logger with Collection[P] {
     emitter.update(dt)
       
     // prepare behaviours
+    var i = 0
+    while(i < behaviours.size) {
+      val b = behaviours(i)
+      if(b.isEnabled) b.prepare(dt)
+      i += 1
+    }
+
+    i = 0
+    while(i < particles.size) {
+      val p = particles(i)
+      
+      // apply behaviours
+      var j = 0
+      while(j < behaviours.size) {
+        val b = behaviours(j)
+        if(b.isEnabled) b.apply(p,dt)
+        j += 1
+      }
+      
+      // update particles
+      p.update(dt)
+      
+      // remove dead particles
+      if(p.age > p.lifeTime && p.lifeTime != Particle.UNDEFINED) this -= p
+      
+      i += 1
+    }
+    /*
     behaviours foreach { b => 
       if(b.isEnabled) b.prepare(dt)
     }
-
+    
     particles foreach { p =>
       // apply behaviours      
       behaviours foreach { b =>
@@ -48,8 +79,9 @@ extends Logger with Collection[P] {
       p.update(dt)
       
       // remove dead particles
-      if(p.age > p.lifeTime && p.lifeTime != Particle.INFINITE) this -= p
+      if(p.age > p.lifeTime && p.lifeTime != Particle.UNDEFINED) this -= p
     }
+    */
   }
   
   // ---------------------------------------------------------------------------
@@ -76,7 +108,8 @@ extends Logger with Collection[P] {
     particles -= p 
   }
   
+  // -- Collection Helpers -----------------------------------------------------
   def size = particles.size
   
-  def elements = particles.elements
+  def apply(i:Int) = particles.apply(i)
 }

@@ -38,8 +38,8 @@ object TextureState {
 
 /** Applies a texture to an object */
 class TextureState extends RenderState {
-  import scala.collection.mutable.ArrayBuffer
   import javax.media.opengl.GL
+  import field.kit.util.datatype.collection.ArrayBuffer
   import field.kit.gl.scene.Geometry
 
   protected var textures = new ArrayBuffer[Texture]

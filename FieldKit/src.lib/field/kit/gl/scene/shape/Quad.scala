@@ -15,11 +15,13 @@ object Quad extends Enumeration {
   val CENTER = Value
 }
 
-class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
+class Quad(name:String, var _width:Float, var _height:Float) extends QuadMesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.BufferUtil
   
   var mode = Quad.CENTER
+  
+  // -- Initialisation ---------------------------------------------------------
   allocate(4)
   vertexCount = 4
   
@@ -29,7 +31,7 @@ class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
   BufferUtil.put(coords, 0f, 1f)	
   coords.rewind
   
-  resize(width, height)
+  resize(_width, _height)
   
   /** auxilliary constructor */
   def this(name:String) {
@@ -37,6 +39,9 @@ class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
   }
            
   def resize(width:Float, height:Float) {
+    this._width = width
+    this._height = height
+    
     val hw = width * 0.5f
     val hh = height * 0.5f
     vertices.clear
@@ -55,4 +60,8 @@ class Quad(name:String, width:Float, height:Float) extends QuadMesh(name) {
 	  }
     vertices.rewind
   }
+  
+  // -- Getters/ Setters -------------------------------------------------------
+  def width = _width
+  def height = _height
 }

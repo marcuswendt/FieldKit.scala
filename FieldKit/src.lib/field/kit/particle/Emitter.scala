@@ -16,7 +16,7 @@ import scala.reflect.Manifest
  */
 class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends Logger {
   import field.kit.math.Vec3
-  import scala.collection.mutable.ArrayBuffer
+  import field.kit.util.datatype.collection.ArrayBuffer
   fine("init")
   
   var position = new Vec3
@@ -35,13 +35,21 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
       time = 0
       
       // prepare behaviours
-      behaviours foreach { b => 
-      	if(b.isEnabled) b.prepare(dt)
+//      behaviours foreach { b => 
+//      	if(b.isEnabled) b.prepare(dt)
+//      }
+      var i = 0
+      while(i < behaviours.size) {
+        val b = behaviours(i)
+        if(b.isEnabled) b.prepare(dt)
+        i += 1
       }
     
       // emit particles
-      for(i <- 0 until rate) {
+      var j = 0
+      while(j < rate) {
         emit
+        j += 1
       }
     }
   }
@@ -53,8 +61,14 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     p.position(position) 
         
     // apply behaviours      
-    behaviours foreach { b =>
+//    behaviours foreach { b =>
+//      if(b.isEnabled) b.apply(p,0)
+//    }
+    var i = 0
+    while(i < behaviours.size) {
+      val b = behaviours(i)
       if(b.isEnabled) b.apply(p,0)
+      i += 1
     }
     
     p
