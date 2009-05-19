@@ -7,6 +7,20 @@
 /* created April 22, 2009 */
 package field.kit.p5
 
+object Recorder {
+  object FileFormat extends Enumeration {
+    val TGA = Value("tga")
+    val PNG = Value("png")
+    val JPG = Value("jpg")
+  }
+    
+  object State extends Enumeration {
+    val SCREENSHOT = Value
+    val SEQUENCE = Value
+    val OFF = Value
+  }
+}
+
 /**
  * provides screenshot, sequence and tile recording for a renderer
  * 
@@ -21,29 +35,15 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
   import javax.media.opengl.GLException
   
   import com.sun.opengl.util.TGAWriter
-
-  object FileFormat extends Enumeration {
-    val TGA = Value("tga")
-    val PNG = Value("png")
-    val JPG = Value("jpg")
-  }
-    
-  object State extends Enumeration {
-    val SCREENSHOT = Value
-    val SEQUENCE = Value
-    val OFF = Value
-  }
-
-  // ---------------------------------------------------------------------------
   
   // configuration
   var name = "screenshot"
   var baseDir = "./recordings"
   var alpha = false
-  var format = FileFormat.TGA
+  var format = Recorder.FileFormat.PNG
 
   // internal 
-  private var state = State.OFF
+  private var state = Recorder.State.OFF
   private var sequenceBasedir = "./"
   private var sequenceFrame = 0
 
@@ -55,58 +55,62 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
   
   /** should be called after the drawing is finished */
   def post {
-    if(isRecording) {
-      import java.io.IOException
-      import com.sun.opengl.util.Screenshot
-      import field.kit.util.Timestamp
+    if(!isRecording) return
       
-      var width = s.width
-      var height = s.height
-      val suffix = "."+ format
-
-      val file = state match {
-        case State.SCREENSHOT =>
-          val f = new File(baseDir +"/"+ name + "_" + Timestamp() + suffix)
-          info("file "+ f)
-          f.getParentFile.mkdirs
-          f
-          
-        case State.SEQUENCE =>
-          // create parent folder for the
-          if(sequenceFrame == 0) {
-            val tmp = new File(name)
-            sequenceBasedir = tmp.getParent + "/" + Timestamp()
-            new File(sequenceBasedir).mkdirs
-            name = tmp.getName
-          }
-          
-          val f = new File(sequenceBasedir + "/" + name +"."+ sequenceFrame + suffix)
-          sequenceFrame += 1
-          f
-      }
-      
-      try {
-        format match {
-          case FileFormat.TGA => Screenshot.writeToTargaFile(file, width, height, alpha)
-          case _ => Screenshot.writeToFile(file, width, height, alpha)
+    import java.io.IOException
+    import com.sun.opengl.util.Screenshot
+    import field.kit.util.Timestamp
+    
+    var width = s.width
+    var height = s.height
+    val suffix = "."+ format
+    
+    // prepare file & folders
+    val file = state match {
+      case Recorder.State.SCREENSHOT =>
+        val f = new File(baseDir +"/"+ name + "_" + Timestamp() + suffix)
+        info("file "+ f)
+        f.getParentFile.mkdirs
+        f
+        
+      case Recorder.State.SEQUENCE =>
+        // create parent folder for the
+        if(sequenceFrame == 0) {
+          val tmp = new File(name)
+          sequenceBasedir = tmp.getParent + "/" + Timestamp()
+          new File(sequenceBasedir).mkdirs
+          name = tmp.getName
         }
-      } catch {
-        case e:GLException => warn(e)
-        case e:IOException => warn(e)
+        
+        val f = new File(sequenceBasedir + "/" + name +"."+ sequenceFrame + suffix)
+        sequenceFrame += 1
+        f
       }
-      
-      if(state == State.SCREENSHOT) stop
-    } 
+    
+    // save the file
+    try {
+      format match {
+        case Recorder.FileFormat.TGA => Screenshot.writeToTargaFile(file, width, height, alpha)
+        case _ => Screenshot.writeToFile(file, width, height, alpha)
+      }
+    } catch {
+      case e:GLException => warn(e)
+      case e:IOException => warn(e)
+    }
+    
+    // check if we're done
+    if(state == Recorder.State.SCREENSHOT) stop
   }
   
-  def isRecording = state != State.OFF
+  // -- State Control ----------------------------------------------------------
+  def isRecording = state != Recorder.State.OFF
   
-  def stop = state = State.OFF
+  def stop = state = Recorder.State.OFF
   
-  def screenshot = state = State.SCREENSHOT
+  def screenshot = state = Recorder.State.SCREENSHOT
   
   def sequence {
-    state = State.SEQUENCE
+    state = Recorder.State.SEQUENCE
     sequenceFrame = 0
   }
 }

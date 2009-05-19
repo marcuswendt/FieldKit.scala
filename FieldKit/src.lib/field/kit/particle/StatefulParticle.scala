@@ -45,10 +45,13 @@ class StatefulParticle extends Particle {
     time = 0
   }
   
+  /** @return true only when this particle is alive */
+  def isAlive = state == Particle.ALIVE
+
   /** @return true when this particle is alive or transitioning otherwise false */
-  def isAlive = state != Particle.DEAD
+  def isActive = state != Particle.DEAD
   
-  /** @return true when this particle is definitively dead ;) */
+  /** @return true only when this particle is dead */
   def isDead = state == Particle.DEAD
   
   override def update(dt:Float) {

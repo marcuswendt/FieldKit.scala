@@ -33,7 +33,7 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
     while(i < particles.size) {
       val p = particles(i)
       
-      if(p.isAlive) {
+      if(p.isActive) {
         // apply behaviours
         var j = 0
         while(j < behaviours.size) {
