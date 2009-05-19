@@ -56,20 +56,7 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
   // used with tiler, later
   /** should be called before anything is drawn to the screen */
   def pre {
-    // check if we need to reinitialize the image and buffer
-    if(format != Recorder.FileFormat.TGA) {
-      val initRequired = if(buffer == null)
-        true
-      else
-        image.getWidth != s.width || image.getHeight != s.height
-      
-      if(initRequired) {
-        val ib = Compressor.prepare(s.width, s.height, alpha)
-        image = ib._1
-        buffer = ib._2
-      }
-    }
-      // var image = Screenshot.readToBufferedImage(width, height, alpha)
+    //if(!isRecording) return
   }
   
   /** should be called after the drawing is finished */
@@ -125,8 +112,21 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
       case e:IOException => warn(e)
     }
     
-    // check if we're done
-    if(state == Recorder.State.SCREENSHOT) stop
+    // check if we're done and how to proceed
+    state match {
+      case Recorder.State.SCREENSHOT => stop
+      case Recorder.State.SEQUENCE => init
+      case _ => info("state", state)
+    }
+  }
+  
+  def init {
+    // check if we need to reinitialize the image and buffer
+    if(format != Recorder.FileFormat.TGA) {
+     val ib = Compressor.prepare(s.width, s.height, alpha)
+     image = ib._1
+     buffer = ib._2
+    }
   }
   
   // -- State Control ----------------------------------------------------------
@@ -134,7 +134,10 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
   
   def stop = state = Recorder.State.OFF
   
-  def screenshot = state = Recorder.State.SCREENSHOT
+  def screenshot = {
+    init
+    state = Recorder.State.SCREENSHOT
+  }
   
   def sequence {
     if(isRecording) {
@@ -142,6 +145,7 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
       stop
     } else {
       info("starting sequence recording...")
+      init
       state = Recorder.State.SEQUENCE
       sequenceFrame = 0
     }
