@@ -101,16 +101,19 @@ class Texture extends GLObject {
       
       // upload image data to texture
       try {
-        info("updating texture", this.id, "width", image.width, "height", image.height, "data", image.data)
+        //info("updating texture", this.id, "width", image.width, "height", image.height, "data", image.data)
         
         gl.glEnable(GL.GL_TEXTURE_2D)
         gl.glBindTexture(GL.GL_TEXTURE_2D, this.id)
         
-        // debug
+        // make sure the data buffer is ready
         image.data.rewind
         
+        // upload data
         gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, image.glFormat, image.width, image.height, 
                         0, image.glDataFormat, image.glDataType, image.data)
+        
+        // set filter parameters
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, filter.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, filter.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)

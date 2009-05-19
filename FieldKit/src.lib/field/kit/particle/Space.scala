@@ -31,10 +31,13 @@ class Space(w:Float, h:Float, d:Float) {
     _center.z = _dimension.z * .5f
   }
   
-  // getters
+  // -- Getters ----------------------------------------------------------------
   def width = _dimension.x
   def height = _dimension.y
   def depth = _dimension.z
   def dimension = _dimension
   def center = _center
+  
+  // -- Helpers ----------------------------------------------------------------
+  override def toString = "Space("+ width +" "+ height +" "+ depth +")"
 }

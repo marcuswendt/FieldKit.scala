@@ -29,19 +29,23 @@ object Recorder {
  */
 class Recorder(s:BasicSketch) extends field.kit.Logger {
   import java.io.File
+  import java.nio.ByteBuffer
   import java.awt.image.BufferedImage
  
   import javax.media.opengl.GL
   import javax.media.opengl.GLException
-  
-  import com.sun.opengl.util.TGAWriter
+
+  import field.kit.util.Compressor
   
   // configuration
   var name = "screenshot"
   var baseDir = "./recordings"
   var alpha = false
   var format = Recorder.FileFormat.PNG
-
+  
+  var image:BufferedImage = null
+  var buffer:ByteBuffer = null
+  
   // internal 
   private var state = Recorder.State.OFF
   private var sequenceBasedir = "./"
@@ -51,15 +55,31 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
   
   // used with tiler, later
   /** should be called before anything is drawn to the screen */
-  def pre {}
+  def pre {
+    // check if we need to reinitialize the image and buffer
+    if(format != Recorder.FileFormat.TGA) {
+      val initRequired = if(buffer == null)
+        true
+      else
+        image.getWidth != s.width || image.getHeight != s.height
+      
+      if(initRequired) {
+        val ib = Compressor.prepare(s.width, s.height, alpha)
+        image = ib._1
+        buffer = ib._2
+      }
+    }
+      // var image = Screenshot.readToBufferedImage(width, height, alpha)
+  }
   
   /** should be called after the drawing is finished */
   def post {
-    if(!isRecording) return
-      
     import java.io.IOException
     import com.sun.opengl.util.Screenshot
+    import com.sun.opengl.util.TGAWriter    
     import field.kit.util.Timestamp
+    
+    if(!isRecording) return
     
     var width = s.width
     var height = s.height
@@ -77,7 +97,7 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
         // create parent folder for the
         if(sequenceFrame == 0) {
           val tmp = new File(name)
-          sequenceBasedir = tmp.getParent + "/" + Timestamp()
+          sequenceBasedir = baseDir + "/" + Timestamp()
           new File(sequenceBasedir).mkdirs
           name = tmp.getName
         }
@@ -91,7 +111,14 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
     try {
       format match {
         case Recorder.FileFormat.TGA => Screenshot.writeToTargaFile(file, width, height, alpha)
-        case _ => Screenshot.writeToFile(file, width, height, alpha)
+        case _ =>
+          // capture image into buffer
+          val readbackType = if(alpha) GL.GL_ABGR_EXT else GL.GL_BGR
+          val gl = s.pgl.gl
+          gl.glReadPixels(0, 0, image.getWidth, image.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
+
+          // compress buffer
+          Compressor(image, format.toString, file)
       }
     } catch {
       case e:GLException => warn(e)
@@ -110,7 +137,13 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
   def screenshot = state = Recorder.State.SCREENSHOT
   
   def sequence {
-    state = Recorder.State.SEQUENCE
-    sequenceFrame = 0
+    if(isRecording) {
+      info("sequence recording stopped.")
+      stop
+    } else {
+      info("starting sequence recording...")
+      state = Recorder.State.SEQUENCE
+      sequenceFrame = 0
+    }
   }
 }

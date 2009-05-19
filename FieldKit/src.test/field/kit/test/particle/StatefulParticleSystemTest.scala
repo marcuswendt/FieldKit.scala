@@ -16,26 +16,47 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
   import field.kit.util.Timer
   
   val ps = new ParticleSystem
+  
   val f = new StatefulFlock[StatefulParticle]
   f.emitter.rate = 1
   f.emitter.interval = 50
+  f.emitter += new Behaviour("initializer") {
+    def apply(p:Particle, dt:Float) {
+      p.steerMax = 10f
+      p.velocityMax = 45f
+    }
+  }
   
   ps += f
   f += new Wind
   f += new Gravity
   f += new Wrap
   
+  f += new Behaviour("perlin") {
+    var time = 0f
+    var tmp = 0f
+    
+    override def prepare(dt:Float) = time += dt
+    
+    def apply(p:Particle, dt:Float) {
+      val weight = 10f
+      p.steer.x += (noise(tmp, p.age) * 2f - 1f) * weight
+      p.steer.y += (noise(time, p.age) * 2f - 1f) * weight
+      tmp += dt
+    }
+  }
+  
   val timer = new Timer
   
   init(1280, 768, false, {
-    info("initializer")
     ps.space.set(width, height, 100) 
-    info("space width", ps.space.width, "height", ps.space.height, "depth", ps.space.depth)
+    f.emitter.position.set( ps.space.center )
+    info("initialized", ps.space)
   })
   
   def render {
     // update
-    val dt = timer.update 
+    val dt = if(rec.isRecording) 1000/30f else timer.update
     ps.update(dt)
     
     // render

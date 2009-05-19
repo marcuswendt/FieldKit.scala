@@ -96,12 +96,16 @@ object Image extends field.kit.Logger {
   
   /** Creates a FieldKit Image from a Java AWT Image */
   protected def loadImage(awtImage:BufferedImage) = {
+    import com.sun.opengl.util.ImageUtil
+    
     val width = awtImage.getWidth
     val height = awtImage.getHeight
     val alpha = hasAlpha(awtImage)
     
-    //info("image", awtImage , "depth", awtImage.getColorModel.getNumColorComponents )
+    // flip image so it sits correctly in the OpenGL view 
+    ImageUtil.flipImageVertically(awtImage)
     
+    //info("image", awtImage , "depth", awtImage.getColorModel.getNumColorComponents )
     var rasterData = awtImage.getRaster.getDataElements(0, 0, width, height, null)
     
     // check if data is really a byte array, otherwise we need to convert it
