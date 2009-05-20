@@ -98,6 +98,7 @@ object ArraysVSArrayBuffer2Test extends Logger {
         al.get(i).update
     })
 
+    /*
     // -- Scala JCL ArrayList --------------------------------------------------------
     val al2 = new collection.jcl.ArrayList[PrimitiveAgent]
     test("JCL ArrayList for-loop fill", {
@@ -122,6 +123,7 @@ object ArraysVSArrayBuffer2Test extends Logger {
       for(i <- 0 until al2.size)
         al2(i).update
     })
+    */
     
     // -- ListBuffer -----------------------------------------------------------
     val lb = new ListBuffer[PrimitiveAgent]    

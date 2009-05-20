@@ -21,23 +21,22 @@ object TextureStateTest2 extends field.kit.Sketch {
   val h = 350f
   val offset = w/5f
   
-  var qr = new Quad("regular texture", w, h)
+  var qr = new Quad("nwse tex", w, h)
   qr.states += new AlphaState
   qr.translation.x = -offset
   qr.translation.y = -offset
 //  qr.solidColour(new Colour(1f, 0, 0, 0.5f))
-  qr.states += TextureState("res/test/test.jpg")
+  qr.states += TextureState("res/test/test_nwse.png")
   
   
-  var qg = new Quad("alpha texture", w, h)
-  qg.states += new AlphaState
-  qg.states += TextureState("res/test/pattern_rgb.png")
+//  var qg = new Quad("alpha texture", w, h)
+//  qg.states += new AlphaState
+//  qg.states += TextureState("res/test/pattern_rgb.png")
   
-
   
   val scene = new Group("scene")
   scene += qr
-  scene += qg
+//  scene += qg
   
   var mode = AlphaState.BlendMode.OFF
   var onBlack = false

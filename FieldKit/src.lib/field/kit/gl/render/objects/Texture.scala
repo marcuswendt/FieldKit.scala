@@ -119,6 +119,9 @@ class Texture extends GLObject {
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, wrap.id)
         
+        // select modulate to mix texture with color for shading
+        // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+          
         unbind
       } catch {
         case e:java.lang.IndexOutOfBoundsException => { 

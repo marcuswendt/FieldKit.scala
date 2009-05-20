@@ -22,7 +22,7 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
   f.emitter.interval = 50
   f.emitter += new Behaviour("initializer") {
     def apply(p:Particle, dt:Float) {
-      p.steerMax = 10f
+      p.steerMax = 2f
       p.velocityMax = 45f
     }
   }
@@ -60,8 +60,11 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
     ps.update(dt)
     
     // render
-    background(64)
+    //background(64)
     rectMode(CENTER)
+    fill(64, 10)
+    rect(width/2f,height/2f,width,height)
+    
     noStroke
     fill(255)
     
