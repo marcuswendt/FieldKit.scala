@@ -26,7 +26,8 @@ object TextureStateTest2 extends field.kit.Sketch {
   qr.translation.x = -offset
   qr.translation.y = -offset
 //  qr.solidColour(new Colour(1f, 0, 0, 0.5f))
-  qr.states += TextureState("res/test/test_nwse.png")
+//  qr.states += TextureState("res/test/test_nwse.png")
+  qr.states += TextureState("res/test/mm.jpg")
   
   
 //  var qg = new Quad("alpha texture", w, h)

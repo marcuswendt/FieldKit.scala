@@ -71,11 +71,11 @@ object Image extends field.kit.Logger {
       if(url.getFile.toLowerCase.endsWith(".tga"))
         image = loadTGA(url)
       else {
-        try {
+//        try {
           image = loadImage(ImageIO.read(url))
-        } catch {
-          case e:Exception => warn("load", url, e)
-        } 
+//        } catch {
+//          case e:Exception => warn("load", url, e)
+//        } 
       }
       
       // put image into cache
@@ -95,29 +95,66 @@ object Image extends field.kit.Logger {
   }
   
   /** Creates a FieldKit Image from a Java AWT Image */
-  protected def loadImage(awtImage:BufferedImage) = {
+  protected def loadImage(srcImage:BufferedImage) = {
     import com.sun.opengl.util.ImageUtil
     
-    val width = awtImage.getWidth
-    val height = awtImage.getHeight
-    val alpha = hasAlpha(awtImage)
+    var width = srcImage.getWidth
+    var height = srcImage.getHeight
+    val alpha = hasAlpha(srcImage)
+    
+    // check if we need to resize the image    
+    var texWidth = 2
+    while(texWidth < width)
+      texWidth *= 2
+
+    var texHeight = 2
+    while(texHeight < height)
+      texHeight *= 2
+
+    fine("create", width, height, "texWidth", texWidth, "texHeight", texHeight)
+    
+    val tmpImage = 
+      if(texWidth != width || texHeight != height) {
+        import java.util.Map
+        import java.util.HashMap
+
+        import java.awt.RenderingHints
+        import java.awt.image.RescaleOp
+        import java.awt.image.AffineTransformOp
+        import java.awt.geom.AffineTransform
+      
+        val af = AffineTransform.getScaleInstance(
+          texWidth/width.asInstanceOf[Float],
+          texHeight/height.asInstanceOf[Float] )
+        
+        val rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        val transform = new AffineTransformOp(af,rh)
+
+        width = texWidth
+        height = texHeight
+                
+        val destImg = transform.createCompatibleDestImage(srcImage, srcImage.getColorModel)
+        transform.filter(srcImage, destImg)
+      } else {
+        srcImage
+      }
     
     // flip image so it sits correctly in the OpenGL view 
-    ImageUtil.flipImageVertically(awtImage)
+    ImageUtil.flipImageVertically(tmpImage)
     
     //info("image", awtImage , "depth", awtImage.getColorModel.getNumColorComponents )
-    var rasterData = awtImage.getRaster.getDataElements(0, 0, width, height, null)
+    var rasterData = tmpImage.getRaster.getDataElements(0, 0, tmpImage.getWidth, tmpImage.getHeight, null)
     
     // check if data is really a byte array, otherwise we need to convert it
     // this only seems to happen with 1.5 jre's
     val data:Array[Byte] = rasterData match {
       case byte:Array[Byte] => byte
-      case _ => 
+      case _ =>
         val tmp = new BufferedImage(width, height, 
                                     if(alpha) BufferedImage.TYPE_4BYTE_ABGR 
                                     else BufferedImage.TYPE_3BYTE_BGR)
         val g = tmp.getGraphics
-        g.drawImage(awtImage, 0, 0, null)
+        g.drawImage(tmpImage, 0, 0, null)
         tmp.getRaster.getDataElements(0, 0, width, height, null).asInstanceOf[Array[Byte]]
     }
     
