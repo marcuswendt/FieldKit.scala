@@ -110,7 +110,7 @@ class Texture extends GLObject {
         image.data.rewind
         
         // upload data
-        gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, image.glFormat, image.width, image.height, 
+        gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, image.glFormat, image.texWidth, image.texHeight, 
                         0, image.glDataFormat, image.glDataType, image.data)
         
         // set filter parameters

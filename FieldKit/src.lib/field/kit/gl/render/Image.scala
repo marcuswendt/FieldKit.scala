@@ -95,26 +95,27 @@ object Image extends field.kit.Logger {
   }
   
   /** Creates a FieldKit Image from a Java AWT Image */
-  protected def loadImage(srcImage:BufferedImage) = {
+  protected def loadImage(sourceImage:BufferedImage) = {
     import com.sun.opengl.util.ImageUtil
     
-    var width = srcImage.getWidth
-    var height = srcImage.getHeight
-    val alpha = hasAlpha(srcImage)
+    var width = sourceImage.getWidth
+    var height = sourceImage.getHeight
+    val alpha = hasAlpha(sourceImage)
     
-    // check if we need to resize the image    
-    var texWidth = 2
-    while(texWidth < width)
-      texWidth *= 2
+    // flip image so it sits correctly in the OpenGL view 
+    ImageUtil.flipImageVertically(sourceImage)
 
-    var texHeight = 2
-    while(texHeight < height)
-      texHeight *= 2
+    // create image
+    val image = create(width, height, alpha)
 
-    fine("create", width, height, "texWidth", texWidth, "texHeight", texHeight)
-    
-    val tmpImage = 
-      if(texWidth != width || texHeight != height) {
+    // eventually resize the image to match the texture's dimensions
+    val textureImage = 
+      if(image.texWidth != image.width || image.texHeight != image.height) {
+        import java.awt.Color
+        
+        /*
+        // Transformations seem to cause random errors in some JRE versions
+        // better resize the old school way
         import java.util.Map
         import java.util.HashMap
 
@@ -122,43 +123,43 @@ object Image extends field.kit.Logger {
         import java.awt.image.RescaleOp
         import java.awt.image.AffineTransformOp
         import java.awt.geom.AffineTransform
-      
+        import java.awt.Color
+         
         val af = AffineTransform.getScaleInstance(
-          texWidth/width.asInstanceOf[Float],
-          texHeight/height.asInstanceOf[Float] )
+          image.texWidth/ image.width.asInstanceOf[Float],
+          image.texHeight/ image.height.asInstanceOf[Float] )
         
         val rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         val transform = new AffineTransformOp(af,rh)
-
-        width = texWidth
-        height = texHeight
-                
-        val destImg = transform.createCompatibleDestImage(srcImage, srcImage.getColorModel)
-        transform.filter(srcImage, destImg)
+             
+        val resizedImage = transform.createCompatibleDestImage(sourceImage, sourceImage.getColorModel)
+        transform.filter(sourceImage, resizedImage)
+        */
+        
+        val imageType = if(alpha) BufferedImage.TYPE_4BYTE_ABGR else BufferedImage.TYPE_3BYTE_BGR
+        val resizedImage = new BufferedImage(image.texWidth, image.texHeight, imageType)
+        val g = resizedImage.getGraphics
+        g.drawImage(sourceImage, 0, 0, image.texWidth, image.texHeight, Color.BLACK, null)
+        resizedImage
       } else {
-        srcImage
+        sourceImage
       }
     
-    // flip image so it sits correctly in the OpenGL view 
-    ImageUtil.flipImageVertically(tmpImage)
-    
-    //info("image", awtImage , "depth", awtImage.getColorModel.getNumColorComponents )
-    var rasterData = tmpImage.getRaster.getDataElements(0, 0, tmpImage.getWidth, tmpImage.getHeight, null)
-    
+    var rasterData = textureImage.getRaster.getDataElements(0, 0, textureImage.getWidth, textureImage.getHeight, null)
+
     // check if data is really a byte array, otherwise we need to convert it
     // this only seems to happen with 1.5 jre's
     val data:Array[Byte] = rasterData match {
       case byte:Array[Byte] => byte
       case _ =>
-        val tmp = new BufferedImage(width, height, 
+        val tmp = new BufferedImage(textureImage.getWidth, textureImage.getHeight, 
                                     if(alpha) BufferedImage.TYPE_4BYTE_ABGR 
                                     else BufferedImage.TYPE_3BYTE_BGR)
         val g = tmp.getGraphics
-        g.drawImage(tmpImage, 0, 0, null)
-        tmp.getRaster.getDataElements(0, 0, width, height, null).asInstanceOf[Array[Byte]]
+        g.drawImage(textureImage, 0, 0, null)
+        tmp.getRaster.getDataElements(0, 0, tmp.getWidth, tmp.getHeight, null).asInstanceOf[Array[Byte]]
     }
     
-    val image = create(width, height, alpha)
     image.data.put(data)
     image.data.flip
     
@@ -171,14 +172,25 @@ object Image extends field.kit.Logger {
   
   /** Creates a new Image with the given dimensions and format */
   def create(width:Int, height:Int, format:Format.Value, data:ByteBuffer) = {
+    // calculate texture size    
+    var texWidth = 2
+    while(texWidth < width)
+      texWidth *= 2
+    
+    var texHeight = 2
+    while(texHeight < height)
+      texHeight *= 2
+    
     val image = new Image
     image.format = format
     image.width = width
     image.height = height
+    image.texWidth = texWidth
+    image.texHeight = texHeight
     
     // creates an empty data buffer
     if(data == null) {
-      val scratch = BufferUtil.byte(width * height * bitdepth(format))
+      val scratch = BufferUtil.byte(texWidth * texHeight * bitdepth(format))
       scratch.limit(scratch.capacity)
       image.data = scratch
       
@@ -241,8 +253,23 @@ class Image extends field.kit.Logger {
   import java.nio.ByteBuffer
   import javax.media.opengl.GL
   
+  /** the original image width, 
+   * we need to remember this so we set the image to its proper dimensions later */
   var width = 0
+  
+  /** the original image height, 
+   * we need to remember this so we set the image to its proper dimensions later */
   var height = 0
+  
+  /** the width of the opengl texture 
+   * (not necessarily the same as width) */
+  var texWidth = 0
+  
+  /** the height of the opengl texture 
+   * (not necessarily the same as height) */
+  var texHeight = 0
+  
+  /** the image's texture data */
   var data:ByteBuffer = null
   
   protected var _format:Image.Format.Value = null
