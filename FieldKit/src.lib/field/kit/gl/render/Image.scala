@@ -71,11 +71,11 @@ object Image extends field.kit.Logger {
       if(url.getFile.toLowerCase.endsWith(".tga"))
         image = loadTGA(url)
       else {
-//        try {
+        try {
           image = loadImage(ImageIO.read(url))
-//        } catch {
-//          case e:Exception => warn("load", url, e)
-//        } 
+        } catch {
+          case e:Exception => warn("load", url, e)
+        } 
       }
       
       // put image into cache
