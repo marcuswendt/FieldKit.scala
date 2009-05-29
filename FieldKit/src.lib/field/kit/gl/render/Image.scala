@@ -113,9 +113,9 @@ object Image extends field.kit.Logger {
       if(image.texWidth != image.width || image.texHeight != image.height) {
         import java.awt.Color
         
-        /*
         // Transformations seem to cause random errors in some JRE versions
         // better resize the old school way
+        // However g.drawImage doesnt seem to respect the Alpha channel
         import java.util.Map
         import java.util.HashMap
 
@@ -134,12 +134,14 @@ object Image extends field.kit.Logger {
              
         val resizedImage = transform.createCompatibleDestImage(sourceImage, sourceImage.getColorModel)
         transform.filter(sourceImage, resizedImage)
+        
+        /*
+        val imageType = if(alpha) BufferedImage.TYPE_4BYTE_ABGR else BufferedImage.TYPE_3BYTE_BGR
+        val resizedImage = new BufferedImage(image.texWidth, image.texHeight, sourceImage.getType)
+        val g = resizedImage.getGraphics
+        g.drawImage(sourceImage, 0, 0, image.texWidth, image.texHeight, new Color(0f,0f,0f,0f), null)
         */
         
-        val imageType = if(alpha) BufferedImage.TYPE_4BYTE_ABGR else BufferedImage.TYPE_3BYTE_BGR
-        val resizedImage = new BufferedImage(image.texWidth, image.texHeight, imageType)
-        val g = resizedImage.getGraphics
-        g.drawImage(sourceImage, 0, 0, image.texWidth, image.texHeight, Color.BLACK, null)
         resizedImage
       } else {
         sourceImage

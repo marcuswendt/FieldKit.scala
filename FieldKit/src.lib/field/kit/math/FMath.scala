@@ -122,6 +122,7 @@ trait FMath {
     var result = value
     if(result > max) result = max
     if(result < min) result = min
+    if(result > max) result = max
     result
   }
   
