@@ -5,9 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created May 11, 2009 */
-package field.kit.gl.render.state
+package field.kit.gl.scene.state
 
-import field.kit.gl.render.RenderState
+import field.kit.gl.scene.RenderState
 import field.kit.gl.render.objects.Texture
 
 /** Companion object to <code>TextureState</code> */

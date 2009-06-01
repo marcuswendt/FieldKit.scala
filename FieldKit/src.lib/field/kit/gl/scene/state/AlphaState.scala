@@ -5,9 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 24, 2009 */
-package field.kit.gl.render.state
+package field.kit.gl.scene.state
 
-import field.kit.gl.render.RenderState
+import field.kit.gl.scene.RenderState
 
 /**
  * Stores blend type constants for the <code>AlphaState</code> class

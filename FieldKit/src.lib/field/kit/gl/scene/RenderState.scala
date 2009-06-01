@@ -5,22 +5,23 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created March 24, 2009 */
-package field.kit.gl.render.state
+package field.kit.gl.scene
 
-import field.kit.gl.render.RenderState
+import field.kit.gl.render.Renderable
 
 /** 
- * Draws a mesh as a cloud of points
+ * base class for all render states
  * @author Marcus Wendt
  */
-class PointState extends RenderState {
+abstract class RenderState extends Renderable with field.kit.Logger {
   import field.kit.gl.scene.Geometry
   
-  def enable(geo:Geometry) {
-  }
+  var isEnabled = true
   
-  def disable(geo:Geometry) {
-  }	
+  def enable(geo:Geometry)
+  def disable(geo:Geometry)
   
-  def destroy {}
+  def destroy
+  
+  final override def render {}
 }
