@@ -4,42 +4,38 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created May 08, 2009 */
-package field.kit.test.gl.render.state
+/* created May 11, 2009 */
+package field.kit.test.gl.scene.state
 
 /** 
- * quick test for the fullscreen mode switch
+ * quick test for the texture state feature
  */
-object AlphaStateTest extends field.kit.Sketch {
-  import field.kit.gl.scene.shape.Quad
-  import field.kit.gl.scene.state.AlphaState
-  import field.kit.Colour
+object TextureStateTest2 extends field.kit.Sketch {
   import field.kit.gl.scene._
+  import field.kit.gl.scene.shape._
+  import field.kit.gl.scene.state._
+
+  val w = 350f
+  val h = 350f
+  val offset = w/5f
   
-  val w = 550f
-  val h = 550f
-  val offset = w/6f
-  
-  var qr = new Quad("red", w, h)
+  var qr = new Quad("nwse tex", w, h)
   qr.states += new AlphaState
   qr.translation.x = -offset
   qr.translation.y = -offset
-  qr.solidColour(new Colour(1f, 0, 0, 0.5f))
+//  qr.solidColour(new Colour(1f, 0, 0, 0.5f))
+//  qr.states += TextureState("res/test/test_nwse.png")
+  qr.states += TextureState("res/test/mm.jpg")
   
-  var qg = new Quad("green", w, h)
-  qg.states += new AlphaState
-  qg.solidColour(new Colour(0, 1f, 0, 0.5f))
   
-  var qb = new Quad("blue", w, h)
-  qb.states += new AlphaState
-  qb.translation.x = offset
-  qb.translation.y = offset
-  qb.solidColour(new Colour(0, 0, 1f, 0.5f))
-    
+//  var qg = new Quad("alpha texture", w, h)
+//  qg.states += new AlphaState
+//  qg.states += TextureState("res/test/pattern_rgb.png")
+  
+  
   val scene = new Group("scene")
   scene += qr
-  scene += qg
-  scene += qb
+//  scene += qg
   
   var mode = AlphaState.BlendMode.OFF
   var onBlack = false
@@ -51,11 +47,11 @@ object AlphaStateTest extends field.kit.Sketch {
   def render {
     background(if(onBlack) 0 else 255)
     
-    scene.children foreach (s => {
-      val q = s.asInstanceOf[Geometry]
-      val as = q.state(classOf[AlphaState])
-      as.set(mode)
-    })
+//    scene.children foreach (s => {
+//      val q = s.asInstanceOf[Geometry]
+//      val as = q.state(classOf[AlphaState])
+//      as.set(mode)
+//    })
     
     scene.translation set (width/2f, height/2f, 0)
     
@@ -65,6 +61,7 @@ object AlphaStateTest extends field.kit.Sketch {
   }
   
   override def keyPressed {
+//    info("keyPressed ", key)
     key match { 
       case ' ' =>
         var nextId = if(mode.id + 1 < AlphaState.BlendMode.maxId) mode.id + 1 else 0

@@ -45,7 +45,7 @@ object Image extends field.kit.Logger {
   /** Resolves the given string as URL and returns an Image */
   def load(file:String, useCache:Boolean):Image = {
     import field.kit.util.Loader
-    Loader.get(file) match {
+    Loader.resolveToURL(file) match {
       case null => warn("load: Couldnt find file '"+ file +"'"); null
       case url:URL => load(url, useCache)
     }

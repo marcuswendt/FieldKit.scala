@@ -16,9 +16,9 @@ object Loader extends field.kit.Logger {
   import java.io.File
   
   /**
-   * Tries to resolve the given String to an URL in various ways
+   * Tries to resolve the given <code>String</code> to an <code>URL</code> in various ways
    */
-  def get(file:String) = {
+  def resolveToURL(file:String) = {
     import java.net.MalformedURLException
     
     var url:URL = null
@@ -39,5 +39,29 @@ object Loader extends field.kit.Logger {
     }
     
     url
+  }
+  
+  /**
+   * Tries to read the file from the given <code>URL</code> into a <code>String</code>
+   * @return 
+   */
+  def readFile(url:URL) = {
+    import java.io.BufferedReader
+    import java.io.InputStreamReader
+
+    try {
+      var buffer = ""
+      val reader = new BufferedReader(new InputStreamReader(url.openStream))
+      var line = ""
+      while (line != null) {
+        line = reader.readLine
+        buffer += line + "\n"
+      }
+      buffer
+    } catch {
+      case(e:Exception) =>
+        warn(e)
+        null
+    }
   }
 }

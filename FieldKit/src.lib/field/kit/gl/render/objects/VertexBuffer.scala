@@ -81,6 +81,13 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   def data(size:Int, data:FloatBuffer, usage:VertexBuffer.Usage.Value) =
     gl.glBufferData(GL.GL_ARRAY_BUFFER, size * java.lang.Float.SIZE, data, usage.id)
   
+  /** uploads a chunk of the given FloatBuffer into the VBO */
   def data(offset:Int, size:Int, data:FloatBuffer) =  
     gl.glBufferSubData(GL.GL_ARRAY_BUFFER, offset, size * java.lang.Float.SIZE, data)
+  
+  /** uploads the entire FloatBuffer into the VBO */
+  def data(data:FloatBuffer) {
+    data.rewind
+    gl.glBufferSubData(GL.GL_ARRAY_BUFFER, 0, data.capacity * java.lang.Float.SIZE, data)
+  }
 }
