@@ -17,18 +17,55 @@ import field.kit.gl.render.objects._
 object ShaderState extends field.kit.Logger {
   import java.net.URL
   import field.kit.util.Loader
+
+  private val URLTest = "([a-zA-Z]+://.+)".r
   
+  def apply(vsSourceOrURL:String, fsSourceOrURL:String) = {
+    val vs = vertexShader(getSource(vsSourceOrURL))
+    val fs = fragmentShader(getSource(fsSourceOrURL))
+    new ShaderState(vs, fs)
+  }
+    
+  /** 
+  	* Creates a <code>ShaderState</code> by compiling the contents from the given URL
+  	* (Checks the suffix of the File specified by the URL to decide wether this is a Fragment- or Vertexshader)
+  	*/
+  def apply(url:URL) = {
+    var vs = VertexShader.DEFAULT
+    var fs = FragmentShader.DEFAULT
+    
+    if(url.toString.endsWith(VertexShader.SUFFIX))
+      vs = vertexShader(Loader.readFile(url))
+    else
+      fs = fragmentShader(Loader.readFile(url))
+      
+    new ShaderState(vs, fs)
+  }
+  
+  /** Creates a <code>ShaderState</code> by compiling the contents from the two given URLs */
   def apply(vsURL:URL, fsURL:URL) = {
     val vs = vertexShader(Loader.readFile(vsURL))
     val fs = fragmentShader(Loader.readFile(fsURL))
     new ShaderState(vs, fs)
   }
   
+  /**
+   * Tries to figure out wether the given String is an URL to load the shader code from
+   * or already the source code itself.
+   * @return the source code
+   */
+  protected def getSource(sourceOrURL:String) = {
+    URLTest findFirstIn sourceOrURL match {
+      case Some(url:String) => Loader.readFile(new URL(url))
+      case None => sourceOrURL
+    }
+  }
+
   /** 
    * Creates a new <code>VertexShader</code> from the given GLSL sourcecode.
    * Falls back to the default fixed pipeline VertexShader on error. 
    */
-  def vertexShader(source:String) = {
+  protected def vertexShader(source:String) = {
     try {
       new VertexShader(source)
     } catch {
@@ -42,7 +79,7 @@ object ShaderState extends field.kit.Logger {
    * Creates a new <code>FragmentShader</code> from the given GLSL sourcecode.
    * Falls back to the default fixed pipeline FragmentShader on error. 
    */
-  def fragmentShader(source:String) = {
+  protected def fragmentShader(source:String) = {
     try {
       new FragmentShader(source)
     } catch {

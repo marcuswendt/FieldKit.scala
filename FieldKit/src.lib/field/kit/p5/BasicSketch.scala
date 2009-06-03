@@ -25,14 +25,12 @@ abstract class BasicSketch extends PApplet with Logger {
   
   /** the function used when initializing/ reinitializing the sketch */
   //private var initializer:Unit = null
-  private var initializer:(() => Unit) = null
+  protected var initializer:(() => Unit) = null
     
   /**
    * custom initialisation, preventing papplets bad double init behaviour
    */
-  def main(args:Array[String]):Unit = { 
-    info("main")
-  }
+  def main(args:Array[String]):Unit = {}
   
   /** alternate initializer */
   def init(width:Int, height:Int):Unit = init(width, height, false, null)
@@ -118,15 +116,12 @@ abstract class BasicSketch extends PApplet with Logger {
     // go!
     isInitialized = true
     super.init
-    this.initializer()
     
     frame.setVisible(true)
     requestFocus
   }
   
-//  override def paint() {
-//    // optimization - do nothing cause PApplet paint leaks memory
-//  }
+  override def setup() = this.initializer()
 
   /** 
    * called when the sketch is getting initialized but was already displayed before

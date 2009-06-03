@@ -9,7 +9,7 @@ package field.kit.gl.render.objects
 
 /** Thrown when a GLSL <code>Shader</code> couldn't be compiled. */
 class ShaderCompileException(info:String) 
-extends Exception("Compile Error: "+ info) {}
+extends Exception(info) {}
 
 /** Base class for all types of GLSL shaders */
 abstract class Shader extends GLObject {
@@ -26,6 +26,8 @@ abstract class Shader extends GLObject {
       throw new ShaderCompileException("No source given!")
       return
     }
+    
+    if(id == GLObject.UNDEFINED) create
     
     gl.glShaderSource(id, 1, Array(source), null.asInstanceOf[Array[Int]], 0)
     gl.glCompileShader(id)
@@ -61,6 +63,9 @@ class VertexShader extends Shader {
 
 /** Companion object to class <code>VertexShader</code> */
 object VertexShader {
+  /** the default file-suffix for these types of shaders */
+  val SUFFIX = "vs"
+  
   /** the default fixed-pipe vertex shader */
   val DEFAULT = new VertexShader("""
 	void main()
@@ -90,6 +95,9 @@ class FragmentShader extends Shader {
 
 /** Companion object to class <code>FragmentShader</code> */
 object FragmentShader {
+  /** the default file-suffix for these types of shaders */
+  val SUFFIX = "fs"
+  
   /** the default fixed-pipe fragment shader */
   val DEFAULT = new FragmentShader("""
 	uniform sampler2D tex;
@@ -115,6 +123,9 @@ class GeometryShader extends Shader {
  
 // Companion object to class <code>GeometryShader</code>
 object GeometryShader {
+  // the default file-suffix for these types of shaders
+  val SUFFIX = "gs"
+
   /** a default geometry shader */
   val DEFAULT = new GeometryShader("""
 	void main()

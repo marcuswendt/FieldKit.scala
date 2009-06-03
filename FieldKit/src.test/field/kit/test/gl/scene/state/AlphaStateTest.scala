@@ -10,7 +10,7 @@ package field.kit.test.gl.scene.state
 /** 
  * quick test for the fullscreen mode switch
  */
-object AlphaStateTest extends field.kit.Sketch {
+object AlphaStateTest extends field.kit.test.Sketch {
   import field.kit.gl.scene._
   import field.kit.gl.scene.shape._
   import field.kit.gl.scene.state._
@@ -43,10 +43,6 @@ object AlphaStateTest extends field.kit.Sketch {
   
   var mode = AlphaState.BlendMode.OFF
   var onBlack = false
-  
-  init(1280, 768, false, {
-    info("initializer")
-  })
   
   def render {
     background(if(onBlack) 0 else 255)

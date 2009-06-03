@@ -23,7 +23,6 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
       capabilities.setNumSamples(8)
       
       val factory = GLDrawableFactory.getFactory
-      
       drawable = factory.getGLDrawable(parent, capabilities, null);
       context = drawable.createContext(null);
 
