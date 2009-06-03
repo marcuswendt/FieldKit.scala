@@ -13,7 +13,7 @@ import field.kit.util.datatype.graph.Node
 abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
-  import field.kit.gl.render.RenderState
+  import field.kit.gl.scene.RenderState
   import field.kit.util.BufferUtil
   
   import java.nio.FloatBuffer

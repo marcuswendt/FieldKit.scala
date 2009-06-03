@@ -12,7 +12,7 @@ package field.kit.test.gl.render.state
  */
 object AlphaStateTest extends field.kit.Sketch {
   import field.kit.gl.scene.shape.Quad
-  import field.kit.gl.render.state.AlphaState
+  import field.kit.gl.scene.state.AlphaState
   import field.kit.Colour
   import field.kit.gl.scene._
   
