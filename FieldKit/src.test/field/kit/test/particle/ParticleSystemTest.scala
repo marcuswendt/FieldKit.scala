@@ -23,6 +23,19 @@ object ParticleSystemTest extends field.kit.Sketch {
   ps += f
   f += new Wind
   f += new Wrap
+  f += new Behaviour("perlin") {
+    var time = 0f
+    var tmp = 0f
+    
+    override def prepare(dt:Float) = time += dt
+    
+    def apply(p:Particle, dt:Float) {
+      val weight = 10f
+      p.steer.x += (noise(tmp, p.age) * 2f - 1f) * weight
+      p.steer.y += (noise(time, p.age) * 2f - 1f) * weight
+      tmp += dt
+    }
+  }
   
   val timer = new Timer
   

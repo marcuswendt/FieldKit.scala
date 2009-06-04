@@ -4,7 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created May 11, 2009 */
+/* created June 03, 2009 */
 package field.kit.test.gl.scene.state
 
 /** 

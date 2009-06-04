@@ -4,7 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created March 24, 2009 */
+/* created June 04, 2009 */
 package field.kit.gl.render
 
 /** 
@@ -18,7 +18,7 @@ package field.kit.gl.render
  * @see http://wiki.delphigl.com/index.php/Tutorial_Framebufferobject
  * @author Marcus Wendt
  */
-class Capture(width:Int, height:Int, useAlpha:Boolean, useDepth:Boolean) extends Renderable {
+class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Renderable {
   import javax.media.opengl.GL
   
   import field.kit.Colour
@@ -33,14 +33,14 @@ class Capture(width:Int, height:Int, useAlpha:Boolean, useDepth:Boolean) extends
   var depthBuffer:DepthBuffer = null
   
   // create depth buffer
-  if(useDepth) {
+  if(depth) {
     depthBuffer = new DepthBuffer(width, height)
     depthBuffer.bind
     fbo += depthBuffer
   }
   
   // create texture target
-  var texture = Texture(width, height, useAlpha)
+  var texture = Texture(width, height, alpha)
   var textureUnit = 0
   texture.wrap = Texture.Wrap.CLAMP
   texture.filter = Texture.Filter.LINEAR
@@ -61,7 +61,7 @@ class Capture(width:Int, height:Int, useAlpha:Boolean, useDepth:Boolean) extends
   def render {
     fbo.bind
     gl.glDrawBuffer(GL.GL_COLOR_ATTACHMENT0_EXT + textureUnit)
-    if (clearBuffer) {
+    if(clearBuffer) {
      gl.glClearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a)
      gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     }

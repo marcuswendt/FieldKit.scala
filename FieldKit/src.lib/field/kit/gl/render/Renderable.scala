@@ -15,8 +15,8 @@ trait Renderable {
   import javax.media.opengl.GL
   import javax.media.opengl.GLContext
   
-  def gl = GLContext.getCurrent.getGL
   def render
+  def gl = GLContext.getCurrent.getGL
 }
 
 trait Drawable extends Renderable {
