@@ -9,6 +9,7 @@ package field.kit.test.gl.render
 
 /** 
  * quick test for the glsl shader state feature
+ * TODO needs finishing
  */
 object PassTest extends field.kit.test.Sketch {
   import field.kit.gl.render._
@@ -29,10 +30,14 @@ object PassTest extends field.kit.test.Sketch {
   
   def render {
     background(0)
-    beginGL
-    scene.render
-    endGL
+//    beginGL
+//    scene.render
+//    endGL
+  	scene.render
   }
+  
+  
+  // -- Scene ------------------------------------------------------------------
   
   /** implements a simple particle system based scene */
   class TestParticleSystemScene extends Spatial("ParticleSystemScene") {
@@ -41,9 +46,6 @@ object PassTest extends field.kit.test.Sketch {
     import field.kit.util.Timer
   
     info("width", width, "height", height)
-    
-    // set scene to the center of the screen
-    translation set (width/2f, height/2f, 0)
     
     // initialize particle system
     val ps = new ParticleSystem
@@ -81,6 +83,10 @@ object PassTest extends field.kit.test.Sketch {
     // initialize particle geometry
   
     def draw {
+//      // set scene to the center of the screen
+//      translation set (width/2f, height/2f, 0)
+//      scale set 2
+    
       // update
       ps.update(timer.update)
       
