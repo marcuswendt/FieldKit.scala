@@ -34,6 +34,21 @@ class FrameBuffer extends GLObject {
   def status = gl.glCheckFramebufferStatusEXT(GL.GL_FRAMEBUFFER_EXT)
   
   // TODO should use a real texture object, and respect its texture unit -> GL_COLOR_ATTACHMENT0_EXT
-  def attach(texture:Int) = 
-    gl.glFramebufferTexture2DEXT(GL.GL_FRAMEBUFFER_EXT, GL.GL_COLOR_ATTACHMENT0_EXT, GL.GL_TEXTURE_2D, texture, 0)
+  def +=(buffer:GLObject) = 
+    gl.glFramebufferTexture2DEXT(GL.GL_FRAMEBUFFER_EXT, GL.GL_COLOR_ATTACHMENT0_EXT, GL.GL_TEXTURE_2D, buffer.id, 0)
+  
+  def isComplete = {
+    status match {
+      case GL.GL_FRAMEBUFFER_COMPLETE_EXT => true
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT =>
+        warn("GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT")
+        false
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT =>
+        warn("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT")
+        false
+      case _ =>
+        warn("Unknown GL Error")
+        false
+    }
+  }
 }

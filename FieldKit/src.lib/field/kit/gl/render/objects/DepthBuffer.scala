@@ -16,6 +16,15 @@ import javax.media.opengl.GL
  * @author Marcus Wendt
  */
 class DepthBuffer extends GLObject {
+  
+  def this(width:Int, height:Int) {
+    this()
+    create
+    bind
+    size(width, height)
+    unbind
+  }
+  
   def create {
     val ids = new Array[Int](1)
     gl.glGenRenderbuffersEXT(ids.length, ids, 0)
