@@ -4,26 +4,15 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created April 15, 2009 */
-package field.kit.util.datatype.graph
+/* created June 13, 2009 */
+package field.kit.agent.neuron
 
-/** 
- * a special node that has a number of children
- * @author Marcus Wendt
- */
-trait Branch[T <: Node] extends Collection[T] {
-  import field.kit.util.datatype.collection.ArrayBuffer
-  var children = new ArrayBuffer[T]
-  def size = children.size
-  def elements = children.elements
-  
-  def +=(child:T):T = { 
-    children += child
-    child
-  }
-  
-  def -=(child:T):T = { 
-    children -= child
-    child
-  }
+class NeuronGroup(name:String) extends Neuron(name) {
+  def apply = true
 }
+
+class SensorSystem extends NeuronGroup("sensor") {}
+
+class ReasonSystem extends NeuronGroup("reason") {}
+
+class MotorSystem extends NeuronGroup("reason") {}
