@@ -11,8 +11,6 @@ object PredatorPreySimulation extends field.kit.test.Sketch {
   import field.kit.agent._
   import field.kit.math._
   
-  var sim = new Simulation("PredatorPreySimulation")
-  
   abstract class SteeringAgent(name:String) extends Agent(name) {
     var position = new Vec3
     var velocity = new Vec3
@@ -78,43 +76,63 @@ object PredatorPreySimulation extends field.kit.test.Sketch {
     
     def draw
   }
-  
-  sim += new SteeringAgent("predator") {
-    val sight = 50f
-    
-//    motor += {
-//      steer += (1.0f, 0f, 0f)
-//      true
-//    }
-    
-    def draw {
-      noStroke
-      fill(255,0,0)
-      ellipse(position.x, position.y, 9, 9)
-      
-      noFill
-      stroke(255,0,0)
-      ellipse(position.x, position.y, sight, sight)
-    } 
-  }
-  
-  sim += new SteeringAgent("prey") {
-    val sight = 100f
-    
-    def draw {
-      noStroke
-      fill(0,255,0)
-      ellipse(position.x, position.y, 5, 5)
-      
-      noFill
-      stroke(0,255,0)
-      ellipse(position.x, position.y, sight, sight)
-    }
-  }
 
   // -- Init -------------------------------------------------------------------
+  var sim = new Simulation("PredatorPreySimulation")
+  
   init({
     info("starting simulation")
+    
+    sim += new SteeringAgent("predator") {
+      val sight = 50f
+    
+      motor += {
+        steer += (1.0f, 0f, 0f)
+        true
+      }
+    
+      def draw {
+        noStroke
+        fill(255,0,0)
+        ellipse(position.x, position.y, 9, 9)
+      
+        noFill
+        stroke(255,0,0)
+        ellipse(position.x, position.y, sight, sight)
+      } 
+    }
+  
+    for(i <- 0 until 25) {
+      sim += new SteeringAgent("prey"+i) {
+        val sight = 100f
+        var age = 1f
+	    var wander1 = random(0f, 1f)
+	    var wander2 = random(0f, 1f)
+     
+	    sensor += ("aging", {
+	      age += dt
+	      true
+	    })
+     
+	    motor += ("wander", {
+	      val weight = 0.1f
+	      steer.x += (wander1 * 2f - 1f) * weight
+	      steer.y += (wander2 * 2f - 1f) * weight
+	      true
+	    })
+     
+	    def draw {
+	      noStroke
+	      fill(0,255,0)
+	      ellipse(position.x, position.y, 5, 5)
+	      
+	      noFill
+	      stroke(0,255,0)
+	      ellipse(position.x, position.y, sight, sight)
+	    }
+	  }
+    }
+   
     sim.start
   })
   

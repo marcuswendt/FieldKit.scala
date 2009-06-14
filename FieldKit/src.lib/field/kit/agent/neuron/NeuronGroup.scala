@@ -7,6 +7,12 @@
 /* created June 13, 2009 */
 package field.kit.agent.neuron
 
+/** 
+ * A <code>Neuron</code> that only acts as a group/ branch for other 
+ * <code>Neurons</code>; doesnt have an <code>apply</code> logic.
+ * 
+ * @author Marcus Wendt
+ */
 class NeuronGroup(name:String) extends Neuron(name) {
   def apply = true
 }

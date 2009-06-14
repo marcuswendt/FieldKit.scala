@@ -7,7 +7,10 @@
 /* created June 13, 2009 */
 package field.kit.agent
 
-/** companion object to class <code>Simulation</code> */
+/** 
+ * companion object to class <code>Simulation</code>
+ * @author Marcus Wendt
+ */
 object Simulation {
   /** tells the simulation to update all its agents */
   case class UpdateDynamic()
@@ -19,11 +22,14 @@ object Simulation {
   case class Finished()  
 }
 
-import actors.Actor
+import scala.actors.Actor
+import scala.actors.Actor._
+
 import field.kit.util.datatype.graph._
 
 /**
  * <code>Simulation</code>
+ * @author Marcus Wendt
  */
 class Simulation(name:String) extends Node(name) with Branch[Agent] with Actor {
   
@@ -44,23 +50,32 @@ class Simulation(name:String) extends Node(name) with Branch[Agent] with Actor {
     // start all registered agents
     children foreach(_.start)
     
-    while(true) {
-      receive {
+    loop {
+      react {
         case Simulation.UpdateDynamic =>
           working = size
-          val dt = timer.update
+          
+          // try to run at the given timeStep frequency
+          val dtReal = timer.update
+          val dtTarget = 1000f/ timeStep
+          var dt = dtReal
+          if(dtReal < dtTarget) {
+            val timeOut = (dtTarget - dtReal)
+            //info("dtReal", dtReal, "dtTarget", dtTarget, "timeOut", timeOut)
+            Thread.sleep(timeOut.asInstanceOf[Long])
+            dt = dtTarget
+          }
+          
           var i=0
+          val message = Simulation.Update(dt)
           while(i < size) {
-            children(i) ! Simulation.Update(dt)
+            children(i) ! message
             i += 1
           }
         
         case Simulation.Finished =>
           working -= 1
-          if(working <= 0) {
-            Thread.sleep((1000.0/ timeStep).asInstanceOf[Long])
-            this ! Simulation.UpdateDynamic
-          }
+          if(working <= 0) this ! Simulation.UpdateDynamic
       }
     }
   }

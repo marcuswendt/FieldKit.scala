@@ -9,7 +9,10 @@ package field.kit.agent
 
 import field.kit.util.datatype.graph._ 
 
-/** companion object to class <code>Neuron</code> */
+/** 
+ * companion object to class <code>Neuron</code> 
+ * @author Marcus Wendt
+ */
 object Neuron {
   /** creates an anonymous <code>Neuron</code> with the given logic block */
   def apply(logic: => Boolean):Neuron = apply("anonymous", logic)
@@ -23,7 +26,8 @@ object Neuron {
 }
 
 /**
- * The <code>Neuron</code> is the basic logic building block of the agent system. 
+ * The <code>Neuron</code> is the basic logic building block of the agent system.
+ * @author Marcus Wendt
  */
 abstract class Neuron(name:String) 
 extends Node(name) 

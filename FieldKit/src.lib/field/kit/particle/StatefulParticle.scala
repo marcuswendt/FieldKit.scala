@@ -9,6 +9,7 @@ package field.kit.particle
 
 /**
  * Extends the basic particle with a state machine, allowing to reuse particles
+ * @author Marcus Wendt
  */
 class StatefulParticle extends Particle {
   

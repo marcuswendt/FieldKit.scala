@@ -7,13 +7,15 @@
 /* created June 13, 2009 */
 package field.kit.agent
 
-import actors.Actor
+import scala.actors.Actor
+import scala.actors.Actor._
 
 import field.kit.agent.neuron._
 
 /**
  * <code>Agent</code> represents a single <code>Actor</code> within a <code>Simulation</code> 
- * and is also the root of a <code>Neuron</code> tree, which defines its behaviour. 
+ * and is also the root of a <code>Neuron</code> tree, which defines its behaviour.
+ * @author Marcus Wendt
  */
 class Agent(name:String) extends NeuronGroup(name) with Actor {
   
@@ -31,8 +33,8 @@ class Agent(name:String) extends NeuronGroup(name) with Actor {
   this += motor
   
   def act {
-    while(true) {
-      receive {
+    loop {
+      react {
       	case Simulation.Update(dt:Float) => 
       	  update(this, dt)
       	  sender ! Simulation.Finished
