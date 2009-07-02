@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://gmpg.org/xfn/11">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-UK" />
+    <title>FieldKit.js: Angle Slerp Test</title>
+	
+	<script src="../src/fieldkit.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../src/fk.math.js" type="text/javascript" charset="utf-8" ></script>
+	
+	<style>
+		#stage canvas {
+			border: 2px solid black;
+			display: block;
+		}
+	</style>
+  </head>
+  <body>
+	<h1>FieldKit.js: Angle Slerp Test</h1>
+	<div id="stage"></div>
+	<script>
+		// settings
+		var width = 640
+		var height = 480
+		
+		// init
+		var stage = document.getElementById('stage')
+		var canvas = document.createElement("canvas")
+	 	var context = canvas.getContext('2d')
+		canvas.width = width
+		canvas.height = height
+		stage.appendChild(canvas)
+	
+		var mouseX = 0
+		var mouseY = 0
+		
+		document.onmousemove = function(e) {
+			mouseX = e.pageX
+			mouseY = e.pageY
+		}
+		
+		var theta = 0
+		
+		// draw methods
+		function draw() {
+			var x = width/2
+			var y = height/2
+			var s = 50
+
+			var alpha = -Math.atan2(mouseX - x, mouseY - y)
+			
+ 			theta = fk.math.slerpAngle(theta, alpha, 0.1)
+						
+			var g = context
+			g.clearRect(0, 0, width, height)
+			g.lineWidth = 2
+			
+			g.strokeStyle = '#00ff00'
+			
+			g.save()
+			g.translate(x, y)
+			g.rotate(alpha)
+
+			g.beginPath()
+			g.moveTo(-s, 0)					
+			g.lineTo(0, s*4)
+			g.lineTo(s, 0)
+			g.stroke()
+			g.closePath()
+			g.restore()
+			
+			// draw slerped triangle
+			g.strokeStyle = '#ff0000'
+			
+			g.save()
+			g.translate(x, y)
+			g.rotate(theta)
+
+			g.beginPath()
+			g.moveTo(-s, 0)					
+			g.lineTo(0, s*4)
+			g.lineTo(s, 0)
+			g.stroke()
+			g.closePath()
+			g.restore()
+		}
+		
+		setInterval(draw, 1000/60)
+	</script>
+  </body>
+</html>

@@ -134,8 +134,7 @@ fk.particle = {
 			this.size = 10
 		
 			// temp fields
-			var absVelocity = new fk.math.Vec()
-			var theta = 0.0
+			this.absVelocity = new fk.math.Vec()
 		}
 
 		P.prototype.init = function() {}
@@ -147,8 +146,8 @@ fk.particle = {
 			this.steer.clamp(this.steerMax)
 			this.velocity.addV(this.steer).clamp(this.velocityMax)
 
-			// absVelocity.setV(this.velocity).mulS( dt / this.flock.ps.timeStep )
-			// this.position.addV(absVelocity)
+			// this.absVelocity.setV(this.velocity).mulS( dt / this.flock.ps.timeStep )
+			// this.position.addV(this.absVelocity)
 			
 			this.position.addV(this.velocity)
 			
@@ -156,8 +155,9 @@ fk.particle = {
 			this.steer.zero()
 			
 			// update rotation
-			theta = -Math.atan2(this.velocity.x, this.velocity.y)
+			var theta = -Math.atan2(this.velocity.x, this.velocity.y)
 			this.rotation = fk.math.slerpAngle(this.rotation, theta, this.turningSpeed)
+			//this.rotation = theta
 		}
 		
 		return new P(_flock)

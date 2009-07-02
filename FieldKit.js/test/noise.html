@@ -117,6 +117,10 @@
 		benchmark("noise 2d "+ width +"x"+ height, 
 				  function() { draw(noise2d) } )
 		
+		fk.info('testing')
+		for(var i=0; i<10; i++) {
+			fk.info('i',i,' ', fk.math.noise(i,0))
+		}
 		// test methods
 		// fk.info('fk.math.noise(0,0)', fk.math.noise(0,0))
 		// fk.info('fk.math.noise(1,2)', fk.math.noise(1,2))			

@@ -14,7 +14,7 @@
 // =============================================================================
 fk.math = {
 	HALF_PI: Math.PI * 0.5,
-	TWO_PI: Math.PI * 0.5,
+	TWO_PI: Math.PI * 2,
 	
 	// -- Utilities --------------------------------------------------------------
 	randomInt: function(min, max) { 
@@ -23,14 +23,14 @@ fk.math = {
 	
 	slerpAngle: function(cur, to, delta) {
 		if (cur < 0 && to > 0) {
-			if(Math.abs(cur) > fk.math.HALF_PI &&
-				 Math.abs(to) > fk.math.HALF_PI)
-					cur += fk.math.TWO_PI
+			if(Math.abs(cur) > this.HALF_PI &&
+				 Math.abs(to) > this.HALF_PI)
+					cur += this.TWO_PI
 				
 		} else if (cur > 0 && to < 0) {
-			if(Math.abs(cur) > fk.math.HALF_PI && 
-				 Math.abs(to) > fk.math.HALF_PI)
-					cur -= fk.math.TWO_PI
+			if(Math.abs(cur) > this.HALF_PI && 
+				 Math.abs(to) > this.HALF_PI)
+					cur -= this.TWO_PI
 		}
 		return cur * (1 - delta) + to * delta
 	},
@@ -166,9 +166,9 @@ fk.math = {
 			return this
 		}
 	
-		v.prototype.toString = function() {
-			return "Vec("+ this.x +","+ this.y +")"
-		}
+		// v.prototype.toString = function() {
+		// 	return "Vec("+ this.x +","+ this.y +")"
+		// }
 		
 		return new v()
 	}
