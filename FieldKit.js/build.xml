@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="FieldKit" basedir="." default="compile">
+	<taskdef name="jsmin"
+	        classname="net.matthaynes.jsmin.JSMin_Task"
+	        classpath="res/lib/jsmin.0.2.3.jar"/>
+	
+	<property name="build" location="build" />
+
+	<target name="init">
+		<delete dir="${build}" />
+		<mkdir dir="${build}" />
+	</target>
+	
+	<target name="compile" depends="init">
+		<echo>compiling sources</echo>
+		
+		<!-- create temp file -->
+		<property name="name" value="${ant.project.name}" />
+		<property name="file" location="${build}/${name}.js"/>
+		<property name="file.min" location="${build}/${name}.min.js"/>
+		
+		<concat destfile="${file}" fixlastline="yes">
+			<filelist dir="src"
+			    files="fieldkit.js
+			           fk.math.js
+			           fk.math.noise.js
+			           fk.particle.js
+			           fk.particle.behaviour.js
+					"/>
+		</concat>
+		
+		<!-- minify javascript -->
+		<jsmin srcfile="${file}" suffix="true" copyright="(c) 2009 FIELD.IO"/>
+		
+		<!-- correct minified name -->
+		<!-- <move file="${file}.min.js" tofile="${file.min}" />
+		<echo>done</echo> -->
+	</target>
+
+</project>

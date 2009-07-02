@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://gmpg.org/xfn/11">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-UK" />
+    <title>FieldKit.js: Noise Test</title>
+	
+	<script src="../src/fieldkit.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../src/fk.math.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../src/fk.math.noise.js" type="text/javascript" charset="utf-8" ></script>
+	
+	<style>
+		#stage canvas {
+			border: 2px solid black;
+			display: block;
+		}
+	</style>
+  </head>
+  <body>
+	<h1>FieldKit.js: Noise Test</h1>
+	<div id="stage"></div>
+	<div id="controls">
+		<input type="button" value="gradient" onclick="draw(gradient)" />
+		<input type="button" value="noise 2d" onclick="draw(noise2d)" />
+	</div>
+	<script>
+		// settings
+		var width = 640
+		var height = 480
+		
+		// init
+		var stage = document.getElementById('stage')
+		var canvas = document.createElement("canvas")
+	 	var context = canvas.getContext('2d')
+		canvas.width = width
+		canvas.height = height
+		stage.appendChild(canvas)
+	
+		draw(noise2d)
+	
+		// draw methods
+		function draw(body) {
+			var canvasData = context.getImageData(0,0,canvas.width,canvas.height)			
+			body(canvasData)			
+			context.putImageData(canvasData,0,0)
+		}
+		
+		function gradient(canvasData) {
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					var c = y/canvasData.height * 255
+					data[i + 0] = c
+					data[i + 1] = c
+					data[i + 2] = c
+					data[i + 3] = 255
+				}
+			}
+		}
+		
+		function noise2d(canvasData) {
+			fk.info('fk.math.noise2d(0,0)', fk.math.noise2d(0,0))
+			fk.info('fk.math.noise2d(1,2)', fk.math.noise2d(1,2))			
+			fk.info('fk.math.noise2d(2.331,4.12312)', fk.math.noise2d(2.331,4.12312))
+			
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					var c = fk.math.noise2d(x,y) * 255
+					
+					data[i + 0] = c
+					data[i + 1] = c
+					data[i + 2] = c
+					data[i + 3] = 255
+				}
+			}		
+		}
+	</script>
+  </body>
+</html>
