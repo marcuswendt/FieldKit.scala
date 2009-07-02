@@ -14,29 +14,14 @@ import field.kit.Logger
  * @see http://en.wikipedia.org/wiki/Tree_data_structure
  * @author Marcus Wendt
  */
-class Node(var name:String) extends Logger {
+class Node extends Logger {
   
-  // TODO consider adding attach/ detach methods and a parent branch
-  // pro: really useful in some situations
-  // con: adds complexity, less flexibility 
-  // -> do when there's a really good reason for it 
-  // at the moment the scenegraph works nicely without (maybe the agent behaviour system doesnt)
+  var parent:Node = _
   
-  // TODO consider implementing basic serialisation/deserialisation techniques at the node level
-  // would make all graphs instantly persistent
+  var name:String = logName
   
-//	   var parent:Branch = null
-//   
-//   /** called when this node is being added to a parent branch */
-//   def attach(parent:Branch) = {
-//     if(parent == null) {
-//       throw new Exception("Parent can't be null!")
-//     } else { 
-//       fine("attaching '"+ name +"' to "+ parent)
-//       this.parent = parent
-//     }
-//   }
-//   
-//   /** called when this node is being detached from its parent */
-//   def detach = fine("'"+ name +"' detaching from "+ parent)
+  def this(name:String) = {
+    this()
+    this.name = name
+  }
 }

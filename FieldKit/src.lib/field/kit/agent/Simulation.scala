@@ -31,7 +31,10 @@ import field.kit.util.datatype.graph._
  * <code>Simulation</code>
  * @author Marcus Wendt
  */
-class Simulation(name:String) extends Node(name) with Branch[Agent] with Actor {
+class Simulation(name:String) extends Actor {
+  import scala.collection.mutable.ArrayBuffer
+  
+  var children = new ArrayBuffer[Agent]
   
   var timeStep = 60f
   
@@ -53,8 +56,6 @@ class Simulation(name:String) extends Node(name) with Branch[Agent] with Actor {
     loop {
       react {
         case Simulation.UpdateDynamic =>
-          working = size
-          
           // try to run at the given timeStep frequency
           val dtReal = timer.update
           val dtTarget = 1000f/ timeStep
@@ -68,7 +69,8 @@ class Simulation(name:String) extends Node(name) with Branch[Agent] with Actor {
           
           var i=0
           val message = Simulation.Update(dt)
-          while(i < size) {
+          working = children.size
+          while(i < working) {
             children(i) ! message
             i += 1
           }

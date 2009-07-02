@@ -4,21 +4,24 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created June 13, 2009 */
-package field.kit.agent.neuron
+/* created June 15, 2009 */
+package field.kit.agent
 
-/** 
- * A <code>Neuron</code> that only acts as a group/ branch for other 
- * <code>Neurons</code>; doesnt have an <code>apply</code> logic.
- * 
- * @author Marcus Wendt
+/**
+ * Base class all of the <code>Agents</code> subsystems.
  */
-class NeuronGroup(name:String) extends Neuron(name) {
-  def apply = true
+abstract class System {
+  def update(dt:Float)
 }
 
-class SensorSystem extends NeuronGroup("sensor") {}
+class SensorSystem extends System {
+  def update(dt:Float) {}
+}
 
-class ReasonSystem extends NeuronGroup("reason") {}
+class ReasonSystem extends System {
+  def update(dt:Float) {}
+}
 
-class MotorSystem extends NeuronGroup("reason") {}
+class MotorSystem extends System {
+  def update(dt:Float) {}
+}

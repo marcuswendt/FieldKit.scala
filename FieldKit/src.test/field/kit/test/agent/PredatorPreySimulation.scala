@@ -7,6 +7,7 @@
 /* created June 13, 2009 */
 package field.kit.test.agent
 
+/*
 object PredatorPreySimulation extends field.kit.test.Sketch {
   import field.kit.agent._
   import field.kit.math._
@@ -145,3 +146,4 @@ object PredatorPreySimulation extends field.kit.test.Sketch {
     })
   }
 }
+*/
