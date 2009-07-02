@@ -23,11 +23,13 @@
 	<div id="controls">
 		<input type="button" value="gradient" onclick="draw(gradient)" />
 		<input type="button" value="noise 2d" onclick="draw(noise2d)" />
+		<input type="button" value="noise 3d" onclick="draw(noise3d)" />
+		<input type="button" value="noise 4d" onclick="draw(noise4d)" />
 	</div>
 	<script>
 		// settings
-		var width = 640
-		var height = 480
+		var width = 320
+		var height = 240
 		
 		// init
 		var stage = document.getElementById('stage')
@@ -36,8 +38,6 @@
 		canvas.width = width
 		canvas.height = height
 		stage.appendChild(canvas)
-	
-		draw(noise2d)
 	
 		// draw methods
 		function draw(body) {
@@ -60,16 +60,12 @@
 			}
 		}
 		
-		function noise2d(canvasData) {
-			fk.info('fk.math.noise2d(0,0)', fk.math.noise2d(0,0))
-			fk.info('fk.math.noise2d(1,2)', fk.math.noise2d(1,2))			
-			fk.info('fk.math.noise2d(2.331,4.12312)', fk.math.noise2d(2.331,4.12312))
-			
+		function noise2d(canvasData) {			
 			var data = canvasData.data
 			for(var x=0; x<canvasData.width; x++) {
 				for(var y=0; y<canvasData.height; y++) {
 					var i = (x + y * canvasData.width) * 4
-					var c = fk.math.noise2d(x,y) * 255
+					var c = fk.math.noise(x,y) * 255
 					
 					data[i + 0] = c
 					data[i + 1] = c
@@ -78,6 +74,54 @@
 				}
 			}		
 		}
+		
+		function noise3d(canvasData) {
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					data[i + 0] = fk.math.noise(x,y,0) * 255
+					data[i + 1] = fk.math.noise(x,y,1) * 255
+					data[i + 2] = fk.math.noise(x,y,2) * 255
+					data[i + 3] = 255
+				}
+			}		
+		}
+		
+		function noise4d(canvasData) {
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					var c = fk.math.noise4d(x,y) * 255
+					
+					data[i + 0] = fk.math.noise(x,y,1,0) * 255
+					data[i + 1] = c
+					data[i + 2] = c
+					data[i + 3] = 255
+				}
+			}		
+		}
+		
+		// benchmark methods
+		function benchmark(name, func) {
+			console.log('running test: '+ name)
+			var start = new Date()
+			//for(var i=0; i<10000; i++) {
+				func()
+			//}				
+			var stop = new Date()				
+			console.log('finished => '+ (stop - start) +'ms')
+		}
+		
+		benchmark("noise 2d "+ width +"x"+ height, 
+				  function() { draw(noise2d) } )
+		
+		// test methods
+		// fk.info('fk.math.noise(0,0)', fk.math.noise(0,0))
+		// fk.info('fk.math.noise(1,2)', fk.math.noise(1,2))			
+		// fk.info('fk.math.noise(2.331,4.12312)', fk.math.noise(2.331,4.12312))
+		
 	</script>
   </body>
 </html>
