@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://gmpg.org/xfn/11">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-UK" />
+    <title>FieldKit.js: Math Test</title>
+	
+	<script src="../src/fieldkit.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../src/fk.math.js" type="text/javascript" charset="utf-8" ></script>
+
+  </head>
+  <body>
+	<h1>FieldKit.js: Math Test</h1>
+	<script>
+		test = {
+			OverloadedVec3: function() {
+				this.x = 0
+				this.y = 0
+				this.z = 0
+				
+				this.set = function() {
+					if(arguments.length == 1) {
+						var value = arguments[0]
+						if(typeof(value) == test.OverloadedVec3) {
+							this.x = value.x
+							this.y = value.y
+							this.z = value.z
+						} else {
+							this.x = value
+							this.y = value
+							this.z = value
+						}
+					} else if (arguments.length == 3) { 
+						this.x = arguments[0]
+						this.y = arguments[1]
+						this.z = arguments[2]
+					}
+					return this
+				}
+			},
+			
+			ProtoOverloadedVec3: function() {
+				var v = function() {
+					this.x = 0
+					this.y = 0
+					this.z = 0
+				}
+				
+				v.prototype.set = function() {
+					if(arguments.length == 1) {
+						var value = arguments[0]
+						if(typeof(value) == test.ProtoOverloadedVec3) {
+							this.x = value.x
+							this.y = value.y
+							this.z = value.z
+						} else {
+							this.x = value
+							this.y = value
+							this.z = value
+						}
+					} else if (arguments.length == 3) { 
+						this.x = arguments[0]
+						this.y = arguments[1]
+						this.z = arguments[2]
+					}
+					return this
+				}
+				
+				return new v()
+			},
+			
+			ProtoNormalVec3: function() {
+				var v = function() {
+					this.x = 0
+					this.y = 0
+					this.z = 0
+				}
+
+				v.prototype.set = function(x, y, z) {
+					this.x = x
+					this.y = y
+					this.z = z
+					return this
+				}
+
+				v.prototype.setV = function(v) {
+					this.x = v.x
+					this.y = v.y
+					this.z = v.z
+					return this
+				}
+
+				v.prototype.setS = function(s) {
+					this.x = s
+					this.y = s
+					this.z = s
+					return this
+				}
+				return new v()
+			},
+			
+			NormalVec3: function() {
+				this.x = 0
+				this.y = 0
+				this.z = 0
+				
+				this.set = function(x, y, z) {
+					this.x = x
+					this.y = y
+					this.z = z
+					return this
+				}
+
+				this.setV = function(v) {
+					this.x = v.x
+					this.y = v.y
+					this.z = v.z
+					return this
+				}
+
+				this.setS = function(s) {
+					this.x = s
+					this.y = s
+					this.z = s
+					return this
+				}
+			}
+		}
+		
+		function benchmark(name, func) {
+			console.log('running test: '+ name)
+			var start = new Date()
+			for(var i=0; i<20000; i++) {
+				func()
+			}				
+			var stop = new Date()				
+			console.log('finished => '+ (stop - start) +'ms')
+		}
+		
+		console.log("typeof class:", typeof(new test.OverloadedVec3()))
+		console.log("typeof number:", typeof(1.0))
+		
+		var ov = new test.OverloadedVec3()
+		benchmark("OverloadedVec3", function() {
+			ov.set(1,2,3).set(99).set(ov)
+		})
+		
+		var pov = test.ProtoOverloadedVec3()
+		benchmark("ProtoOverloadedVec3", function() {
+			pov.set(1,2,3).set(99).set(pov)
+		})
+		
+		var pnv = test.ProtoNormalVec3()
+		benchmark("ProtoNormalVec3", function() {
+			pnv.set(1,2,3).setS(99).setV(pnv)
+		})
+		
+		var nv = new test.NormalVec3()
+		benchmark("NormalVec3", function() {
+			nv.set(1,2,3).setS(99).setV(nv)
+		})
+	</script>
+  </body>
+</html>

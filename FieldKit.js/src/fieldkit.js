@@ -15,9 +15,7 @@
 // FIELDKIT MAIN CLASS
 // =============================================================================
 fk = {
-	filename: 'fieldkit.js',
-	
-	// private fields
+	// private static fields
 	_baseURL: null,
 	_templateURL: null,
 		
@@ -88,17 +86,10 @@ fk = {
 
 	baseURL: function() {
 		if(this._baseURL == null) {
-			var filename = this.filename
 			var url = null
-			$("head").children("script").each(function(i) {
-				var src = $(this).attr('src')
-				if(src.substring(src.length - filename.length) == filename 
-					 &&	url == null) {
-					url = src.substring(0, src.lastIndexOf('/')+1)
-					return
-				}
-			})
-			this._baseURL = url
+			var script = $("head").children("script:last")
+			var src = script.attr('src')
+			this._baseURL = src.substring(0, src.lastIndexOf('/')+1)
 		}
 		return this._baseURL
 	},
@@ -116,14 +107,5 @@ fk = {
 			this._templateURL = url
 		}
 		return this._templateURL
-	},
-	
-	// -- Initialisation ---------------------------------------------------------
-	init: function() {
-		this.info('init')
-		// this.include('fk.math')
-		// this.include('fk.particle')
 	}
 }
-
-fk.init()
