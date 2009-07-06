@@ -361,9 +361,20 @@ class Mat4 extends MatrixF(4) {
     p.set(this)
     p *= s
     p
-  } 
+  }
   
-  // -- Utilities -----------------------------------------------------------------
+  // -- Transform Operations ---------------------------------------------------
+  def translate(tx:Float, ty:Float):Mat4 = translate(tx, ty, 0)
+  
+  def translate(tx:Float, ty:Float, tz:Float) = {
+    m03 += tx*m00 + ty*m01 + tz*m02
+    m13 += tx*m10 + ty*m11 + tz*m12
+    m23 += tx*m20 + ty*m21 + tz*m22
+    m33 += tx*m30 + ty*m31 + tz*m32
+    this
+  }
+  
+  // -- Utilities --------------------------------------------------------------
   override def toString = 
     "Mat4 [\n"+
     " "+ m00 +" "+ m01 +" "+ m02 +" "+ m03 +"\n" +

@@ -165,7 +165,7 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   }
   
   // helpers
-  override def toString = "Vec2("+ toLabel +")"
+  override def toString = "Vec2["+ toLabel +"]"
   
   def toLabel = "X"+ x +" Y"+ y
 }

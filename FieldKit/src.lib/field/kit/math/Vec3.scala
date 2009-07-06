@@ -205,6 +205,6 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
     def hasNext = i==size
   }
   
-  override def toString = "Vec3("+ toLabel +")"
+  override def toString = "Vec3["+ toLabel +"]"
   def toLabel = "X"+ x +" Y"+ y +" Z"+ z
 }
