@@ -16,6 +16,35 @@ fk.math = {
 	HALF_PI: Math.PI * 0.5,
 	TWO_PI: Math.PI * 2,
 	
+	// -- Classes ----------------------------------------------------------------
+	Rect: function() {
+		this.x1 = 0
+		this.y1 = 0
+		this.x2 = 0
+		this.y2 = 0
+		
+		if(arguments.length==4) {
+			this.x1 = arguments[0]
+			this.y1 = arguments[1]
+			this.x2 = arguments[2]
+			this.y2 = arguments[3]
+		}
+		
+		this.intersects(r) = function() {
+			return r.x2 > this.x1 && 
+						 r.y2 > this.y1 &&
+			    	 r.x1 < this.x2 && 
+			    	 r.y1 < this.y2
+		}
+		
+		this.contains(r) = function() {
+			return r.x1 >= this.x1 && 
+						 r.y1 >= this.y1 &&
+			    	 r.x2 <= this.x2 && 
+			    	 r.y2 <= this.y2
+		}
+	},
+	
 	// -- Utilities --------------------------------------------------------------
 	randomInt: function(min, max) { 
 		return parseInt(Math.random() * (max - min) + min)
