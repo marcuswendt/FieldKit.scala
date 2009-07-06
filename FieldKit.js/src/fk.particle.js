@@ -53,7 +53,7 @@ fk.particle = {
 
 	Emitter: function(_flock) {
 		this.flock = _flock
-		this.position = new fk.math.Vec()
+		this.position = new fk.math.Vec2()
 		this.behaviours = new Array()
 		this.rate = 1
 		this.interval = 1000.0
@@ -138,9 +138,9 @@ fk.particle = {
 	Particle: function(_flock) {
 		var P = function(_flock) {
 			this.flock = _flock
-	 		this.position = new fk.math.Vec()
-			this.velocity = new fk.math.Vec()
-			this.steer = new fk.math.Vec()
+	 		this.position = new fk.math.Vec2()
+			this.velocity = new fk.math.Vec2()
+			this.steer = new fk.math.Vec2()
 			this.age = 0.0
 			this.steerMax = 1.0
 			this.velocityMax = 10
@@ -151,7 +151,7 @@ fk.particle = {
 
 			// temp fields
 			this.theta = 0
-			this.absVelocity = new fk.math.Vec()
+			this.absVelocity = new fk.math.Vec2()
 		}
 
 		P.prototype.init = function() {}

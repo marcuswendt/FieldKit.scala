@@ -36,8 +36,8 @@ fk.particle.behaviour = {
 	},
 	
 	Wrap: function(ps) {
-		this.min = new fk.math.Vec()
-		this.max = new fk.math.Vec()
+		this.min = new fk.math.Vec2()
+		this.max = new fk.math.Vec2()
 		
 		this.prepare = function(dt) {
 			this.min.set(0,0)

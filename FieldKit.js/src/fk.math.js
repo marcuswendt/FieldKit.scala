@@ -30,14 +30,14 @@ fk.math = {
 			this.y2 = arguments[3]
 		}
 		
-		this.intersects(r) = function() {
+		this.intersects = function(r) {
 			return r.x2 > this.x1 && 
 						 r.y2 > this.y1 &&
 			    	 r.x1 < this.x2 && 
 			    	 r.y1 < this.y2
 		}
 		
-		this.contains(r) = function() {
+		this.contains = function(r) {
 			return r.x1 >= this.x1 && 
 						 r.y1 >= this.y1 &&
 			    	 r.x2 <= this.x2 && 

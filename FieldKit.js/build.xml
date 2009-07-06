@@ -23,8 +23,8 @@
 			<filelist dir="src"
 			    files="fieldkit.js
 			           fk.math.js
-					   fk.math.vec2.js
-					   fk.math.vec3.js
+					   fk.math.Vec2.js
+					   fk.math.Vec3.js
 					   fk.math.mat4.js
 			           fk.math.noise.js
 			           fk.particle.js
