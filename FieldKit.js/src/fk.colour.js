@@ -11,9 +11,16 @@
 
 // =============================================================================
 // COLOUR CLASS
+//
+// For more info about HSV and HSL see
+// http://en.wikipedia.org/wiki/HSL_and_HSV
+//
+// Uses RGB <> HSV, HSL conversion code from Michael Jackson
+// http://www.mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+//
 // =============================================================================
 fk.Colour = function() {
-	var r = g = b = 0
+	var r, g, b
 
 	// -- Getters & Setters ------------------------------------------------------
 	// Sets the R,G,B values of this Colour object
@@ -21,17 +28,22 @@ fk.Colour = function() {
 	this.set = function() {
 		if(arguments.length == 1) {
 			var arg = arguments[0]
+			
 			if(typeof(arg) == 'string') {
 				var parts = arg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
 				this.r( parts[1] )
 				this.g( parts[2] )
 				this.b( parts[3] )
-			} else {			
+				
+			} else if(typeof(arg) == 'object') {
 				r = arg.r()
 				g = arg.g()
 				b = arg.b()
+				
+			} else {
+				fk.warn("fk.Colour.set: Invalid argument ("+ arg +" <"+ typeof(arg) +">)")
 			}
-		} else if(arguments.length == 3) {
+		} else if(arguments.length == 3) {			
 			this.r( arguments[0] )
 			this.g( arguments[1] )
 			this.b( arguments[2] )
@@ -88,10 +100,6 @@ fk.Colour = function() {
 	
 	// -- Convert To ... Methods -------------------------------------------------
 	// Converts this Colour to HSL
-	// http://en.wikipedia.org/wiki/HSL_and_HSV
-	//
-	// Code from the web developer Michael Jackson
-	// http://www.mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
 	this.toHSL = function() {
 		var _r = r / 255
 		var _g = g / 255
@@ -117,7 +125,6 @@ fk.Colour = function() {
 	}
 	
 	// Converts this Colour to HSV
-	// http://en.wikipedia.org/wiki/HSL_and_HSV
 	this.toHSV = function() {
 		var _r = r / 255
 		var _g = g / 255
@@ -143,8 +150,9 @@ fk.Colour = function() {
 		return [h, s, v]
 	}
 	
-	this.toHEX = function() {
-		
+	// returns this Colour as hexadecimal string
+	this.toHex = function() {
+		return numToHex(r)+numToHex(g)+numToHex(b)
 	}
 	
 	// -- Convert From ... Methods -----------------------------------------------
@@ -199,7 +207,6 @@ fk.Colour = function() {
 	}
 	
 	
-	
 	// -- Misc Utilities ---------------------------------------------------------
 	this.randomize = function() {
 		this.r(Math.random())
@@ -209,14 +216,14 @@ fk.Colour = function() {
 	}
 	
 	this.clone = function() {
-		var c = new Colour()
-		c.set(this)
-		return c
+		return new fk.Colour(this)
 	}
 	
 	this.toString = function() {
-		return 'Colour ['+ r +', '+ g +', '+ b + ']'
+		return 'Colour['+ r +', '+ g +', '+ b + ']'
 	}
+	
+	
 	// -- Private Utilities ------------------------------------------------------
 	var parseComponent = function(arg) {
 		if(typeof(arg) == 'number') {
@@ -238,6 +245,18 @@ fk.Colour = function() {
 		}
 	}
 
+	// converts a single number to a hex string
+	var numToHex = function(n) {
+		if (n==null) return "00"
+		n=parseInt(n)
+		if (n==0 || isNaN(n)) return "00"
+		n=Math.max(0,n)
+		n=Math.min(n,255)
+		n=Math.round(n)
+		
+		return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
+	}
+	
 	// -- Init -------------------------------------------------------------------
 	// parse arguments
 	if(arguments.length == 3) {
