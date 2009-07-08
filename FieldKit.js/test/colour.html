@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://gmpg.org/xfn/11">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-UK" />
+    <title>FieldKit.js: Colour Test</title>
+	
+	<script src="../src/fieldkit.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../src/fk.math.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../src/fk.colour.js" type="text/javascript" charset="utf-8" ></script>
+	
+	<style>
+		#stage canvas {
+			border: 2px solid black;
+			display: block;
+		}
+	</style>
+  </head>
+  <body>
+	<h1>FieldKit.js: Colour Test</h1>
+			
+	<div id="stage"></div>
+	
+	<div id="controls">
+		<input type="button" value="hue" onclick="draw('testHue', testHue)" />
+		<input type="button" value="saturation" onclick="draw('testSaturation', testSaturation)" />
+		<input type="button" value="brightness" onclick="draw('testBrightness', testBrightness)" />
+	</div>
+	
+	<script>
+		// settings
+		var width = 640
+		var height = 480
+		
+		// init
+		var stage = document.getElementById('stage')
+		var canvas = document.createElement("canvas")
+	 	var context = canvas.getContext('2d')
+		canvas.width = width
+		canvas.height = height
+		stage.appendChild(canvas)
+	
+		// draw methods
+		function draw(name, body) {
+			console.log('running test: '+ name)
+			var start = new Date()
+			
+			// --
+			var canvasData = context.getImageData(0,0,canvas.width,canvas.height)			
+			body(canvasData)			
+			context.putImageData(canvasData,0,0)
+			// --
+			
+			var stop = new Date()				
+			console.log('finished => '+ (stop - start) +'ms')
+		}
+		
+		function testBrightness(canvasData) {
+			var c = new fk.Colour(Math.random() +'test', Math.random(), Math.random())
+			
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					c.v( 1.0 - y/canvasData.height )
+					
+					data[i + 0] = c.r()
+					data[i + 1] = c.g()
+					data[i + 2] = c.b()
+					data[i + 3] = 255
+				}
+			}
+		}
+		
+		function testHue(canvasData) {
+			var c = new fk.Colour(Math.random() +'test', Math.random(), Math.random())
+			
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					c.h( 1.0 - x/canvasData.width )
+					
+					data[i + 0] = c.r()
+					data[i + 1] = c.g()
+					data[i + 2] = c.b()
+					data[i + 3] = 255
+				}
+			}
+		}
+		
+		function testSaturation(canvasData) {
+			var c = new fk.Colour(Math.random() +'test', Math.random(), Math.random())
+			
+			var data = canvasData.data
+			for(var x=0; x<canvasData.width; x++) {
+				for(var y=0; y<canvasData.height; y++) {
+					var i = (x + y * canvasData.width) * 4
+					c.s( x/canvasData.width + y/canvasData.height )
+					
+					data[i + 0] = c.r()
+					data[i + 1] = c.g()
+					data[i + 2] = c.b()
+					data[i + 3] = 255
+				}
+			}
+		}
+		
+		// start
+		draw('testBrightness', testBrightness)
+	</script>
+  </body>
+</html>

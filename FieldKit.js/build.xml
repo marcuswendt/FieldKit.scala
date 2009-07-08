@@ -22,6 +22,7 @@
 		<concat destfile="${file}" fixlastline="yes">
 			<filelist dir="src"
 			    files="fieldkit.js
+			           fk.colour.js
 			           fk.math.js
 					   fk.math.Vec2.js
 					   fk.math.Vec3.js
