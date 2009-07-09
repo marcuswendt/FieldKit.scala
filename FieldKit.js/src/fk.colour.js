@@ -152,7 +152,7 @@ fk.Colour = function() {
 	
 	// returns this Colour as hexadecimal string
 	this.toHex = function() {
-		return numToHex(r)+numToHex(g)+numToHex(b)
+		return '#'+numToHex(r)+numToHex(g)+numToHex(b)
 	}
 	
 	// -- Convert From ... Methods -----------------------------------------------
