@@ -147,7 +147,7 @@ fk.math.Vec3 = function() {
 	this.length = function() { return Math.sqrt(this.lengthSquared()) }
 
 	this.clamp = function(max) {
-		var l = length
+		var l = this.length()
 		if(l > max) {
 			this.divS(l)
 			this.mulS(max)
