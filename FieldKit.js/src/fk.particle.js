@@ -19,7 +19,9 @@ fk.particle = {
 		this.logicTicks = _logicTicks
 		this.friction = 0.97
 		this.flocks = new Array()
-
+		this.width = 640
+		this.height = 480
+		
 		var timerSim = new Date()
 		var timerLogic = new Date()
 
@@ -45,10 +47,6 @@ fk.particle = {
 			flock.ps = this
 			this.flocks.push(flock) 
 		}
-
-		this.width = function() { return document.documentElement.clientWidth }
-
-		this.height = function() { return document.documentElement.clientHeight }
 	},
 
 	Emitter: function(_flock) {

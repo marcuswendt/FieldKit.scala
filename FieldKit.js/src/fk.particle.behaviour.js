@@ -22,8 +22,8 @@ fk.particle.behaviour = {
 	RandomEmit: function() {
 		this.prepare = function(dt) {}
 		this.apply = function(p, dt) {
-			p.position.x = Math.random() * p.flock.ps.width()
-			p.position.y = Math.random() * p.flock.ps.height()
+			p.position.x = Math.random() * p.flock.ps.width
+			p.position.y = Math.random() * p.flock.ps.height
 		}
 	},
 	
@@ -41,7 +41,7 @@ fk.particle.behaviour = {
 		
 		this.prepare = function(dt) {
 			this.min.set(0,0)
-			this.max.set(ps.width(), ps.height())
+			this.max.set(ps.width, ps.height)
 		}
 		
 		this.apply = function(p, dt) {
