@@ -110,7 +110,7 @@ fk.math.Vec2 = function() {
 		return this
 	}
 
-	// -- Helpers --------------------------------------------------------------
+	// -- Other Operations -------------------------------------------------------
 	this.zero = function() { 
 		this.x = 0; this.y = 0 
 		return this
@@ -139,6 +139,22 @@ fk.math.Vec2 = function() {
 		return this
 	}
 
+	// -- Distance Calculations --------------------------------------------------
+	this.distance = function(x,y) {
+		return Math.sqrt(this.distanceSquared(x,y))
+	}
+	
+	this.distanceV = function(v) {
+		return Math.sqrt(this.distanceSquared(v.x,v.y))
+	}
+	
+	this.distanceSquared = function(x, y) {
+		var dx = this.x - x
+    var dy = this.y - y
+		return dx * dx + dy * dy
+	}
+	
+	// -- Helpers ----------------------------------------------------------------
 	this.toString = function() {
 		return "Vec2("+ this.x +","+ this.y +")"
 	}

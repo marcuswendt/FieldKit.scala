@@ -144,7 +144,6 @@ fk.particle = {
 			this.velocityMax = 10
 			this.rotation = 0.0
 			this.turningSpeed = 0.1
-
 			this.size = 10
 
 			// temp fields
@@ -152,7 +151,18 @@ fk.particle = {
 			this.absVelocity = new fk.math.Vec2()
 		}
 
-		P.prototype.init = function() {}
+		// reset all fields
+		P.prototype.init = function() {
+			this.velocity.zero()
+			this.steer.zero()
+			
+			this.age = 0.0
+			this.rotation = 0.0
+			this.size = 10
+			
+			this.theta = 0
+			this.absVelocity.zero()
+		}
 
 		P.prototype.updateLogic = function(dt) {
 			this.age += dt

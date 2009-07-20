@@ -154,6 +154,22 @@ fk.math.Vec3 = function() {
 		}
 		return this
 	}
+	
+	// -- Distance Calculations --------------------------------------------------
+	this.distance = function(x,y,z) {
+		return Math.sqrt(this.distanceSquared(x,y,z))
+	}
+	
+	this.distanceV = function(v) {
+		return Math.sqrt(this.distanceSquared(v.x,v.y,v.z))
+	}
+	
+	this.distanceSquared = function(x, y, z) {
+		var dx = this.x - x
+    var dy = this.y - y
+    var dz = this.z - z
+		return dx * dx + dy * dy + dz * dz
+	}
 
 	this.toString = function() {
 		return "Vec3("+ this.x +","+ this.y +","+ this.z +")"
