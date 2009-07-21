@@ -174,8 +174,8 @@ fk.particle = {
 		
 		P.prototype.updateSimulation = function(dt) {
 			this.absVelocity.setV(this.velocity).mulS(dt / this.flock.ps.updateTicks)
-			
 			this.position.addV(this.absVelocity)
+			// this.position.addV(this.velocity)
 			this.velocity.mulS(this.flock.ps.friction)
 			this.rotation = fk.math.slerpAngle(this.rotation, this.theta, this.turningSpeed)
 		}

@@ -49,7 +49,11 @@ fk.math = {
 	randomInt: function(min, max) { 
 		return parseInt(Math.random() * (max - min) + min)
 	}, 
-	
+
+	slerp: function(cur, to, delta) {
+		return cur * (1 - delta) + to * delta
+	},
+			
 	slerpAngle: function(cur, to, delta) {
 		if (cur < 0 && to > 0) {
 			if(Math.abs(cur) > this.HALF_PI &&
