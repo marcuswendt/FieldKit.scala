@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="false" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file:///Users/marcus/Documents/Development/FieldKit/FieldKit.rcp">
+      <sourceFolder url="file:///Users/marcus/Documents/Development/FieldKit/FieldKit.rcp/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="ECLIPSE" level="application" />
+    <orderEntry type="library" name="Scala-2.7.5" level="application" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
