@@ -18,12 +18,15 @@ object Loader extends field.kit.Logger {
   /**
    * Tries to resolve the given <code>String</code> to an <code>URL</code> in various ways
    */
-  def resolveToURL(file:String) = {
+  def resolveToURL(_file:String) = {
     import java.net.MalformedURLException
     
     var url:URL = null
+    var file = _file
     
     if(file != null) {
+      file = file.replaceAll(" ","%20")
+
       // 1. via URL
       try {
         url = new URL(file)
