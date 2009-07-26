@@ -43,7 +43,7 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" defaultCharsetForPropertiesFiles="UTF-8" />
   <component name="IdProvider" IDEtalkID="A9D58E687C730EB31F64E75F7FD49F43" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
@@ -220,6 +220,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FieldKit.iml" filepath="$PROJECT_DIR$/FieldKit.iml" />
+      <module fileurl="file://$PROJECT_DIR$//FieldKit.js.iml" filepath="$PROJECT_DIR$//FieldKit.js.iml" />
       <module fileurl="file://$PROJECT_DIR$/FieldKit.osgi.iml" filepath="$PROJECT_DIR$/FieldKit.osgi.iml" />
       <module fileurl="file://$PROJECT_DIR$/FieldKit.rcp.iml" filepath="$PROJECT_DIR$/FieldKit.rcp.iml" />
     </modules>
