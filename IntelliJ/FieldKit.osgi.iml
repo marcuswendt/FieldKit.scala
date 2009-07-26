@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="false" type="JAVA_MODULE" version="4">
+<module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi" />
+    <content url="file://$MODULE_DIR$/../FieldKit.osgi" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/FieldKit.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/FieldKit.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -18,7 +18,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/core.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/core.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -29,59 +29,58 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/gluegen-rt.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/gluegen-rt.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/FieldKit.osgisrc.zip!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/FieldKit.osgisrc.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/itext.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/itext.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/FieldKit.osgisrc.zip!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/FieldKit.osgisrc.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/jogl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/jogl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/FieldKit.osgisrc.zip!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/FieldKit.osgisrc.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/opengl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/opengl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/FieldKit.osgisrc.zip!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/FieldKit.osgisrc.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/pdf.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/pdf.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit.osgi/FieldKit.osgisrc.zip!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit.osgi/FieldKit.osgisrc.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Scala-2.7.5" level="application" />
   </component>
 </module>
 

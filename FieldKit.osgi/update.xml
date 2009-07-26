@@ -2,7 +2,7 @@
 <!-- ====================================================================== 
      Apr 29, 2009 10:49:24 AM                                                                                                                        
      ====================================================================== -->
-<project name="project" default="update">
+<project name="FieldKit.osgi" default="update">
 	<description>
     	updates the osgi plugin with a fresh build of the fieldkit libraries
     </description>

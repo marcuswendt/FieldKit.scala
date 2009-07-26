@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="false" type="JAVA_MODULE" version="4">
+<module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Scala" name="Scala">
       <configuration />
@@ -7,15 +7,15 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file:///Users/marcus/Documents/Development/FieldKit/FieldKit">
-      <sourceFolder url="file:///Users/marcus/Documents/Development/FieldKit/FieldKit/src.lib" isTestSource="false" />
-      <sourceFolder url="file:///Users/marcus/Documents/Development/FieldKit/FieldKit/src.test" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../FieldKit">
+      <sourceFolder url="file://$MODULE_DIR$/../FieldKit/src.lib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../FieldKit/src.test" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit/lib/jogl/gluegen-rt.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit/lib/jogl/gluegen-rt.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -24,7 +24,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit/lib/jogl/jogl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit/lib/jogl/jogl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -33,7 +33,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit/lib/p5/core.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit/lib/p5/core.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -44,7 +44,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit/lib/p5/itext.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit/lib/p5/itext.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -53,7 +53,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit/lib/p5/opengl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit/lib/p5/opengl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -64,7 +64,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar:///Users/marcus/Documents/Development/FieldKit/FieldKit/lib/p5/pdf.jar!/" />
+          <root url="jar://$MODULE_DIR$/../FieldKit/lib/p5/pdf.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
