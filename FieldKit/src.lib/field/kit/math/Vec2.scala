@@ -107,6 +107,11 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   def *=(s:Float) = { x*=s; y*=s; this }
   def /=(s:Float) = { x/=s; y/=s; this }
   
+  def +=(x:Float, y:Float) = { this.x+=x; this.y+=y; this }
+  def -=(x:Float, y:Float) = { this.x-=x; this.y-=y; this }
+  def *=(x:Float, y:Float) = { this.x*=x; this.y*=y; this }
+  def /=(x:Float, y:Float) = { this.x/=x; this.y/=y; this }
+  
   def +=(v:Vec2) = { x+=v.x; y+=v.y; this }
   def -=(v:Vec2) = { x-=v.x; y-=v.y; this }
   def *=(v:Vec2) = { x*=v.x; y*=v.y; this }

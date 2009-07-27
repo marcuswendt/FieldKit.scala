@@ -12,7 +12,6 @@ import field.kit.gl.render.objects.Texture
 
 /** Companion object to <code>TextureState</code> */
 object TextureState {
-  import javax.media.opengl.GL
   import java.net.URL
 
   /** Creates a new <code>TextureState</code> with a single Texture loaded from the give path */
