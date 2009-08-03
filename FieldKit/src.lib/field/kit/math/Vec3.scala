@@ -115,6 +115,9 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
 //    
 //  }
   
+  def :=(v:Vec3) = { this.x = v.x; this.y = v.y; this.z = v.z; this }
+  def :=(x:Float, y:Float, z:Float) = { this.x = x; this.y = y; this.z = z; this }
+  
   def +=(s:Float) = { x+=s; y+=s; z+=s; this }
   def -=(s:Float) = { x-=s; y-=s; z-=s; this }
   def *=(s:Float) = { x*=s; y*=s; z*=s; this }
