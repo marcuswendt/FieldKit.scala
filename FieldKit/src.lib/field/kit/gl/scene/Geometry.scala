@@ -92,7 +92,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
   
   // -- Colours ----------------------------------------------------------------
   def solidColour(c:Colour) {
-    colour.set(c)
+    colour := c
     if(colours!=null) {
       colours.clear
       for(i <- 0 until colours.capacity/4) {

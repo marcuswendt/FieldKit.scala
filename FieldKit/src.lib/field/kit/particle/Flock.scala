@@ -29,7 +29,7 @@ extends Logger {
 
   /** called automatically when the flock is added to the particle system */
   def init {
-    emitter.position(ps.space.center)
+    emitter.position := ps.space.center
   }
   
   def update(dt:Float) {

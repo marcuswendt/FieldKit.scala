@@ -21,7 +21,7 @@ class Space(w:Float, h:Float, d:Float) {
   def this() = this(1000f, 1000f, 1000f)
   
   def set(w:Float, h:Float, d:Float) {	
-    _dimension.set(w,h,d)
+    _dimension := (w,h,d)
     update
   }
   

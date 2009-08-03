@@ -80,7 +80,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
       var isTooClose = false
       if(length > 0) {
         val minDistance = weight * 0.5f
-        val dist = v1.set(points, length - 1).distance(x, y)
+        val dist = (v1 := (points, length - 1)) distance (x, y)
         isTooClose = dist < minDistance
       }
       
@@ -131,9 +131,9 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
     index * 2 + side.id
   
   protected def calcOutlinePoint(side:Stroke2D.Side.Value, i:Int, weight:Float) {
-    vPrev.set(points, Math.max(0, i-1))
-    vCur.set(points, i)
-    vNext.set(points, i + 1)
+    vPrev := (points, Math.max(0, i-1))
+    vCur := (points, i)
+    vNext := (points, i + 1)
     
     val index = outlineIndex(side, i)
     
@@ -141,19 +141,19 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
     if(i == 0) {
       capMode match {
       	case Stroke2D.Cap.FLAT =>
-      	  v1(vNext)
+      	  v1 := vNext
       	  v1 -= vCur
 
-      	  v2(v1)
+      	  v2 := v1
       	  v2.perpendiculate
       	  v2.normalize
       	  v2 *= weight
 
-      	  p1(vCur)
+      	  p1 := vCur
       	  p1 += v2
         
       	case Stroke2D.Cap.ACUTE =>
-      	  p1(vCur)
+      	  p1 := vCur
       }
       p1.put(outline, index)
       
@@ -161,63 +161,63 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
     } else if(i == length-1) {
       capMode match {
       	case Stroke2D.Cap.FLAT =>
-      	  v1(vPrev)
+      	  v1 := vPrev
       	  v1 -= vCur
 
-      	  v2(v1)
+      	  v2 := v1
       	  v2.perpendiculate
       	  v2.normalize
       	  v2 *= -weight
 
-      	  p1(vCur)
+      	  p1 := vCur
       	  p1 += v2
         
       	case Stroke2D.Cap.ACUTE =>
-      	  p1(vCur)
+      	  p1 := vCur
       }
       p1.put(outline, index)
       
     // inbetween
     } else {
       // vector PREV->CUR
-      v1(vCur)
+      v1 := vCur
       v1 -= vPrev
       
       // perpendicular of v1
-      v2(v1)
+      v2 := v1
       v2.perpendiculate
       v2.normalize
       v2 *= weight
       
-      p1(vCur)
+      p1 := vCur
       p1 += v2
    
       // vector NEXT->CUR
-      v3(vCur)
+      v3 := vCur
       v3 -= vNext
       
       // perpendicular of v3
-      v4.set(v3)
+      v4 := v3
       v4.perpendiculate
       v4.normalize
       v4 *= -weight
       
-      p2(vCur)
+      p2 := vCur
       p2 += v4
       
       val d = p1.distanceSquared(p2)
       
       if(d < 1f)
-        vIntersect(p1)
+        vIntersect := p1
       else
         Vec2.rayIntersectionPoint(p1, v1, p2, v3, vIntersect)
       
       if(vIntersect.isNaNOrInfinite) {
-        vIntersect(vCur)
+        vIntersect := vCur
         vIntersect += v2
       }
       
-      v5(vCur)
+      v5 := vCur
       v5 -= vIntersect
       val l = v5.length
       val absWeight = Math.abs(weight * 2)
@@ -227,7 +227,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
         v5 *= -absWeight
         v5 += vCur
       } else {
-        v5(vIntersect)
+        v5 := vIntersect
       }
       
       //result

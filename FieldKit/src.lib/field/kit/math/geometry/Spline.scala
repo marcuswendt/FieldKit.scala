@@ -77,11 +77,11 @@ class Spline(capacity:Int) extends Curve(capacity) {
       
       // first point
       if(time < 0) {
-        tmpResult(first)
+        tmpResult := first
         
       // last point
       } else if(time > 1) {
-        tmpResult(last)
+        tmpResult := last
         
       // in between
       } else {
@@ -97,29 +97,29 @@ class Spline(capacity:Int) extends Curve(capacity) {
         i -= 1
         
         if(i == -1) {
-          tmp0(second).-=(first).normalize.*=(EPSILON)
-          tmp1(first) -= tmp0
+          (tmp0 := second -= first).normalize *= EPSILON
+          tmp1 := first -= tmp0
         } else {
-          tmp1.set(vertices, i)
+          tmp1 := (vertices, i)
         }
         
         i += 1
-        tmp2.set(vertices, i)
+        tmp2 := (vertices, i)
         
         i += 1
-        tmp3.set(vertices, i)
+        tmp3 := (vertices, i)
         
         i += 1
         if(i == size) {
-          tmp0(beforeLast).-=(last).normalize.*=(EPSILON)
-          tmp4(last) -= tmp0
+          (tmp0 := beforeLast -= last).normalize *= EPSILON
+          tmp4 := last -= tmp0
         } else {
-          tmp4.set(vertices, i)
+          tmp4 := (vertices, i)
         }
         
         // calculate point
         tmp1 *= -t3 + 2 * t2 -t
-        tmpResult(tmp1)
+        tmpResult := tmp1
         
         tmp2 *= 3 * t3 - 5 * t2 + 1
         tmpResult += tmp2
@@ -139,7 +139,7 @@ class Spline(capacity:Int) extends Curve(capacity) {
           b put tmpResult.z
           
         case v:Vec3 => 
-          v set tmpResult
+          v := tmpResult
       }
     }
   }

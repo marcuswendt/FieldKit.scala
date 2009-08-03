@@ -12,9 +12,6 @@ import org.junit.Assert._
 
 /** unit tests for the <code>Colour</code> class */
 class ColourTest extends TestCase {
-  override def setUp() = {}
-
- override def tearDown() = {}
  
  def testStringConstructor() = {
    var c:Colour = null

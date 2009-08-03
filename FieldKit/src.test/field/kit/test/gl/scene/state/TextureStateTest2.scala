@@ -53,7 +53,7 @@ object TextureStateTest2 extends field.kit.Sketch {
 //      as.set(mode)
 //    })
     
-    scene.translation set (width/2f, height/2f, 0)
+    scene.translation := (width/2f, height/2f, 0)
     
     beginGL
     scene.render

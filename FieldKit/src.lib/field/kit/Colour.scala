@@ -24,14 +24,18 @@ class Colour(
   def this(r:Int,g:Int,b:Int) = this(r/255f,g/255f,b/255f,1f)
   def this(r:Int,g:Int,b:Int,a:Int) = this(r/255f,g/255f,b/255f,a/255f)
   
-  def this(i:Int) = { this(); set(i) }
-  def this(c:Colour) = { this(); set(c) }
-  def this(s:String) = { this(); set(s) }
+  def this(i:Int) = { this(); :=(i) }
+  def this(c:Colour) = { this(); :=(c) }
+  def this(s:String) = { this(); :=(s) }
   def this(grey:Float) = this(grey,grey,grey,1f)
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
   
-  // -- setters ----------------------------------------------------------------
-  def set(c:Colour) = {
+  // -- Setters ----------------------------------------------------------------
+  /**
+   * Sets this Colour components to the given Colour
+   * @return itself
+   */
+  final def :=(c:Colour) = {
     if(c != null) {
       this.r = c.r
       this.g = c.g
@@ -41,15 +45,40 @@ class Colour(
     this
   }
   
-  def set(grey:Float) = {this.r=grey; this.g=grey; this.b=grey; this}
-  def set(grey:Float,a:Float) = {this.r=grey; this.g=grey; this.b=grey; this.a=a; this}
-  def set(r:Float,g:Float,b:Float) = { this.r = r; this.g=g; this.b=b; this }
-  def set(r:Float,g:Float,b:Float,a:Float) = { this.r = r; this.g=g; this.b=b; this.a=a; this }
+  /**
+   * Sets all components of this Colour to the given Float
+   * @return itself
+   */
+  final def :=(grey:Float) = {this.r=grey; this.g=grey; this.b=grey; this}
   
-  def set(i:Int):Colour = {
+  /**
+   * Sets the r,g,b components of this Colour to the given Float and the alpha seperately
+   * @return itself
+   */
+  final def :=(grey:Float,a:Float) = {this.r=grey; this.g=grey; this.b=grey; this.a=a; this}
+  
+  /**
+   * Sets only the rgb components of this Colour
+   * @return itself
+   */
+  final def :=(r:Float,g:Float,b:Float) = { this.r = r; this.g=g; this.b=b; this }
+  
+  /**
+   * Sets all components of this Colour individually
+   * @return itself
+   */
+  final def :=(r:Float,g:Float,b:Float,a:Float) = { this.r = r; this.g=g; this.b=b; this.a=a; this }
+  
+  /**
+   * Sets this Colour using an Integer which is interpreted as:
+   * a) as single [0,256] grey value
+   * b) as packed integer given as hex number
+   * @return itself
+   */ 
+  final def :=(i:Int):Colour = {
     // i is within [0, 256] range -> i is a greyscale value
     if(i > 0 && i < 256) { 
-      set(i/ 256f)
+      :=(i/ 256f)
     // i is a hex-value
     } else {
       fromRGB(i)
@@ -57,7 +86,11 @@ class Colour(
     this
   }
   
-  def set(s:String) = {
+  /**
+   * Attempts to interpret this String to set this Colours components
+   * @return itself
+   */
+  final def :=(s:String) = {
     if(s != null) {
       val iter = FMath.DECIMAL findAllIn s
       val list = iter.toList

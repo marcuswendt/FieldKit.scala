@@ -58,7 +58,7 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
   def emit = {
     // create particle
     val p = create
-    p.position(position) 
+    p.position := position 
         
     // apply behaviours      
 //    behaviours foreach { b =>

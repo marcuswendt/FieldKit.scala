@@ -120,12 +120,12 @@ class Plane(name:String) extends TriMesh(name) {
       
     for(y <- 0 until cols) {
       for(x <- 0 until rows) {
-        cur.set(vertices, index(x,y))
-        left.set(vertices, index(if(x+1 == rows) x-1 else x+1, y))
-        up.set(vertices, index(x, if(y+1 == cols) y-1 else y+1))
+        cur := (vertices, index(x,y))
+        left := (vertices, index(if(x+1 == rows) x-1 else x+1, y))
+        up := (vertices, index(x, if(y+1 == cols) y-1 else y+1))
         
-        v1(up) -= cur
-        v2(left) -= cur
+        v1 := up -= cur
+        v2 := left -= cur
         v1 cross v2
         
         normals put v1.x

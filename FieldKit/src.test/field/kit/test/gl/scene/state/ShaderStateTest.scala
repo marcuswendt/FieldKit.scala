@@ -24,7 +24,7 @@ object ShaderStateTest extends field.kit.test.Sketch {
     scene = new Group("scene")
     
     val q1 = new Quad("test", width/2f, height/2f)
-    q1.translation set (width/2f, height/2f, 0)
+    q1.translation := (width/2f, height/2f, 0)
     q1.states += ShaderState("""
 	void main()
 	{

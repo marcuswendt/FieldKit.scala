@@ -15,7 +15,12 @@ package field.kit.math
  * @author Marcus Wendt
  */
 abstract class Vector[T](val size:Int) extends Collection[T] {
-  def set(s:String):Vector[T]
+  /**
+   * Attempts to interpret this String to set this Vectors components
+   * @return itself
+   */
+  def :=(s:String):Vector[T]
+  
   def update(i:Int, value:T)
 }
 
@@ -24,6 +29,7 @@ abstract class Vector[T](val size:Int) extends Collection[T] {
  * @author Marcus Wendt
  */
 abstract class VecF(size:Int) extends Vector[Float](size) {
+  // -- Local Operations -------------------------------------------------------
   def +=(s:Float)
   def -=(s:Float)
   def *=(s:Float)

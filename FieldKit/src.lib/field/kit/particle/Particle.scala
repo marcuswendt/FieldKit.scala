@@ -54,7 +54,7 @@ class Particle extends Logger {
     velocity.clamp(velocityMax)
   
     // make velocity time invariant
-    absVelocity(velocity) *= (dt / ps.timeStep)
+    absVelocity := velocity *= (dt / ps.timeStep)
     position += absVelocity
 
     // clean up

@@ -10,7 +10,7 @@ package field.kit.test.unit
 import junit.framework._
 import org.junit.Assert._
 
-/** unit tests for the <code>Mat3</code> class */
+/** unit tests  for the <code>Mat3</code> class  */
 class Mat3Test extends TestCase {
   import field.kit.math.Mat3
   
@@ -190,7 +190,7 @@ class Mat3Test extends TestCase {
     var m2 = new Mat3
     m2.set(m1)
     
-    m1 *= m2 
+    m1 *= m2  
    
     assertEquals(m1.m00, 15f)
     assertEquals(m1.m01, 18f)

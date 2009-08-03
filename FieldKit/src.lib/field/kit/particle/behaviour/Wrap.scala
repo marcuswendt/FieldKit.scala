@@ -29,14 +29,14 @@ class Wrap extends Behaviour("Wrap") {
   
   // set detaults
   override def init {
-    min(0,0,0)
-    max(1,1,1)
+    min := 0f
+    max := 1f
   }
   
   /** update the absolute coords */
   override def prepare(dt:Float) {
-     _min(min) *= ps.space.dimension
-     _max(max) *= ps.space.dimension
+     _min := min *= ps.space.dimension
+     _max := max *= ps.space.dimension
   }
   
   def apply(p:Particle, dt:Float) {
@@ -60,7 +60,7 @@ class Wrap extends Behaviour("Wrap") {
   
   // setters
   def margin(offset:Float) {
-    min(-offset, -offset, -offset)
-    max(1 + offset, 1 + offset, 1 + offset)
+    min := -offset
+    max := 1 + offset
   }
 }

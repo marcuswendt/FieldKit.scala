@@ -10,7 +10,7 @@ package field.kit.test.unit
 import junit.framework._
 import org.junit.Assert._
 
-/** unit tests for the <code>Mat4</code> class */
+/** unit tests for the <code>Mat4</code>  class */
 class Mat4Test extends TestCase {
   import field.kit.math.Mat4 
   

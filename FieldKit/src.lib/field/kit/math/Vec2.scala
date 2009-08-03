@@ -41,38 +41,52 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
   
   def this() = this(0,0)
   def this(v:Vec2) = this(v.x,v.y)
-  def this(s:String) = { this(); set(s); this }
+  def this(s:String) = { this(); :=(s); this }
   
-  def update(i:Int, value:Float) = 
+  final def update(i:Int, value:Float) = 
     i match {
       case 0 => this.x = value
       case 1 => this.y = value
     }
   
-  def apply(x:Float, y:Float) = set(x,y)
-  def apply(v:Vec2) = set(v)
+  //def apply(x:Float, y:Float) = :=(x,y)
+  //def apply(v:Vec2) = :=(v)
   
-  def set(x:Float, y:Float) = { this.x=x; this.y=y; this }
-  def set(v:Vec2) = {this.x=v.x; this.y=v.y; this}
-  def set(buffer:FloatBuffer, index:Int) = {
+  // -- Setters ----------------------------------------------------------------
+  /** 
+   * Sets this Vectors components to the given Vec2
+   * @return itself
+   */
+  final def :=(v:Vec2) = {this.x=v.x; this.y=v.y; this}
+  
+  /**
+   * Sets this Vectors components to the given Floats
+   * @return itself
+   */
+  final def :=(x:Float, y:Float) = { this.x=x; this.y=y; this }
+  
+  /**
+   * Sets all components of this Vector to the given Float
+   * @return itself
+   */
+  final def :=(s:Float) = { this.x=s; this.y=s; this }
+  
+  /** 
+   * Sets the xyz components to the data from a given buffer at a given index
+   * @return itself
+   */
+  final def :=(buffer:FloatBuffer, index:Int) = {
     val i = index * 2
     this.x = buffer get i
     this.y = buffer get i+1
     this
   }
-  def put(buffer:FloatBuffer, index:Int) = {
-    val i = index * 2
-    buffer.put(i, x)
-    buffer.put(i + 1, y)
-    this    
-  }
-  def put(buffer:FloatBuffer) = {
-    buffer put x
-    buffer put y
-    this    
-  }
   
-  def set(s:String) = {
+  /** 
+   * Attempts to parse the given String to set this Vectors components
+   * @return itself
+   */
+  final def :=(s:String) = {
     if(s != null) {
       val iter = FMath.DECIMAL findAllIn s
       val list = iter.toList
@@ -100,57 +114,209 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     this
   }
   
-  def zero = set(0,0)
+  // -- Float Operations -------------------------------------------------------
+  // TODO could clean this up in Scala 2.8 when default arguments are implemented
+
+  /** 
+   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def -(x:Float, y:Float):Vec2 = this - (x,y, null)
   
-  def :=(v:Vec2) = { this.x = v.x; this.y = v.y; this }
-  def :=(x:Float, y:Float) = { this.x = x; this.y = y; this }
+  /** 
+   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def +(x:Float, y:Float):Vec2 = this - (x,y, null)
   
-  def +=(s:Float) = { x+=s; y+=s; this }
-  def -=(s:Float) = { x-=s; y-=s; this }
-  def *=(s:Float) = { x*=s; y*=s; this }
-  def /=(s:Float) = { x/=s; y/=s; this }
+  /** 
+   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def *(x:Float, y:Float):Vec2 = this - (x,y, null)
   
-  def +=(x:Float, y:Float) = { this.x+=x; this.y+=y; this }
-  def -=(x:Float, y:Float) = { this.x-=x; this.y-=y; this }
-  def *=(x:Float, y:Float) = { this.x*=x; this.y*=y; this }
-  def /=(x:Float, y:Float) = { this.x/=x; this.y/=y; this }
+  /** 
+   * Divides this <code>Vec2</code> through the given <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def /(x:Float, y:Float):Vec2 = this - (x,y, null)
   
-  def +=(v:Vec2) = { x+=v.x; y+=v.y; this }
-  def -=(v:Vec2) = { x-=v.x; y-=v.y; this }
-  def *=(v:Vec2) = { x*=v.x; y*=v.y; this }
-  def /=(v:Vec2) = { x/=v.x; y/=v.y; this }
+  /** 
+   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
+   * @return result
+   */
+  final def -(x:Float, y:Float, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result 
+    r.x = this.x - x
+    r.y = this.y - y
+    r
+  }
   
-  def lengthSquared = x * x + y * y
+  /** 
+   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
+   * @return result
+   */
+  final def +(x:Float, y:Float, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result
+    r.x = this.x + x
+    r.y = this.y + y
+    r
+  }
   
-  def distance(v:Vec2) = Math.sqrt(distanceSquared(v.x, v.y)).asInstanceOf[Float]
-  def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).asInstanceOf[Float]
+  /** 
+   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
+   * @return result
+   */
+  final def *(x:Float, y:Float, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result
+    r.x = this.x * x
+    r.y = this.y * y
+    r
+  }
   
-  def distanceSquared(v:Vec2):Float = distanceSquared(v.x, v.y)
-  def distanceSquared(x:Float, y:Float) = {
+  /** 
+   * Divides this <code>Vec3</code> through the given <code>Vec2</code>
+   * @return result 
+   */
+  final def /(x:Float, y:Float, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result
+    r.x = this.x / x
+    r.y = this.y / y
+    r
+  }
+  
+  // -- Vec2 Operations --------------------------------------------------------
+  /** 
+   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def -(v:Vec2):Vec2 = this - (v, null)
+  
+  /** 
+   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def +(v:Vec2):Vec2 = this - (v, null)
+  
+  /** 
+   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def *(v:Vec2):Vec2 = this - (v, null)
+  
+  /** 
+   * Divides this <code>Vec2</code> through the given <code>Vec2</code>
+   * @return result as new vector 
+   */
+  final def /(v:Vec2):Vec2 = this - (v, null)
+  
+  /** 
+   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
+   * @return result
+   */
+  final def -(v:Vec2, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result 
+    r.x = this.x - v.x
+    r.y = this.y - v.y
+    r
+  }
+  
+  /** 
+   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
+   * @return result
+   */
+  final def +(v:Vec2, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result
+    r.x = this.x + v.x
+    r.y = this.y + v.y
+    r
+  }
+  
+  /** 
+   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
+   * @return result
+   */
+  final def *(v:Vec2, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result
+    r.x = this.x * v.x
+    r.y = this.y * v.y
+    r
+  }
+  
+  /** 
+   * Divides this <code>Vec3</code> through the given <code>Vec2</code>
+   * @return result 
+   */
+  final def /(v:Vec2, result:Vec2) = {
+    val r = if(result == null) new Vec2 else result
+    r.x = this.x / v.x
+    r.y = this.y / v.y
+    r
+  }
+  
+  // -- Local Operations -------------------------------------------------------
+  final def +=(s:Float) = { x+=s; y+=s; this }
+  final def -=(s:Float) = { x-=s; y-=s; this }
+  final def *=(s:Float) = { x*=s; y*=s; this }
+  final def /=(s:Float) = { x/=s; y/=s; this }
+  
+  final def +=(x:Float, y:Float) = { this.x+=x; this.y+=y; this }
+  final def -=(x:Float, y:Float) = { this.x-=x; this.y-=y; this }
+  final def *=(x:Float, y:Float) = { this.x*=x; this.y*=y; this }
+  final def /=(x:Float, y:Float) = { this.x/=x; this.y/=y; this }
+  
+  final def +=(v:Vec2) = { x+=v.x; y+=v.y; this }
+  final def -=(v:Vec2) = { x-=v.x; y-=v.y; this }
+  final def *=(v:Vec2) = { x*=v.x; y*=v.y; this }
+  final def /=(v:Vec2) = { x/=v.x; y/=v.y; this }
+  
+  final def lengthSquared = x * x + y * y
+  
+  final def distance(v:Vec2) = Math.sqrt(distanceSquared(v.x, v.y)).asInstanceOf[Float]
+  final def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).asInstanceOf[Float]
+  
+  final def distanceSquared(v:Vec2):Float = distanceSquared(v.x, v.y)
+  final def distanceSquared(x:Float, y:Float) = {
     val dx = this.x - x
     val dy = this.y - y
     dx * dx + dy * dy
   }
   
-  def perpendiculate = {
+  final def perpendiculate = {
     val tmp = x
     this.x = y
     this.y = -tmp
     this
   }
   
+  // -- Other Operations -------------------------------------------------------
+  final def zero = :=(0,0)
+  
+  final def put(buffer:FloatBuffer, index:Int) = {
+    val i = index * 2
+    buffer.put(i, x)
+    buffer.put(i + 1, y)
+    this    
+  }
+  
+  final def put(buffer:FloatBuffer) = {
+    buffer put x
+    buffer put y
+    this    
+  }
+  
   /**
    * interpolates towards the given target Vector
    * @see <a href="http://en.wikipedia.org/wiki/Slerp">spherical linear interpolation</a>
    */
-  def slerp(target:Vec2, delta:Float) = {
+  final def slerp(target:Vec2, delta:Float) = {
     this.x = x * (1 - delta) + target.x * delta
     this.y = y * (1 - delta) + target.y * delta
     this
   }
   
   /** checks wether one or several components of this vector are Not a Number or Infinite */
-  def isNaNOrInfinite = { 
+  final def isNaNOrInfinite = { 
     import java.lang.Float
     var error = 0
     if (Float.isInfinite(x)) error -= 1
@@ -160,7 +326,7 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
     error == 0
   }
   
-  def elements = new Iterator[Float] {
+  final def elements = new Iterator[Float] {
     var i=0
     def next = {
       i match {
