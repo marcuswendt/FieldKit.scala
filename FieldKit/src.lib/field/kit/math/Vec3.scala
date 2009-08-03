@@ -110,12 +110,70 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
   
   def zero = set(0,0,0)
   
-//  TODO implement non-local operations 
-//  def -(s:Float) = {
-//    
-//  }
+  // -- Non Local Operations ---------------------------------------------------
+ 
+  /** Subtracts the given <code>Vec3</code> from this <code>Vec3</code>
+   * @return the result as a new <code>Vec3</code> */
+  def -(v:Vec3):Vec3 = this - (v, null)
   
+  /** Adds the given <code>Vec3</code> to this <code>Vec3</code>
+   * @return the result as a new <code>Vec3</code> */
+  def +(v:Vec3):Vec3 = this - (v, null)
+  
+  /** Multiplies the given <code>Vec3</code> with this <code>Vec3</code>
+   * @return the result as a new <code>Vec3</code> */
+  def *(v:Vec3):Vec3 = this - (v, null)
+  
+  /** Divides this <code>Vec3</code> through the given <code>Vec3</code>
+   * @return the result as a new <code>Vec3</code> */
+  def /(v:Vec3):Vec3 = this - (v, null)
+  
+  /** Subtracts the given <code>Vec3</code> from this <code>Vec3</code> and returns the result */
+  def -(v:Vec3, result:Vec3) = {
+    val r = if(result == null) new Vec3 else result 
+    r.x = this.x - v.x
+    r.y = this.y - v.y
+    r.z = this.z - v.z
+    r
+  }
+  
+  /** Adds the given <code>Vec3</code> to this <code>Vec3</code> and returns the result */
+  def +(v:Vec3, result:Vec3) = {
+    val r = if(result == null) new Vec3 else result
+    r.x = this.x + v.x
+    r.y = this.y + v.y
+    r.z = this.z + v.z
+    r
+  }
+  
+  /** Multiplies the given <code>Vec3</code> with this <code>Vec3</code> and returns the result */
+  def *(v:Vec3, result:Vec3) = {
+    val r = if(result == null) new Vec3 else result
+    r.x = this.x * v.x
+    r.y = this.y * v.y
+    r.z = this.z * v.z
+    r
+  }
+  
+  /** Divides this <code>Vec3</code> through the given <code>Vec3</code> and returns the result */
+  def /(v:Vec3, result:Vec3) = {
+    val r = if(result == null) new Vec3 else result
+    r.x = this.x / v.x
+    r.y = this.y / v.y
+    r.z = this.z / v.z
+    r
+  }
+  
+  // -- Local Operations -------------------------------------------------------
+  
+  /** Sets this Vec3s components to the given Vec3
+   * @return this <code>Vec3</code>
+   */
   def :=(v:Vec3) = { this.x = v.x; this.y = v.y; this.z = v.z; this }
+  
+  /** Sets this Vec3s components to the given Floats
+   * @return this <code>Vec3</code>
+   */
   def :=(x:Float, y:Float, z:Float) = { this.x = x; this.y = y; this.z = z; this }
   
   def +=(s:Float) = { x+=s; y+=s; z+=s; this }
