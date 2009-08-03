@@ -29,7 +29,7 @@ class StatefulParticle extends Particle {
   def reinit {
     state = Particle.ALIVE
     age = 0
-    position.zero
+    this.zero
     velocity.zero
     steer.zero
   }

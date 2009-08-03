@@ -71,7 +71,7 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
     var i=0
     while(i < f.particles.size) {
       val p = f.particles(i)
-      rect(p.position.x, p.position.y, 3, 3)
+      rect(p.x, p.y, 3, 3)
       i += 1
     }
   }

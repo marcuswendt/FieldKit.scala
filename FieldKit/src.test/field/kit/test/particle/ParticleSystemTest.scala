@@ -56,6 +56,6 @@ object ParticleSystemTest extends field.kit.Sketch {
     noStroke
     fill(255)
     
-    f.particles foreach(p => rect(p.position.x, p.position.y, 3, 3))
+    f.particles foreach(p => rect(p.x, p.y, 3, 3))
   }
 }

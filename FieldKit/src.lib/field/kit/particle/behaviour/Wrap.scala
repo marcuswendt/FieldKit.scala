@@ -40,22 +40,20 @@ class Wrap extends Behaviour("Wrap") {
   }
   
   def apply(p:Particle, dt:Float) {
-    val pos = p.position
-    
-    if(pos.x < _min.x)
-      pos.x = _max.x
-    else if(pos.x > _max.x)
-      pos.x = _min.x
+    if(p.x < _min.x)
+      p.x = _max.x
+    else if(p.x > _max.x)
+      p.x = _min.x
 
-    if(pos.y < _min.y)
-      pos.y = _max.y
-    else if(pos.y > _max.y)
-      pos.y = _min.y
+    if(p.y < _min.y)
+      p.y = _max.y
+    else if(p.y > _max.y)
+      p.y = _min.y
 
-    if (pos.z < _min.z)
-      pos.z = _max.z
-    else if (pos.z > _max.z)
-      pos.z = _min.z
+    if (p.z < _min.z)
+      p.z = _max.z
+    else if (p.z > _max.z)
+      p.z = _min.z
   }
   
   // setters

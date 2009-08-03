@@ -93,7 +93,7 @@ object PassTest extends field.kit.test.Sketch {
       // draw
       fill(255)
       noStroke
-      f.particles foreach(p => rect(p.position.x, p.position.y, 6, 6))
+      f.particles foreach(p => rect(p.x, p.y, 6, 6))
     }
   }
 }

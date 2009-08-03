@@ -7,7 +7,7 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import field.kit.Logger
+import math.Vec3
 
 object Particle {
   val UNDEFINED = -1
@@ -22,8 +22,7 @@ object Particle {
  * a single particle from the flock
  * @author Marcus Wendt
  */
-class Particle extends Logger {
-  import field.kit.math.Vec3
+class Particle extends Vec3 with Logger {
   fine("init")
   
   // set when particle is being added to a flock
@@ -33,7 +32,6 @@ class Particle extends Logger {
   var age = 0f
   var lifeTime = 10 * 1000f
   
-  var position = new Vec3
   var velocity = new Vec3
   var steer = new Vec3
   var steerMax = 1f
@@ -55,7 +53,7 @@ class Particle extends Logger {
   
     // make velocity time invariant
     absVelocity := velocity *= (dt / ps.timeStep)
-    position += absVelocity
+    this += absVelocity
 
     // clean up
     velocity *= ps.friction
