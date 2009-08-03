@@ -132,4 +132,13 @@
 			<fileset file="${scala-library.jar}" />
 		</copy>
 	</target>
+	
+	<target name="test">
+		<echo>preparing</echo>
+		<antcall target="dist" />
+			
+		<echo>----------------------------------------</echo>
+		<echo>running ${project.name} tests...</echo>
+		<echo>----------------------------------------</echo>
+	</target>
 </project>

@@ -18,15 +18,15 @@ object Vec3 {
   val UNIT_Z = new Vec3(0, 0, 1)
   val UNIT_XYZ = new Vec3(1, 1, 1)
   
-  def apply() = new Vec3(0,0,0)
-  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
+//  def apply() = new Vec3(0,0,0)
+//  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
 }
 
 /**
  * 3 Dimensional Float Vector
  * @author Marcus Wendt
  */
-class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
+class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   import java.nio.FloatBuffer
   
   def this() = this(0,0,0)
@@ -365,7 +365,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF(3) {
         case _ => 0
       }
     }
-    def hasNext = i==size
+    def hasNext = i==3
   }
   
   override def toString = "Vec3["+ toLabel +"]"

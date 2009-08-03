@@ -36,7 +36,7 @@ object Vec2 {
  * 2 Dimensional Float Vector
  * @author Marcus Wendt
  */
-class Vec2(var x:Float, var y:Float) extends VecF(2) {
+class Vec2(var x:Float, var y:Float) extends VecF {
   import java.nio.FloatBuffer
   
   def this() = this(0,0)
@@ -335,7 +335,7 @@ class Vec2(var x:Float, var y:Float) extends VecF(2) {
         case _ => 0
       }
     }
-    def hasNext = i==size
+    def hasNext = i==2
   }
   
   // helpers

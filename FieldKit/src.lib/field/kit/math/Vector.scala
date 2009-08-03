@@ -14,7 +14,7 @@ package field.kit.math
  * Base class for all Vectors
  * @author Marcus Wendt
  */
-abstract class Vector[T](val size:Int) extends Collection[T] {
+abstract class Vector[T] {
   /**
    * Attempts to interpret this String to set this Vectors components
    * @return itself
@@ -28,7 +28,7 @@ abstract class Vector[T](val size:Int) extends Collection[T] {
  * Base class for all Float Vector Types
  * @author Marcus Wendt
  */
-abstract class VecF(size:Int) extends Vector[Float](size) {
+abstract class VecF extends Vector[Float] {
   // -- Local Operations -------------------------------------------------------
   def +=(s:Float)
   def -=(s:Float)
