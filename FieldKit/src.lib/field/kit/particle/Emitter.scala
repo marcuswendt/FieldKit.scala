@@ -7,19 +7,18 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import field.kit.Logger
+import kit.math.Vec3
 import scala.reflect.Manifest
 
 /** 
  * represents a point based emitter
  * @author Marcus Wendt
  */
-class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends Logger {
+class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends Vec3 with Logger {
   import field.kit.math.Vec3
   import field.kit.util.datatype.collection.ArrayBuffer
   fine("init")
   
-  var position = new Vec3
   var rate = 1
   var interval = 1000f
 
@@ -58,7 +57,7 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
   def emit = {
     // create particle
     val p = create
-    p := position 
+    p := this 
         
     // apply behaviours      
 //    behaviours foreach { b =>

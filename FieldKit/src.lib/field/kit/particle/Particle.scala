@@ -19,7 +19,7 @@ object Particle {
 }
 
 /**
- * a single particle from the flock
+ * A single particle from the flock
  * @author Marcus Wendt
  */
 class Particle extends Vec3 with Logger {

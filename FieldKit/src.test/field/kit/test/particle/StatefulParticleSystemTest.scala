@@ -50,7 +50,7 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
   
   init(1280, 768, false, {
     ps.space.set(width, height, 100) 
-    f.emitter.position := ps.space.center
+    f.emitter := ps.space.center
     info("initialized", ps.space)
   })
   
