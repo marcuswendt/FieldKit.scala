@@ -12,7 +12,7 @@ package field.kit.agent.behaviour
  * Lowlevel base class for all <code>Behaviour-Tree</code> components
  * @author Marcus Wendt
  */
-abstract class Node extends field.kit.util.datatype.graph.Node {
+abstract class Node extends kit.util.datatype.graph.Node {
   def execute:Boolean
 }
 
@@ -35,7 +35,7 @@ abstract class Condition extends Node {
  * <code>Composites</code> are branches in the Behaviour-Tree that combine multiple behaviours together.
  * @author Marcus Wendt
  */
-abstract class Composite extends Node with field.kit.util.datatype.graph.Branch[Node] {
+abstract class Composite extends Node with kit.util.datatype.graph.Branch[Node] {
 }
 
 

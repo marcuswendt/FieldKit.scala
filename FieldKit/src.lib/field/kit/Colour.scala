@@ -17,7 +17,8 @@ class Colour(
   var b:Float,
   var a:Float
 ) extends Logger {  
-  import field.kit.math._
+  import math._
+  import math.FMath._
   
   def this() = this(0f,0f,0f,1f)
   def this(r:Float,g:Float,b:Float) = this(r,g,b,1f)
@@ -92,12 +93,12 @@ class Colour(
    */
   final def :=(s:String) = {
     if(s != null) {
-      val iter = FMath.DECIMAL findAllIn s
+      val iter = DECIMAL findAllIn s
       val list = iter.toList
       
       var index = 0
       def next = { 
-        var f = FMath.abs(list(index).toFloat)
+        var f = abs(list(index).toFloat)
         index += 1
         // normalize values above 1.0
         if(f > 1.0f) f /= 255f

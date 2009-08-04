@@ -18,6 +18,12 @@ object Vec3 {
   val UNIT_Z = new Vec3(0, 0, 1)
   val UNIT_XYZ = new Vec3(1, 1, 1)
   
+  /**
+   * Creates a new random unit vector
+   * @return a new random normalized unit vector.
+   */
+  def random = new Vec3(Random(), Random(), Random())
+  
 //  def apply() = new Vec3(0,0,0)
 //  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
 }
@@ -28,10 +34,12 @@ object Vec3 {
  */
 class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   import java.nio.FloatBuffer
+  import FMath._
   
   def this() = this(0,0,0)
   def this(v:Vec2) = this(v.x, v.y, 0)
   def this(v:Vec3) = this(v.x, v.y, v.z)
+  def this(s:Float) = this(s,s,s)
   def this(s:String) = { this(); :=(s); this }
   
   final def update(i:Int, value:Float) = 
@@ -81,12 +89,12 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
    */
   final def :=(s:String) = {
     if(s != null) {
-      val iter = FMath.DECIMAL findAllIn s
+      val iter = DECIMAL findAllIn s
       val list = iter.toList
       
       var index = 0
       def next = { 
-        var f = FMath.abs(list(index).toFloat)
+        var f = abs(list(index).toFloat)
         index += 1
         f
       }
@@ -109,35 +117,62 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
     this
   }
   
+  // -- Scalar Operations ------------------------------------------------------
+  /**
+   * Adds the given Float to this vector
+   * @return result as new vector 
+   */
+  final def +(s:Float):Vec3 = this + (s,s,s,null)
+  
+  /**
+   * Subtracts the given float from this vector
+   * @return result as new vector 
+   */
+  final def -(s:Float):Vec3 = this - (s,s,s,null)
+  
+  /** 
+   * Multiplies the given float with this vector
+   * @return result as new vector 
+   */
+  final def *(s:Float):Vec3 = this * (s,s,s,null)
+  
+  /** 
+   * Divides this vector through the given float
+   * @return result as new vector 
+   */
+  final def /(s:Float):Vec3 = this / (s,s,s,null)
+  
+  
+  
   // -- Float Operations -------------------------------------------------------
   // TODO could clean this up in Scala 2.8 when default arguments are implemented
     
   /**
-   * Subtracts the given <code>Vec3</code> from this <code>Vec3</code>
+   * Subtracts the given floats from this vector
    * @return result as new vector 
    */
   final def -(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
   
   /** 
-   * Adds the given <code>Vec3</code> to this <code>Vec3</code>
+   * Adds the given floats to this vector
    * @return result as new vector 
    */
   final def +(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
   
   /** 
-   * Multiplies the given <code>Vec3</code> with this <code>Vec3</code>
+   * Multiplies the given floats with this vector
    * @return result as new vector
    */
   final def *(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
   
   /** 
-   * Divides this <code>Vec3</code> through the given <code>Vec3</code>
+   * Divides this vector through the given floats
    * @return result as new vector  
    */
   final def /(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
   
   /** 
-   * Subtracts the given <code>Vec3</code> from this <code>Vec3</code> and returns the result
+   * Subtracts the given floats from this vector and returns the result
    * @return result
    */
   final def -(x:Float, y:Float, z:Float, result:Vec3) = {
@@ -149,7 +184,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   }
   
   /** 
-   * Adds the given <code>Vec3</code> to this <code>Vec3</code> and returns the result
+   * Adds the given floats to this vector
    * @return result
    */
   final def +(x:Float, y:Float, z:Float, result:Vec3) = {
@@ -161,7 +196,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   }
   
   /** 
-   * Multiplies the given <code>Vec3</code> with this <code>Vec3</code> and returns the result
+   * Multiplies the given floats with this vector
    * @return result
    */
   final def *(x:Float, y:Float, z:Float, result:Vec3) = {
@@ -173,7 +208,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   }
   
   /** 
-   * Divides this <code>Vec3</code> through the given <code>Vec3</code> and returns the result
+   * Divides this vector through the given floats
    * @return result
    */
   final def /(x:Float, y:Float, z:Float, result:Vec3) = {
@@ -259,20 +294,20 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   }
   
   // -- Local Operations -------------------------------------------------------
-  final def +=(s:Float) = { x+=s; y+=s; z+=s; this }
-  final def -=(s:Float) = { x-=s; y-=s; z-=s; this }
-  final def *=(s:Float) = { x*=s; y*=s; z*=s; this }
-  final def /=(s:Float) = { x/=s; y/=s; z/=s; this }
+  final def +=(s:Float):Vec3 = { x+=s; y+=s; z+=s; this }
+  final def -=(s:Float):Vec3 = { x-=s; y-=s; z-=s; this }
+  final def *=(s:Float):Vec3 = { x*=s; y*=s; z*=s; this }
+  final def /=(s:Float):Vec3 = { x/=s; y/=s; z/=s; this }
   
   final def +=(x:Float, y:Float, z:Float) = { this.x+=x; this.y+=y; this.z+=z; this }
   final def -=(x:Float, y:Float, z:Float) = { this.x-=x; this.y-=y; this.z-=z; this }
   final def *=(x:Float, y:Float, z:Float) = { this.x*=x; this.y*=y; this.z*=z; this }
   final def /=(x:Float, y:Float, z:Float) = { this.x/=x; this.y/=y; this.z/=z; this }
   
-  final def +=(v:Vec3) = { x+=v.x; y+=v.y; z+=v.z; this }
-  final def -=(v:Vec3) = { x-=v.x; y-=v.y; z-=v.z; this }
-  final def *=(v:Vec3) = { x*=v.x; y*=v.y; z*=v.z; this }
-  final def /=(v:Vec3) = { x/=v.x; y/=v.y; z/=v.z; this }
+  final def +=(v:Vec3):Vec3 = { x+=v.x; y+=v.y; z+=v.z; this }
+  final def -=(v:Vec3):Vec3 = { x-=v.x; y-=v.y; z-=v.z; this }
+  final def *=(v:Vec3):Vec3 = { x*=v.x; y*=v.y; z*=v.z; this }
+  final def /=(v:Vec3):Vec3 = { x/=v.x; y/=v.y; z/=v.z; this }
   
   // -- Other Operations -------------------------------------------------------
   final def put(buffer:FloatBuffer, index:Int) = {

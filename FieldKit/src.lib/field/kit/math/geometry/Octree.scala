@@ -18,9 +18,9 @@ package field.kit.math.geometry
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointOctree.java
  */
 class Octree(val parent:Octree, val offset:Vec3, val size:Float) 
-extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
+extends AABB(offset + size, new Vec3(size)) {
   import kit.util.datatype.collection.ArrayBuffer
-    
+  
   /**
    * Alternative tree recursion limit, number of world units when cells are
    * not subdivided any further
@@ -61,7 +61,7 @@ extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
    * @param p
    * @return true, if point has been added successfully
    */
-  def ::(p:Vec3):Boolean = {
+  def insert(p:Vec3):Boolean = {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
@@ -73,8 +73,8 @@ extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
         true
       } else {
         val plocal = p - offset
-        if(children == null)
-          children = new Array[Octree](8)
+        //if(children == null)
+        //  children = new Array[Octree](8)
         
         val octant = getOctantID(plocal)
         if(children(octant) == null) {
@@ -86,7 +86,7 @@ extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
           children(octant) = new Octree(this, o, size * 0.5f);
           numChildren += 1
         }
-        p :: children(octant)
+        children(octant) insert p  
       }
     } else {
       false
@@ -123,11 +123,11 @@ extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
    */
   def apply(box:AABB, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
     val r = if(result == null) { 
-      new ArrayBuffer[Vec3] 
-    } else {
-      result.clear
-      result
-    }
+    			new ArrayBuffer[Vec3] 
+    		} else {
+    			result.clear
+    			result
+    		}
     
     if (this intersects box) {
       if(data != null) {
@@ -147,6 +147,34 @@ extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
   }
   
   /**
+   * Selects all stored points within the given sphere volume
+   */
+  def apply(sphere:Sphere, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
+    val r = if(result == null) { 
+    			new ArrayBuffer[Vec3] 
+    		} else {
+    			result.clear
+    			result
+    		}
+    
+    if (this intersects sphere) {
+      if(data != null) {
+        data foreach { p => 
+          if(sphere contains p)
+            r += p
+        }                       
+      } else if(numChildren > 0) {
+        for(i <- 0 until 8) {
+          val child = children(i)
+          if(child != null)
+            child(sphere, result)
+        }
+      }
+    }
+    r
+  }
+  
+  /**
    * Same as apply(p:Vec3)
    */
   def getLeafForPoint(p:Vec3) = apply(p)
@@ -157,11 +185,16 @@ extends AABB(offset + (size,size,size), new Vec3(size,size,size)) {
   def getPointsWithinBox(box:AABB, result:ArrayBuffer[Vec3]) = apply(box,result)
   
   /**
+   * Same as apply(sphere:Sphere, result:ArrayBuffer[Vec3])
+   */
+  def getPointsWithinSphere(sphere:Sphere, result:ArrayBuffer[Vec3]) = apply(sphere,result)
+  
+  /**
    * Clears all children and data of this node
    */
   def clear {
+    //super.clear
     numChildren = 0
-    children = null
     data = null
   }
   

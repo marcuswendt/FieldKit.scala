@@ -17,7 +17,7 @@ class Sphere(var radius:Float) extends Vec3 {
     this := position
   }
   
-  def contains(p:Vec3) {
+  def contains(p:Vec3) = {
     val d = (this - p).lengthSquared
     (d <= radius * radius)
   }

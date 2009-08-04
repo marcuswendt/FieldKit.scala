@@ -7,21 +7,23 @@
 /* created April 15, 2009 */
 package field.kit.util.datatype.graph
 
-import field.kit.Logger
-
 /** 
  * Atomic building block of an acyclic connected graph structure 
  * @see http://en.wikipedia.org/wiki/Tree_data_structure
  * @author Marcus Wendt
  */
-class Node extends Logger {
-  
+trait Node extends Logger {
+  /**
+   * This node's parent
+   */
   var parent:Node = _
   
+  /**
+   * The name of this node
+   */
   var name:String = logName
-  
-  def this(name:String) = {
-    this()
-    this.name = name
-  }
+}
+
+class BaseNode(_name:String) extends Node {
+  this.name = _name
 }

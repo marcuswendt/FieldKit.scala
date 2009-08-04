@@ -15,13 +15,66 @@ package field.kit.math
  * @author Marcus Wendt
  */
 abstract class Vector[T] {
+  type V = Vector[T]
+  
   /**
    * Attempts to interpret this String to set this Vectors components
    * @return itself
    */
-  def :=(s:String):Vector[T]
+  def :=(s:String):V
   
   def update(i:Int, value:T)
+ 
+  // -- Float Operations -------------------------------------------------------
+  /**
+   * Adds the given Float to this vector
+   * @return result as new vector 
+   */
+  def +(s:Float):V
+  
+  /**
+   * Subtracts the given float from this vector
+   * @return result as new vector 
+   */
+  def -(s:Float):V
+  
+  /** 
+   * Multiplies the given float with this vector
+   * @return result as new vector 
+   */
+  def *(s:Float):V
+  
+  /** 
+   * Divides this vector through the given float
+   * @return result as new vector 
+   */
+  def /(s:Float):V
+  
+  
+  // -- Local Operations -------------------------------------------------------
+  /**
+   * Adds the given Float to this vector
+   * @return itself
+   */
+  def +=(s:Float):V
+  
+  /**
+   * Subtracts the given float from this vector
+   * @return itself
+   */
+  def -=(s:Float):V
+  
+  /**
+   * Multiplies this vector with the given float
+   * @return itself
+   */
+  def *=(s:Float):V
+  
+  /**
+   * Divides this vector through the given float
+   * @return itself
+   */
+  def /=(s:Float):V
 }
 
 /**
@@ -29,12 +82,7 @@ abstract class Vector[T] {
  * @author Marcus Wendt
  */
 abstract class VecF extends Vector[Float] {
-  // -- Local Operations -------------------------------------------------------
-  def +=(s:Float)
-  def -=(s:Float)
-  def *=(s:Float)
-  def /=(s:Float)
-  
+  // -- Other Operations -------------------------------------------------------
   def zero
   def negate = this *= -1
   

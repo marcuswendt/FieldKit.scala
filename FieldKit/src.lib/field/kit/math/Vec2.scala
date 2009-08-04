@@ -17,6 +17,12 @@ object Vec2 {
   val UNIT_Y = new Vec2(0, 1)
   val UNIT_XY = new Vec2(1, 1)
   
+   /**
+   * Creates a new random unit vector
+   * @return a new random normalized unit vector.
+   */
+  def random = new Vec2(Random(), Random())
+  
   /** computes the intersection point between two rays */
   def rayIntersectionPoint(origin1:Vec2, direction1:Vec2, origin2:Vec2, direction2:Vec2, result:Vec2) = {
     val v3bx = origin2.x - origin1.x
@@ -38,9 +44,11 @@ object Vec2 {
  */
 class Vec2(var x:Float, var y:Float) extends VecF {
   import java.nio.FloatBuffer
+  import FMath._
   
   def this() = this(0,0)
   def this(v:Vec2) = this(v.x,v.y)
+  def this(s:Float) = this(s,s)
   def this(s:String) = { this(); :=(s); this }
   
   final def update(i:Int, value:Float) = 
@@ -88,12 +96,12 @@ class Vec2(var x:Float, var y:Float) extends VecF {
    */
   final def :=(s:String) = {
     if(s != null) {
-      val iter = FMath.DECIMAL findAllIn s
+      val iter = DECIMAL findAllIn s
       val list = iter.toList
       
       var index = 0
       def next = { 
-        var f = FMath.abs(list(index).toFloat)
+        var f = abs(list(index).toFloat)
         index += 1
         f
       }
@@ -113,6 +121,32 @@ class Vec2(var x:Float, var y:Float) extends VecF {
     }
     this
   }
+  
+  // -- Scalar Operations ------------------------------------------------------
+  /**
+   * Adds the given Float to this vector
+   * @return result as new vector 
+   */
+  final def +(s:Float):Vec2 = this + (s,s,null)
+  
+  /**
+   * Subtracts the given float from this vector
+   * @return result as new vector 
+   */
+  final def -(s:Float):Vec2 = this - (s,s,null)
+  
+  /** 
+   * Multiplies the given float with this vector
+   * @return result as new vector 
+   */
+  final def *(s:Float):Vec2 = this * (s,s,null)
+  
+  /** 
+   * Divides this vector through the given float
+   * @return result as new vector 
+   */
+  final def /(s:Float):Vec2 = this / (s,s,null)
+  
   
   // -- Float Operations -------------------------------------------------------
   // TODO could clean this up in Scala 2.8 when default arguments are implemented

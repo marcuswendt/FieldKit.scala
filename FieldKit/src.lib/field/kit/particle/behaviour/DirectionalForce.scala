@@ -7,8 +7,7 @@
 /* created April 02, 2009 */
 package field.kit.particle.behaviour
 
-import field.kit.particle._
-import field.kit.math._
+import kit.math._
 
 /**
  * a simple force that is applied to the steering vector of a particle

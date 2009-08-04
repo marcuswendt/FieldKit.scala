@@ -10,7 +10,6 @@ package field.kit
 import processing.core.PApplet
 
 import field.kit.p5.BasicSketch
-import field.kit.math.FMath
 
 /**
  * contains global constants 

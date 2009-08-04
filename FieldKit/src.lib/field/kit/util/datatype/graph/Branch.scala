@@ -8,21 +8,31 @@
 package field.kit.util.datatype.graph
 
 /** 
- * a special node that has a number of children
+ * A special node that has a number of children
+ * 
+ * Note the children collection gets lazily initialized when the first child is added
+ * 
  * @author Marcus Wendt
  */
 trait Branch[T <: Node] extends Collection[T] {
   import field.kit.util.datatype.collection.ArrayBuffer
-  var children = new ArrayBuffer[T]
-  def size = children.size
-  def elements = children.elements
   
-  def +=(child:T):T = { 
+  protected var children:ArrayBuffer[T] = null
+  
+  def size = 
+    if(children==null) 0 else children.size
+  
+  def elements = 
+    if(children==null) null else children.elements
+  
+  def +=(child:T):T = {
+    if(children==null) children = new ArrayBuffer[T]
     children += child
     child
   }
   
-  def -=(child:T):T = { 
+  def -=(child:T):T = {
+    if(children != null) return null.asInstanceOf[T] 
     children -= child
     child
   }

@@ -7,11 +7,11 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.render.Drawable
-import field.kit.util.datatype.graph.Node
+import kit.gl.render.Drawable
+import kit.util.datatype.graph._
 
 /** base class for all scene-graph elements */
-abstract class Spatial(name:String) extends Node(name) with Drawable {
+abstract class Spatial(name:String) extends BaseNode(name) with Drawable {
   import field.kit.math._
   
   var translation = new Vec3
