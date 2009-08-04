@@ -46,7 +46,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
     i match {
       case 0 => this.x = value
       case 1 => this.y = value
-      case 2 => this.y = value
+      case 2 => this.z = value
     }
   
   //def apply(x:Float, y:Float, z:Float) = set(x,y,z)

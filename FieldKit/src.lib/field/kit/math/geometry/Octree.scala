@@ -95,7 +95,47 @@ extends AABB(offset + halfSize, halfSize) {
       false
     }
   }
+  
+  /**
+   * Removes a point from the tree and (optionally) tries to release memory by 
+   * reducing now empty sub-branches. 
+   * @param p point to delete
+   * @return true, if the point was found & removed
+   */
+  def remove(p:Vec3):Boolean = {
+    var found = false 
+    val leaf = apply(p)
+    if(leaf != null) {
+      val sizeBefore = leaf.size
+      leaf.data -= p
+      if(leaf.size != sizeBefore) {
+        found = true
+        if(isAutoReducing && leaf.data.size == 0)
+          leaf.reduceBranch
+      }
+    }
+    found
+  }
 
+  /**
+   * Tries to release memory by clearing up this branch
+   */
+  protected def reduceBranch {
+    if(data != null && data.size == 0)
+      data = null
+    
+    if(numChildren > 0) {
+      for(i <- 0 until 8) {
+        val child = children(i)
+        if(child != null && child.data == null)
+          children(i) = null
+      }
+    }
+    
+    if(parent != null)
+      parent.reduceBranch
+  }
+  
   /**
    * Finds the leaf node which spatially relates to the given point
    * 
@@ -125,12 +165,7 @@ extends AABB(offset + halfSize, halfSize) {
    * @return all points with the box volume
    */
   def apply(box:AABB, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
-    val r = if(result == null) { 
-    			new ArrayBuffer[Vec3] 
-    		} else {
-    			result.clear
-    			result
-    		}
+    val r = if(result == null) new ArrayBuffer[Vec3] else result
     
     if (this intersects box) {
       if(data != null) {
@@ -153,12 +188,7 @@ extends AABB(offset + halfSize, halfSize) {
    * Selects all stored points within the given sphere volume
    */
   def apply(sphere:Sphere, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
-    val r = if(result == null) { 
-    			new ArrayBuffer[Vec3] 
-    		} else {
-    			result.clear
-    			result
-    		}
+    val r = if(result == null) new ArrayBuffer[Vec3] else result
     
     if (this intersects sphere) {
       if(data != null) {

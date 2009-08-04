@@ -37,9 +37,9 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3 {
    */
   def intersects(box:AABB) = {
   	val t = box - this
-  	abs(t.x) <= extent.x + box.extent.x &&
-    abs(t.y) <= extent.y + box.extent.y &&
-    abs(t.z) <= extent.z + box.extent.z
+  	abs(t.x) <= (extent.x + box.extent.x) &&
+    abs(t.y) <= (extent.y + box.extent.y) &&
+    abs(t.z) <= (extent.z + box.extent.z)
   }
 
   /**
@@ -88,8 +88,8 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3 {
    */
   def contains(p:Vec3):Boolean = {
     if(p.x < min.x || p.x > max.x) return false
-    if(p.y < min.y || p.x > max.y) return false
-    if(p.z < min.z || p.x > max.z) return false
+    if(p.y < min.y || p.y > max.y) return false
+    if(p.z < min.z || p.z > max.z) return false
     true
   }
 }

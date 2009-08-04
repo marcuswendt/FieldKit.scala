@@ -12,7 +12,7 @@ package field.kit.math
  * @author Marcus Wendt
  */
 object Random {
-  val rnd = new java.util.Random
+  val rnd = new scala.util.Random
   
   def apply() = rnd.nextFloat
   

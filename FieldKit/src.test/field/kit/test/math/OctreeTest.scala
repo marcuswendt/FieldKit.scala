@@ -17,7 +17,9 @@ object OctreeTest extends test.Sketch {
   import processing.core.PConstants._
   import kit.math.geometry._
   import kit.math._
-  
+  import kit.math.FMath._
+  import kit.util.datatype.collection.ArrayBuffer
+
   class VisibleOctree(offset:Vec3, size:Float) extends Octree(offset, size) {
     def draw = drawNode(this)
     
@@ -67,15 +69,14 @@ object OctreeTest extends test.Sketch {
   val pointer = new Vec3
   
   // view rotation
-  var xrot = THIRD_PI
+  var xrot = FMath.THIRD_PI
   var zrot = 0.1f
-
-  // -- Init -------------------------------------------------------------------
-  println("o1 ", octree)
-  println("o2 ", octree.children(7))
   
+  var points = new ArrayBuffer[Vec3]
+  
+  // -- Init -------------------------------------------------------------------
   init {
-    rectMode(CORNER)
+//    rectMode(CORNER)
   }
 
   // -- Render -----------------------------------------------------------------
@@ -106,6 +107,20 @@ object OctreeTest extends test.Sketch {
     if (showOctree) octree.draw
     
     // show crosshair 3D cursor
+    drawCursor
+    
+    // show selected points
+    drawPoints
+    
+    // show clipping sphere
+    drawSphere
+    
+    //text("total: "+numParticles,10,30);
+    //text("clipped: "+numClipped+" (time: "+dt+"ms)",10,50);
+    popMatrix
+  }
+  
+  def drawCursor {
     stroke(255,0,0)
     noFill
     beginShape(LINES)
@@ -114,28 +129,51 @@ object OctreeTest extends test.Sketch {
     vertex(-DIM2,pointer.y,0)
     vertex(DIM2,pointer.y,0)
     endShape
-    popMatrix
+    noStroke
+  }
+  
+  def drawPoints {
+    points.clear
     
     if(useSphere)
-      octree(new Sphere(pointer, RADIUS))
+      octree(new Sphere(pointer, RADIUS), points)
     else
-      octree(new AABB(pointer, RADIUS))
+      octree(new AABB(pointer, RADIUS), points)
     
-    match {
-      case null =>
-        
-      case _ =>
+    points foreach { p =>
+      pushMatrix
+      translate(p.x,p.y,p.z)
+      fill(abs(p.x)*8, abs(p.y)*8, abs(p.z)*8)
+      box(2)
+      popMatrix
     }
+  }
+  
+  
+  def drawSphere {
+    fill(0,30)
+    pushMatrix
+    translate(pointer.x,pointer.y,0)
+    sphere(RADIUS)
+    popMatrix
   }
   
   override def keyPressed {
     key match {
       case ' ' =>
-        info("adding", NUM, "particles")
         // add NUM new particles within a sphere of radius DIM2
-        for(i <- 0 until NUM)
-           octree insert (Vec3.random *= random(DIM2))
-        numParticles += NUM
+        val v = Vec3.random *= random(DIM2)
+        val insertNum = random(NUM).asInstanceOf[Int]
+        for(i <- 0 until insertNum)
+           octree insert v
+        
+        numParticles += insertNum
+        
+        info("added", insertNum, "particles => total:", numParticles)
+      case 't' =>
+        var v = new Vec3(-75f, -25f, -50f)
+        octree insert v
+        numParticles += 1
         
       case 'o' => showOctree = !showOctree
       case 's' => useSphere = !useSphere
