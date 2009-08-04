@@ -8,7 +8,7 @@
 package field.kit.test.math
 
 /**
- * Test for the Octree geometry class
+ * Test for the Octree geometry class 
  * 
  * This is a direct port of Karsten Schmidts OctreeDemo
  * @see http://www.toxiclibs.org
@@ -29,6 +29,12 @@ object OctreeTest extends test.Sketch {
         translate(n.x, n.y, n.z)
         box(n.size)
         popMatrix
+        
+        for(i <- 0 until 8) {
+          val child = n.children(i)
+          if(child != null)
+            drawNode(child)
+        }
       }
     }
   }
@@ -60,18 +66,42 @@ object OctreeTest extends test.Sketch {
   
   val pointer = new Vec3
   
+  // view rotation
+  var xrot = THIRD_PI
+  var zrot = 0.1f
+
   // -- Init -------------------------------------------------------------------
-  init {}
+  println("o1 ", octree)
+  println("o2 ", octree.children(7))
+  
+  init {
+    rectMode(CORNER)
+  }
 
   // -- Render -----------------------------------------------------------------
   def render {
+    // -- update ---------------------------------------------------------------
+    // rotate view on mouse drag
+    if (mousePressed) {
+      xrot += (mouseY*0.01f-xrot)*0.1f
+      zrot += (mouseX*0.01f-zrot)*0.1f
+      
+    // or move cursor
+    } else {
+      pointer.x = -(width*0.5f-mouseX)/(width/2)*DIM2
+      pointer.y = -(height*0.5f-mouseY)/(height/2)*DIM2
+    }
+  
+    // -- render ---------------------------------------------------------------
     background(255)
     
     pushMatrix
     lights
     translate(width/2,height/2,0)
+    rotateX(xrot)
+    rotateZ(zrot)
     scale(4)
-    
+  
     // show debug view of tree
     if (showOctree) octree.draw
     

@@ -21,4 +21,10 @@ object Random {
   def apply(min:Int, max:Int) = (rnd.nextFloat * (max - min) + min).asInstanceOf[Int]
   
   def apply(scale:Float) = rnd.nextFloat * scale
+  
+  /**
+   * Returns a random number in the interval -1 .. +1. 
+   * @return random float
+   */
+  def normalized = rnd.nextFloat * 2f - 1f
 }

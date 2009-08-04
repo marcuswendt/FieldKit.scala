@@ -24,7 +24,7 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3 {
     this(new Vec3, extent)
   
   def this(position:Vec3, extent:Float) = 
-    this(position, new Vec3(extent, extent, extent))
+    this(position, new Vec3(extent))
   
   // -- Utilities --------------------------------------------------------------
   def updateBounds {

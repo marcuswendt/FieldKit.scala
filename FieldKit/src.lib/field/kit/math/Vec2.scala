@@ -21,7 +21,7 @@ object Vec2 {
    * Creates a new random unit vector
    * @return a new random normalized unit vector.
    */
-  def random = new Vec2(Random(), Random())
+  def random = new Vec2(Random.normalized, Random.normalized)
   
   /** computes the intersection point between two rays */
   def rayIntersectionPoint(origin1:Vec2, direction1:Vec2, origin2:Vec2, direction2:Vec2, result:Vec2) = {

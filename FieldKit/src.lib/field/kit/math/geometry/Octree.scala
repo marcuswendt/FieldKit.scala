@@ -17,8 +17,8 @@ package field.kit.math.geometry
  * 
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointOctree.java
  */
-class Octree(val parent:Octree, val offset:Vec3, val size:Float) 
-extends AABB(offset + size, new Vec3(size)) {
+class Octree(val parent:Octree, val offset:Vec3, val halfSize:Float) 
+extends AABB(offset + halfSize, halfSize) {
   import kit.util.datatype.collection.ArrayBuffer
   
   /**
@@ -26,6 +26,8 @@ extends AABB(offset + size, new Vec3(size)) {
    * not subdivided any further
    */
   var minSize = 4f
+  
+  val size = halfSize * 2f
   
   val depth:Int = if(parent == null) 0 else parent.depth + 1
   
@@ -65,25 +67,26 @@ extends AABB(offset + size, new Vec3(size)) {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
-      if (size <= minSize) {
+      if (halfSize <= minSize) {
         if(data == null)
           data = new ArrayBuffer[Vec3]
         
         data += p
         true
       } else {
-        val plocal = p - offset
-        //if(children == null)
-        //  children = new Array[Octree](8)
+        if(children == null)
+          children = new Array[Octree](8)
         
+        val plocal = p - offset
         val octant = getOctantID(plocal)
+        
         if(children(octant) == null) {
           val o = new Vec3(offset)
-          if((octant & 1) != 0) o.x = size
-          if((octant & 2) != 0) o.y = size
-          if((octant & 4) != 0) o.z = size
+          if((octant & 1) != 0) o.x += halfSize
+          if((octant & 2) != 0) o.y += halfSize
+          if((octant & 4) != 0) o.z += halfSize
           
-          children(octant) = new Octree(this, o, size * 0.5f);
+          children(octant) = new Octree(this, o, halfSize * 0.5f);
           numChildren += 1
         }
         children(octant) insert p  
@@ -193,8 +196,9 @@ extends AABB(offset + size, new Vec3(size)) {
    * Clears all children and data of this node
    */
   def clear {
-    //super.clear
+    // TODO consider just clearing the arrays to avoid the cost of recreating them
     numChildren = 0
+    children = null
     data = null
   }
   
@@ -205,9 +209,12 @@ extends AABB(offset + size, new Vec3(size)) {
    */
   protected final def getOctantID(plocal:Vec3):Int = {
     var id = 0
-    if(plocal.x >= size) id += 1
-    if(plocal.y >= size) id += 2
-    if(plocal.z >= size) id += 4
+    if(plocal.x >= halfSize) id += 1
+    if(plocal.y >= halfSize) id += 2
+    if(plocal.z >= halfSize) id += 4
     id
    }
+  
+  override def toString = 
+    "Octree[X"+ x +" Y"+ y +"Z"+ z +" extent X"+ extent.x +" Y"+ extent.y +" Z"+ extent.z +"]"
 }

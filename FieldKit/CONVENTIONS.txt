@@ -1,0 +1,12 @@
+
+
+	FieldKit
+	- conventions used in this library
+
+	* All positionable objects extend Vec3
+	  e.g. Particle, Emitter, Sphere etc.
+	  
+	* += and -= operators are always used for adding/ removing an object to 
+	  a group e.g. ArrayBuffer, Branch, Flock
+	  When they're not available e.g. since the class already uses them for 
+	  other purposes then revert back to add and remove method names

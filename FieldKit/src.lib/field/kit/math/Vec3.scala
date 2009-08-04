@@ -22,7 +22,7 @@ object Vec3 {
    * Creates a new random unit vector
    * @return a new random normalized unit vector.
    */
-  def random = new Vec3(Random(), Random(), Random())
+  def random = new Vec3(Random.normalized, Random.normalized, Random.normalized)
   
 //  def apply() = new Vec3(0,0,0)
 //  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
