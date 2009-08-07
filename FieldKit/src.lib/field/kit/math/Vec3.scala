@@ -171,8 +171,32 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
    */
   final def /(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
   
+  /**
+   * Subtracts the given scalar from this vector
+   * @return result as new vector 
+   */
+  final def -(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  
   /** 
-   * Subtracts the given floats from this vector and returns the result
+   * Adds the given scalar to this vector
+   * @return result as new vector 
+   */
+  final def +(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  
+  /** 
+   * Multiplies the given scalar with this vector
+   * @return result as new vector
+   */
+  final def *(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  
+  /** 
+   * Divides this vector through the given scalar
+   * @return result as new vector  
+   */
+  final def /(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  
+  /** 
+   * Subtracts the given scalar from this vector and returns the result
    * @return result
    */
   final def -(x:Float, y:Float, z:Float, result:Vec3) = {

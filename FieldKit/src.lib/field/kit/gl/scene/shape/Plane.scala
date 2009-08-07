@@ -16,7 +16,7 @@ import field.kit._
  */
 class Plane(name:String) extends TriMesh(name) {
   import javax.media.opengl.GL
-  import field.kit.util.BufferUtil
+  import field.kit.util.Buffer
   import field.kit.math.FMath
   
   var width:Float = _
@@ -55,8 +55,10 @@ class Plane(name:String) extends TriMesh(name) {
     this.rows = FMath.max(1, _rows)
     this.indexCount = (cols-1) * (rows-1) * 2 * 3
     this.vertexCount = rows * cols
-
-	allocate(cols * rows)
+    
+	vertices = Buffer.vertex(vertexCount)
+	coords = Buffer.coord(vertexCount)
+	indices = Buffer.index(indexCount)
  
 	// statically initialize shared vertices
 	// adds two triangles per cell 
@@ -64,14 +66,14 @@ class Plane(name:String) extends TriMesh(name) {
 	for(y <- 0 until (cols-1)) {
 	  for(x <- 0 until (rows-1)) {
 	    // triangle a
-	    BufferUtil.put(indices, index(x, y))
-	    BufferUtil.put(indices, index(x + 1, y + 1))
-        BufferUtil.put(indices, index(x, y + 1))
+	    indices put index(x, y)
+	    indices put index(x + 1, y + 1)
+	    indices put index(x, y + 1)
         
         // triangle b
-	    BufferUtil.put(indices, index(x, y))
-	    BufferUtil.put(indices, index(x + 1, y + 1))
-        BufferUtil.put(indices, index(x + 1, y))
+        indices put index(x, y)
+	    indices put index(x + 1, y + 1)
+	    indices put index(x + 1, y)
 	  }
 	}
 	indices.rewind
@@ -79,8 +81,6 @@ class Plane(name:String) extends TriMesh(name) {
 	// reinit vertices
 	if(width != 0 && height != 0) resize(width, height)
   }
-  
-  override def allocateIndices = BufferUtil.int(indexCount)
   
   /** sets the width and height and recalculates the vertex and texture coordinates
    * TODO could add a plane parameter to determine which axes are meant
@@ -96,9 +96,8 @@ class Plane(name:String) extends TriMesh(name) {
       for(x <- 0 until rows) {
         val u = (x / (rows.asInstanceOf[Float]-1)) * width
         val v = (y / (cols.asInstanceOf[Float]-1)) * height
-        
-        BufferUtil.put(vertices, u, v, 0.0f)
-        BufferUtil.put(coords, u, v)
+        vertices put u put v put 0f
+        coords put u put v
       }
     }
     

@@ -20,7 +20,7 @@ object Image extends field.kit.Logger {
   
   import scala.collection.mutable.HashMap
   
-  import field.kit.util.BufferUtil
+  import field.kit.util.Buffer
   
   private val DEFAULT_USE_CACHE = true
   
@@ -192,7 +192,7 @@ object Image extends field.kit.Logger {
     
     // creates an empty data buffer
     if(data == null) {
-      val scratch = BufferUtil.byte(texWidth * texHeight * bitdepth(format))
+      val scratch = Buffer.byte( texWidth * texHeight * bitdepth(format) )
       scratch.limit(scratch.capacity)
       image.data = scratch
       

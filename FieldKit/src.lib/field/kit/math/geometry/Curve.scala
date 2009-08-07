@@ -18,7 +18,6 @@ package field.kit.math.geometry
  */
 abstract class Curve(var capacity:Int) {
   import java.nio.FloatBuffer
-  import field.kit.util.BufferUtil
   import field.kit.math.Vec3
   
   /** stores the control vertices and tangents */
@@ -32,8 +31,9 @@ abstract class Curve(var capacity:Int) {
   
   /** allocates the internal buffers */
   def init(capacity:Int) {
+    import field.kit.util.Buffer
     this.capacity = capacity
-    vertices = BufferUtil.float(capacity * 3)
+    vertices = Buffer.float(capacity * 3)
     clear
   }
   

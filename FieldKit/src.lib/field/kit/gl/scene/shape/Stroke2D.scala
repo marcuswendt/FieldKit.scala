@@ -46,6 +46,9 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   /** length * 2 number of 2d vertices */
   var outline:FloatBuffer = null
   
+  /** the maximum number of vertices this geometry object can hold */
+  protected var capacity = 0
+  
   // temporary
   private val v1 = new Vec2
   private val v2 = new Vec2
@@ -60,16 +63,17 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   
   private val p1 = new Vec2
   private val p2 = new Vec2
+
   
   // resize to default
-  allocate(defaultCapacity)
+  init(defaultCapacity)
   
-  override def allocate(capacity:Int) {
-    import field.kit.util.BufferUtil
+  def init(capacity:Int) {
+    import field.kit.util.Buffer
     this.capacity = capacity
-    points = BufferUtil.vec2(capacity)
-    weights = BufferUtil.float(capacity)
-    outline = BufferUtil.vec2(capacity * 2)
+    points = Buffer.vec2(capacity) 
+    weights = Buffer.float(capacity) 
+    outline = Buffer.vec2(capacity * 2)
   }
   
   /** adds a point to this stroke and incrementally updates the outline */

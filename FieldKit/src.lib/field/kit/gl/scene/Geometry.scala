@@ -14,7 +14,6 @@ abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
   import field.kit.gl.scene.RenderState
-  import field.kit.util.BufferUtil
   
   import java.nio.FloatBuffer
   import field.kit.util.datatype.collection.ArrayBuffer
@@ -29,32 +28,15 @@ abstract class Geometry(name:String) extends Spatial(name) {
   var coords:FloatBuffer = _
   var colours:FloatBuffer = _
   
-  /** the maximum number of vertices this geometry object can hold */
-  var capacity = 0
-  
   /** the number of actual vertices in the buffer */
   var vertexCount = 0
-
-  // Buffer Management
-  def allocate(capacity:Int) {
-    this.capacity = capacity
-    vertices = allocateVertices
-    normals = allocateNormals
-    coords = allocateCoords
-    colours = allocateColours
-    solidColour(colour)
-  }
-  
-  protected def allocateVertices = BufferUtil.vec3(capacity)
-  protected def allocateNormals = BufferUtil.vec3(capacity)
-  protected def allocateCoords = BufferUtil.vec2(capacity)
-  protected def allocateColours = BufferUtil.colour(capacity)
   
   def clear {
     vertexCount = 0
-    vertices.clear
-    coords.clear
-    colours.clear
+    
+    if(vertices != null) vertices.clear
+    if(coords != null) coords.clear
+    if(colours != null) colours.clear
   }
   
   // -- Render States ----------------------------------------------------------

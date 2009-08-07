@@ -43,38 +43,18 @@ object Mesh extends Enumeration {
 
 
 /** Base class for all sorts of polygon mesh geometry */
-abstract class Mesh(name:String) extends Geometry(name) {
+abstract class Mesh(name:String, val geometryType:Mesh.Value) extends Geometry(name) {
+  import javax.media.opengl.GL
   import java.nio.IntBuffer
-  import field.kit.util.BufferUtil
   
   var indices:IntBuffer = _
   var indexCount = 0
-  
-  protected var geometryType = Mesh.TRIANGLES
-    
-  override def allocate(capacity:Int) {
-    super.allocate(capacity)
-    indices = allocateIndices
-  }
-  
-  protected def allocateIndices = BufferUtil.int(capacity)
   
   override def clear {
     super.clear
     indexCount = 0
     indices.clear
   }
-}
-
-import field.kit.gl.scene.transform._
-
-/** Base class for all triangle based polygon meshes */
-class TriMesh(name:String) extends Mesh(name) with Triangulator {
-  import javax.media.opengl.GL
-  
-  geometryType = Mesh.TRIANGLES
-  
-  def triangulate:Unit = triangulate(vertexCount, vertices, indices)
   
   def draw {
     val coloursEnabled = colours != null
@@ -115,13 +95,14 @@ class TriMesh(name:String) extends Mesh(name) with Triangulator {
   }
 }
 
+import field.kit.gl.scene.transform._
+
+/** Base class for all triangle based polygon meshes */
+abstract class TriMesh(name:String) extends Mesh(name, Mesh.TRIANGLES) with Triangulator {
+  def triangulate:Unit = triangulate(vertexCount, vertices, indices)
+}
 
 /** Base class for all quad based polygon meshes */
-class QuadMesh(name:String) extends TriMesh(name) {
-  geometryType = Mesh.QUADS
-}
+abstract class QuadMesh(name:String) extends Mesh(name, Mesh.QUADS) {}
 
-
-class QuadStripMesh(name:String) extends QuadMesh(name) {
-  geometryType = Mesh.QUAD_STRIP
-}
+abstract class QuadStripMesh(name:String) extends Mesh(name, Mesh.QUAD_STRIP) {}

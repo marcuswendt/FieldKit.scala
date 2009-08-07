@@ -60,6 +60,15 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   
   def this() = this(VertexBuffer.State.VERTEX)
   
+  def this(buffer:java.nio.FloatBuffer) {
+    this(VertexBuffer.State.VERTEX)
+    create
+    bind
+    buffer.rewind
+    data(buffer.capacity, buffer, VertexBuffer.Usage.STATIC_DRAW)
+    unbind
+  }
+  
   def create {
     val ids = new Array[Int](1)
     gl.glGenBuffers(ids.length, ids, 0)

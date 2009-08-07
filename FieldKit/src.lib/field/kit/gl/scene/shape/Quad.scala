@@ -17,18 +17,20 @@ object Quad extends Enumeration {
 
 class Quad(name:String, var _width:Float, var _height:Float) extends QuadMesh(name) {
   import javax.media.opengl.GL
-  import field.kit.util.BufferUtil
+  import field.kit.util.Buffer
   
   var mode = Quad.CENTER
   
   // -- Initialisation ---------------------------------------------------------
-  allocate(4)
   vertexCount = 4
-  
-  BufferUtil.put(coords, 0f, 0f)
-  BufferUtil.put(coords, 1f, 0f)
-  BufferUtil.put(coords, 1f, 1f)
-  BufferUtil.put(coords, 0f, 1f)	
+  vertices = Buffer.vertex(4)
+  normals = Buffer.normal(4)
+  coords = Buffer.coord(4)  
+
+  coords put 0f put 0f
+  coords put 1f put 0f
+  coords put 1f put 1f
+  coords put 0f put 1f
   coords.rewind
   
   resize(_width, _height)
@@ -47,16 +49,16 @@ class Quad(name:String, var _width:Float, var _height:Float) extends QuadMesh(na
     vertices.clear
     mode match {
       case Quad.TOP_LEFT =>
-        BufferUtil.put(vertices, 0, height, 0)
-        BufferUtil.put(vertices, width, height, 0)
-        BufferUtil.put(vertices, width, 0, 0)
-        BufferUtil.put(vertices, 0, 0, 0)
+        vertices put 0 put height put 0
+        vertices put width put height put 0
+        vertices put width put height put 0
+        vertices put 0 put height put 0
       
       case Quad.CENTER => 
-        BufferUtil.put(vertices, -hw, hh, 0)
-        BufferUtil.put(vertices, hw, hh, 0)
-        BufferUtil.put(vertices, hw, -hh, 0)
-        BufferUtil.put(vertices, -hw, -hh, 0)
+        vertices put -hw put hh put 0
+        vertices put hw put hh put 0
+        vertices put hw put -hh put 0
+        vertices put -hw put -hh put 0
 	  }
     vertices.rewind
   }

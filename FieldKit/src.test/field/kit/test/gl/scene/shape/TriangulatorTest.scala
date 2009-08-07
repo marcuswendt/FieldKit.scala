@@ -59,18 +59,16 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
     import field.kit.math.geometry.Spline
     import field.kit.math.Vec3
     import field.kit.Colour
-    import field.kit.util.BufferUtil
+    import field.kit.util.Buffer
     
     import javax.media.opengl.GL
     
     var curve = new Spline(capacity)
-    allocate(capacity)
-    
-    override def allocateIndices = BufferUtil.int(capacity * 3)
+    vertices = Buffer.vertex(capacity)
+    indices = Buffer.index(capacity * 3)
     
     def update {
       info("update")
-      import field.kit.util.BufferUtil
       
       // emit new vertex points
       val p = new Vec3
@@ -142,13 +140,12 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     import field.kit.math.geometry.Spline
     import field.kit.math._
     import field.kit.Colour
-    import field.kit.util.BufferUtil
+    import field.kit.util.Buffer
     
     import javax.media.opengl.GL
     
-    allocate(capacity)
-    
-    override def allocateIndices = BufferUtil.int(capacity * 3)
+    vertices = Buffer.vertex(capacity) 
+    indices = Buffer.index(capacity * 3)
     
     val offsetX = width/2f
     val offsetY = height/2f

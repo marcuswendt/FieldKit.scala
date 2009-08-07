@@ -10,7 +10,7 @@ package field.kit.test.particle
 /** 
  * quick test for the particle system
  */
-object ParticleSystemTest extends field.kit.Sketch {
+object ParticleSystemTest extends test.Sketch {
   import field.kit.particle._
   import field.kit.particle.behaviour._
   import field.kit.util.Timer
@@ -39,11 +39,11 @@ object ParticleSystemTest extends field.kit.Sketch {
   
   val timer = new Timer
   
-  init(1280, 768, false, {
+  init {
     info("initializer")
     ps.space.set(width, height, 100) 
     info("space width", ps.space.width, "height", ps.space.height, "depth", ps.space.depth)
-  })
+  }
   
   def render {
     // update

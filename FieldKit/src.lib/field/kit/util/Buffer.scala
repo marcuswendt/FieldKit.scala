@@ -11,28 +11,35 @@ package field.kit.util
  * utility methods for dealing with java.nio buffers
  * @author Marcus Wendt
  */
-object BufferUtil {
+object Buffer {
   import java.nio.ByteBuffer
   import java.nio.ByteOrder
   import java.nio.FloatBuffer
   import java.nio.IntBuffer
 
-  def byte(size:Int) = ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder)
+  def apply(size:Int) = 
+    java.nio.ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder)
+  
+  // -- Primitive Types --------------------------------------------------------
+  def byte(size:Int) = apply(size)
   
   def int(size:Int) = {
     val bytes = size * (Integer.SIZE / 8)
-    byte(bytes).asIntBuffer
+    apply(bytes).asIntBuffer
   }
   
   def float(size:Int) = {
     val bytes = size * (java.lang.Float.SIZE / 8)
-    byte(bytes).asFloatBuffer
+    apply(bytes).asFloatBuffer
   }
+
+  // -- Complex Types ----------------------------------------------------------
+  def vertex(size:Int) = float(size * 3)
+  def normal(size:Int) = float(size * 3)
+  def coord(size:Int) = float(size * 2)
+  def colour(size:Int) = float(size * 4)
+  def index(size:Int) = int(size)
   
   def vec2(size:Int) = float(size * 2)
-  def vec3(vertices:Int) = float(vertices * 3)
-  def colour(size:Int) = float(size * 4)
-  
-  def put(buf:FloatBuffer, src:Float*) = buf.put(src.toArray)
-  def put(buf:IntBuffer, src:Int*) = buf.put(src.toArray)
+  def vec3(size:Int) = float(size * 3)
 }
