@@ -9,7 +9,11 @@ package field.kit.gl.scene.shape
 
 import field.kit.gl.scene._
 
-/** a simple quadrilateral often used for billboards, shaders, etc */
+/** 
+ * A simple quadrilateral often used for billboards, shaders, etc
+ * 
+ * TODO compute normals
+ */
 object Quad extends Enumeration {
   val TOP_LEFT = Value
   val CENTER = Value
@@ -33,7 +37,7 @@ class Quad(name:String, var _width:Float, var _height:Float) extends Mesh(name) 
   textureCoords put 1f put 0f
   textureCoords put 1f put 1f
   textureCoords put 0f put 1f
-  textureCoords.rewind
+  data.updateTextureCoords
   
   resize(_width, _height)
   
@@ -62,7 +66,7 @@ class Quad(name:String, var _width:Float, var _height:Float) extends Mesh(name) 
         vertices put hw put -hh put 0
         vertices put -hw put -hh put 0
 	  }
-    vertices.rewind
+    data.updateVertices
   }
   
   // -- Getters/ Setters -------------------------------------------------------

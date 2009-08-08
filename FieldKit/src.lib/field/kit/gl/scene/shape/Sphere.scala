@@ -46,7 +46,6 @@ class Sphere(name:String) extends Mesh(name) {
     initIndices
   }
   
-  // TODO currently this is completely missing normal and texture coords!
   /**
    * init vertices, texture coords and normals
    */
@@ -58,7 +57,7 @@ class Sphere(name:String) extends Mesh(name) {
     val vertices = data.allocVertices(verts)
     val normals = data.allocNormals(verts)
     val textureCoords = data.allocTextureCoords(verts)
-    
+
     // generate geometry
     val fInvRS = 1.0f / radialSamples
     val zFactor = 2.0f / (zSamples - 1f)
@@ -159,13 +158,12 @@ class Sphere(name:String) extends Mesh(name) {
       }
       i += 1
     }
-    
+        
     // south pole
     vertices.position(i * 3)
-      info("adding point ", radius, center)
-    vertices put center.x + 25f
+    vertices put center.x
     vertices put center.y
-    vertices put center.z + radius
+    vertices put center.z - radius
     
     normals.position(i * 3)
     if(!viewInside) {
@@ -202,9 +200,9 @@ class Sphere(name:String) extends Mesh(name) {
     }
     
     // clean up
-    vertices.rewind
-    normals.rewind
-    textureCoords.rewind
+    data.updateVertices
+    data.updateNormals
+    data.updateTextureCoords
   }
   
   /**
@@ -254,6 +252,6 @@ class Sphere(name:String) extends Mesh(name) {
       indices put data.vertexCount - 1
     }
     
-    indices.rewind
+    data.updateIndices
   }
 }

@@ -52,7 +52,7 @@ class MeshData {
   import util.datatype.collection.ArrayBuffer
   import util.Buffer
   
-  /** Number of vertices represented by this data. */
+  ///** Number of vertices represented by this data. */
   var vertexCount = 0
 
   ///** Number of primitives represented by this data. */
@@ -69,8 +69,43 @@ class MeshData {
   var indexLengths:Array[Int] = _
   var indexModes = Array(IndexMode.LINES)
   
-  // -- Methods ----------------------------------------------------------------
   
+  // -- Updating ---------------------------------------------------------------
+  
+  /**
+   * Should be called whenever the vertex buffer data has changed 
+   */
+  def updateVertices:Unit = {
+    if(vertices == null) return
+    vertexCount = vertices.position / 3
+    vertices.rewind
+  }
+  
+  /**
+   * Should be called whenever the normal buffer data has changed 
+   */
+  def updateNormals:Unit = {
+    if(normals == null) return
+    normals.rewind
+  }
+  
+  /**
+   * Should be called whenever the texture coord buffer data has changed 
+   */
+  def updateTextureCoords:Unit = {
+    if(textureCoords == null) return
+    textureCoords(0).rewind
+  }
+  
+  /**
+   * Should be called whenever the index buffer data has changed 
+   */
+  def updateIndices:Unit = {
+    if(indices == null) return
+    indices.rewind
+  }
+  
+  // -- Allocation -------------------------------------------------------------
   /**
    * Allocates a new vertex buffer when necessary
    * @return the current vertex buffer
