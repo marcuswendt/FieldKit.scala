@@ -8,16 +8,10 @@
 package field.kit.math
 
 /**
- * same as <code>trait FMath</code> but singletonized
- * @author Marcus Wendt
- */
-object FMath extends FMath {}
-
-/**
  * interpolation, trigonometry and other helper methods for mathematical problems
  * @author Marcus Wendt
  */
-trait FMath {
+object FMath {
   /** regular expression to detect a number within a string with optional minus and fractional part */
   val DECIMAL = """(-)?(\d+)(\.\d*)?""".r
     
@@ -113,6 +107,16 @@ trait FMath {
   def tan(f:Double) = Math.tan(f)
   def atan(f:Double) = Math.atan(f)
   def atan2(x:Double, y:Double) = Math.atan2(x,y)
+  
+  // --------------------------------------------------------------------------
+  // misc
+  // --------------------------------------------------------------------------
+  val rnd = new scala.util.Random
+  def random = rnd.nextFloat
+  def random(min:Float, max:Float) = rnd.nextFloat * (max - min) + min
+  def random(min:Int, max:Int) = (rnd.nextFloat * (max - min) + min).asInstanceOf[Int]
+  def random(scale:Float) = rnd.nextFloat * scale
+  def randomNormal = rnd.nextFloat * 2f - 1f
   
   // --------------------------------------------------------------------------
   // misc

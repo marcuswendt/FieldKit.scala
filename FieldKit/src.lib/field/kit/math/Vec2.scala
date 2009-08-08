@@ -12,6 +12,8 @@ package field.kit.math
  * @author Marcus Wendt
  */
 object Vec2 {
+  import FMath._
+  
   val ZERO = new Vec2(0, 0)
   val UNIT_X = new Vec2(1, 0)
   val UNIT_Y = new Vec2(0, 1)
@@ -21,7 +23,7 @@ object Vec2 {
    * Creates a new random unit vector
    * @return a new random normalized unit vector.
    */
-  def random = new Vec2(Random.normalized, Random.normalized)
+  def random = new Vec2(randomNormal, randomNormal)
   
   /** computes the intersection point between two rays */
   def rayIntersectionPoint(origin1:Vec2, direction1:Vec2, origin2:Vec2, direction2:Vec2, result:Vec2) = {

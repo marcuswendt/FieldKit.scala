@@ -15,6 +15,7 @@ import field.kit.util.datatype.graph.Node
 abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
+  import field.kit.math.FMath._
   import field.kit.gl.scene.RenderState
   
   import java.nio.FloatBuffer
@@ -91,9 +92,9 @@ abstract class Geometry(name:String) extends Spatial(name) {
   def randomizeColours {
     colours.clear
     for(i <- 0 until colours.capacity/4) {
-      colours.put(Random())
-      colours.put(Random())
-      colours.put(Random())
+      colours.put(random)
+      colours.put(random)
+      colours.put(random)
       colours.put(1f)
     }
     colours.rewind

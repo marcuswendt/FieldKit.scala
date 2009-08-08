@@ -12,6 +12,8 @@ package field.kit.math
  * @author Marcus Wendt
  */
 object Vec3 {
+  import FMath._
+  
   val ZERO = new Vec3(0, 0, 0)
   val UNIT_X = new Vec3(1, 0, 0)
   val UNIT_Y = new Vec3(0, 1, 0)
@@ -22,7 +24,7 @@ object Vec3 {
    * Creates a new random unit vector
    * @return a new random normalized unit vector.
    */
-  def random = new Vec3(Random.normalized, Random.normalized, Random.normalized)
+  def random = new Vec3(randomNormal, randomNormal, randomNormal)
   
 //  def apply() = new Vec3(0,0,0)
 //  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)

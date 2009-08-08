@@ -175,10 +175,10 @@ class Colour(
   }
   
   def randomize = {
-    r = Random()
-    g = Random()
-    b = Random()
-    a = Random()
+    r = random
+    g = random
+    b = random
+    a = random
     this
   }
   
