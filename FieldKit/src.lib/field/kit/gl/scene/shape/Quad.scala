@@ -15,9 +15,11 @@ object Quad extends Enumeration {
   val CENTER = Value
 }
 
-class Quad(name:String, var _width:Float, var _height:Float) extends QuadMesh(name) {
+class Quad(name:String, var _width:Float, var _height:Float) extends Mesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.Buffer
+  
+  geometryType = Mesh.QUADS
   
   var mode = Quad.CENTER
   

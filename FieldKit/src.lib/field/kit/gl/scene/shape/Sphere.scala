@@ -21,7 +21,7 @@ object Sphere {
  * Based on com.ardor3d.scenegraph.shape.Sphere from the Ardor3D engine
  * @see http://ardor3d.com
  */
-class Sphere(name:String) extends Mesh(name, Mesh.TRIANGLES) {
+class Sphere(name:String) extends Mesh(name) {
   import math._
     
   var radius = 0f

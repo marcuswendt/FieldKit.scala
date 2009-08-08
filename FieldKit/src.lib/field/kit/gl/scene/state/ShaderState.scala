@@ -97,8 +97,6 @@ object ShaderState extends field.kit.Logger {
  * @author Marcus Wendt
  */
 class ShaderState extends RenderState {
-  import field.kit.gl.scene.Geometry
-  
   var prog:ShaderProgramme = null
   
   def this(s:Shader) = {
@@ -124,7 +122,7 @@ class ShaderState extends RenderState {
   }
         
   // methods
-  def enable(geo:Geometry) = prog.bind
-  def disable(geo:Geometry) = prog.unbind
+  def enable = prog.bind
+  def disable = prog.unbind
   def destroy = prog.destroy
 }

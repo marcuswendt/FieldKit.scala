@@ -55,7 +55,7 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
     }
   }
   
-  class Polygon(capacity:Int) extends TriMesh("polygon") {
+  class Polygon(capacity:Int) extends Mesh("polygon") {
     import field.kit.math.geometry.Spline
     import field.kit.math.Vec3
     import field.kit.Colour
@@ -136,7 +136,7 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     p.vertices.rewind
   }
   
-  class Polygon(capacity:Int) extends TriMesh("polygon") {
+  class Polygon(capacity:Int) extends Mesh("polygon") {
     import field.kit.math.geometry.Spline
     import field.kit.math._
     import field.kit.Colour

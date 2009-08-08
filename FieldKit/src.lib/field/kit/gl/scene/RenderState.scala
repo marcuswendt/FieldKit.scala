@@ -18,8 +18,8 @@ abstract class RenderState extends Renderable with field.kit.Logger {
   
   var isEnabled = true
   
-  def enable(geo:Geometry)
-  def disable(geo:Geometry)
+  def enable
+  def disable
   
   def destroy
   

@@ -39,7 +39,6 @@ object TextureState {
 class TextureState extends RenderState {
   import javax.media.opengl.GL
   import field.kit.util.datatype.collection.ArrayBuffer
-  import field.kit.gl.scene.Geometry
 
   protected var textures = new ArrayBuffer[Texture]
   
@@ -49,7 +48,7 @@ class TextureState extends RenderState {
   }
   
   /** Enables all registered Textures */
-  def enable(geo:Geometry) {
+  def enable {
     textures foreach (t => {
       activateUnit(t)
       t.bind
@@ -57,7 +56,7 @@ class TextureState extends RenderState {
   }
   
   /** Disables all registered Textures */
-  def disable(geo:Geometry) {
+  def disable {
     textures foreach (t => {
       activateUnit(t)
       t.unbind

@@ -12,9 +12,11 @@ object VBOSphere extends test.Sketch {
   import javax.media.opengl.GL
   import kit.gl.scene._
 
-  class Sphere(name:String, var radius:Float, ures:Int, vres:Int) extends Mesh(name, Mesh.POINTS) {
+  class Sphere(name:String, var radius:Float, ures:Int, vres:Int) extends Mesh(name) {
     import kit.gl.render.objects.VertexBuffer
     
+    //Mesh.POINTS
+      
     var vbo:VertexBuffer = null
     
     init(radius, ures, vres)

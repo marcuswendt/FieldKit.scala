@@ -7,14 +7,14 @@
 /* created April 11, 2009 */
 package field.kit.gl.scene.shape
 
-import field.kit.gl.scene.TriMesh
+import field.kit.gl.scene.Mesh
 import field.kit._
 
 /** 
  * implements a planeoid mesh with variable subdivisions along its two axes
  * @author Marcus Wendt
  */
-class Plane(name:String) extends TriMesh(name) {
+class Plane(name:String) extends Mesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.Buffer
   import field.kit.math.FMath

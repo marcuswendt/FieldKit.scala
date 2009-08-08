@@ -74,7 +74,6 @@ object AlphaState extends Enumeration {
  * @author Marcus Wendt
  */
 class AlphaState extends RenderState {
-  import field.kit.gl.scene.Geometry
   import javax.media.opengl.GL
   
   /** The current source blend function. */
@@ -92,12 +91,12 @@ class AlphaState extends RenderState {
    * @see http://www.opengl.org/sdk/docs/man/xhtml/glBlendFunc.xml
    * @see http://www.opengl.org/sdk/docs/man/xhtml/glBlendEquation.xml
    */
-  def enable(geo:Geometry) {
+  def enable {
     gl.glEnable(GL.GL_BLEND)
     gl.glBlendFunc(src.id, dst.id)
   }
   
-  def disable(geo:Geometry) {
+  def disable {
     gl.glDisable(GL.GL_BLEND)
   }
   

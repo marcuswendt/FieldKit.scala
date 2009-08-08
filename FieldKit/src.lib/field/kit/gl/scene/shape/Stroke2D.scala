@@ -27,7 +27,7 @@ object Stroke2D {
  * The original code was written in Java for the NervousInk drawing tool
  * @see <a href="http://www.field.io/project/nervous-ink">Nervous Ink</a>
  */
-class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
+class Stroke2D(name:String, defaultCapacity:Int) extends Mesh(name) {
   import java.nio.FloatBuffer
   import field.kit.math._
   
@@ -121,7 +121,6 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   
   /** resets this stroke */
   override def clear {
-    super.clear
     length = 0
     points.rewind
     weights.rewind
@@ -242,7 +241,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Geometry(name) {
   //
   // Render
   //
-  def draw {
+  override def draw {
     import javax.media.opengl.GL
     
     gl.glPushMatrix
