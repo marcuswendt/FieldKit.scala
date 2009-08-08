@@ -43,21 +43,23 @@ object Mesh extends Enumeration {
 
 import transform._
 
-/** Base class for all sorts of polygon mesh geometry */
-abstract class Mesh(name:String) extends Spatial(name) with Triangulator {
+/** 
+ * Base class for all sorts of polygon mesh geometry
+ * 
+ * To encourage encapsulation and for better readability additional functionality 
+ * is added via Traits
+ */
+abstract class Mesh(name:String) extends Spatial(name) 
+with RenderStateable with Triangulator {
   import javax.media.opengl.GL
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
   
-  import util.datatype.collection.ArrayBuffer
   import math.FMath._
   
   var geometryType = Mesh.TRIANGLES
   
   var colour = new Colour(Colour.WHITE)
-  
-  // TODO consider switching to a datastructure with a predictable order
-  var states = new ArrayBuffer[RenderState]
   
   var vertices:FloatBuffer = _
   var normals:FloatBuffer = _
@@ -125,39 +127,6 @@ abstract class Mesh(name:String) extends Spatial(name) with Triangulator {
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
   }
   
-  // -- Render States ----------------------------------------------------------
-  protected def enableStates = {
-//    states foreach(s => 
-//    if(s.isEnabled) s.enable(this)
-//  )
-    var i=0
-    while(i < states.size) {
-      val s = states(i)
-      if(s.isEnabled) s.enable
-      i += 1
-    }
-  }
-  
-  protected def disableStates = {
-//    states foreach(s => 
-//    if(s.isEnabled) s.disable(this)
-//  )
-	var i=0
-    while(i < states.size) {
-      val s = states(i)
-      if(s.isEnabled) s.disable
-      i += 1
-    }                              
-  }
-  
-  /** @return the first <code>RenderState</code> that matches the given <code>Class</code> or null */
-  def state[T <: RenderState](clazz:Class[T]):T = {
-    states find (_.getClass == clazz) match {
-      case Some(r:RenderState) => r.asInstanceOf[T]
-      case _ => null.asInstanceOf[T]
-    }
-  }
-  
   // -- Colours ----------------------------------------------------------------
   def solidColour(c:Colour) {
     colour := c
@@ -187,16 +156,3 @@ abstract class Mesh(name:String) extends Spatial(name) with Triangulator {
   // -- Traits -----------------------------------------------------------------
   def triangulate:Unit = triangulate(vertexCount, vertices, indices)
 }
-
-
-//import field.kit.gl.scene.transform._
-//
-///** Base class for all triangle based polygon meshes */
-//abstract class TriMesh(name:String) extends Mesh(name, Mesh.TRIANGLES) with Triangulator {
-//  def triangulate:Unit = triangulate(vertexCount, vertices, indices)
-//}
-//
-///** Base class for all quad based polygon meshes */
-//abstract class QuadMesh(name:String) extends Mesh(name, Mesh.QUADS) {}
-//
-//abstract class QuadStripMesh(name:String) extends Mesh(name, Mesh.QUAD_STRIP) {}
