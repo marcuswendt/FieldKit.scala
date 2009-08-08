@@ -19,21 +19,21 @@ class Quad(name:String, var _width:Float, var _height:Float) extends Mesh(name) 
   import javax.media.opengl.GL
   import field.kit.util.Buffer
   
-  geometryType = Mesh.QUADS
+  // TODO could make a more convenient method for that
+  data.indexModes(0) = IndexMode.QUADS
   
   var mode = Quad.CENTER
   
   // -- Initialisation ---------------------------------------------------------
-  vertexCount = 4
-  vertices = Buffer.vertex(4)
-  normals = Buffer.normal(4)
-  coords = Buffer.coord(4)  
+  val vertices = data.allocVertices(4)
+  val normals = data.allocNormals(4)
+  val textureCoords = data.allocTextureCoords(4)
 
-  coords put 0f put 0f
-  coords put 1f put 0f
-  coords put 1f put 1f
-  coords put 0f put 1f
-  coords.rewind
+  textureCoords put 0f put 0f
+  textureCoords put 1f put 0f
+  textureCoords put 1f put 1f
+  textureCoords put 0f put 1f
+  textureCoords.rewind
   
   resize(_width, _height)
   

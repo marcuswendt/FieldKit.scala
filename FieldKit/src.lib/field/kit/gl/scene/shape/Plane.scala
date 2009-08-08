@@ -16,7 +16,6 @@ import field.kit._
  */
 class Plane(name:String) extends Mesh(name) {
   import javax.media.opengl.GL
-  import field.kit.util.Buffer
   import field.kit.math.FMath
   
   var width:Float = _
@@ -53,15 +52,14 @@ class Plane(name:String) extends Mesh(name) {
     
 	this.cols = FMath.max(1, _cols)
     this.rows = FMath.max(1, _rows)
-    this.indexCount = (cols-1) * (rows-1) * 2 * 3
-    this.vertexCount = rows * cols
     
-	vertices = Buffer.vertex(vertexCount)
-	coords = Buffer.coord(vertexCount)
-	indices = Buffer.index(indexCount)
+    var verts = rows * cols
+    data.allocVertices(verts)
+    data.allocTextureCoords(verts)
+    val indices = data.allocIndices( (cols-1) * (rows-1) * 2 * 3 )
  
 	// statically initialize shared vertices
-	// adds two triangles per cell 
+	// adds two triangles per cell
     indices.clear
 	for(y <- 0 until (cols-1)) {
 	  for(x <- 0 until (rows-1)) {
@@ -89,20 +87,22 @@ class Plane(name:String) extends Mesh(name) {
     this.width = _width
     this.height = _height
     
+    val vertices = data.vertices
+    val textureCoords = data.textureCoords(0)
     vertices.clear
-    coords.clear
+    textureCoords.clear
     
     for(y <- 0 until cols) {
       for(x <- 0 until rows) {
         val u = (x / (rows.asInstanceOf[Float]-1)) * width
         val v = (y / (cols.asInstanceOf[Float]-1)) * height
         vertices put u put v put 0f
-        coords put u put v
+        textureCoords put u put v
       }
     }
     
     vertices.rewind
-    coords.rewind
+    textureCoords.rewind
   }
   
   def update {
@@ -114,6 +114,8 @@ class Plane(name:String) extends Mesh(name) {
     val v1 = new Vec3
     val v2 = new Vec3
     
+    val normals = data.normals
+    val vertices = data.vertices
     normals.clear
     def index(x:Int, y:Int) = y * rows + x
       

@@ -48,7 +48,7 @@ object AlphaStateTest extends field.kit.test.Sketch {
     background(if(onBlack) 0 else 255)
     
     scene foreach (s => {
-      val q = s.asInstanceOf[Geometry]
+      val q = s.asInstanceOf[Mesh]
       val as = q.state(classOf[AlphaState])
       as.set(mode)
     })

@@ -120,7 +120,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Mesh(name) {
   }
   
   /** resets this stroke */
-  override def clear {
+  def clear {
     length = 0
     points.rewind
     weights.rewind

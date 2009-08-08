@@ -52,12 +52,12 @@ class Sphere(name:String) extends Mesh(name) {
    */
   protected def initGeometry {
     import math.FMath._
-    import util.Buffer
+    import util.Buffer._
     
-    vertexCount = (zSamples - 2) * (radialSamples + 1) + 2
-    vertices = Buffer.vec3(vertexCount)
-    normals = Buffer.vec3(vertexCount)
-    coords = Buffer.vec2(vertexCount)
+    val verts = (zSamples - 2) * (radialSamples + 1) + 2
+    val vertices = data.allocVertices(verts)
+    val normals = data.allocNormals(verts)
+    val textureCoords = data.allocTextureCoords(verts)
     
     // generate geometry
     val fInvRS = 1.0f / radialSamples
@@ -125,46 +125,47 @@ class Sphere(name:String) extends Mesh(name) {
         // texture coordinate
         textureMode match {
           case Sphere.TextureMode.LINEAR =>
-            coords put radialFraction
-            coords put 0.5f * (zFraction + 1f)
+            textureCoords put radialFraction
+            textureCoords put 0.5f * (zFraction + 1f)
             
           case Sphere.TextureMode.PROJECTED =>
-            coords put radialFraction
-            coords put INV_PI * (HALF_PI + asin(zFraction))
+            textureCoords put radialFraction
+            textureCoords put INV_PI * (HALF_PI + asin(zFraction))
             
           case Sphere.TextureMode.POLAR =>
             val r = HALF_PI - abs(aFraction) / PI
             val u = r * lutCos(iR) + 0.5f
             val v = r * lutSin(iR) + 0.5f
-            coords put u put v
+            textureCoords put u put v
         }
         
         i += 1
       }
-      Buffer.copyVec3(vertices, iSave, i)
-      Buffer.copyVec3(normals, iSave, i)
+      copyVec3(vertices, iSave, i)
+      copyVec3(normals, iSave, i)
       
       textureMode match {
         case Sphere.TextureMode.LINEAR =>
-          coords put 1f 
-          coords put 0.5f * (zFraction + 1f)
+          textureCoords put 1f 
+          textureCoords put 0.5f * (zFraction + 1f)
         
         case Sphere.TextureMode.PROJECTED =>
-          coords put 1f
-          coords put INV_PI * (HALF_PI + asin(zFraction))
+          textureCoords put 1f
+          textureCoords put INV_PI * (HALF_PI + asin(zFraction))
         
         case Sphere.TextureMode.POLAR =>
           val r = HALF_PI - abs(aFraction) / PI
-          coords put (r + 0.5f) put 0.5f
+          textureCoords put (r + 0.5f) put 0.5f
       }
       i += 1
     }
     
     // south pole
     vertices.position(i * 3)
-    vertices put center.x
+      info("adding point ", radius, center)
+    vertices put center.x + 25f
     vertices put center.y
-    vertices put center.z - radius
+    vertices put center.z + radius
     
     normals.position(i * 3)
     if(!viewInside) {
@@ -173,12 +174,12 @@ class Sphere(name:String) extends Mesh(name) {
       normals put 0 put 0 put 1
     }
   
-    coords.position(i * 2)
+    textureCoords.position(i * 2)
     textureMode match {
       case Sphere.TextureMode.POLAR =>
-        coords put 0.5f put 0.5f
+        textureCoords put 0.5f put 0.5f
       case _ =>
-        coords put 0.5f put 0.0f
+        textureCoords put 0.5f put 0.0f
     }
     i += 1
     
@@ -195,15 +196,15 @@ class Sphere(name:String) extends Mesh(name) {
     
     textureMode match {
       case Sphere.TextureMode.POLAR =>
-        coords put 0.5f put 0.5f
+        textureCoords put 0.5f put 0.5f
       case _ =>
-        coords put 0.5f put 1.0f
+        textureCoords put 0.5f put 1.0f
     }
     
     // clean up
     vertices.rewind
     normals.rewind
-    coords.rewind
+    textureCoords.rewind
   }
   
   /**
@@ -213,8 +214,7 @@ class Sphere(name:String) extends Mesh(name) {
     import util.Buffer
     
     val tris = 2 * (zSamples - 2) * radialSamples
-    indexCount = 3 * tris
-    indices = Buffer.int(indexCount)
+    val indices = data.allocIndices(3 * tris)
     
     var iZStart = 0
     for(iZ <- 0 until zSamples -3) {
@@ -241,7 +241,7 @@ class Sphere(name:String) extends Mesh(name) {
     for(i <- 0 until radialSamples) {
       // outside view
       indices put i
-      indices put vertexCount - 2
+      indices put data.vertexCount - 2
       indices put i + 1
     }
     
@@ -251,7 +251,7 @@ class Sphere(name:String) extends Mesh(name) {
       // outside view
       indices put i + iOffset
       indices put i + 1 + iOffset
-      indices put vertexCount - 1
+      indices put data.vertexCount - 1
     }
     
     indices.rewind

@@ -7,40 +7,6 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-object Mesh extends Enumeration {
-  import javax.media.opengl.GL
-  
-  /** individual points */
-  val POINTS = Value(GL.GL_POINTS)
-  
-  /** pairs of vertices interpreted as individual line segments */
-  val LINES = Value(GL.GL_LINES)
-  
-  /** series of connected line segments */
-  val LINE_STRIP = Value(GL.GL_LINE_STRIP)
-  
-  /** same as above, with a segment added between last and first vertices */
-  val LINE_LOOP = Value(GL.GL_LINE_LOOP)
-  
-  /** triples of vertices interpreted as triangles */
-  val TRIANGLES = Value(GL.GL_TRIANGLES)
-  
-  /** linked strip of triangles */
-  val TRIANGLE_STRIP = Value(GL.GL_TRIANGLE_STRIP)
-  
-  /** linked fan of triangles */
-  val TRIANGLE_FAN = Value(GL.GL_TRIANGLE_FAN)
-  
-  /** quadruples of vertices interpreted as four-sided polygons */
-  val QUADS = Value(GL.GL_QUADS)
-  
-  /** linked strip of quadrilaterals */
-  val QUAD_STRIP = Value(GL.GL_QUAD_STRIP)
-  
-  /** boundary of a simple, convex polygon */
-  val POLYGON = Value(GL.GL_POLYGON)
-}
-
 import transform._
 
 /** 
@@ -49,87 +15,142 @@ import transform._
  * To encourage encapsulation and for better readability additional functionality 
  * is added via Traits
  */
-abstract class Mesh(name:String) extends Spatial(name) 
-with RenderStateable with Triangulator {
+abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with Triangulator {
   import javax.media.opengl.GL
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
-  
   import math.FMath._
   
-  var geometryType = Mesh.TRIANGLES
+  /** Stores the actual data buffers */
+  var data = new MeshData
   
+  /** This objects default colour */
   var colour = new Colour(Colour.WHITE)
   
-  var vertices:FloatBuffer = _
-  var normals:FloatBuffer = _
-  var coords:FloatBuffer = _
-  var colours:FloatBuffer = _
-  var indices:IntBuffer = _
-  
-  /** the number of actual indices used */
-  var indexCount = 0
-  
-  /** the number of actual vertices in the buffer */
-  var vertexCount = 0
-  
-  def clear {
-    vertexCount = 0   
-    if(vertices != null) vertices.clear
-    if(coords != null) coords.clear
-    if(colours != null) colours.clear
-    
-    indexCount = 0
-    indices.clear
+  /**
+   * Draws this Mesh
+   */
+  def draw {
+    enableStates
+    // TODO implement VBO render path
+    drawArrays
+    disableStates
   }
   
-  def draw {
+  /**
+   * Draws this Mesh using vertex arrays
+   */
+  protected def drawArrays {
+    // -- setup normal array ---------------------------------------------------
+    val normals = data.normals
+    if(normals == null) {
+      gl.glDisableClientState(GL.GL_NORMAL_ARRAY) 
+    } else {
+      gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
+      normals.rewind
+      gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
+    }
+            
+    // -- setup vertex array ---------------------------------------------------
+    val vertices = data.vertices
     if(vertices == null) {
-      throw new Exception("Cannot draw object '"+ name +"' due to undefined vertices buffer")
-      return
+      gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
+    } else {
+      gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
+      vertices.rewind
+      gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
+    }
+
+    // -- setup colour array ---------------------------------------------------
+    val colours = data.colours
+    if(colours == null) {
+      gl.glDisableClientState(GL.GL_COLOR_ARRAY)
+      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+      
+    } else {
+      gl.glEnableClientState(GL.GL_COLOR_ARRAY)
+      colours.rewind
+      gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
     }
     
-    val normalsEnabled = normals != null
-    val coordsEnabled = coords != null
-    val coloursEnabled = colours != null
-    val indicesEnabled = indices != null && indexCount > 0
+    // -- setup texture coord arrays -------------------------------------------
+    var j = 0
+    // the completely proper way to do this would be to keep track of the activated 
+    // texture units and deactivate them when not required 
+    while(j < data.textureCoords.size) {
+      gl.glClientActiveTexture(GL.GL_TEXTURE0 + j)
+      val textureCoords = data.textureCoords(j)
+      if(textureCoords == null) {
+        gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+      } else {
+        gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+      }
+      j += 1
+    }
     
-    // enable gl vertex & texture coord arrays
-	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
-    if(coordsEnabled) gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-    if(coloursEnabled) gl.glEnableClientState(GL.GL_COLOR_ARRAY)
-    if(normalsEnabled) gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
-    
-    enableStates
-
-    if(coordsEnabled) gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
-    gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
-    
-    // set colour array or single solid colour
-    if(coloursEnabled) 
-      gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
-    else
-      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
-    
-    if(normalsEnabled) gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
-    
-    // draw the mesh
-    if(indicesEnabled)
-      gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
-    else
-      gl.glDrawArrays(geometryType.id, 0, vertexCount)
-    
-    disableStates
-    
-    if(normalsEnabled) gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
-    if(coloursEnabled) gl.glDisableClientState(GL.GL_COLOR_ARRAY)
-    if(coordsEnabled) gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-    gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
+    // -- draw array / elements ------------------------------------------------
+    val indices = data.indices
+    if(indices == null) {
+      // simply draw everything that is in the vertex array
+      if(data.indexLengths == null) {
+        val glIndexMode = data.indexModes(0).id
+        gl.glDrawArrays(glIndexMode, 0, data.vertexCount)
+      
+      // draws multiple elements using the same index buffer
+      } else {
+        var offset = 0
+        var i = 0
+        var indexModeCounter = 0
+        while(i < data.indexLengths.length) {
+          val count = data.indexLengths(i)
+          val glIndexMode = data.indexModes(indexModeCounter).id
+          
+          gl.glDrawArrays(glIndexMode, offset, count)
+          
+          offset += count
+          if(indexModeCounter < data.indexModes.length - 1)
+            indexModeCounter += 1
+          
+          i += 1
+        }
+      }
+      
+    // index based drawing
+    } else {
+      // draws a single element only
+      if(data.indexLengths == null) {
+        val glIndexMode = data.indexModes(0).id
+        indices.position(0)
+        gl.glDrawElements(glIndexMode, indices.limit, GL.GL_UNSIGNED_INT, indices)
+      
+      // draws multiple elements using the same index buffer
+      } else {
+        var offset = 0
+        var i = 0
+        var indexModeCounter = 0
+        while(i < data.indexLengths.length) {
+          val count = data.indexLengths(i)
+          val glIndexMode = data.indexModes(indexModeCounter).id
+          
+          indices.position(offset)
+          indices.limit(offset + count)
+          gl.glDrawElements(glIndexMode, count, GL.GL_UNSIGNED_INT, indices)
+          
+          offset += count
+          if(indexModeCounter < data.indexModes.length - 1)
+            indexModeCounter += 1
+          
+          i += 1
+        }
+      }
+    }
   }
   
   // -- Colours ----------------------------------------------------------------
   def solidColour(c:Colour) {
+    // TODO needs some cleaning up
     colour := c
+    val colours = data.colours
     if(colours!=null) {
       colours.clear
       for(i <- 0 until colours.capacity/4) {
@@ -143,6 +164,7 @@ with RenderStateable with Triangulator {
   }
   
   def randomizeColours {
+    val colours = data.colours
     colours.clear
     for(i <- 0 until colours.capacity/4) {
       colours.put(random)
@@ -154,5 +176,5 @@ with RenderStateable with Triangulator {
   }
   
   // -- Traits -----------------------------------------------------------------
-  def triangulate:Unit = triangulate(vertexCount, vertices, indices)
+  def triangulate:Unit = triangulate(data.vertexCount, data.vertices, data.indices)
 }

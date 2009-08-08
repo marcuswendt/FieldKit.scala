@@ -64,8 +64,8 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
     import javax.media.opengl.GL
     
     var curve = new Spline(capacity)
-    vertices = Buffer.vertex(capacity)
-    indices = Buffer.index(capacity * 3)
+    data.allocVertices(capacity)
+    data.allocIndices(capacity * 3)
     
     def update {
       info("update")
@@ -73,9 +73,10 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
       // emit new vertex points
       val p = new Vec3
      
+      val vertices = data.vertices
       vertices.clear
       var numPoints = 100
-      vertexCount = numPoints
+      data.vertexCount = numPoints
       for(i <- 0 until numPoints) {
         curve.point(i / numPoints.asInstanceOf[Float], p)
         p.put(vertices)
@@ -87,13 +88,13 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
       // here's the crack!
       triangulate
       
-      println("vertexCount "+ vertexCount +" triangleCount "+ triangleCount)
-      indexCount = triangleCount * 3
+      println("vertexCount "+ data.vertexCount +" triangleCount "+ triangleCount)
+      //indexCount = triangleCount * 3
 //      indexCount = 100
     }
     
-    override def clear {
-      super.clear
+    def clear {
+      //super.clear
       curve.clear
       update
     }
@@ -128,12 +129,13 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     noStroke
     fill(255,0,0)
     val v = new Vec3
-    p.vertices.rewind
-    for(i <- 0 until p.vertexCount) {
-      rect(p.vertices.get, p.vertices.get, 6, 6)
-      p.vertices.get
+    val vertices = p.data.vertices
+    vertices.rewind
+    for(i <- 0 until p.data.vertexCount) {
+      rect(vertices.get, vertices.get, 6, 6)
+      vertices.get
     }
-    p.vertices.rewind
+    p.data.vertices.rewind
   }
   
   class Polygon(capacity:Int) extends Mesh("polygon") {
@@ -143,9 +145,9 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     import field.kit.util.Buffer
     
     import javax.media.opengl.GL
-    
-    vertices = Buffer.vertex(capacity) 
-    indices = Buffer.index(capacity * 3)
+
+    val vertices = data.allocVertices(capacity)
+    data.allocIndices(capacity * 3)
     
     val offsetX = width/2f
     val offsetY = height/2f
@@ -158,7 +160,7 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
       vertices put FMath.sin(t) * r1 + offsetX
       vertices put FMath.cos(t) * r1 + offsetY
       vertices put 0
-      vertexCount += 1
+      data.vertexCount += 1
     }
     
     // draw inner circle
@@ -169,7 +171,7 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
       vertices put FMath.sin(t) * r2 + offsetX
       vertices put FMath.cos(t) * r2 + offsetY
       vertices put 0
-      vertexCount += 1
+      data.vertexCount += 1
     }
     
     // --
@@ -177,7 +179,7 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     //vertexCount = capacity
     
     triangulate
-    indexCount = triangleCount * 3
+    //indexCount = triangleCount * 3
     
     solidColour(Colour.WHITE)
   }

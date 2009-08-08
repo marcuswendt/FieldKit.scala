@@ -14,14 +14,9 @@ import field.kit.gl.render.Renderable
  * @author Marcus Wendt
  */
 abstract class RenderState extends Renderable with field.kit.Logger {
-  import field.kit.gl.scene.Geometry
-  
   var isEnabled = true
-  
   def enable
   def disable
-  
   def destroy
-  
   final override def render {}
 }
