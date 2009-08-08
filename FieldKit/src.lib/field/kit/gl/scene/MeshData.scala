@@ -52,9 +52,11 @@ class MeshData {
   import util.datatype.collection.ArrayBuffer
   import util.Buffer
   
-  ///** Number of vertices represented by this data. */
+  import render.objects.VertexBuffer
+  
+  /** Number of vertices represented by this data. */
   var vertexCount = 0
-
+  
   ///** Number of primitives represented by this data. */
   //var primitiveCount = Array(1)
   
@@ -62,48 +64,41 @@ class MeshData {
   var vertices:FloatBuffer = _
   var normals:FloatBuffer = _
   var colours:FloatBuffer = _
-  var textureCoords = new ArrayBuffer[FloatBuffer]()
+  var textureCoords:ArrayBuffer[FloatBuffer] = _ 
 
   /** Index data */
   var indices:IntBuffer = _
   var indexLengths:Array[Int] = _
-  var indexModes = Array(IndexMode.LINES)
+  var indexModes = Array(IndexMode.TRIANGLES)
+
+  /** set true when any of the buffers data has changed */
+  var needsRefresh = true
   
+  // -- VBO support ------------------------------------------------------------  
+  var vbo:VertexBuffer = _
+  
+  /** when true attempts to upload its data on every update into a vbo */
+  var useVBO = true
+
+  /** interleaved data for use with VBO */
+  var interleaved:FloatBuffer = _
+  
+  var vboUsage = VertexBuffer.Usage.STATIC_DRAW
   
   // -- Updating ---------------------------------------------------------------
-  
   /**
    * Should be called whenever the vertex buffer data has changed 
    */
-  def updateVertices:Unit = {
-    if(vertices == null) return
-    vertexCount = vertices.position / 3
-    vertices.rewind
+  def updateVertexCount {
+    vertexCount = 
+      if(vertices == null) 0 else vertices.limit / 3
   }
   
   /**
-   * Should be called whenever the normal buffer data has changed 
+   * Should be called whenever the buffer data has changed
    */
-  def updateNormals:Unit = {
-    if(normals == null) return
-    normals.rewind
-  }
-  
-  /**
-   * Should be called whenever the texture coord buffer data has changed 
-   */
-  def updateTextureCoords:Unit = {
-    if(textureCoords == null) return
-    textureCoords(0).rewind
-  }
-  
-  /**
-   * Should be called whenever the index buffer data has changed 
-   */
-  def updateIndices:Unit = {
-    if(indices == null) return
-    indices.rewind
-  }
+  def refresh = 
+    needsRefresh = true
   
   // -- Allocation -------------------------------------------------------------
   /**
@@ -112,6 +107,9 @@ class MeshData {
    */
   def allocVertices(capacity:Int) = {
     vertices = allocateFloatBuffer(vertices, capacity * 3)
+    
+    // assumes the buffer is going to be filled with a static mesh
+    updateVertexCount
     vertices
   }
   
@@ -147,6 +145,9 @@ class MeshData {
    * @return the texture coordinate buffer for this texture unit
    */
   def allocTextureCoords(textureUnit:Int, capacity:Int) = {
+    if(textureCoords == null)
+      textureCoords = new ArrayBuffer[FloatBuffer]
+    
     val buffer = allocateFloatBuffer(textureCoords(textureUnit), capacity * 2)
     if(textureUnit >= textureCoords.size)
       textureCoords += buffer
@@ -156,6 +157,15 @@ class MeshData {
   }
   
   def allocTextureCoords(capacity:Int):FloatBuffer = allocTextureCoords(0, capacity) 
+  
+  /** 
+   * Allocates a new interleaved data buffer when necessary
+   * @return the current interleaved data buffer
+   */
+  def allocInterleaved(capacity:Int) = {
+    interleaved = allocateFloatBuffer(interleaved, capacity)
+    interleaved
+  }
   
   // ---------------------------------------------------------------------------
 //  def clear {

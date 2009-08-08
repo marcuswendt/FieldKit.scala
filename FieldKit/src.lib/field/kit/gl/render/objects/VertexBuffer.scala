@@ -92,7 +92,7 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   
   /** uploads a chunk of the given FloatBuffer into the VBO */
   def data(offset:Int, size:Int, data:FloatBuffer) =  
-    gl.glBufferSubData(GL.GL_ARRAY_BUFFER, offset, size * java.lang.Float.SIZE, data)
+    gl.glBufferSubData(GL.GL_ARRAY_BUFFER, offset * java.lang.Float.SIZE, size * java.lang.Float.SIZE, data)
   
   /** uploads the entire FloatBuffer into the VBO */
   def data(data:FloatBuffer) {

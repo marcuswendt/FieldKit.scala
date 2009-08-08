@@ -20,7 +20,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
   import math.FMath._
-  
+    
   /** Stores the actual data buffers */
   var data = new MeshData
   
@@ -32,15 +32,131 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    */
   def draw {
     enableStates
-    // TODO implement VBO render path
-    drawArrays
+    
+    if(data.useVBO) setupInterleavedDataVBO else setupArrays
+    
+    drawElements
+    
     disableStates
   }
   
   /**
-   * Draws this Mesh using vertex arrays
+   * Setups the VBO for drawing
    */
-  protected def drawArrays {
+  protected def setupInterleavedDataVBO:Unit = {
+    def updateVBO(buffer:FloatBuffer, offset:Int) {
+      if(data.needsRefresh) {
+        buffer.rewind
+        gl.glBufferSubData(GL.GL_ARRAY_BUFFER, 
+                           offset, 
+                           buffer.limit * 4, 
+                           buffer)
+      }
+    }
+    
+    // make sure we have a valid vbo
+    if(data.vbo == null)
+      initInterleavedDataVBO
+      
+    data.vbo.bind
+    
+    var offset = 0
+    
+    // -- setup normal coords --------------------------------------------------
+    val normals = data.normals
+    if(normals == null) {
+      gl.glDisableClientState(GL.GL_NORMAL_ARRAY) 
+    } else {
+      updateVBO(normals, offset)
+      gl.glNormalPointer(GL.GL_FLOAT, 0, offset)
+      gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
+      offset += normals.limit * 4
+    }
+
+    // -- setup colours --------------------------------------------------------
+    val colours = data.colours
+    if(colours == null) {
+      gl.glDisableClientState(GL.GL_COLOR_ARRAY)
+      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+      
+    } else {
+      updateVBO(colours, offset)
+      gl.glEnableClientState(GL.GL_COLOR_ARRAY)
+      gl.glColorPointer(4, GL.GL_FLOAT, 0, offset)
+      offset += colours.limit * 4
+    }
+
+    // -- setup texture coord arrays -------------------------------------------
+    var j = 0
+    // the completely proper way to do this would be to keep track of the activated 
+    // texture units and deactivate them when not required 
+    while(j < data.textureCoords.size) {
+      gl.glClientActiveTexture(GL.GL_TEXTURE0 + j)
+      val textureCoords = data.textureCoords(j)
+      if(textureCoords == null) {
+        gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+      } else {
+        updateVBO(textureCoords, offset)
+        gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+        gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, offset)
+        offset += textureCoords.limit * 4
+      }
+      j += 1
+    }
+      
+    // -- setup vertex array ---------------------------------------------------
+    val vertices = data.vertices
+    if(vertices == null) {
+      gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
+    } else {
+      updateVBO(vertices, offset)
+      gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
+      gl.glVertexPointer(3, GL.GL_FLOAT, 0, offset)
+      offset += vertices.limit * 4
+    }
+    
+    data.needsRefresh = false
+  }
+  
+  /**
+   * Creates a VBO and accompanying buffer
+   */
+  protected def initInterleavedDataVBO {
+    import kit.gl.render.GLObject
+    import kit.gl.render.objects.VertexBuffer
+    
+    // make sure we have a valid vbo
+    if(data.vbo == null) 
+      data.vbo = new VertexBuffer
+    
+    if(data.vbo.id == GLObject.UNDEFINED) 
+      data.vbo.create
+    
+    val vbo = data.vbo
+    vbo.bind
+    
+    // calculate interleaved buffer size
+    var bufferSize = 0
+    if(data.normals != null) bufferSize += data.normals.limit
+    if(data.colours != null) bufferSize += data.colours.limit
+    if(data.textureCoords != null) {
+      for(buffer <- data.textureCoords)
+        bufferSize += buffer.limit
+    }
+    if(data.vertices != null) bufferSize += data.vertices.limit
+    
+    // initialize interleaved buffer
+    val interleaved = data.allocInterleaved(bufferSize)
+    vbo.data(bufferSize, interleaved, data.vboUsage)
+    vbo.unbind
+    
+    interleaved.rewind
+  } 
+  
+  /**
+   * Setups the vertex arrays for drawing
+   */
+  protected def setupArrays {
     // -- setup normal array ---------------------------------------------------
     val normals = data.normals
     if(normals == null) {
@@ -49,16 +165,6 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
       gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
       normals.rewind
       gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
-    }
-            
-    // -- setup vertex array ---------------------------------------------------
-    val vertices = data.vertices
-    if(vertices == null) {
-      gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
-    } else {
-      gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
-      vertices.rewind
-      gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
     }
 
     // -- setup colour array ---------------------------------------------------
@@ -83,19 +189,35 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
       if(textureCoords == null) {
         gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
       } else {
+        textureCoords.rewind
         gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+        gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoords)
       }
       j += 1
     }
-    
-    // -- draw array / elements ------------------------------------------------
+           
+    // -- setup vertex array ---------------------------------------------------
+    val vertices = data.vertices
+    if(vertices == null) {
+      gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
+    } else {
+      gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
+      vertices.rewind
+      gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
+    }
+  }
+  
+  /**
+   * Does the actual drawing after the vbo or the arrays have been set up
+   */
+  protected def drawElements {
     val indices = data.indices
     if(indices == null) {
       // simply draw everything that is in the vertex array
       if(data.indexLengths == null) {
         val glIndexMode = data.indexModes(0).id
         gl.glDrawArrays(glIndexMode, 0, data.vertexCount)
-      
+        
       // draws multiple elements using the same index buffer
       } else {
         var offset = 0

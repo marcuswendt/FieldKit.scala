@@ -21,7 +21,7 @@ object Sphere {
  * Based on com.ardor3d.scenegraph.shape.Sphere from the Ardor3D engine
  * @see http://ardor3d.com
  */
-class Sphere(name:String) extends Mesh(name) {
+class Sphere extends Mesh("Sphere") {
   import math._
     
   var radius = 0f
@@ -32,11 +32,29 @@ class Sphere(name:String) extends Mesh(name) {
   
   protected var viewInside = false
   
-  def this(name:String, radius:Float, samples:Int) {
-    this(name)
+  def this(radius:Float, samples:Int) {
+    this()
     init(radius, samples, samples)
   }
-    
+  
+  /**
+   * Creates a Sphere that shares its data with another Sphere
+   */
+  def this(target:Sphere) {
+    this()
+    radius = target.radius
+    center := target.center
+    zSamples = target.zSamples
+    radialSamples = target.radialSamples
+    textureMode = target.textureMode
+    data = target.data
+    for(state <- target.states)
+      states += state
+  }
+
+  /**
+   * 
+   */
   def init(radius:Float, zSamples:Int, radialSamples:Int) {
     this.radius = radius
     this.zSamples = zSamples
@@ -198,11 +216,6 @@ class Sphere(name:String) extends Mesh(name) {
       case _ =>
         textureCoords put 0.5f put 1.0f
     }
-    
-    // clean up
-    data.updateVertices
-    data.updateNormals
-    data.updateTextureCoords
   }
   
   /**
@@ -251,7 +264,5 @@ class Sphere(name:String) extends Mesh(name) {
       indices put i + 1 + iOffset
       indices put data.vertexCount - 1
     }
-    
-    data.updateIndices
   }
 }

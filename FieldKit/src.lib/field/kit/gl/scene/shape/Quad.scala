@@ -37,7 +37,6 @@ class Quad(name:String, var _width:Float, var _height:Float) extends Mesh(name) 
   textureCoords put 1f put 0f
   textureCoords put 1f put 1f
   textureCoords put 0f put 1f
-  data.updateTextureCoords
   
   resize(_width, _height)
   
@@ -66,7 +65,6 @@ class Quad(name:String, var _width:Float, var _height:Float) extends Mesh(name) 
         vertices put hw put -hh put 0
         vertices put -hw put -hh put 0
 	  }
-    data.updateVertices
   }
   
   // -- Getters/ Setters -------------------------------------------------------

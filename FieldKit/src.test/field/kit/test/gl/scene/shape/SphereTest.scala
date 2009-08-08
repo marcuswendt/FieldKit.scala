@@ -15,7 +15,7 @@ object SphereTest extends test.Sketch {
   
   var t = 0f
   
-  val s = new Sphere("Sphere", 250f, 64)
+  val s = new Sphere(250f, 64)
   //s.init(250f, 12, 12)
   s.translation := (hwidth, hheight, 0)
   s.colour := new Colour(1f, 0f, 0f, 0.5f)

@@ -11,15 +11,11 @@ package field.kit.gl.scene.transform
  * Gives the ability to apply RenderStates during the rendering of an object
  */
 trait RenderStateable {
-  
   import util.datatype.collection.ArrayBuffer
   
   var states = new ArrayBuffer[RenderState]
   
   protected def enableStates = {
-//    states foreach(s => 
-//    if(s.isEnabled) s.enable(this)
-//  )
     var i=0
     while(i < states.size) {
       val s = states(i)
@@ -29,9 +25,6 @@ trait RenderStateable {
   }
   
   protected def disableStates = {
-//    states foreach(s => 
-//    if(s.isEnabled) s.disable(this)
-//  )
 	var i=0
     while(i < states.size) {
       val s = states(i)
