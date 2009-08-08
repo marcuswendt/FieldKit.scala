@@ -42,4 +42,40 @@ object Buffer {
   
   def vec2(size:Int) = float(size * 2)
   def vec3(size:Int) = float(size * 3)
+  
+  // ---------------------------------------------------------------------------
+  
+  /**
+   * Copies floats from one position in the buffer to another.
+   * 
+   * @param buf
+   *            the buffer to copy from/to
+   * @param from
+   *            the starting point to copy from
+   * @param to
+   *            the starting point to copy to
+   * @param length
+   *            the number of floats to copy
+   */
+  def copy(buf:FloatBuffer, from:Int, to:Int, length:Int) {
+    val data = new Array[Float](length)
+    buf.position(from)
+    buf.get(data)
+    buf.position(to)
+    buf.put(data)
+  }
+  
+  /**
+   * Copies a Vector3 from one position in the buffer to another. The index values are in terms of vector number (eg,
+   * vector number 0 is positions 0-2 in the FloatBuffer.)
+   * 
+   * @param buf
+   *            the buffer to copy from/to
+   * @param from
+   *            the index of the vector to copy
+   * @param to
+   *            the index to copy the vector to
+   */
+  def copyVec3(buf:FloatBuffer, from:Int, to:Int) = 
+    copy(buf, from * 3, to * 3, 3)
 }

@@ -74,16 +74,33 @@ trait FMath {
   // --------------------------------------------------------------------------
   // trigonomentry
   // --------------------------------------------------------------------------
+    
+  /** The value PI as a float. (180 degrees) */
   val PI = (java.lang.Math.PI).asInstanceOf[Float]
+  
+  /** The value PI/2 as a float. (90 degrees) */
   val HALF_PI = PI / 2f
+  
+  /** The value PI/3 as a float. (60 degrees) */
   val THIRD_PI = PI / 3f
+  
+  /** The value PI/4 as a float. (45 degrees) */
   val QUARTER_PI = PI / 4f
+  
+  /** The value 2PI as a float. (360 degrees) */
   val TWO_PI = PI * 2f
   
+  /** The value 1/PI as a float. */
+  val INV_PI = 1f / PI
+  
+  /** A value to multiply a degree value by, to convert it to radians. */
   val DEG_TO_RAD = PI / 180f
+  
+  /** A value to multiply a radian value by, to convert it to degrees. */
   val RAD_TO_DEG = 180f / PI
   
   def sin(f:Float) = Math.sin(f).asInstanceOf[Float]
+  def asin(f:Float) = Math.asin(f).asInstanceOf[Float]
   def cos(f:Float) = Math.cos(f).asInstanceOf[Float]
   def acos(f:Float) = Math.acos(f).asInstanceOf[Float]
   def tan(f:Float) = Math.tan(f).asInstanceOf[Float]

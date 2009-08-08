@@ -9,7 +9,9 @@ package field.kit.gl.scene
 
 import field.kit.util.datatype.graph.Node
 
-/** base class for all geometric objects in the scene-graph */
+/** 
+ * Base class for all geometric objects in the scenegraph.
+ */
 abstract class Geometry(name:String) extends Spatial(name) {
   import field.kit._
   import field.kit.math._
@@ -32,8 +34,7 @@ abstract class Geometry(name:String) extends Spatial(name) {
   var vertexCount = 0
   
   def clear {
-    vertexCount = 0
-    
+    vertexCount = 0   
     if(vertices != null) vertices.clear
     if(coords != null) coords.clear
     if(colours != null) colours.clear

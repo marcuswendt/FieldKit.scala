@@ -48,6 +48,8 @@ abstract class Mesh(name:String, val geometryType:Mesh.Value) extends Geometry(n
   import java.nio.IntBuffer
   
   var indices:IntBuffer = _
+  
+  /** the number of actual indices used */
   var indexCount = 0
   
   override def clear {
@@ -57,18 +59,25 @@ abstract class Mesh(name:String, val geometryType:Mesh.Value) extends Geometry(n
   }
   
   def draw {
-    val coloursEnabled = colours != null
+    if(vertices == null) {
+      throw new Exception("Cannot draw object '"+ name +"' due to undefined vertices buffer")
+      return
+    }
+    
     val normalsEnabled = normals != null
+    val coordsEnabled = coords != null
+    val coloursEnabled = colours != null
+    val indicesEnabled = indices != null && indexCount > 0
     
     // enable gl vertex & texture coord arrays
 	gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
-    gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+    if(coordsEnabled) gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
     if(coloursEnabled) gl.glEnableClientState(GL.GL_COLOR_ARRAY)
     if(normalsEnabled) gl.glEnableClientState(GL.GL_NORMAL_ARRAY)
     
     enableStates
 
-    gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
+    if(coordsEnabled) gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, coords)
     gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
     
     // set colour array or single solid colour
@@ -80,18 +89,17 @@ abstract class Mesh(name:String, val geometryType:Mesh.Value) extends Geometry(n
     if(normalsEnabled) gl.glNormalPointer(GL.GL_FLOAT, 0, normals)
     
     // draw the mesh
-    if(indexCount > 0) {
+    if(indicesEnabled)
       gl.glDrawElements(geometryType.id, indexCount, GL.GL_UNSIGNED_INT, indices)
-    } else {
+    else
       gl.glDrawArrays(geometryType.id, 0, vertexCount)
-    }
     
     disableStates
     
     if(normalsEnabled) gl.glDisableClientState(GL.GL_NORMAL_ARRAY)
     if(coloursEnabled) gl.glDisableClientState(GL.GL_COLOR_ARRAY)
+    if(coordsEnabled) gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
     gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
-    gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
   }
 }
 
