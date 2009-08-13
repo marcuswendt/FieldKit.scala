@@ -32,11 +32,8 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    */
   def draw {
     enableStates
-    
     if(data.useVBO) setupInterleavedDataVBO else setupArrays
-    
     drawElements
-    
     disableStates
   }
   

@@ -10,14 +10,14 @@ package field.kit.test.gl.scene.state
 /** 
  * quick test for the glsl shader state feature
  */
-object ShaderStateTest extends field.kit.test.Sketch {
+object ShaderStateTest extends test.Sketch {
   import field.kit.gl.scene._
   import field.kit.gl.scene.shape._
   import field.kit.gl.scene.state._
   
   var scene:Group = null
   
-  init({
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
     import java.net.URL
     
     info("initializing scene")
@@ -45,7 +45,7 @@ object ShaderStateTest extends field.kit.test.Sketch {
     //q1.states += ShaderState(null.asInstanceOf[URL],null.asInstanceOf[URL])
     
     scene += q1
-  })
+  }:Unit)
   
   def render {
     background(0)

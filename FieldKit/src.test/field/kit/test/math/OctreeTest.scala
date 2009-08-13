@@ -75,9 +75,9 @@ object OctreeTest extends test.Sketch {
   var points = new ArrayBuffer[Vec3]
   
   // -- Init -------------------------------------------------------------------
-  init {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
 //    rectMode(CORNER)
-  }
+  })
 
   // -- Render -----------------------------------------------------------------
   def render {

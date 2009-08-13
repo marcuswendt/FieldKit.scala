@@ -10,7 +10,7 @@ package field.kit.test.particle
 /** 
  * quick test for the particle system
  */
-object StatefulParticleSystemTest extends field.kit.Sketch {
+object StatefulParticleSystemTest extends test.Sketch {
   import field.kit.particle._
   import field.kit.particle.behaviour._
   import field.kit.util.Timer
@@ -48,7 +48,9 @@ object StatefulParticleSystemTest extends field.kit.Sketch {
   
   val timer = new Timer
   
-  init(1280, 768, false, {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
+    info("initializer")
+    background(64)  
     ps.space.set(width, height, 100) 
     f.emitter := ps.space.center
     info("initialized", ps.space)

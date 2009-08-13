@@ -10,15 +10,11 @@ package field.kit.test.gl.scene.shape
 object SphereTest extends test.Sketch {
   import kit.gl.scene.shape._
   import kit.math.FMath._
-
-  init {}
-  
-  var t = 0f
   
   val s = new Sphere(250f, 64)
-  //s.init(250f, 12, 12)
-  s.translation := (hwidth, hheight, 0)
-  s.colour := new Colour(1f, 0f, 0f, 0.5f)
+  var t = 0f
+  
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
   
   def gl = pgl.gl
   
@@ -29,6 +25,9 @@ object SphereTest extends test.Sketch {
     val r = 200f
     //s.translation := (hwidth + sin(t) * r, hheight, -250f + cos(t) * r)
     
+    s.translation := (hwidth, hheight, 0)
+    s.colour := new Colour(1f, 0f, 0f, 0.5f)
+  
     background(64)
     beginGL
     gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)

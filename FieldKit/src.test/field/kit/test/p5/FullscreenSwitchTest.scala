@@ -10,11 +10,9 @@ package field.kit.test.p5
 /** 
  * quick test for the fullscreen mode switch
  */
-object FullscreenSwitchTest extends field.kit.Sketch {
+object FullscreenSwitchTest extends test.Sketch {
   
-  init(1280, 768, true, {
-	  info("initializer")
-  })
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
   
   def render {
     background(64)

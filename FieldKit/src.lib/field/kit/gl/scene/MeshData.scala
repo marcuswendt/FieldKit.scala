@@ -41,6 +41,10 @@ object IndexMode extends Enumeration {
   val POLYGON = Value(GL.GL_POLYGON)
 }
 
+object MeshData {
+  // disable vbo by default on linux
+  var DEFAULT_USE_VBO = !System.getProperty("os.name").equals("Linux") 
+}
 
 /**
  * Stores all commonly used buffers of a Mesh
@@ -78,7 +82,7 @@ class MeshData {
   var vbo:VertexBuffer = _
   
   /** when true attempts to upload its data on every update into a vbo */
-  var useVBO = true
+  var useVBO = MeshData.DEFAULT_USE_VBO
 
   /** interleaved data for use with VBO */
   var interleaved:FloatBuffer = _

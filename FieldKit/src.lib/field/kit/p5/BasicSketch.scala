@@ -78,11 +78,10 @@ abstract class BasicSketch extends PApplet with Logger {
     frame.addWindowListener(new WindowAdapter {
     	override def windowClosing(e:WindowEvent) = System.exit(0)
     })
-    frame.setBackground(Color.BLACK)
-    frame.setResizable(false)
-
+    frame.setBackground(Color.BLACK) 
     frame.setLayout(null)
     frame.add(this)
+    frame.setResizable(false)
     
     if(fullscreen) {
       frame.setUndecorated(true)
@@ -97,10 +96,11 @@ abstract class BasicSketch extends PApplet with Logger {
     } else {
       frame.pack
       val insets = frame.getInsets
+      
       this.setBounds(insets.left + insets.right,
                      insets.top + insets.bottom,
                      sketchDim.width,
-                     sketchDim.height)
+                     sketchDim.height )
       
       frame.setBounds( (screenDim.width - sketchDim.width) / 2,
     		  		   (screenDim.height - sketchDim.height) / 2,
@@ -116,13 +116,19 @@ abstract class BasicSketch extends PApplet with Logger {
     // go!
     isInitialized = true
     super.init
-    
+        
     frame.setVisible(true)
     requestFocus
   }
   
-  override def setup() = this.initializer()
-
+//  override def init = {
+//    fatal("You should call init(width, height, initializer)")
+//  } 
+  
+//  override def setup() = {
+//    println("setup")
+//  }
+  
   /** 
    * called when the sketch is getting initialized but was already displayed before
    * derived sketches should override this to make sure they restart cleanly 
@@ -139,6 +145,11 @@ abstract class BasicSketch extends PApplet with Logger {
   // -- Renderer ---------------------------------------------------------------  
   /** always use the OpenGL renderer */
   override def getSketchRenderer = classOf[FGraphicsOpenGL].getCanonicalName
+  
+  override def run {
+    this.initializer()
+    super.run
+  }
   
   override def draw = render
   

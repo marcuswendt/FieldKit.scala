@@ -20,12 +20,9 @@ object PassTest extends field.kit.test.Sketch {
   var pass:Pass = null
   var scene:Spatial = null
   
-  init({
-    import java.net.URL
-    
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
     info("initializing scene")
     scene = new TestParticleSystemScene
-    
   })
   
   def render {

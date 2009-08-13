@@ -11,10 +11,16 @@ package field.kit.test.p5
  * simplistic sketch test, just to make sure there are no memory leaks in Sketch
  * needs to be started with: -Dcom.sun.management.jmxremote=true
  */
-object MinimalSketchTest extends field.kit.Sketch {
-  init(1024,768)
+object MinimalSketchTest extends test.Sketch {
+  
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+  
   def render {
-    background(0)
+    background(random(255,random(255,random(255))))
+    
+    fill(0)
+    stroke(255)
+    rect(mouseX, mouseY, 25, 25)
     
     // as soon as we draw something, p5 starts leaking...
 //    var w = width/10

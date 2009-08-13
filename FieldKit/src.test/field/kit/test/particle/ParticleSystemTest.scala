@@ -39,11 +39,11 @@ object ParticleSystemTest extends test.Sketch {
   
   val timer = new Timer
   
-  init {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
     info("initializer")
     ps.space.set(width, height, 100) 
     info("space width", ps.space.width, "height", ps.space.height, "depth", ps.space.depth)
-  }
+  })
   
   def render {
     // update
