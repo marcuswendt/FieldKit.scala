@@ -97,7 +97,7 @@ abstract class Sketch extends BasicSketch {
     if(OSUtil.isMac) {
       System.setProperty("apple.laf.useScreenMenuBar", "true")
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", meta.name)
-      
+      /*
       import com.apple.eawt._
       var app = new Application
       
@@ -125,7 +125,7 @@ abstract class Sketch extends BasicSketch {
     	    exit
     	  }
       })
-    
+      */
     // windows
     } else if(OSUtil.isWindows) {
       import javax.swing.UIManager
