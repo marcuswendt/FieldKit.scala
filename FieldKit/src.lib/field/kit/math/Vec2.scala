@@ -351,6 +351,33 @@ class Vec2(var x:Float, var y:Float) extends VecF {
     this
   }
   
+  /**
+   * Converts the current vector into polar coordinates. After the conversion
+   * the x component of the vector contains the radius (magnitude) and y the
+   * rotation angle.
+   * 
+   * @return itself as polar vector
+   */
+  def toPolar = {
+    val r = FMath.sqrt(x * x + y * y)
+    y = FMath.atan2(y, x)
+    x = r
+    this
+  }
+  
+  /**
+   * Converts the vector from polar to Cartesian space. Assumes this order:
+   * x=radius, y=theta
+   * 
+   * @return itself as Cartesian vector
+   */
+  def toCartesian {
+    val tmp = x * FMath.cos(y)
+    y = x * FMath.sin(y)
+    x = tmp
+    this
+  }
+  
   /** checks wether one or several components of this vector are Not a Number or Infinite */
   final def isNaNOrInfinite = { 
     import java.lang.Float

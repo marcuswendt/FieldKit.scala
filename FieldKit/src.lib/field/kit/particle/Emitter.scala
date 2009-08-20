@@ -58,7 +58,10 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     // create particle
     val p = create
     p := this 
-        
+    
+    // add particle to flock
+    flock += p
+    
     // apply behaviours      
 //    behaviours foreach { b =>
 //      if(b.isEnabled) b.apply(p,0)
@@ -78,7 +81,6 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     fine("creating new "+ m)
     val clazz = Class.forName(m.toString)
     val p = clazz.newInstance.asInstanceOf[P]
-    flock += p
     p
   }
   

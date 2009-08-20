@@ -36,13 +36,14 @@ trait Logger {
   private var name = className
   
   private def className = {
-    var n = this.getClass.getCanonicalName
-    if(n.endsWith("$")) n = n.slice(0, n.length-1)
-    var dot = n.lastIndexOf('.')
-    if(dot > 0)
-      n.substring(dot+1)
-    else
-      n
+    try {
+      var n = this.getClass.getCanonicalName
+      if(n.endsWith("$")) n = n.slice(0, n.length-1)
+      var dot = n.lastIndexOf('.')
+      if(dot < 0) n else n.substring(dot+1)
+    } catch {
+      case e:NoClassDefFoundError => "Anonymous"
+    }
   }
   
   private def log(l:Logger.Value, m:Seq[Any]) = Logger.log(l, name, m)
