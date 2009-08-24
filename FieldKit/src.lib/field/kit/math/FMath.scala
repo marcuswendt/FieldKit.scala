@@ -101,6 +101,24 @@ object FMath {
   def atan(f:Float) = Math.atan(f).asInstanceOf[Float]
   def atan2(x:Float, y:Float) = Math.atan2(x,y).asInstanceOf[Float]
   
+  /**
+   * Reduces the given angle into the -PI/4 ... PI/4 interval. 
+   * 
+   * @param theta
+   * @return reduced angle
+   */
+  final def reduceAngle(angle:Float) = {
+    var theta = angle % TWO_PI
+    
+    if(abs(theta) > PI)
+      theta = theta - TWO_PI
+    
+    if(abs(theta) > HALF_PI) 
+      theta = PI - theta
+ 
+    theta
+  }
+  
   def sin(f:Double) = Math.sin(f)
   def cos(f:Double) = Math.cos(f)
   def acos(f:Double) = Math.acos(f)
@@ -156,7 +174,7 @@ object FMath {
    * @result a Vector that stores the intersection point
    * @return returns true when the two lines intersect, otherwise false
    */
-  def intersects(x1:Float, y1:Float, x2:Float, y2:Float, x3:Float, y3:Float, x4:Float, y4:Float, result:VecF) = {
+  def intersects(x1:Float, y1:Float, x2:Float, y2:Float, x3:Float, y3:Float, x4:Float, y4:Float, result:Vec2) = {
 	// Compute a1, b1, c1, where line joining points 1 and 2
 	// is "a1 x + b1 y + c1 = 0".
 	val a1 = y2 - y1
@@ -202,16 +220,16 @@ object FMath {
 		  // sign of the numerator.
 		  var num = (b1 * c2) - (b2 * c1)
 		  if (num < 0) {
-		    result(0) = (num - offset) / denom
+		    result.x = (num - offset) / denom
 		  } else {
-		    result(0) = (num + offset) / denom
+		    result.x = (num + offset) / denom
 		  }
 	   
 		  num = (a2 * c1) - (a1 * c2)
 		  if (num < 0) {
-		    result(1) = (num - offset) / denom
+		    result.y = (num - offset) / denom
 		  } else {
-		    result(1) = (num + offset) / denom
+		    result.y = (num + offset) / denom
 		  }
 		  true
   	  	}

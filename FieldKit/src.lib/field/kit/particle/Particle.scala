@@ -23,8 +23,6 @@ object Particle {
  * @author Marcus Wendt
  */
 class Particle extends Vec3 with Logger {
-  fine("init")
-  
   // set when particle is being added to a flock
   var flock:Flock[_] = null
   var ps:ParticleSystem = null

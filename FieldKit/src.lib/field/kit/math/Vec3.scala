@@ -34,7 +34,7 @@ object Vec3 {
  * 3 Dimensional Float Vector
  * @author Marcus Wendt
  */
-class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
+class Vec3(var x:Float, var y:Float, var z:Float) {
   import java.nio.FloatBuffer
   import FMath._
   
@@ -44,12 +44,12 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   def this(s:Float) = this(s,s,s)
   def this(s:String) = { this(); :=(s); this }
   
-  final def update(i:Int, value:Float) = 
-    i match {
-      case 0 => this.x = value
-      case 1 => this.y = value
-      case 2 => this.z = value
-    }
+//  final def update(i:Int, value:Float) = 
+//    i match {
+//      case 0 => this.x = value
+//      case 1 => this.y = value
+//      case 2 => this.z = value
+//    }
   
   //def apply(x:Float, y:Float, z:Float) = set(x,y,z)
   //def apply(v:Vec3) = set(v)
@@ -353,17 +353,32 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
   
   final def zero = :=(0,0,0)
   
+  /**
+   * Calculates the dot product of this vector with a provided vector.
+   * @return the resultant dot product of this vector and a given vector.
+   */
   final def dot(v:Vec3) = x * v.x + y * v.y + z * v.z
   
-  final def cross(v:Vec3) = {
-    val tempx = (y * v.z) - (z * v.y)
-    val tempy = (z * v.x) - (x * v.z)
-    z = (x * v.y) - (y * v.x)
-    x = tempx
-    y = tempy
-    this
+  /**
+   * Calculates the cross product of this vector with a parameter vector v.
+   * @return the cross product vector
+   */
+  final def cross(v:Vec3, result:Vec3) = {
+    val r = if(result==null) new Vec3 else result
+    r.x = (y * v.z) - (z * v.y)
+    r.y = (z * v.x) - (x * v.z)
+    r.z = (x * v.y) - (y * v.x)
+    r
   }
+  
+  /**
+   * Calculates the cross product of this vector with a parameter vector v.
+   * @return the cross product as a new vector
+   */
+  final def cross(v:Vec3):Vec3 = cross(v, null)
 
+  final def length = Math.sqrt(lengthSquared).asInstanceOf[Float]
+  
   final def lengthSquared = x * x + y * y + z * z
   
   final def distance(v:Vec3) = Math.sqrt(distanceSquared(v)).asInstanceOf[Float]
@@ -373,6 +388,19 @@ class Vec3(var x:Float, var y:Float, var z:Float) extends VecF {
     val dy = y - v.y
     val dz = z - v.z
     dx * dx + dy * dy + dz * dz
+  }
+  
+  /**
+   * Normalizes this vector.
+   * @return itself
+   */
+  final def normalize = {
+    val l = length
+    if(l != 0)
+      this /= l
+    else
+      this /= 1
+    this
   }
 
   /** <code>angleBetween</code> returns (in radians) the angle between two vectors.

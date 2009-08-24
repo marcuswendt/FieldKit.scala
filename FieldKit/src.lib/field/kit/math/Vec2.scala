@@ -44,7 +44,7 @@ object Vec2 {
  * 2 Dimensional Float Vector
  * @author Marcus Wendt
  */
-class Vec2(var x:Float, var y:Float) extends VecF {
+class Vec2(var x:Float, var y:Float) {
   import java.nio.FloatBuffer
   import FMath._
   
@@ -53,11 +53,11 @@ class Vec2(var x:Float, var y:Float) extends VecF {
   def this(s:Float) = this(s,s)
   def this(s:String) = { this(); :=(s); this }
   
-  final def update(i:Int, value:Float) = 
-    i match {
-      case 0 => this.x = value
-      case 1 => this.y = value
-    }
+//  final def update(i:Int, value:Float) = 
+//    i match {
+//      case 0 => this.x = value
+//      case 1 => this.y = value
+//    }
   
   //def apply(x:Float, y:Float) = :=(x,y)
   //def apply(v:Vec2) = :=(v)
@@ -306,6 +306,7 @@ class Vec2(var x:Float, var y:Float) extends VecF {
   final def *=(v:Vec2) = { x*=v.x; y*=v.y; this }
   final def /=(v:Vec2) = { x/=v.x; y/=v.y; this }
   
+  final def length = Math.sqrt(lengthSquared).asInstanceOf[Float]
   final def lengthSquared = x * x + y * y
   
   final def distance(v:Vec2) = Math.sqrt(distanceSquared(v.x, v.y)).asInstanceOf[Float]
@@ -316,6 +317,31 @@ class Vec2(var x:Float, var y:Float) extends VecF {
     val dx = this.x - x
     val dy = this.y - y
     dx * dx + dy * dy
+  }
+  
+  /**
+   * It is assumed that both this vector and the given vector are unit vectors (iow, normalized).
+   * @return the angle (in radians) between two vectors.
+   */
+  final def angleBetween(v:Vec2) = FMath.acos(dot(v))
+  
+  /**
+   * Calculates the dot product of this vector with a provided vector.
+   * @return the resultant dot product of this vector and a given vector.
+   */
+  final def dot(v:Vec2) = x * v.x + y * v.y
+  
+  /**
+   * Normalizes this vector.
+   * @return itself
+   */
+  final def normalize = {
+    val l = length
+    if(l != 0)
+      this /= l
+    else
+      this /= 1
+    this
   }
   
   final def perpendiculate = {
@@ -342,7 +368,7 @@ class Vec2(var x:Float, var y:Float) extends VecF {
   }
   
   /**
-   * interpolates towards the given target Vector
+   * Interpolates towards the given target vector
    * @see <a href="http://en.wikipedia.org/wiki/Slerp">spherical linear interpolation</a>
    */
   final def slerp(target:Vec2, delta:Float) = {
