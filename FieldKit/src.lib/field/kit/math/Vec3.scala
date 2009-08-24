@@ -457,6 +457,8 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
     def hasNext = i==3
   }
   
+  override def clone = new Vec3(x,y,z)
+  
   override def toString = "Vec3["+ toLabel +"]"
   
   def toLabel = "X"+ x +" Y"+ y +" Z"+ z

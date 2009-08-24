@@ -18,7 +18,8 @@ object ParticleSystemTest extends test.Sketch {
   val ps = new ParticleSystem
   val f = new Flock[Particle]
   f.emitter.rate = 1
-  f.emitter.interval = 100
+  f.emitter.interval = 2
+  f.emitter.max = 2000
   
   ps += f
   f += new Wind

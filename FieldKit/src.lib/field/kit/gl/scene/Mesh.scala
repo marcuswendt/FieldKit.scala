@@ -154,6 +154,13 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Setups the vertex arrays for drawing
    */
   protected def setupArrays {
+    // make sure the vbo is disabled
+    if(data.vbo != null) {
+      data.vbo.unbind
+    } else {
+      gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
+    }
+    
     // -- setup normal array ---------------------------------------------------
     val normals = data.normals
     if(normals == null) {
@@ -263,6 +270,36 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
         }
       }
     }
+  }
+  
+  /**
+   * Draws this Mesh as a point cloud using vertex arrays
+   */
+  protected def drawAsPoints(pointSize:Float) {
+    // -- setup vertex array ---------------------------------------------------
+    val vertices = data.vertices
+    if(vertices == null) {
+      gl.glDisableClientState(GL.GL_VERTEX_ARRAY)
+    } else {
+      gl.glEnableClientState(GL.GL_VERTEX_ARRAY)
+      vertices.rewind
+      gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices)
+    }
+    
+    // -- setup colours --------------------------------------------------------
+    val colours = data.colours
+    if(colours == null) {
+      gl.glDisableClientState(GL.GL_COLOR_ARRAY)
+      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+      
+    } else {
+      gl.glEnableClientState(GL.GL_COLOR_ARRAY)
+      gl.glColorPointer(4, GL.GL_FLOAT, 0, colours)
+    }
+    
+    // -- draw points ----------------------------------------------------------
+    gl.glPointSize(pointSize)
+    gl.glDrawArrays(GL.GL_POINTS, 0, data.vertexCount)
   }
   
   // -- Colours ----------------------------------------------------------------

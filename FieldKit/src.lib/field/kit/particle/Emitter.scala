@@ -21,7 +21,8 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
   
   var rate = 1
   var interval = 1000f
-
+  var max = 1000
+  
   var behaviours = new ArrayBuffer[Behaviour]
   
   // internal
@@ -46,7 +47,7 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     
       // emit particles
       var j = 0
-      while(j < rate) {
+      while(j < rate && flock.size < max) {
         emit
         j += 1
       }

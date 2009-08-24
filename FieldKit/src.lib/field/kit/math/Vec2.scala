@@ -428,6 +428,8 @@ class Vec2(var x:Float, var y:Float) {
   }
   
   // helpers
+  override def clone = new Vec2(x,y)
+  
   override def toString = "Vec2["+ toLabel +"]"
   
   def toLabel = "X"+ x +" Y"+ y
