@@ -64,7 +64,6 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   
   def this(buffer:java.nio.FloatBuffer) {
     this(VertexBuffer.State.VERTEX)
-    create
     bind
     buffer.rewind
     data(buffer.capacity, buffer, VertexBuffer.Usage.STATIC_DRAW)
@@ -80,6 +79,12 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   def destroy = gl.glDeleteBuffers(1, Array(id), 0)
   
   def bind = {
+    // recreate buffer it it became invalid inbetween
+    if(!isValid) {
+      fine("need to recreate")
+      create
+    }
+    
     gl.glEnableClientState(state.id)
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id)
   }
@@ -88,6 +93,9 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
     gl.glDisableClientState(state.id)
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
   }
+  
+  /** checks if this buffer is still valid */
+  def isValid = gl.glIsBuffer(this.id)
   
   def data(size:Int, data:FloatBuffer, usage:VertexBuffer.Usage.Value) =
     gl.glBufferData(GL.GL_ARRAY_BUFFER, size * FLOAT_SIZE, data, usage.id)

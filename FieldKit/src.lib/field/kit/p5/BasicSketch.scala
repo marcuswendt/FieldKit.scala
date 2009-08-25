@@ -7,26 +7,28 @@
 /* created April 15, 2009 */
 package field.kit.p5
 
-import processing.core.PApplet
+import processing.core.PAppletProxy
 
 /**
  * base class for all Scala-Processing based applets
  * @author Marcus Wendt
  */
-abstract class BasicSketch extends PApplet with Logger {
+abstract class BasicSketch extends PAppletProxy with Logger {
   import processing.core.PConstants
+  import processing.core.PApplet
   import processing.opengl.PGraphicsOpenGL
   import field.kit.p5.FGraphicsOpenGL
   
+  import java.awt._
+  import java.awt.event._
+    
   /** set to true when the sketch currently spans the full screen */
   var isFullscreen = false
-  
-  protected var isInitialized = false
   
   /** the function used when initializing/ reinitializing the sketch */
   //private var initializer:Unit = null
   protected var initializer:(() => Unit) = null
-    
+  
   /**
    * custom initialisation, preventing papplets bad double init behaviour
    */
@@ -47,20 +49,16 @@ abstract class BasicSketch extends PApplet with Logger {
    */
   def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
     info("initialising "+ title +" (width: "+ width +" height: "+ height +" fullscreen:"+ fullscreen +")")
-    
-    // check if we need to de-initialize first
-    if(isInitialized) deinit
 
     // initialize
-    import java.awt._
-    import java.awt.event._
-
     this.width = width
     this.height = height
     this.hwidth = width / 2f
 	this.hheight = height / 2f
 	this.isFullscreen = fullscreen
-    this.initializer = () => initializer
+ 
+	if(this.initializer == null)
+		this.initializer = () => initializer
     
     defaultSize = false
     val titleHeight = 23
@@ -76,7 +74,7 @@ abstract class BasicSketch extends PApplet with Logger {
     frame = new Frame(displayDevice.getDefaultConfiguration)
     frame.setTitle(title)
     frame.addWindowListener(new WindowAdapter {
-    	override def windowClosing(e:WindowEvent) = System.exit(0)
+      override def windowClosing(e:WindowEvent) = exit2
     })
     frame.setBackground(Color.BLACK) 
     frame.setLayout(null)
@@ -114,33 +112,41 @@ abstract class BasicSketch extends PApplet with Logger {
     this.args = args
     
     // go!
-    isInitialized = true
     super.init
         
     frame.setVisible(true)
     requestFocus
   }
   
-//  override def init = {
-//    fatal("You should call init(width, height, initializer)")
-//  } 
+  // -- Reinitialisation -------------------------------------------------------
+  private var newWidth = 0
+  private var newHeight = 0
+  private var newFullscreen = false
   
-//  override def setup() = {
-//    println("setup")
-//  }
-  
-  /** 
-   * called when the sketch is getting initialized but was already displayed before
-   * derived sketches should override this to make sure they restart cleanly 
-   */
-  protected def deinit {
-    fine("de-initializing")
-    isInitialized = false
-    stop
-    frame.dispose
+  def reinit(width:Int, height:Int, fullscreen:Boolean) {
+    info("reinit", width, height, fullscreen)
+    this.newWidth = width
+    this.newHeight = height
+    this.newFullscreen = fullscreen
+    exit
   }
   
-  def toggleFullscreen = init(width, height, !isFullscreen, initializer)
+  override def exit2() {
+    if(newWidth != 0) {
+      // clean up
+      setThread(null)
+      frame.dispose
+      
+      // initialize again
+      init(newWidth, newHeight, newFullscreen, initializer)
+      newWidth = 0
+      
+    } else {
+      super.exit2
+    }
+  }
+  
+  def toggleFullscreen = reinit(width, height, !isFullscreen)
   
   // -- Renderer ---------------------------------------------------------------  
   /** always use the OpenGL renderer */

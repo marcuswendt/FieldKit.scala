@@ -37,6 +37,8 @@
 			<key>apple.laf.useScreenMenuBar</key>
 			<string>true</string>
 		</dict>
+		<key>VMOptions</key>
+      	<string>-server -d64</string>
 	</dict>
 </dict>
 </plist>

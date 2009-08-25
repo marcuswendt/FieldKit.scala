@@ -16,11 +16,19 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
   
   override protected def allocate {
     import javax.media.opengl._
+    import processing.core.PConstants._
     
     if (context == null) {
       val capabilities = new GLCapabilities
-      capabilities.setSampleBuffers(true)
-      capabilities.setNumSamples(8)
+      
+       if (!hints(DISABLE_OPENGL_2X_SMOOTH)) {
+        capabilities.setSampleBuffers(true)
+        capabilities.setNumSamples(2)
+        
+      } else if (hints(ENABLE_OPENGL_4X_SMOOTH)) {
+        capabilities.setSampleBuffers(true)
+        capabilities.setNumSamples(8) // de fault to 8 instead of 4  
+      }
       
       val factory = GLDrawableFactory.getFactory
       drawable = factory.getGLDrawable(parent, capabilities, null);

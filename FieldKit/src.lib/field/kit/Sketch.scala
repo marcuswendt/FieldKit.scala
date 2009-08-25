@@ -181,11 +181,6 @@ abstract class Sketch extends BasicSketch {
       frame.setMenuBar(initMenuBar)
   }
   
-  override def deinit {
-    frame.setMenuBar(null)
-    super.deinit
-  }
-  
   // -- Screen Recorder---------------------------------------------------------
   import field.kit.p5.Recorder
   var rec = new Recorder(this)

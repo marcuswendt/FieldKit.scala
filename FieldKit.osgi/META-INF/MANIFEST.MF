@@ -69,4 +69,4 @@ Export-Package: com.lowagie.text,
  processing.xml
 Require-Bundle: scala.library;bundle-version="2.7.5"
 Bundle-Vendor: www.field.io
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
