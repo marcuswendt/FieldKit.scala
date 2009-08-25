@@ -27,6 +27,7 @@ class StatefulParticle extends Particle {
   
   /** called when this particle instance is reused by the emitter again */
   def reinit {
+    fine("reinit")
     state = Particle.ALIVE
     age = 0
     this.zero

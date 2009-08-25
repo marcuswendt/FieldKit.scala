@@ -19,11 +19,14 @@ object StatefulParticleSystemTest extends test.Sketch {
   
   val f = new StatefulFlock[StatefulParticle]
   f.emitter.rate = 1
-  f.emitter.interval = 50
+  f.emitter.interval = 25
+  f.emitter.max = 2000
+  
   f.emitter += new Behaviour("initializer") {
     def apply(p:Particle, dt:Float) {
       p.steerMax = 2f
-      p.velocityMax = 45f
+      p.velocityMax = 25f
+      p.lifeTime = 1000 * 10
     }
   }
   
@@ -50,7 +53,6 @@ object StatefulParticleSystemTest extends test.Sketch {
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
     info("initializer")
-    background(64)  
     ps.space.set(width, height, 100) 
     f.emitter := ps.space.center
     info("initialized", ps.space)
@@ -62,18 +64,16 @@ object StatefulParticleSystemTest extends test.Sketch {
     ps.update(dt)
     
     // render
-    //background(64)
-    rectMode(CENTER)
-    fill(64, 10)
-    rect(width/2f,height/2f,width,height)
-    
+    background(64)
     noStroke
     fill(255)
     
     var i=0
     while(i < f.particles.size) {
       val p = f.particles(i)
-      rect(p.x, p.y, 3, 3)
+      if(p.isActive)
+        rect(p.x, p.y, 3, 3)
+      
       i += 1
     }
   }

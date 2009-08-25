@@ -30,12 +30,13 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
     }
     
     i = 0
+    var j = 0
     while(i < particles.size) {
       val p = particles(i)
       
       if(p.isActive) {
         // apply behaviours
-        var j = 0
+        j = 0
         while(j < behaviours.size) {
           val b = behaviours(j)
           if(b.isEnabled) b.apply(p,dt)
@@ -67,5 +68,20 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
       }
     }
     */
+  }
+  
+  /**
+   * returns the number of active particles in the flock
+   */
+  override def size = {
+    var count = 0
+    var i = 0
+    while(i < particles.size) {
+      val p = particles(i)
+      if(p.isActive)
+        count += 1
+      i += 1
+    }
+    count
   }
 }
