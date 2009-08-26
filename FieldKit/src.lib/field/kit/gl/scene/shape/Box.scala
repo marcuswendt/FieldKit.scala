@@ -14,8 +14,16 @@ import math._
  * Companion object to class <code>Box</code>
  */
 object Box {
+  val DEFAULT_USE_QUADS = true
+  
   /** Creates a new default Box */
   def apply() = new Box("Box", new Vec3, 1f, 1f, 1f)
+  
+  def apply(extent:Float) = 
+    new Box("Box", new Vec3, extent, extent, extent)
+  
+  def apply(name:String, extent:Float) = 
+    new Box(name, new Vec3, extent, extent, extent)
 }
 
 /** 
@@ -27,8 +35,13 @@ class Box(name:String,
           var extentX:Float, var extentY:Float, var extentZ:Float)
           extends Mesh(name) {
             
+  var useQuads = Box.DEFAULT_USE_QUADS
+  
   init(center, extentX, extentY, extentZ)
   
+  /**
+   * initializes the geometry data of this Box
+   */
   def init(center:Vec3, extentX:Float, extentY:Float, extentZ:Float) {
     this.center := center
     this.extentX = extentX
@@ -114,10 +127,24 @@ class Box(name:String,
     }
     
     // -- Indices --------------------------------------------------------------
-    val indices = data.allocIndices(36)
-    indices put Array(2, 1, 0, 3, 2, 0, 6, 5, 4, 7, 6, 4, 10, 9, 8, 11, 10, 8, 
-                      14, 13, 12, 15, 14, 12, 18, 17, 16, 19, 18, 16, 22, 21, 20, 
-                      23, 22, 20)
+    if(useQuads) {
+      data.indexModes(0) = IndexMode.QUADS
+      
+    } else {
+      val indices = data.allocIndices(36)
+      indices put Array(2, 1, 0, 
+                        3, 2, 0, 
+                        6, 5, 4, 
+                        7, 6, 4, 
+                        10, 9, 8, 
+                        11, 10, 8, 
+                        14, 13, 12, 
+                        15, 14, 12, 
+                        18, 17, 16, 
+                        19, 18, 16, 
+                        22, 21, 20, 
+                        23, 22, 20)
+    }
   }
   
   /**
@@ -127,12 +154,12 @@ class Box(name:String,
     val a = new Array[Vec3](8)
     a(0) = new Vec3(center) += (-extentX, -extentY, -extentZ)
     a(1) = new Vec3(center) += (extentX, -extentY, -extentZ)
-    a(2) = new Vec3(center) += (-extentX, extentY, -extentZ)
-    a(3) = new Vec3(center) += (extentX, extentY, -extentZ)
-    a(4) = new Vec3(center) += (-extentX, -extentY, extentZ)
-    a(5) = new Vec3(center) += (extentX, -extentY, extentZ)
-    a(6) = new Vec3(center) += (-extentX, extentY, extentZ)
-    a(7) = new Vec3(center) += (extentX, extentY, extentZ)
+    a(2) = new Vec3(center) += (extentX, extentY, -extentZ)
+    a(3) = new Vec3(center) += (-extentX, extentY, -extentZ)
+    a(4) = new Vec3(center) += (extentX, -extentY, extentZ)
+    a(5) = new Vec3(center) += (-extentX, -extentY, extentZ)
+    a(6) = new Vec3(center) += (extentX, extentY, extentZ)
+    a(7) = new Vec3(center) += (-extentX, extentY, extentZ)
     a
   }
 }

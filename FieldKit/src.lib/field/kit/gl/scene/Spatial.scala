@@ -14,6 +14,8 @@ import kit.util.datatype.graph._
 abstract class Spatial(name:String) extends BaseNode(name) with Drawable {
   import field.kit.math._
   
+  logName = name
+  
   var translation = new Vec3
   var scale = new Vec3(1,1,1)
   var rotation = new Vec3

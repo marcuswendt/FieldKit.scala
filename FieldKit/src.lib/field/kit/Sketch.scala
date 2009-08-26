@@ -199,7 +199,7 @@ abstract class Sketch extends BasicSketch {
     if(vsyncEnabled) pgl.gl.setSwapInterval(1)
     
     rec.pre
-    cam.render
+    //cam.render
     render
     rec.post
   }

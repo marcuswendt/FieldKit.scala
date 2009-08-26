@@ -56,7 +56,7 @@ class Sphere(name:String,
   init(radius, zSamples, radialSamples)
 
   /**
-   * 
+   * initializes the geometry data of this Sphere
    */
   def init(radius:Float, zSamples:Int, radialSamples:Int) {
     this.radius = radius

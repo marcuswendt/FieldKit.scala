@@ -18,6 +18,19 @@ trait Branch[T <: Node] extends Collection[T] {
   import field.kit.util.datatype.collection.ArrayBuffer
   
   protected var children:ArrayBuffer[T] = null
+ 
+  /**
+   * @return returns the first child which matches the given name
+   */
+  def apply(name:String):T = {
+    var i = 0
+    while(i < size) {
+      val child = children(i)
+      if(child.name.equals(name))
+        return child
+    }
+    return null.asInstanceOf[T]
+  }
   
   def size = 
     if(children==null) 0 else children.size

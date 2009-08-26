@@ -15,7 +15,11 @@ import math._
  */
 object Quad extends Enumeration {
   val TOP_LEFT = Value
+  
   val CENTER = Value
+  
+  /** true when new Quadliterals should be constructed from quads instead of triangles */
+  val DEFAULT_USE_QUADS = true
   
   /** Creates a new default <code>Quad</code> */
   def apply() = 
@@ -44,12 +48,12 @@ class Quad(name:String,
   import field.kit.util.Buffer
   
   // TODO could make a more convenient method for that
-  data.indexModes(0) = IndexMode.QUADS
+  var useQuads = Quad.DEFAULT_USE_QUADS
   var mode = Quad.CENTER
   init(_width, _height)
            
   /**
-   * 
+   * initializes the geometry data of this Quad
    */
   def init(width:Float, height:Float) {
     this._width = width
@@ -88,8 +92,12 @@ class Quad(name:String,
       normals put 0 put 0 put 1
     
     // -- Indices --------------------------------------------------------------
-    val indices = data.allocIndices(6)
-    indices put Array(0, 1, 2, 0, 2, 3)
+    if(useQuads) {
+      data.indexModes(0) = IndexMode.QUADS
+    } else {
+      val indices = data.allocIndices(6)
+      indices put Array(0, 1, 2, 0, 2, 3) 
+    }
   }
   
   // -- Getters ----------------------------------------------------------------

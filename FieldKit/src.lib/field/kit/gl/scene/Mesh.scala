@@ -20,7 +20,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
   import math.FMath._
-    
+
   /** Stores the actual data buffers */
   var data = new MeshData
   
@@ -31,6 +31,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Draws this Mesh
    */
   def draw {
+    info("drawing", colour)
     enableStates
     if(data.useVBO) setupInterleavedDataVBO else setupArrays
     drawElements
@@ -175,7 +176,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
     val colours = data.colours
     if(colours == null) {
       gl.glDisableClientState(GL.GL_COLOR_ARRAY)
-      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+      //gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
       
     } else {
       gl.glEnableClientState(GL.GL_COLOR_ARRAY)
@@ -215,6 +216,13 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Does the actual drawing after the vbo or the arrays have been set up
    */
   protected def drawElements {
+    // set colour in VBO mode when necessary
+    if(data.useVBO && data.colours == null) {
+      info("setting", colour)
+      //gl.glDisableClientState(GL.GL_COLOR_ARRAY)
+      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+    } 
+    
     val indices = data.indices
     if(indices == null) {
       // simply draw everything that is in the vertex array
