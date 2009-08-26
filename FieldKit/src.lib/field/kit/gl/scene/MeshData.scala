@@ -135,6 +135,9 @@ class MeshData {
     colours
   }
   
+  def allocColours:FloatBuffer =
+    allocColours( if(vertices == null) 0 else vertices.capacity/3 )
+  
   /** 
    * Allocates a new index buffer when necessary
    * @return the current index buffer

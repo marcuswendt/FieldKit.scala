@@ -31,7 +31,6 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Draws this Mesh
    */
   def draw {
-    info("drawing", colour)
     enableStates
     if(data.useVBO) setupInterleavedDataVBO else setupArrays
     drawElements
@@ -176,7 +175,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
     val colours = data.colours
     if(colours == null) {
       gl.glDisableClientState(GL.GL_COLOR_ARRAY)
-      //gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
+      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
       
     } else {
       gl.glEnableClientState(GL.GL_COLOR_ARRAY)
@@ -216,13 +215,6 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Does the actual drawing after the vbo or the arrays have been set up
    */
   protected def drawElements {
-    // set colour in VBO mode when necessary
-    if(data.useVBO && data.colours == null) {
-      info("setting", colour)
-      //gl.glDisableClientState(GL.GL_COLOR_ARRAY)
-      gl.glColor4f(colour.r, colour.g, colour.b, colour.a)
-    } 
-    
     val indices = data.indices
     if(indices == null) {
       // simply draw everything that is in the vertex array
@@ -238,7 +230,6 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
         while(i < data.indexLengths.length) {
           val count = data.indexLengths(i)
           val glIndexMode = data.indexModes(indexModeCounter).id
-          
           gl.glDrawArrays(glIndexMode, offset, count)
           
           offset += count
@@ -312,9 +303,8 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   
   // -- Colours ----------------------------------------------------------------
   def solidColour(c:Colour) {
-    // TODO needs some cleaning up
     colour := c
-    val colours = data.colours
+    val colours = data.allocColours
     if(colours!=null) {
       colours.clear
       for(i <- 0 until colours.capacity/4) {
@@ -328,7 +318,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   }
   
   def randomizeColours {
-    val colours = data.colours
+    val colours = data.allocColours
     colours.clear
     for(i <- 0 until colours.capacity/4) {
       colours.put(random)

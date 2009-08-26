@@ -15,6 +15,7 @@ object AlphaStateTest extends field.kit.test.Sketch {
   import field.kit.gl.scene.shape._
   import field.kit.gl.scene.state._
   
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
   
   val w = 550f
   val h = 550f
@@ -24,17 +25,19 @@ object AlphaStateTest extends field.kit.test.Sketch {
   qr.states += new AlphaState
   qr.translation.x = -offset
   qr.translation.y = -offset
-  qr.solidColour(new Colour(1f, 0, 0, 0.5f))
+  qr.colour := new Colour(1f, 0, 0, 0.5f)
+  //qr.solidColour(new Colour(1f, 0, 0, 0.5f))
   
   var qg = Quad("green", w, h)
   qg.states += new AlphaState
-  qg.solidColour(new Colour(0, 1f, 0, 0.5f))
+  qg.randomizeColours
   
   var qb = Quad("blue", w, h)
   qb.states += new AlphaState
   qb.translation.x = offset
   qb.translation.y = offset
-  qb.solidColour(new Colour(0, 0, 1f, 0.5f))
+  qb.colour := new Colour(0, 0, 1f, 0.5f)
+  //qb.solidColour(new Colour(0, 0, 1f, 0.5f))
     
   val scene = new Group("scene")
   scene += qr

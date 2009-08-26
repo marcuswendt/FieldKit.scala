@@ -25,6 +25,9 @@ object Sphere {
   def apply(radius:Float, samples:Int) = 
     new Sphere("Sphere", new Vec3, radius, samples, samples)
   
+  def apply(name:String, radius:Float, samples:Int) = 
+    new Sphere(name, new Vec3, radius, samples, samples)
+  
   /**
    * Creates a Sphere that shares its data with another Sphere
    */
