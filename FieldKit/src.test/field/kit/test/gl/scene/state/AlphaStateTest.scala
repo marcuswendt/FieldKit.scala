@@ -15,7 +15,10 @@ object AlphaStateTest extends field.kit.test.Sketch {
   import field.kit.gl.scene.shape._
   import field.kit.gl.scene.state._
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, {
+    import processing.core.PConstants
+    hint(PConstants.ENABLE_DEPTH_SORT)
+  })
   
   val w = 550f
   val h = 550f
