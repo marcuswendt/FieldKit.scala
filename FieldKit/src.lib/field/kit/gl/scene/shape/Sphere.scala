@@ -7,11 +7,34 @@
 /* created August 07, 2009 */
 package field.kit.gl.scene.shape
 
+import math.Vec3
+
+/**
+ * Companion object to class <code>Sphere</code>
+ */
 object Sphere {
   object TextureMode extends Enumeration {
     val LINEAR = Value
     val PROJECTED = Value
     val POLAR = Value
+  }
+  
+  def apply() = 
+    new Sphere("Sphere", new Vec3, 1f, 16, 16)
+  
+  def apply(radius:Float, samples:Int) = 
+    new Sphere("Sphere", new Vec3, radius, samples, samples)
+  
+  /**
+   * Creates a Sphere that shares its data with another Sphere
+   */
+  def apply(target:Sphere) = { 
+    val s = new Sphere(target.name+"Copy", target.center, target.radius, target.zSamples, target.radialSamples)
+    s.data = target.data
+    s.textureMode = target.textureMode
+    for(state <- target.states)
+      s.states += state
+    s
   }
 }
 
@@ -21,36 +44,16 @@ object Sphere {
  * Based on com.ardor3d.scenegraph.shape.Sphere from the Ardor3D engine
  * @see http://ardor3d.com
  */
-class Sphere extends Mesh("Sphere") {
+class Sphere(name:String,
+             var center:Vec3,
+             var radius:Float, var zSamples:Int, var radialSamples:Int)
+             extends Mesh(name) {
   import math._
-    
-  var radius = 0f
-  var center = new Vec3
-  var zSamples = 0
-  var radialSamples = 0
+  
   var textureMode = Sphere.TextureMode.LINEAR
-  
   protected var viewInside = false
-  
-  def this(radius:Float, samples:Int) {
-    this()
-    init(radius, samples, samples)
-  }
-  
-  /**
-   * Creates a Sphere that shares its data with another Sphere
-   */
-  def this(target:Sphere) {
-    this()
-    radius = target.radius
-    center := target.center
-    zSamples = target.zSamples
-    radialSamples = target.radialSamples
-    textureMode = target.textureMode
-    data = target.data
-    for(state <- target.states)
-      states += state
-  }
+
+  init(radius, zSamples, radialSamples)
 
   /**
    * 

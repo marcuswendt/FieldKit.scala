@@ -19,7 +19,7 @@ object TextureStateTest2 extends field.kit.Sketch {
   val h = 350f
   val offset = w/5f
   
-  var qr = new Quad("nwse tex", w, h)
+  var qr = Quad("nwse tex", w, h)
   qr.states += new AlphaState
   qr.translation.x = -offset
   qr.translation.y = -offset

@@ -20,17 +20,17 @@ object AlphaStateTest extends field.kit.test.Sketch {
   val h = 550f
   val offset = w/6f
   
-  var qr = new Quad("red", w, h)
+  var qr = Quad("red", w, h)
   qr.states += new AlphaState
   qr.translation.x = -offset
   qr.translation.y = -offset
   qr.solidColour(new Colour(1f, 0, 0, 0.5f))
   
-  var qg = new Quad("green", w, h)
+  var qg = Quad("green", w, h)
   qg.states += new AlphaState
   qg.solidColour(new Colour(0, 1f, 0, 0.5f))
   
-  var qb = new Quad("blue", w, h)
+  var qb = Quad("blue", w, h)
   qb.states += new AlphaState
   qb.translation.x = offset
   qb.translation.y = offset

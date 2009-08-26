@@ -11,7 +11,7 @@ object SphereTest extends test.Sketch {
   import kit.gl.scene.shape._
   import kit.math.FMath._
   
-  val s = new Sphere(250f, 64)
+  val s = Sphere(250f, 64)
   var t = 0f
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT)

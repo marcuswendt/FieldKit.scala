@@ -17,6 +17,8 @@ object Buffer {
   import java.nio.FloatBuffer
   import java.nio.IntBuffer
 
+  import math.Vec3
+  
   def apply(size:Int) = 
     java.nio.ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder)
   
@@ -44,6 +46,12 @@ object Buffer {
   def vec3(size:Int) = float(size * 3)
   
   // ---------------------------------------------------------------------------
+  def put(v:Vec3, buf:FloatBuffer, index:Int) {
+    val i = index * 3
+    buf put (i, v.x)
+    buf put (i + 1, v.y)
+    buf put (i + 2, v.z)
+  }
   
   /**
    * Copies floats from one position in the buffer to another.

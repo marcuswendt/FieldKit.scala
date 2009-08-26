@@ -23,7 +23,7 @@ object ShaderStateTest extends test.Sketch {
     info("initializing scene")
     scene = new Group("scene")
     
-    val q1 = new Quad("test", width/2f, height/2f)
+    val q1 = Quad("test", width/2f, height/2f)
     q1.translation := (width/2f, height/2f, 0)
     q1.states += ShaderState("""
 	void main()

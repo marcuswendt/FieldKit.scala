@@ -61,6 +61,12 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    */
   final def :=(v:Vec3) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
   
+  /** 
+   * Sets this Vectors components to the given Vec3
+   * @return itself
+   */
+  final def set(v:Vec3) = :=(v)
+  
   /**
    * Sets this Vectors components to the given Floats
    * @return itself
@@ -68,10 +74,22 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
   final def :=(x:Float, y:Float, z:Float) = { this.x = x; this.y = y; this.z = z; this }
   
   /**
+   * Sets this Vectors components to the given Floats
+   * @return itself
+   */
+  final def set(x:Float, y:Float, z:Float) = :=(x,y,z)
+  
+  /**
    * Sets all components of this Vector to the given Float
    * @return itself
    */
   final def :=(s:Float) = { this.x = s; this.y = s; this.z = s; this }
+  
+  /**
+   * Sets all components of this Vector to the given Float
+   * @return itself
+   */
+  final def set(s:Float) = :=(s)
   
   /** 
    * Sets the xyz components to the data from a given buffer at a given index
@@ -84,6 +102,12 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
     this.z = buffer get i + 2
     this
   }
+  
+  /** 
+   * Sets the xyz components to the data from a given buffer at a given index
+   * @return itself
+   */
+  final def set(buffer:FloatBuffer, index:Int) = :=(buffer,index)
   
   /** 
    * Attempts to parse the given String to set this Vectors components
@@ -118,6 +142,12 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
     }
     this
   }
+  
+  /** 
+   * Attempts to parse the given String to set this Vectors components
+   * @return itself
+   */
+  final def set(s:String) = :=(s)
   
   // -- Scalar Operations ------------------------------------------------------
   /**
@@ -337,7 +367,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
   
   // -- Other Operations -------------------------------------------------------
   final def put(buffer:FloatBuffer, index:Int) = {
-    val i = index * 2
+    val i = index * 3
     buffer put (i, x)
     buffer put (i+1, y)
     buffer put (i+2, z)

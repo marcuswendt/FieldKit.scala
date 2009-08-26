@@ -61,9 +61,9 @@ object PlaneTest extends ShapeTest {
 
 object QuadTest extends ShapeTest {
   import field.kit.gl.scene.shape.Quad
-  s = new Quad("quad", geoWidth, geoHeight)
+  s = Quad(geoWidth, geoHeight)
   s.solidColour(Colour.GREEN)
   val q = s.asInstanceOf[Quad]
   q.mode = Quad.TOP_LEFT
-  q.resize(geoWidth, geoHeight)
+  q.init(geoWidth, geoHeight)
 }

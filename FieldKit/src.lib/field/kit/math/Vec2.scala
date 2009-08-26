@@ -69,6 +69,12 @@ class Vec2(var x:Float, var y:Float) {
    */
   final def :=(v:Vec2) = {this.x=v.x; this.y=v.y; this}
   
+  /** 
+   * Sets this Vectors components to the given Vec2
+   * @return itself
+   */
+  final def set(v:Vec2) = :=(v)
+  
   /**
    * Sets this Vectors components to the given Floats
    * @return itself
@@ -76,10 +82,22 @@ class Vec2(var x:Float, var y:Float) {
   final def :=(x:Float, y:Float) = { this.x=x; this.y=y; this }
   
   /**
+   * Sets this Vectors components to the given Floats
+   * @return itself
+   */
+  final def set(x:Float, y:Float) = :=(x, y)
+  
+  /**
    * Sets all components of this Vector to the given Float
    * @return itself
    */
   final def :=(s:Float) = { this.x=s; this.y=s; this }
+  
+  /**
+   * Sets all components of this Vector to the given Float
+   * @return itself
+   */
+  final def set(s:Float) = :=(s)
   
   /** 
    * Sets the xyz components to the data from a given buffer at a given index
@@ -91,6 +109,12 @@ class Vec2(var x:Float, var y:Float) {
     this.y = buffer get i+1
     this
   }
+  
+  /** 
+   * Sets the xyz components to the data from a given buffer at a given index
+   * @return itself
+   */
+  final def set(buffer:FloatBuffer, index:Int) = :=(buffer,index)
   
   /** 
    * Attempts to parse the given String to set this Vectors components
@@ -123,6 +147,13 @@ class Vec2(var x:Float, var y:Float) {
     }
     this
   }
+  
+  /** 
+   * Attempts to parse the given String to set this Vectors components
+   * @return itself
+   */
+  final def set(s:String) = :=(s)
+  
   
   // -- Scalar Operations ------------------------------------------------------
   /**

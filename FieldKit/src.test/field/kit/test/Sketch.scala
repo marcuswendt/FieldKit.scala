@@ -22,4 +22,5 @@ abstract class Sketch extends field.kit.Sketch {
   // standard size for all test sketches
   val DEFAULT_WIDTH = 1280
   val DEFAULT_HEIGHT = 720
+  val DEFAULT_FULLSCREEN = false
 }

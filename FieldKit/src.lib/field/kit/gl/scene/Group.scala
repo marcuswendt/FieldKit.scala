@@ -14,9 +14,8 @@ import field.kit.util.datatype.graph.Branch
 class Group(name:String) extends Spatial(name) with Branch[Spatial] {
   def draw = {
     // children foreach(_.render)
-    
     var i = 0
-    while(i < children.size) {
+    while(i < size) {
       children(i).render
       i += 1
     }

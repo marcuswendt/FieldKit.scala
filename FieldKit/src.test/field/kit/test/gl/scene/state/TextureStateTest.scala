@@ -19,7 +19,7 @@ object TextureStateTest extends field.kit.Sketch {
   val h = 350f
   val offset = w/5f
   
-  var qr = new Quad("regular texture", w, h)
+  var qr = Quad("regular texture", w, h)
   qr.states += new AlphaState
   qr.translation.x = -offset
   qr.translation.y = -offset
@@ -27,25 +27,25 @@ object TextureStateTest extends field.kit.Sketch {
   qr.states += TextureState("res/test/test.jpg")
   
   
-  var qg = new Quad("alpha texture", w, h)
+  var qg = Quad("alpha texture", w, h)
   qg.states += new AlphaState
   qg.states += TextureState("res/test/test_alpha.png")
   
-  var qb = new Quad("no alpha png texture", w, h)
+  var qb = Quad("no alpha png texture", w, h)
   qb.states += new AlphaState
   qb.translation.x = offset
   qb.translation.y = offset
   qb.solidColour(new Colour(1f, 0.75f))
   qb.states += TextureState("res/test/test.png")
   
-  var qc = new Quad("tga", w, h)
+  var qc = Quad("tga", w, h)
   qc.states += new AlphaState
   qc.translation.x = offset + w
   qc.translation.y = offset
 //  qc.solidColour(new Colour(1f, 0.75f))
   qc.states += TextureState("res/test/test.tga")
   
-  var qd = new Quad("gif", w, h)
+  var qd = Quad("gif", w, h)
   qd.states += new AlphaState
   qd.translation.x = offset + w
   qd.translation.y = offset - h

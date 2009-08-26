@@ -22,6 +22,7 @@ object Sketch extends PApplet {}
  * @author Marcus Wendt
  */
 abstract class Sketch extends BasicSketch {
+  import gl.render.Camera
   
   // -- Metadata ---------------------------------------------------------------
   protected var meta = new MetaData
@@ -176,10 +177,15 @@ abstract class Sketch extends BasicSketch {
   override def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
     super.init(width,height,fullscreen,initializer)
 
+    cam = new Camera(width, height)
+    
     // dont show menubar in fullscreen mode, (deactivates keyboard shortcuts on linux)
     if(!fullscreen)
       frame.setMenuBar(initMenuBar)
   }
+  
+  // -- Camera -----------------------------------------------------------------
+  var cam:Camera = null
   
   // -- Screen Recorder---------------------------------------------------------
   import field.kit.p5.Recorder
@@ -193,6 +199,7 @@ abstract class Sketch extends BasicSketch {
     if(vsyncEnabled) pgl.gl.setSwapInterval(1)
     
     rec.pre
+    cam.render
     render
     rec.post
   }
