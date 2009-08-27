@@ -18,6 +18,7 @@ object CameraTest extends test.Sketch {
   import kit.math.FMath._
   
   var scene:Group = _
+  var kamera:Camera = _
   val timer = new Timer
   val camVelocity = new Vec3
   var useLights = false
@@ -28,13 +29,15 @@ object CameraTest extends test.Sketch {
     import processing.core.PConstants
     hint(PConstants.ENABLE_DEPTH_SORT)
     
+    //kamera = new Camera(width, height)
+    
     scene = new Group("main scene")
     scene.translation := (hwidth, hheight, 0)
     
     // floating red box
     val red = Box("Red", 64f)
     red.colour := Colour.RED
-    red.translation := (0,0,100)
+    red.translation := (0,0,128)
     red.rotation := (QUARTER_PI, QUARTER_PI, 0)
     scene += red
         
@@ -58,18 +61,43 @@ object CameraTest extends test.Sketch {
     scene.rotation.x = (mouseY)/ height.asInstanceOf[Float] * TWO_PI * 25f
     scene.rotation.z = (mouseX -hwidth)/ width.asInstanceOf[Float] * TWO_PI * 25f
     
-    cam.location += camVelocity
-    cam.update
+    import processing.core.PConstants
+    val speedUp = 2f
+    if(keyPressed) {
+	    keyCode match {
+	      case PConstants.LEFT => 
+	        camVelocity.x -= speedUp
+	          
+	      case PConstants.RIGHT => 
+	        camVelocity.x += speedUp
+	        
+	      case PConstants.UP => 
+	        camVelocity.z -= speedUp
+	    
+	      case PConstants.DOWN => 
+	        camVelocity.z += speedUp
+	
+	      case _ =>
+	    }
+    }
+    activeCamera.location += camVelocity
+    activeCamera.update
     
-    camVelocity *= 0.97f
+    camVelocity *= 0.9f
     
     // render
     import javax.media.opengl.GL
     background(0)
-    beginGL
-    cam.render
-    val gl = pgl.gl
     
+//    pushMatrix
+//    translate(hwidth, hheight, 0)
+    noStroke
+    fill(255)
+    ellipse(hwidth, hheight, 100, 100)
+//    popMatrix
+    
+    beginGL
+    //activeCamera.render
     if(useLights) {
       gl.glEnable(GL.GL_LIGHTING)
       gl.glEnable(GL.GL_LIGHT0)
@@ -81,25 +109,23 @@ object CameraTest extends test.Sketch {
   }
   
   override def keyPressed {
-    import processing.core.PConstants
-    
-    val speedUp = 0.5f
-    
-    keyCode match {
-      case PConstants.LEFT => 
-        camVelocity.x -= speedUp
-          
-      case PConstants.RIGHT => 
-        camVelocity.x += speedUp
-        
-      case PConstants.UP => 
-        camVelocity.z -= speedUp
-    
-      case PConstants.DOWN => 
-        camVelocity.z += speedUp
-
-      case _ =>
-    }
+//    import processing.core.PConstants
+//    val speedUp = 0.5f
+//    keyCode match {
+//      case PConstants.LEFT => 
+//        camVelocity.x -= speedUp
+//          
+//      case PConstants.RIGHT => 
+//        camVelocity.x += speedUp
+//        
+//      case PConstants.UP => 
+//        camVelocity.z -= speedUp
+//    
+//      case PConstants.DOWN => 
+//        camVelocity.z += speedUp
+//
+//      case _ =>
+//    }
 
     key match {
       case ' ' => useLights = !useLights

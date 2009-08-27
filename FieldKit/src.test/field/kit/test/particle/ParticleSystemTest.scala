@@ -47,6 +47,8 @@ object ParticleSystemTest extends test.Sketch {
   })
   
   def render {
+    import processing.core.PConstants._
+    
     // update
     val dt = timer.update 
     ps.update(dt)

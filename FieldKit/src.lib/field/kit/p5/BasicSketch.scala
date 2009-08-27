@@ -163,20 +163,15 @@ abstract class BasicSketch extends PAppletProxy with Logger {
 
   final override def size(w:Int, h:Int) = fatal("Dont use size in FieldKit/p5. Use init(...) instead")
   
-  // -- Helpers ----------------------------------------------------------------
-  /* in PApplet these methods are defined as static final meaning in Scala we have to use PApplet.min(...)
-   * so we redefine them here again to keep the code concise
-   */
-  val SCREEN = PConstants.SCREEN
-  val CENTER = PConstants.CENTER
-  
   // --------------------------------------------------------------------
   /* extras */
   def title = logName
-  def pgl = g.asInstanceOf[PGraphicsOpenGL]
+  def pgl = g.asInstanceOf[FGraphicsOpenGL]
+  def gl = pgl.gl
   
   def beginGL = pgl.beginGL
   def endGL = pgl.endGL
+  def activeCamera = pgl.activeCamera
   
   var hwidth = 0f
   var hheight = 0f

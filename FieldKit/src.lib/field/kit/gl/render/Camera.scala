@@ -104,7 +104,7 @@ class Camera(var width:Float, var height:Float) extends Renderable with Logger {
     frustum(fov, width/ height, near, far)
     
     // update frame
-    location := (eyeX, eyeY, dist)
+    // location := (eyeX, eyeY, dist)
     
     // mark everything as dirty
     update
@@ -128,22 +128,22 @@ class Camera(var width:Float, var height:Float) extends Renderable with Logger {
   def render {
     if(depthRangeDirty) {
       doDepthRangeChange
-//      depthRangeDirty = false
+      depthRangeDirty = false
     }
     
     if(frustumDirty) {
       doFrustumChange
-//      frustumDirty = false
+      frustumDirty = false
     }
     
     if(viewportDirty) {
       doViewportChange
-//      viewportDirty = false
+      viewportDirty = false
     }
     
     if(frameDirty) {
       doFrameChange
-//      frameDirty = false
+      frameDirty = false
     }
   }
   
@@ -185,11 +185,7 @@ class Camera(var width:Float, var height:Float) extends Renderable with Logger {
       up.y.asInstanceOf[Double], 
       up.z.asInstanceOf[Double]
     )
-    
-    gl.glMatrixMode(GL.GL_MODELVIEW)
-    gl.glLoadIdentity
-    gl.glScalef(1, -1, 1)
-    gl.glTranslatef(0, -height, 0)
+//    gl.glTranslatef(0, -height, 0)
   }
   
   // -- Setters ----------------------------------------------------------------

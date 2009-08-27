@@ -15,6 +15,7 @@ object FullscreenSwitchTest extends test.Sketch {
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
   
   def render {
+    import processing.core.PConstants._
     background(64)
     
     rectMode(CENTER)
