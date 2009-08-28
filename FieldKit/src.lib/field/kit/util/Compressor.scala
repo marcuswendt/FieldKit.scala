@@ -33,7 +33,7 @@ object Compressor extends Actor with Logger {
   start
   
   /** requests an image and buffer with the given dimensions */
-  def prepare(width:Int, height:Int, alpha:Boolean) = {
+  def init(width:Int, height:Int, alpha:Boolean) = {
     var is:ImageState = null
     val list = images filter (s => s.isAvailable)
     if(list.size == 0) {

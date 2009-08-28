@@ -62,9 +62,9 @@ object Stroke2DTest extends Sketch {
     rect(mouseX, mouseY, 3, 3)
     
     // draw stroke
-    pgl.beginGL
+    beginGL
     stroke.render
-    pgl.endGL
+    endGL
   }
   
   override def keyPressed {

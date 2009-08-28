@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created July 06, 2009 */
-package field.kit.math
+package field.kit.math.geometry
 
 /**
  * Represents a 2D rectangle 

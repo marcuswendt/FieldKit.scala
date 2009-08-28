@@ -15,7 +15,8 @@ import processing.opengl.PGraphicsOpenGL
 class FGraphicsOpenGL extends PGraphicsOpenGL {
   import processing.core.PConstants._
   import javax.media.opengl._
-  
+  import math.FMath
+
   // -- Camera -----------------------------------------------------------------
   import kit.gl.render.Camera
   var activeCamera:Camera = null
@@ -45,6 +46,9 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
       
       // init camera
       activeCamera = new Camera(width, height)
+      activeCamera.init(60 * FMath.DEG_TO_RAD, width, height)
+      
+      //activeCamera.location := (width*.5f, height*.5f, -623f)
       
       // Flag defaults to be reset on the next trip into beginDraw().
       settingsInited = false
@@ -54,6 +58,14 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
   }
   
   override def beginDraw {
+    super.beginDraw()
+    
+    // p5 overrides the projection and modelview matrices, 
+    // therefore we need to refresh the camera on every frame
+    activeCamera.update
+    activeCamera.render
+    
+    /*
     if (drawable != null) {
       drawable.setRealized(parent.isDisplayable())
       if (parent.isDisplayable()) {
@@ -64,15 +76,22 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
       detainContext()
     }
     
-    super.beginDraw()
+    if (!settingsInited) defaultSettings()
+    
+    // -- PGraphics3D.beginDraw ------------------------------------------------
+    // reset vertices
+    vertexCount = 0;
     
     // -- Camera ---------------------------------------------------------------
+//              super.beginDraw()
+//    activeCamera.update
+	activeCamera.init(60 * FMath.DEG_TO_RAD, width, height)
     activeCamera.render
 
     // -- Init GL --------------------------------------------------------------
-    gl.glMatrixMode(GL.GL_MODELVIEW)
-    gl.glLoadIdentity
-    gl.glScalef(1, -1, 1)
+//    gl.glMatrixMode(GL.GL_MODELVIEW)
+//    gl.glLoadIdentity
+//    gl.glScalef(1, -1, 1)
     
     // processing defaults
     gl.glEnable(GL.GL_BLEND);
@@ -94,5 +113,6 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
     gl.glEnable(GL.GL_COLOR_MATERIAL)
     gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE)
     gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR)
+    */
   }
 }

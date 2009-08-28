@@ -79,7 +79,7 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
       data.vertexCount = numPoints
       for(i <- 0 until numPoints) {
         curve.point(i / numPoints.asInstanceOf[Float], p)
-        p.put(vertices)
+        p put vertices
       }
       vertices.rewind
       

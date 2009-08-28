@@ -14,23 +14,23 @@ import org.junit.Assert._
 class Mat3Test extends TestCase {
   import field.kit.math.Mat3
   
-   def testGetXY() = {
+   def testGetXY() = { 
     var m1 = new Mat3
     m1.set(0,1,2,
            3,4,5,
            6,7,8)
    
-    assertEquals(m1.get(0,0), 0f)
-    assertEquals(m1.get(0,1), 1f)
-    assertEquals(m1.get(0,2), 2f)
+    assertEquals(m1(0,0), 0f)
+    assertEquals(m1(0,1), 1f)
+    assertEquals(m1(0,2), 2f)
    
-    assertEquals(m1.get(1,0), 3f)
-    assertEquals(m1.get(1,1), 4f)
-    assertEquals(m1.get(1,2), 5f)
+    assertEquals(m1(1,0), 3f)
+    assertEquals(m1(1,1), 4f)
+    assertEquals(m1(1,2), 5f)
    
-    assertEquals(m1.get(2,0), 6f)
-    assertEquals(m1.get(2,1), 7f)
-    assertEquals(m1.get(2,2), 8f)
+    assertEquals(m1(2,0), 6f)
+    assertEquals(m1(2,1), 7f)
+    assertEquals(m1(2,2), 8f)
   }
    
   def testSetFloats() = {
@@ -66,17 +66,17 @@ class Mat3Test extends TestCase {
     m1(2,1) = 9 
     m1(2,2) = 10 
    
-    assertEquals(m1.get(0,0), 0f)
-    assertEquals(m1.get(0,1), 1f)
-    assertEquals(m1.get(0,2), 2f)
+    assertEquals(m1(0,0), 0f)
+    assertEquals(m1(0,1), 1f)
+    assertEquals(m1(0,2), 2f)
    
-    assertEquals(m1.get(1,0), 4f)
-    assertEquals(m1.get(1,1), 5f)
-    assertEquals(m1.get(1,2), 6f)
+    assertEquals(m1(1,0), 4f)
+    assertEquals(m1(1,1), 5f)
+    assertEquals(m1(1,2), 6f)
    
-    assertEquals(m1.get(2,0), 8f)
-    assertEquals(m1.get(2,1), 9f)
-    assertEquals(m1.get(2,2), 10f)
+    assertEquals(m1(2,0), 8f)
+    assertEquals(m1(2,1), 9f)
+    assertEquals(m1(2,2), 10f)
  }
   
  def testAddLocalMatrix() = {

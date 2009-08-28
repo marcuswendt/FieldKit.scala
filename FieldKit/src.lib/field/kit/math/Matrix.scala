@@ -7,37 +7,25 @@
 /* created April 15, 2009 */
 package field.kit.math
 
-// —————————————————————————————————————————————————————————————————————————————
-// Base classes
-// —————————————————————————————————————————————————————————————————————————————
 /**
  * Base class for all Matrizes
  * @author Marcus Wendt
  */
-abstract class Matrix[T](val size:Int) {
-  /** @return Returns the value at the given position in the matrix. */
-  def apply(i:Int, j:Int):T
+abstract class Matrix(val size:Int) {
+  import java.nio.FloatBuffer
   
-  /** @return Returns the value at the given position in the matrix. */
-  def get(i:Int, j:Int) = this.apply(i, j)
-  
-  /** Sets the value at position i,j in the matrix. */
-  def update(i:Int, j:Int, s:T):Matrix[T]
+  /** @return the value stored in this matrix at row, column. */
+  def apply(row:Int, column:Int):Float
 
-  /** Sets the value at position i,j in the matrix. */
-  def set(i:Int, j:Int, s:T) = this.update(i,j,s)
+  /** Sets the value at the given row and column in this matrix */
+  def update(row:Int, column:Int, value:Float)
   
-  /** Sets all of the values in this matrix to zero. */
-  def zero:Matrix[T]
-  
-  /** Sets this matrix to the identity matrix, namely all zeros with ones along the diagonal. */
-  def identity:Matrix[T]
-}
-
-/**
- * Base class for all Float Matrizes
- * @author Marcus Wendt
- */
-abstract class MatrixF(size:Int) extends Matrix[Float](size) {
-  
+  /** Puts this matrix into the given FloatBuffer */
+  def put(buffer:FloatBuffer) {
+    for (i <- 0 until size) {
+      for (j <- 0 until size) {
+        buffer put apply(i,j)
+      }
+    }
+  }
 }

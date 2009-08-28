@@ -7,6 +7,9 @@
 /* created April 22, 2009 */
 package field.kit.p5
 
+/**
+ * Companion object to class <code>Recorder</code>
+ */
 object Recorder {
   object FileFormat extends Enumeration {
     val TGA = Value("tga")
@@ -27,50 +30,121 @@ object Recorder {
  * @see <a href="https://dev.field.io/hg/opensource/libAGL/raw-file/9d7bd472280f/src/field/lib/agl/util/recorder/Recorder.scala">libAGL Recorder</a>
  * @author Marcus Wendt
  */
-class Recorder(s:BasicSketch) extends field.kit.Logger {
+class Recorder(val sketch:BasicSketch) extends Logger {
   import java.io.File
   import java.nio.ByteBuffer
   import java.awt.image.BufferedImage
  
   import javax.media.opengl.GL
   import javax.media.opengl.GLException
-
-  import field.kit.util.Compressor
+  import com.sun.opengl.util.TGAWriter
   
-  // configuration
+  import util.Compressor
+  import math.{Dim2}
+  
+  // -- Configuration ----------------------------------------------------------
   var name = "screenshot"
   var baseDir = "./recordings"
   var alpha = false
-  var format = Recorder.FileFormat.PNG
+  var fileFormat = Recorder.FileFormat.PNG
   
-  var image:BufferedImage = null
-  var buffer:ByteBuffer = null
+  /** the target image dimensions */
+  protected var image = new Dim2[Int]
   
-  // internal 
+  // internal
+  private var awtImage:BufferedImage = null
+  private var buffer:ByteBuffer = null
   private var state = Recorder.State.OFF
   private var sequenceBasedir = "./"
   private var sequenceFrame = 0
-
-  // ---------------------------------------------------------------------------
   
-  // used with tiler, later
-  /** should be called before anything is drawn to the screen */
-  def pre {
-    //if(!isRecording) return
+  // -- tile renderer ----------------------------------------------------------
+  private var useTiler = false
+  var tiler:Tiler = null
+  private var tga:TGAWriter = null
+  private var tmpFile:File = null
+  
+  /**
+   * Sets the target image dimensions
+   */
+  def init(width:Int, height:Int) {
+    image := (width, height)    
+    // check if we need to render the image as tiles
+    useTiler = width > sketch.width || height > sketch.height
   }
   
-  /** should be called after the drawing is finished */
-  def post {
-    import java.io.IOException
-    import com.sun.opengl.util.Screenshot
-    import com.sun.opengl.util.TGAWriter    
-    import field.kit.util.Timestamp
+  /**
+   * Initializes the <code>BufferedImage</code> and its <code>ByteBuffer</code> 
+   */
+  protected def init {
+    // check if we need to reinitialize the image and buffer
+    if(fileFormat != Recorder.FileFormat.TGA) {
+      val ib = Compressor.init(image.width, image.height, alpha)
+      awtImage = ib._1
+      buffer = ib._2
+      
+      info("initiialized image", awtImage.getWidth, awtImage.getHeight,
+           "alpha", alpha, "capacity", buffer.capacity)
+      
+      buffer.rewind
+    }
     
+    // init tiler
+    if(useTiler) {
+      var dataFormat = if(alpha) GL.GL_ABGR_EXT else GL.GL_BGR
+
+      if(fileFormat == Recorder.FileFormat.TGA) {
+        if(alpha) dataFormat = GL.GL_BGRA
+        
+        if(tmpFile == null)
+          tmpFile = new File("tiler_tmp.tga")
+        
+        tga = new TGAWriter
+        tga.open(tmpFile, image.width, image.height, alpha)
+        buffer = tga.getImageData
+      }
+      
+      if(tiler == null)
+        tiler = new Tiler(this)
+      
+      tiler.init(image.width, image.height, buffer, dataFormat)
+    }
+  }
+  
+  /** 
+   * Should be called before anything is drawn to the screen
+   */
+  def pre {
     if(!isRecording) return
     
-    var width = s.width
-    var height = s.height
-    val suffix = "."+ format
+    if(useTiler)
+      tiler.pre
+  }
+  
+  /** 
+   * Saves the current frame if the recording is finished.
+   */
+  def post {
+    if(!isRecording) return
+      
+    val isFrameFinished = 
+      if(useTiler) tiler.post else true
+    
+    if(isFrameFinished)
+      save
+  }
+  
+  /**
+   * Writes the finished frame to a file using the <code>Compressor</code> util.
+   */
+  protected def save {
+    import java.io.IOException
+    import com.sun.opengl.util.Screenshot 
+    import field.kit.util.Timestamp
+    
+    var width = sketch.width
+    var height = sketch.height
+    val suffix = "."+ fileFormat
     
     // prepare file & folders
     val file = state match {
@@ -96,16 +170,15 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
     
     // save the file
     try {
-      format match {
+      fileFormat match {
         case Recorder.FileFormat.TGA => Screenshot.writeToTargaFile(file, width, height, alpha)
         case _ =>
           // capture image into buffer
           val readbackType = if(alpha) GL.GL_ABGR_EXT else GL.GL_BGR
-          val gl = s.pgl.gl
-          gl.glReadPixels(0, 0, image.getWidth, image.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
+          sketch.gl.glReadPixels(0, 0, awtImage.getWidth, awtImage.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
 
           // compress buffer
-          Compressor(image, format.toString, file)
+          Compressor(awtImage, fileFormat.toString, file)
       }
     } catch {
       case e:GLException => warn(e)
@@ -120,19 +193,12 @@ class Recorder(s:BasicSketch) extends field.kit.Logger {
     }
   }
   
-  def init {
-    // check if we need to reinitialize the image and buffer
-    if(format != Recorder.FileFormat.TGA) {
-     val ib = Compressor.prepare(s.width, s.height, alpha)
-     image = ib._1
-     buffer = ib._2
-    }
-  }
-  
   // -- State Control ----------------------------------------------------------
   def isRecording = state != Recorder.State.OFF
   
-  def stop = state = Recorder.State.OFF
+  def stop {
+    state = Recorder.State.OFF
+  }
   
   def screenshot = {
     init

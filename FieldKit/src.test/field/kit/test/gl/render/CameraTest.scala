@@ -11,14 +11,12 @@ package field.kit.test.gl.render
  * Tests the Camera system built into every Sketch
  */
 object CameraTest extends test.Sketch {
-  import kit.gl.render._
   import kit.gl.scene._
   import kit.util.Timer
   import kit.math._
   import kit.math.FMath._
   
   var scene:Group = _
-  var kamera:Camera = _
   val timer = new Timer
   val camVelocity = new Vec3
   var useLights = false
@@ -28,8 +26,6 @@ object CameraTest extends test.Sketch {
     
     import processing.core.PConstants
     hint(PConstants.ENABLE_DEPTH_SORT)
-    
-    //kamera = new Camera(width, height)
     
     scene = new Group("main scene")
     scene.translation := (hwidth, hheight, 0)
@@ -46,8 +42,6 @@ object CameraTest extends test.Sketch {
     plane.colour := Colour.GREEN
 //    plane.translation.x = 270
     scene += plane
-    
-    //cam.location = new Vec3(width/2f, height/2f, 0)
   })
   
   def render {
@@ -80,14 +74,16 @@ object CameraTest extends test.Sketch {
 	      case _ =>
 	    }
     }
+    
     activeCamera.location += camVelocity
     activeCamera.update
+//    activeCamera.render
     
     camVelocity *= 0.9f
     
     // render
     import javax.media.opengl.GL
-    background(0)
+    background(64)
     
 //    pushMatrix
 //    translate(hwidth, hheight, 0)
@@ -97,7 +93,6 @@ object CameraTest extends test.Sketch {
 //    popMatrix
     
     beginGL
-    //activeCamera.render
     if(useLights) {
       gl.glEnable(GL.GL_LIGHTING)
       gl.glEnable(GL.GL_LIGHT0)
@@ -109,24 +104,6 @@ object CameraTest extends test.Sketch {
   }
   
   override def keyPressed {
-//    import processing.core.PConstants
-//    val speedUp = 0.5f
-//    keyCode match {
-//      case PConstants.LEFT => 
-//        camVelocity.x -= speedUp
-//          
-//      case PConstants.RIGHT => 
-//        camVelocity.x += speedUp
-//        
-//      case PConstants.UP => 
-//        camVelocity.z -= speedUp
-//    
-//      case PConstants.DOWN => 
-//        camVelocity.z += speedUp
-//
-//      case _ =>
-//    }
-
     key match {
       case ' ' => useLights = !useLights
       case _ =>

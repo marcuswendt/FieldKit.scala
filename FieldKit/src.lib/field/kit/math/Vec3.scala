@@ -366,6 +366,9 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
   final def /=(v:Vec3):Vec3 = { x/=v.x; y/=v.y; z/=v.z; this }
   
   // -- Other Operations -------------------------------------------------------
+  /**
+   * Puts this vector  at the given postion into a <code>FloatBuffer</code>
+   */
   final def put(buffer:FloatBuffer, index:Int) = {
     val i = index * 3
     buffer put (i, x)
@@ -374,6 +377,9 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
     this    
   }
   
+  /**
+   * Puts this vector into the given <code>FloatBuffer</code>
+   */
   final def put(buffer:FloatBuffer) = {
     buffer put x
     buffer put y

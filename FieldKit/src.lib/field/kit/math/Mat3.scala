@@ -11,7 +11,7 @@ package field.kit.math
  * 3x3 Float Matrix
  * @author Marcus Wendt
  */
-class Mat3 extends MatrixF(3) {
+final class Mat3 extends Matrix(3) {
   var m00 = 0f
   var m01 = 0f
   var m02 = 0f

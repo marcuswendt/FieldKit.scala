@@ -16,35 +16,35 @@ class Mat4Test extends TestCase {
   
    def testGetXY() = {
     var m1 = new Mat4
-    m1.set(0,1,2,3, 
+    m1 :=(0,1,2,3, 
    		  4,5,6,7,
    		  8,9,10,11,
    		  12,13,14,15)
    
-    assertEquals(m1.get(0,0), 0f)
-    assertEquals(m1.get(0,1), 1f)
-    assertEquals(m1.get(0,2), 2f)
-    assertEquals(m1.get(0,3), 3f)
+    assertEquals(m1(0,0), 0f)
+    assertEquals(m1(0,1), 1f)
+    assertEquals(m1(0,2), 2f)
+    assertEquals(m1(0,3), 3f)
    
-    assertEquals(m1.get(1,0), 4f)
-    assertEquals(m1.get(1,1), 5f)
-    assertEquals(m1.get(1,2), 6f)
-    assertEquals(m1.get(1,3), 7f)
+    assertEquals(m1(1,0), 4f)
+    assertEquals(m1(1,1), 5f)
+    assertEquals(m1(1,2), 6f)
+    assertEquals(m1(1,3), 7f)
    
-    assertEquals(m1.get(2,0), 8f)
-    assertEquals(m1.get(2,1), 9f)
-    assertEquals(m1.get(2,2), 10f)
-    assertEquals(m1.get(2,3), 11f)
+    assertEquals(m1(2,0), 8f)
+    assertEquals(m1(2,1), 9f)
+    assertEquals(m1(2,2), 10f)
+    assertEquals(m1(2,3), 11f)
    
-    assertEquals(m1.get(3,0), 12f)
-    assertEquals(m1.get(3,1), 13f)
-    assertEquals(m1.get(3,2), 14f)
-    assertEquals(m1.get(3,3), 15f)
+    assertEquals(m1(3,0), 12f)
+    assertEquals(m1(3,1), 13f)
+    assertEquals(m1(3,2), 14f)
+    assertEquals(m1(3,3), 15f)
   }
    
   def testSetFloats() = {
     var m1 = new Mat4
-    m1.set(0,1,2,3, 
+    m1 := (0,1,2,3, 
            4,5,6,7,
            8,9,10,11,
            12,13,14,15)
@@ -92,39 +92,39 @@ class Mat4Test extends TestCase {
     m1(3,2) = 14
     m1(3,3) = 15
    
-    assertEquals(m1.get(0,0), 0f)
-    assertEquals(m1.get(0,1), 1f)
-    assertEquals(m1.get(0,2), 2f)
-    assertEquals(m1.get(0,3), 3f)
+    assertEquals(m1(0,0), 0f)
+    assertEquals(m1(0,1), 1f)
+    assertEquals(m1(0,2), 2f)
+    assertEquals(m1(0,3), 3f)
    
-    assertEquals(m1.get(1,0), 4f)
-    assertEquals(m1.get(1,1), 5f)
-    assertEquals(m1.get(1,2), 6f)
-    assertEquals(m1.get(1,3), 7f)
+    assertEquals(m1(1,0), 4f)
+    assertEquals(m1(1,1), 5f)
+    assertEquals(m1(1,2), 6f)
+    assertEquals(m1(1,3), 7f)
    
-    assertEquals(m1.get(2,0), 8f)
-    assertEquals(m1.get(2,1), 9f)
-    assertEquals(m1.get(2,2), 10f)
-    assertEquals(m1.get(2,3), 11f)
+    assertEquals(m1(2,0), 8f)
+    assertEquals(m1(2,1), 9f)
+    assertEquals(m1(2,2), 10f)
+    assertEquals(m1(2,3), 11f)
    
-    assertEquals(m1.get(3,0), 12f)
-    assertEquals(m1.get(3,1), 13f)
-    assertEquals(m1.get(3,2), 14f)
-    assertEquals(m1.get(3,3), 15f)
+    assertEquals(m1(3,0), 12f)
+    assertEquals(m1(3,1), 13f)
+    assertEquals(m1(3,2), 14f)
+    assertEquals(m1(3,3), 15f)
  }
   
  def testAddLocalMatrix() = {
    var m1 = new Mat4
-   m1.set(0,1,2,3, 
-   		  4,5,6,7,
-   		  8,9,10,11,
-   		  12,13,14,15)
+   m1 :=(0,1,2,3, 
+   		 4,5,6,7,
+   		 8,9,10,11,
+   		 12,13,14,15)
    
    var m2 = new Mat4
-   m2.set(0,1,2,3, 
-   		  4,5,6,7,
-   		  8,9,10,11,
-   		  12,13,14,15)
+   m2 :=(0,1,2,3, 
+   		 4,5,6,7,
+   		 8,9,10,11,
+   		 12,13,14,15)
    
    m1 += m2
    
@@ -151,13 +151,13 @@ class Mat4Test extends TestCase {
  
  def testAddMatrix() = {
    var m1 = new Mat4
-   m1.set(0,1,2,3, 
+   m1 := (0,1,2,3, 
    		  4,5,6,7,
    		  8,9,10,11,
    		  12,13,14,15)
    
    var m2 = new Mat4
-   m2.set(0,1,2,3, 
+   m2 := (0,1,2,3, 
    		  4,5,6,7,
    		  8,9,10,11,
    		  12,13,14,15)
@@ -187,13 +187,13 @@ class Mat4Test extends TestCase {
  
   def testSubMatrix() = {
    var m1 = new Mat4
-   m1.set(0,1,2,3, 
+   m1 := (0,1,2,3, 
    		  4,5,6,7,
    		  8,9,10,11,
    		  12,13,14,15)
    
    var m2 = new Mat4
-   m2.set(0,1,2,3, 
+   m2 := (0,1,2,3, 
    		  4,5,6,7,
    		  8,9,10,11,
    		  12,13,14,15)
@@ -223,13 +223,13 @@ class Mat4Test extends TestCase {
   
   def testMulMatrix() = {
     var m1 = new Mat4
-    m1.set(0,1,2,3, 
+    m1 := (0,1,2,3, 
    	 	   4,5,6,7,
    		   8,9,10,11,
    		   12,13,14,15)
     
     var m2 = new Mat4
-    m2.set(m1)
+    m2 := m1
     
     val m3 = m1 * m2
    
@@ -256,14 +256,13 @@ class Mat4Test extends TestCase {
   
   def testMulLocal() = {
     var m1 = new Mat4
-    m1.set(0,1,2,3, 
+    m1 := (0,1,2,3, 
    	 	   4,5,6,7,
    		   8,9,10,11,
    		   12,13,14,15)
     
     var m2 = new Mat4
-    m2.set(m1)
-    
+    m2 := m1
     m1 *= m2 
    
     assertEquals(m1.m00, 56f)

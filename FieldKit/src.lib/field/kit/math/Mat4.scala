@@ -11,7 +11,7 @@ package field.kit.math
  * 4x4 Float Matrix
  * @author Marcus Wendt
  */
-class Mat4 extends MatrixF(4) {
+final class Mat4 extends Matrix(4) {
   var m00 = 0f
   var m01 = 0f
   var m02 = 0f
@@ -32,7 +32,7 @@ class Mat4 extends MatrixF(4) {
   var m32 = 0f
   var m33 = 0f
   
-  def set(m:Mat4) = {
+  def :=(m:Mat4) = {
     m00 = m.m00
     m01 = m.m01
     m02 = m.m02
@@ -56,10 +56,10 @@ class Mat4 extends MatrixF(4) {
     this
   }
   
-  def set(m00:Float, m01:Float, m02:Float, m03:Float, 
-  		  m10:Float, m11:Float, m12:Float, m13:Float, 
-  		  m20:Float, m21:Float, m22:Float, m23:Float, 
-  		  m30:Float, m31:Float, m32:Float, m33:Float) = {
+  def :=(m00:Float, m01:Float, m02:Float, m03:Float, 
+  		 m10:Float, m11:Float, m12:Float, m13:Float, 
+  		 m20:Float, m21:Float, m22:Float, m23:Float, 
+  		 m30:Float, m31:Float, m32:Float, m33:Float) = {
 	this.m00 = m00
 	this.m01 = m01
 	this.m02 = m02
@@ -84,7 +84,7 @@ class Mat4 extends MatrixF(4) {
   }
   
   /** @return Returns the value at the given position in the matrix. */
-  def apply(i:Int, j:Int) = {
+  override def apply(i:Int, j:Int) = {
     i match {
       case 0 =>
         j match {
@@ -154,21 +154,21 @@ class Mat4 extends MatrixF(4) {
   }
   
   /** Sets all of the values in this matrix to zero. */
-  def zero = set(0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0)
+  final def zero = :=(0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0)
   
   /** Sets this matrix to the identity matrix, namely all zeros with ones along the diagonal. */
-  def identity = set(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)
+  final def identity = :=(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)
   
   // -- Matrix Operations ------------------------------------------------------
-  def +=(m:Mat4) = this + (m, this)
-  def -=(m:Mat4) = this - (m, this)
-  def *=(m:Mat4) = this * (m, this)
+  final def +=(m:Mat4) = this + (m, this)
+  final def -=(m:Mat4) = this - (m, this)
+  final def *=(m:Mat4) = this * (m, this)
   
-  def +(m:Mat4):Mat4 = this + (m, null)
-  def -(m:Mat4):Mat4 = this - (m, null)
-  def *(m:Mat4):Mat4 = this * (m, null)
+  final def +(m:Mat4):Mat4 = this + (m, null)
+  final def -(m:Mat4):Mat4 = this - (m, null)
+  final def *(m:Mat4):Mat4 = this * (m, null)
   
-  def +(m:Mat4, product:Mat4) = {
+  final def +(m:Mat4, product:Mat4) = {
     val p = if(product == null) new Mat4 else product
     p.m00 = this.m00 + m.m00
     p.m01 = this.m01 + m.m01
@@ -193,7 +193,7 @@ class Mat4 extends MatrixF(4) {
     p
   }
   
-  def -(m:Mat4, product:Mat4) = {
+  final def -(m:Mat4, product:Mat4) = {
     val p = if(product == null) new Mat4 else product
     p.m00 = this.m00 - m.m00
     p.m01 = this.m01 - m.m01
@@ -218,7 +218,7 @@ class Mat4 extends MatrixF(4) {
     p
   } 
 
-  def *(m:Mat4, product:Mat4) = {
+  final def *(m:Mat4, product:Mat4) = {
     val p = if(product == null) new Mat4 else product
     
     val t00 = m00 * m.m00 + m01 * m.m10 + m02 * m.m20 + m03 * m.m30
@@ -265,7 +265,7 @@ class Mat4 extends MatrixF(4) {
   }
   
   // -- Scalar Local Operations ------------------------------------------------
-  def +=(s:Float) = {
+  final def +=(s:Float) = {
     m00 += s
 	m01 += s
 	m02 += s
@@ -289,7 +289,7 @@ class Mat4 extends MatrixF(4) {
 	this
   }
   
-  def -=(s:Float) = {
+  final def -=(s:Float) = {
     m00 -= s
 	m01 -= s
 	m02 -= s
@@ -313,7 +313,7 @@ class Mat4 extends MatrixF(4) {
 	this
   }
   
-  def *=(s:Float) = {
+  final def *=(s:Float) = {
     m00 *= s
 	m01 *= s
 	m02 *= s
@@ -338,35 +338,35 @@ class Mat4 extends MatrixF(4) {
   }
   
   // -- Scalar Operations ------------------------------------------------------
-  def +(s:Float):Mat4 = this + (s, null)
-  def -(s:Float):Mat4 = this - (s, null)
-  def *(s:Float):Mat4 = this * (s, null)
+  final def +(s:Float):Mat4 = this + (s, null)
+  final def -(s:Float):Mat4 = this - (s, null)
+  final def *(s:Float):Mat4 = this * (s, null)
   
-  def +(s:Float, product:Mat4):Mat4 = {
+  final def +(s:Float, product:Mat4):Mat4 = {
     val p = if(product == null) new Mat4 else product
-    p.set(this)
+    p := this
     p += s
     p
   }
   
-  def -(s:Float, product:Mat4):Mat4 = {
+  final def -(s:Float, product:Mat4):Mat4 = {
     val p = if(product == null) new Mat4 else product
-    p.set(this)
+    p := this
     p -= s
     p
   }
   
-  def *(s:Float, product:Mat4):Mat4 = {
+  final def *(s:Float, product:Mat4):Mat4 = {
     val p = if(product == null) new Mat4 else product
-    p.set(this)
+    p := this
     p *= s
     p
   }
   
   // -- Transform Operations ---------------------------------------------------
-  def translate(tx:Float, ty:Float):Mat4 = translate(tx, ty, 0)
+  final def translate(tx:Float, ty:Float):Mat4 = translate(tx, ty, 0)
   
-  def translate(tx:Float, ty:Float, tz:Float) = {
+  final def translate(tx:Float, ty:Float, tz:Float) = {
     m03 += tx*m00 + ty*m01 + tz*m02
     m13 += tx*m10 + ty*m11 + tz*m12
     m23 += tx*m20 + ty*m21 + tz*m22

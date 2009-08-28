@@ -15,7 +15,7 @@ class SphereTest extends TestCase {
   import kit.math.Vec3
   import kit.math.geometry.Sphere
   
-  def testContainsOrigin {
+  def testContainsOrigin { 
     var s = new Sphere(100f)
     val p1 = new Vec3(125f, 65f, 0f)    
     assertEquals( s contains p1, false)
@@ -24,7 +24,7 @@ class SphereTest extends TestCase {
     assertEquals( s contains p2, true)
     
     val p3 = new Vec3(-85f, 55f, 0f)
-    assertEquals( s contains p3, true)
+    assertEquals( s contains p3, false)
   }
 }
 
