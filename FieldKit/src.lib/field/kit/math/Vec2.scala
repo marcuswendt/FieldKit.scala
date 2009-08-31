@@ -12,14 +12,21 @@ package field.kit.math
  * @author Marcus Wendt
  */
 object Vec2 {
-  import FMath._
+  import Common._
   
   val ZERO = new Vec2(0, 0)
   val UNIT_X = new Vec2(1, 0)
   val UNIT_Y = new Vec2(0, 1)
   val UNIT_XY = new Vec2(1, 1)
   
-   /**
+  def apply() = new Vec2(0, 0)
+  def apply(s:Float) = new Vec2(s,s)
+//  def apply(x:Float, y:Float) = new Vec2(x, y)
+
+  def apply(v:Vec2) = new Vec2(v.x,v.y)
+  def apply(s:String) = { val v = new Vec2(0,0); v := s; v }
+  
+  /**
    * Creates a new random unit vector
    * @return a new random normalized unit vector.
    */
@@ -44,23 +51,11 @@ object Vec2 {
  * 2 Dimensional Float Vector
  * @author Marcus Wendt
  */
-class Vec2(var x:Float, var y:Float) {
+case class Vec2(var x:Float, var y:Float) {
   import java.nio.FloatBuffer
-  import FMath._
+  import Common._
   
   def this() = this(0,0)
-  def this(v:Vec2) = this(v.x,v.y)
-  def this(s:Float) = this(s,s)
-  def this(s:String) = { this(); :=(s); this }
-  
-//  final def update(i:Int, value:Float) = 
-//    i match {
-//      case 0 => this.x = value
-//      case 1 => this.y = value
-//    }
-  
-  //def apply(x:Float, y:Float) = :=(x,y)
-  //def apply(v:Vec2) = :=(v)
   
   // -- Setters ----------------------------------------------------------------
   /** 
@@ -121,30 +116,31 @@ class Vec2(var x:Float, var y:Float) {
    * @return itself
    */
   final def :=(s:String) = {
-    if(s != null) {
-      val iter = DECIMAL findAllIn s
-      val list = iter.toList
-      
-      var index = 0
-      def next = { 
-        var f = abs(list(index).toFloat)
-        index += 1
-        f
-      }
-      
-      list.size match {
-        // set xy to a scalar
-        case 1 =>
-          val f = next
-          this.x = f 
-          this.y = f
-        // set xy independently
-        case 2 =>
-          this.x = next 
-          this.y = next    
-        case _ => throw new Exception("Couldnt parse String '"+ s +"'")
-      } 
-    }
+    // TODO reimplement this method
+    // if(s != null) {
+    //       val iter = DECIMAL.findAllIn(s)
+    //       val list = iter.toList
+    //       
+    //       var index = 0
+    //       def next = { 
+    //         var f = abs(list(index).toFloat)
+    //         index += 1
+    //         f
+    //       }
+    //       
+    //       list.size match {
+    //         // set xy to a scalar
+    //         case 1 =>
+    //           val f = next
+    //           this.x = f 
+    //           this.y = f
+    //         // set xy independently
+    //         case 2 =>
+    //           this.x = next 
+    //           this.y = next    
+    //         case _ => throw new Exception("Couldnt parse String '"+ s +"'")
+    //       } 
+    //     }
     this
   }
   
@@ -155,193 +151,71 @@ class Vec2(var x:Float, var y:Float) {
   final def set(s:String) = :=(s)
   
   
-  // -- Scalar Operations ------------------------------------------------------
-  /**
-   * Adds the given Float to this vector
-   * @return result as new vector 
-   */
-  final def +(s:Float):Vec2 = this + (s,s,null)
-  
-  /**
-   * Subtracts the given float from this vector
-   * @return result as new vector 
-   */
-  final def -(s:Float):Vec2 = this - (s,s,null)
-  
-  /** 
-   * Multiplies the given float with this vector
-   * @return result as new vector 
-   */
-  final def *(s:Float):Vec2 = this * (s,s,null)
-  
-  /** 
-   * Divides this vector through the given float
-   * @return result as new vector 
-   */
-  final def /(s:Float):Vec2 = this / (s,s,null)
-  
-  
-  // -- Float Operations -------------------------------------------------------
-  // TODO could clean this up in Scala 2.8 when default arguments are implemented
+  // -- Immutable Operations ---------------------------------------------------
+   /**
+    * Adds the given Float to this vector
+    * @return result as new vector 
+    */
+   final def +(s:Float) = new Vec2(x + s, y + s)
 
-  /** 
-   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def -(x:Float, y:Float):Vec2 = this - (x,y, null)
+   /**
+    * Subtracts the given float from this vector
+    * @return result as new vector 
+    */
+   final def -(s:Float):Vec2 = new Vec2(x - s, y - s)
+
+   /** 
+    * Multiplies the given float with this vector
+    * @return result as new vector 
+    */
+   final def *(s:Float):Vec2 = new Vec2(x * s, y * s)
+
+   /** 
+    * Divides this vector through the given float
+    * @return result as new vector 
+    */
+   final def /(s:Float):Vec2 = new Vec2(x / s, y / s)
+
+   /** 
+    * Subtracts the given <code>Vec2</code> from this <code>Vec2</code> and returns the result
+    * @return result
+    */
+   final def -(v:Vec2) = new Vec2(this.x - v.x, this.y - v.y)
+
+   /** 
+    * Adds the given <code>Vec2</code> to this <code>Vec2</code> and returns the result 
+    * @return result
+    */
+   final def +(v:Vec2) = new Vec2(this.x + v.x, this.y + v.y)
+
+   /** 
+    * Multiplies the given <code>Vec2</code> with this <code>Vec2</code> and returns the result
+    * @return result
+    */
+   final def *(v:Vec2) = new Vec2(this.x * v.x, this.y * v.y)
+
+   /** 
+    * Divides this <code>Vec2</code> through the given <code>Vec2</code> and returns the result
+    * @return result
+    */
+   final def /(v:Vec2) = new Vec2(this.x / v.x, this.y / v.y)
+
+   // -- Mutable Operations ----------------------------------------------------
+   final def +=(s:Float) = { x+=s; y+=s; this }
+   final def -=(s:Float) = { x-=s; y-=s; this }
+   final def *=(s:Float) = { x*=s; y*=s; this }
+   final def /=(s:Float) = { x/=s; y/=s; this }
+
+   final def +=(v:Vec2) = { x+=v.x; y+=v.y; this }
+   final def -=(v:Vec2) = { x-=v.x; y-=v.y; this }
+   final def *=(v:Vec2) = { x*=v.x; y*=v.y; this }
+   final def /=(v:Vec2) = { x/=v.x; y/=v.y; this }
   
-  /** 
-   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def +(x:Float, y:Float):Vec2 = this + (x,y, null)
-  
-  /** 
-   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def *(x:Float, y:Float):Vec2 = this * (x,y, null)
-  
-  /** 
-   * Divides this <code>Vec2</code> through the given <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def /(x:Float, y:Float):Vec2 = this / (x,y, null)
-  
-  /** 
-   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
-   * @return result
-   */
-  final def -(x:Float, y:Float, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result 
-    r.x = this.x - x
-    r.y = this.y - y
-    r
-  }
-  
-  /** 
-   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
-   * @return result
-   */
-  final def +(x:Float, y:Float, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result
-    r.x = this.x + x
-    r.y = this.y + y
-    r
-  }
-  
-  /** 
-   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
-   * @return result
-   */
-  final def *(x:Float, y:Float, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result
-    r.x = this.x * x
-    r.y = this.y * y
-    r
-  }
-  
-  /** 
-   * Divides this <code>Vec3</code> through the given <code>Vec2</code>
-   * @return result 
-   */
-  final def /(x:Float, y:Float, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result
-    r.x = this.x / x
-    r.y = this.y / y
-    r
-  }
-  
-  // -- Vec2 Operations --------------------------------------------------------
-  /** 
-   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def -(v:Vec2):Vec2 = this - (v, null)
-  
-  /** 
-   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def +(v:Vec2):Vec2 = this - (v, null)
-  
-  /** 
-   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def *(v:Vec2):Vec2 = this - (v, null)
-  
-  /** 
-   * Divides this <code>Vec2</code> through the given <code>Vec2</code>
-   * @return result as new vector 
-   */
-  final def /(v:Vec2):Vec2 = this - (v, null)
-  
-  /** 
-   * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>
-   * @return result
-   */
-  final def -(v:Vec2, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result 
-    r.x = this.x - v.x
-    r.y = this.y - v.y
-    r
-  }
-  
-  /** 
-   * Adds the given <code>Vec2</code> to this <code>Vec2</code>
-   * @return result
-   */
-  final def +(v:Vec2, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result
-    r.x = this.x + v.x
-    r.y = this.y + v.y
-    r
-  }
-  
-  /** 
-   * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
-   * @return result
-   */
-  final def *(v:Vec2, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result
-    r.x = this.x * v.x
-    r.y = this.y * v.y
-    r
-  }
-  
-  /** 
-   * Divides this <code>Vec3</code> through the given <code>Vec2</code>
-   * @return result 
-   */
-  final def /(v:Vec2, result:Vec2) = {
-    val r = if(result == null) new Vec2 else result
-    r.x = this.x / v.x
-    r.y = this.y / v.y
-    r
-  }
-  
-  // -- Local Operations -------------------------------------------------------
-  final def +=(s:Float) = { x+=s; y+=s; this }
-  final def -=(s:Float) = { x-=s; y-=s; this }
-  final def *=(s:Float) = { x*=s; y*=s; this }
-  final def /=(s:Float) = { x/=s; y/=s; this }
-  
-  final def +=(x:Float, y:Float) = { this.x+=x; this.y+=y; this }
-  final def -=(x:Float, y:Float) = { this.x-=x; this.y-=y; this }
-  final def *=(x:Float, y:Float) = { this.x*=x; this.y*=y; this }
-  final def /=(x:Float, y:Float) = { this.x/=x; this.y/=y; this }
-  
-  final def +=(v:Vec2) = { x+=v.x; y+=v.y; this }
-  final def -=(v:Vec2) = { x-=v.x; y-=v.y; this }
-  final def *=(v:Vec2) = { x*=v.x; y*=v.y; this }
-  final def /=(v:Vec2) = { x/=v.x; y/=v.y; this }
-  
-  final def length = Math.sqrt(lengthSquared).asInstanceOf[Float]
+  final def length = Math.sqrt(lengthSquared).toFloat
   final def lengthSquared = x * x + y * y
   
-  final def distance(v:Vec2) = Math.sqrt(distanceSquared(v.x, v.y)).asInstanceOf[Float]
-  final def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).asInstanceOf[Float]
+  final def distance(v:Vec2) = Math.sqrt(distanceSquared(v.x, v.y)).toFloat
+  final def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).toFloat
   
   final def distanceSquared(v:Vec2):Float = distanceSquared(v.x, v.y)
   final def distanceSquared(x:Float, y:Float) = {
@@ -354,7 +228,7 @@ class Vec2(var x:Float, var y:Float) {
    * It is assumed that both this vector and the given vector are unit vectors (iow, normalized).
    * @return the angle (in radians) between two vectors.
    */
-  final def angleBetween(v:Vec2) = FMath.acos(dot(v))
+  final def angleBetween(v:Vec2) = acos(dot(v))
   
   /**
    * Calculates the dot product of this vector with a provided vector.
@@ -416,8 +290,8 @@ class Vec2(var x:Float, var y:Float) {
    * @return itself as polar vector
    */
   def toPolar = {
-    val r = FMath.sqrt(x * x + y * y)
-    y = FMath.atan2(y, x)
+    val r = sqrt(x * x + y * y)
+    y = atan2(y, x)
     x = r
     this
   }
@@ -429,33 +303,20 @@ class Vec2(var x:Float, var y:Float) {
    * @return itself as Cartesian vector
    */
   def toCartesian {
-    val tmp = x * FMath.cos(y)
-    y = x * FMath.sin(y)
+    val tmp = x * cos(y)
+    y = x * sin(y)
     x = tmp
     this
   }
   
   /** checks wether one or several components of this vector are Not a Number or Infinite */
-  final def isNaNOrInfinite = { 
+  final def isValid:Boolean = { 
     import java.lang.Float
-    var error = 0
-    if (Float.isInfinite(x)) error -= 1
-    if (Float.isInfinite(y)) error -= 1
-    if (Float.isNaN(x)) error -= 1
-    if (Float.isNaN(y)) error -= 1
-    error == 0
-  }
-  
-  final def elements = new Iterator[Float] {
-    var i=0
-    def next = {
-      i match {
-        case 0 => x
-        case 1 => y
-        case _ => 0
-      }
-    }
-    def hasNext = i==2
+    if (Float.isInfinite(x)) return false
+    if (Float.isInfinite(y)) return false
+    if (Float.isNaN(x)) return false
+    if (Float.isNaN(y)) return false
+    true
   }
   
   // helpers

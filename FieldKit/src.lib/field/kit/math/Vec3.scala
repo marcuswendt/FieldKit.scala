@@ -12,7 +12,7 @@ package field.kit.math
  * @author Marcus Wendt
  */
 object Vec3 {
-  import FMath._
+  import Common._
   
   val ZERO = new Vec3(0, 0, 0)
   val UNIT_X = new Vec3(1, 0, 0)
@@ -20,39 +20,31 @@ object Vec3 {
   val UNIT_Z = new Vec3(0, 0, 1)
   val UNIT_XYZ = new Vec3(1, 1, 1)
   
+  def apply() = new Vec3(0,0,0)
+  def apply(s:Float) = new Vec3(s,s,s)
+//  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
+  
+  def apply(v:Vec2) = new Vec3(v.x, v.y, 0)
+  def apply(v:Vec3) = new Vec3(v.x, v.y, v.z)
+  def apply(s:String) = { val v = new Vec3(0,0,0); v := s; v }
+  
   /**
    * Creates a new random unit vector
    * @return a new random normalized unit vector.
    */
   def random = new Vec3(randomNormal, randomNormal, randomNormal)
-  
-//  def apply() = new Vec3(0,0,0)
-//  def apply(x:Float, y:Float, z:Float) = new Vec3(x,y,z)
 }
 
 /**
  * 3 Dimensional Float Vector
  * @author Marcus Wendt
  */
-class Vec3(var x:Float, var y:Float, var z:Float) {
+case class Vec3(var x:Float, var y:Float, var z:Float) {
   import java.nio.FloatBuffer
-  import FMath._
+  import Common._
   
+  // zero constructor to allow argument-less inheritance
   def this() = this(0,0,0)
-  def this(v:Vec2) = this(v.x, v.y, 0)
-  def this(v:Vec3) = this(v.x, v.y, v.z)
-  def this(s:Float) = this(s,s,s)
-  def this(s:String) = { this(); :=(s); this }
-  
-//  final def update(i:Int, value:Float) = 
-//    i match {
-//      case 0 => this.x = value
-//      case 1 => this.y = value
-//      case 2 => this.z = value
-//    }
-  
-  //def apply(x:Float, y:Float, z:Float) = set(x,y,z)
-  //def apply(v:Vec3) = set(v)
   
   // -- Setters ----------------------------------------------------------------
   /** 
@@ -66,18 +58,6 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    * @return itself
    */
   final def set(v:Vec3) = :=(v)
-  
-  /**
-   * Sets this Vectors components to the given Floats
-   * @return itself
-   */
-  final def :=(x:Float, y:Float, z:Float) = { this.x = x; this.y = y; this.z = z; this }
-  
-  /**
-   * Sets this Vectors components to the given Floats
-   * @return itself
-   */
-  final def set(x:Float, y:Float, z:Float) = :=(x,y,z)
   
   /**
    * Sets all components of this Vector to the given Float
@@ -114,8 +94,9 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    * @return itself
    */
   final def :=(s:String) = {
+    // TODO reimplement this method
     if(s != null) {
-      val iter = DECIMAL findAllIn s
+      val iter = DECIMAL.findAllIn(s)
       val list = iter.toList
       
       var index = 0
@@ -148,246 +129,72 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    * @return itself
    */
   final def set(s:String) = :=(s)
-  
-  // -- Scalar Operations ------------------------------------------------------
+    
+  // -- Immutable Operations ---------------------------------------------------
   /**
    * Adds the given Float to this vector
    * @return result as new vector 
    */
-  final def +(s:Float):Vec3 = this + (s,s,s,null)
+  final def +(s:Float) = new Vec3(x + s, y + s, z + s)
   
   /**
    * Subtracts the given float from this vector
    * @return result as new vector 
    */
-  final def -(s:Float):Vec3 = this - (s,s,s,null)
+  final def -(s:Float):Vec3 = new Vec3(x - s, y - s, z - s)
   
   /** 
    * Multiplies the given float with this vector
    * @return result as new vector 
    */
-  final def *(s:Float):Vec3 = this * (s,s,s,null)
+  final def *(s:Float):Vec3 = new Vec3(x * s, y * s, z * s)
   
   /** 
    * Divides this vector through the given float
    * @return result as new vector 
    */
-  final def /(s:Float):Vec3 = this / (s,s,s,null)
-  
-  
-  
-  // -- Float Operations -------------------------------------------------------
-  // TODO could clean this up in Scala 2.8 when default arguments are implemented
-    
-  /**
-   * Subtracts the given floats from this vector
-   * @return result as new vector 
-   */
-  final def -(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
-  
-  /** 
-   * Adds the given floats to this vector
-   * @return result as new vector 
-   */
-  final def +(x:Float, y:Float, z:Float):Vec3 = this + (x,y,z, null)
-  
-  /** 
-   * Multiplies the given floats with this vector
-   * @return result as new vector
-   */
-  final def *(x:Float, y:Float, z:Float):Vec3 = this * (x,y,z, null)
-  
-  /** 
-   * Divides this vector through the given floats
-   * @return result as new vector  
-   */
-  final def /(x:Float, y:Float, z:Float):Vec3 = this / (x,y,z, null)
-  
-  /**
-   * Subtracts the given scalar from this vector
-   * @return result as new vector 
-   */
-  final def -(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
-  
-  /** 
-   * Adds the given scalar to this vector
-   * @return result as new vector 
-   */
-  final def +(s:Float, result:Vec3):Vec3 = this + (s,s,s, result)
-  
-  /** 
-   * Multiplies the given scalar with this vector
-   * @return result as new vector
-   */
-  final def *(s:Float, result:Vec3):Vec3 = this * (s,s,s, result)
-  
-  /** 
-   * Divides this vector through the given scalar
-   * @return result as new vector  
-   */
-  final def /(s:Float, result:Vec3):Vec3 = this / (s,s,s, result)
-  
-  /** 
-   * Subtracts the given scalar from this vector and returns the result
-   * @return result
-   */
-  final def -(x:Float, y:Float, z:Float, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result 
-    r.x = this.x - x
-    r.y = this.y - y
-    r.z = this.z - z
-    r
-  }
-  
-  /** 
-   * Adds the given floats to this vector
-   * @return result
-   */
-  final def +(x:Float, y:Float, z:Float, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result
-    r.x = this.x + x
-    r.y = this.y + y
-    r.z = this.z + z
-    r
-  }
-  
-  /** 
-   * Multiplies the given floats with this vector
-   * @return result
-   */
-  final def *(x:Float, y:Float, z:Float, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result
-    r.x = this.x * x
-    r.y = this.y * y
-    r.z = this.z * z
-    r
-  }
-  
-  /** 
-   * Divides this vector through the given floats
-   * @return result
-   */
-  final def /(x:Float, y:Float, z:Float, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result
-    r.x = this.x / x
-    r.y = this.y / y
-    r.z = this.z / z
-    r
-  }
-  
-  
-  // -- Vec3 Operations --------------------------------------------------------
-  /** 
-   * Subtracts the given <code>Vec3</code> from this <code>Vec3</code>
-   * @return result as new vector
-   */
-  final def -(v:Vec3):Vec3 = this - (v, null)
-  
-  /** 
-   * Adds the given <code>Vec3</code> to this <code>Vec3</code>
-   * @return result as new vector
-   */
-  final def +(v:Vec3):Vec3 = this - (v, null)
-  
-  /** 
-   * Multiplies the given <code>Vec3</code> with this <code>Vec3</code>
-   * @return result as new vector 
-   */
-  final def *(v:Vec3):Vec3 = this - (v, null)
-  
-  /** 
-   * Divides this <code>Vec3</code> through the given <code>Vec3</code>
-   * @return result as new vector 
-   */
-  final def /(v:Vec3):Vec3 = this - (v, null)
+  final def /(s:Float):Vec3 = new Vec3(x / s, y / s, z / s)
   
   /** 
    * Subtracts the given <code>Vec3</code> from this <code>Vec3</code> and returns the result
    * @return result
    */
-  final def -(v:Vec3, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result 
-    r.x = this.x - v.x
-    r.y = this.y - v.y
-    r.z = this.z - v.z
-    r
-  }
+  final def -(v:Vec3) = new Vec3(this.x - v.x, this.y - v.y, this.z - v.z)
   
   /** 
    * Adds the given <code>Vec3</code> to this <code>Vec3</code> and returns the result 
    * @return result
    */
-  final def +(v:Vec3, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result
-    r.x = this.x + v.x
-    r.y = this.y + v.y
-    r.z = this.z + v.z
-    r
-  }
+  final def +(v:Vec3) = new Vec3(this.x + v.x, this.y + v.y, this.z + v.z)
   
   /** 
    * Multiplies the given <code>Vec3</code> with this <code>Vec3</code> and returns the result
    * @return result
    */
-  final def *(v:Vec3, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result
-    r.x = this.x * v.x
-    r.y = this.y * v.y
-    r.z = this.z * v.z
-    r
-  }
+  final def *(v:Vec3) = new Vec3(this.x * v.x, this.y * v.y, this.z * v.z)
   
   /** 
    * Divides this <code>Vec3</code> through the given <code>Vec3</code> and returns the result
    * @return result
    */
-  final def /(v:Vec3, result:Vec3) = {
-    val r = if(result == null) new Vec3 else result
-    r.x = this.x / v.x
-    r.y = this.y / v.y
-    r.z = this.z / v.z
-    r
-  }
+  final def /(v:Vec3) = new Vec3(this.x / v.x, this.y / v.y, this.z / v.z)
   
-  // -- Local Operations -------------------------------------------------------
-  final def +=(s:Float):Vec3 = { x+=s; y+=s; z+=s; this }
-  final def -=(s:Float):Vec3 = { x-=s; y-=s; z-=s; this }
-  final def *=(s:Float):Vec3 = { x*=s; y*=s; z*=s; this }
-  final def /=(s:Float):Vec3 = { x/=s; y/=s; z/=s; this }
   
-  final def +=(x:Float, y:Float, z:Float) = { this.x+=x; this.y+=y; this.z+=z; this }
-  final def -=(x:Float, y:Float, z:Float) = { this.x-=x; this.y-=y; this.z-=z; this }
-  final def *=(x:Float, y:Float, z:Float) = { this.x*=x; this.y*=y; this.z*=z; this }
-  final def /=(x:Float, y:Float, z:Float) = { this.x/=x; this.y/=y; this.z/=z; this }
+  // -- Mutable Operations -----------------------------------------------------
+  final def +=(s:Float) = { x+=s; y+=s; z+=s; this }
+  final def -=(s:Float) = { x-=s; y-=s; z-=s; this }
+  final def *=(s:Float) = { x*=s; y*=s; z*=s; this }
+  final def /=(s:Float) = { x/=s; y/=s; z/=s; this }
   
-  final def +=(v:Vec3):Vec3 = { x+=v.x; y+=v.y; z+=v.z; this }
-  final def -=(v:Vec3):Vec3 = { x-=v.x; y-=v.y; z-=v.z; this }
-  final def *=(v:Vec3):Vec3 = { x*=v.x; y*=v.y; z*=v.z; this }
-  final def /=(v:Vec3):Vec3 = { x/=v.x; y/=v.y; z/=v.z; this }
+  final def +=(v:Vec3) = { x+=v.x; y+=v.y; z+=v.z; this }
+  final def -=(v:Vec3) = { x-=v.x; y-=v.y; z-=v.z; this }
+  final def *=(v:Vec3) = { x*=v.x; y*=v.y; z*=v.z; this }
+  final def /=(v:Vec3) = { x/=v.x; y/=v.y; z/=v.z; this }
+  
   
   // -- Other Operations -------------------------------------------------------
-  /**
-   * Puts this vector  at the given postion into a <code>FloatBuffer</code>
-   */
-  final def put(buffer:FloatBuffer, index:Int) = {
-    val i = index * 3
-    buffer put (i, x)
-    buffer put (i+1, y)
-    buffer put (i+2, z)
-    this    
-  }
-  
-  /**
-   * Puts this vector into the given <code>FloatBuffer</code>
-   */
-  final def put(buffer:FloatBuffer) = {
-    buffer put x
-    buffer put y
-    buffer put z
-    this    
-  }
-  
-  final def zero = :=(0,0,0)
+  /** Resets this vectors components all to zero */
+  final def zero = { x=0; y=0; z=0 }
   
   /**
    * Calculates the dot product of this vector with a provided vector.
@@ -400,7 +207,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    * @return the cross product vector
    */
   final def cross(v:Vec3, result:Vec3) = {
-    val r = if(result==null) new Vec3 else result
+    val r = if(result==null) Vec3() else result
     r.x = (y * v.z) - (z * v.y)
     r.y = (z * v.x) - (x * v.z)
     r.z = (x * v.y) - (y * v.x)
@@ -413,11 +220,11 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    */
   final def cross(v:Vec3):Vec3 = cross(v, null)
 
-  final def length = Math.sqrt(lengthSquared).asInstanceOf[Float]
+  final def length = Math.sqrt(lengthSquared).toFloat
   
   final def lengthSquared = x * x + y * y + z * z
   
-  final def distance(v:Vec3) = Math.sqrt(distanceSquared(v)).asInstanceOf[Float]
+  final def distance(v:Vec3) = Math.sqrt(distanceSquared(v)).toFloat
   
   final def distanceSquared(v:Vec3) = {
     val dx = x - v.x
@@ -443,7 +250,7 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    *  It is assumed that both this vector and the given vector are unit vectors (iow, normalized). */
   final def angleBetween(v:Vec3) {
     val dotProduct = dot(v)
-    Math.acos(dotProduct).asInstanceOf[Float]
+    Math.acos(dotProduct).toFloat
   }
 
   /** makes sure this vector does not exceed a certain length */
@@ -468,31 +275,42 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
   }
   
   /** checks wether one or several components of this vector are Not a Number or Infinite */
-  final def isNaNOrInfinite = { 
+  final def isValid:Boolean = { 
     import java.lang.Float
-    var error = 0
-    if (Float.isInfinite(x)) error -= 1
-    if (Float.isInfinite(y)) error -= 1
-    if (Float.isInfinite(z)) error -= 1
-    if (Float.isNaN(x)) error -= 1
-    if (Float.isNaN(y)) error -= 1
-    if (Float.isNaN(z)) error -= 1
-    error == 0
+    if (Float.isInfinite(x)) return false
+    if (Float.isInfinite(y)) return false
+    if (Float.isInfinite(z)) return false
+    if (Float.isNaN(x)) return false
+    if (Float.isNaN(y)) return false
+    if (Float.isNaN(z)) return false
+    true
   }
-  
-  final def elements = new Iterator[Float] {
-    var i=0
-    def next = {
-      i match {
-        case 0 => x
-        case 1 => y
-        case 2 => z
-        case _ => 0
-      }
-    }
-    def hasNext = i==3
+ 
+  // -- Buffers ----------------------------------------------------------------
+  /**
+    * Puts this vector  at the given postion into a <code>FloatBuffer</code>
+    */
+  final def put(buffer:FloatBuffer, index:Int) = {
+    val i = index * 3
+    buffer put (i, x)
+    buffer put (i+1, y)
+    buffer put (i+2, z)
+    this    
   }
-  
+
+   /**
+    * Puts this vector into the given <code>FloatBuffer</code>
+    */
+  final def put(buffer:FloatBuffer) = {
+    buffer put x
+    buffer put y
+    buffer put z
+    this    
+  }
+
+  // -- Misc -------------------------------------------------------------------
+  final def tuple = (x, y, z)
+    
   override def clone = new Vec3(x,y,z)
   
   override def toString = "Vec3["+ toLabel +"]"

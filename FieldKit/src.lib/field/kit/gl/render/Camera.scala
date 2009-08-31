@@ -28,7 +28,7 @@ package field.kit.gl.render
  */
 class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   import math._
-  import math.FMath._
+  import math.Common._
   import util.Buffer
   import javax.media.opengl.GL
   import javax.media.opengl.glu.GLU
@@ -42,16 +42,16 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   
   // -- Frame ------------------------------------------------------------------
   /** Camera's location */
-  protected val _location = new Vec3(0,0,0)
+  protected val _location = Vec3(0,0,0)
   
   /** Direction of camera's 'left' */
-  protected val _left = new Vec3(1,0,0)
+  protected val _left = Vec3(1,0,0)
   
   /** Direction of 'up' for camera. */
-  protected val _up = new Vec3(0,1,0)
+  protected val _up = Vec3(0,1,0)
   
   /** Direction the camera is facing. */
-  protected val _direction = new Vec3(0,0,1)
+  protected val _direction = Vec3(0,0,1)
   
   // -- Frustum ----------------------------------------------------------------
   /** Distance from camera to near frustum plane. */
@@ -124,7 +124,7 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
     var z = y / tan(fovY * 0.5f)
     var near = z / 10f
     var far = z * 10f
-    var aspect = width/ height.asInstanceOf[Float]
+    var aspect = width/ height.toFloat
     
     resize(width, height)
     perspective(fovY, aspect, near, far)

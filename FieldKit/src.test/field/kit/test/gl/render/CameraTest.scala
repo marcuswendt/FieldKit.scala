@@ -14,7 +14,7 @@ object CameraTest extends test.Sketch {
   import kit.gl.scene._
   import kit.util.Timer
   import kit.math._
-  import kit.math.FMath._
+  import kit.math.Common._
   
   var scene:Group = _
   val timer = new Timer
@@ -58,8 +58,8 @@ object CameraTest extends test.Sketch {
     scene("Red").rotation += (rotX, rotY, 0)
     scene("Blue").rotation += (0, 0, rotX * 3f)
     
-//    scene.rotation.x = (mouseY)/ height.asInstanceOf[Float] * TWO_PI * 25f
-//    scene.rotation.z = (mouseX -hwidth)/ width.asInstanceOf[Float] * TWO_PI * 25f
+//    scene.rotation.x = (mouseY)/ height.toFloat * TWO_PI * 25f
+//    scene.rotation.z = (mouseX -hwidth)/ width.toFloat * TWO_PI * 25f
     
     import processing.core.PConstants
     val speedUp = 2f

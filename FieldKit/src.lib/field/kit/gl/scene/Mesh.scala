@@ -19,7 +19,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   import javax.media.opengl.GL
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
-  import math.FMath._
+  import math.Common._
 
   /** Stores the actual data buffers */
   var data = new MeshData

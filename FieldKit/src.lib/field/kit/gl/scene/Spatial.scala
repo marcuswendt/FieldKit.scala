@@ -16,9 +16,9 @@ abstract class Spatial(name:String) extends BaseNode(name) with Drawable {
   
   logName = name
   
-  var translation = new Vec3
-  var scale = new Vec3(1,1,1)
-  var rotation = new Vec3
+  var translation = Vec3()
+  var scale = Vec3(1f)
+  var rotation = Vec3()
   
   override def render {
     if(isVisible) {

@@ -10,3 +10,6 @@
 	  a group e.g. ArrayBuffer, Branch, Flock
 	  When they're not available e.g. since the class already uses them for 
 	  other purposes then revert back to add and remove method names
+	  
+	* multiple constructors should be avoided and replaced with the class -  
+	  companion object pattern whereever possible

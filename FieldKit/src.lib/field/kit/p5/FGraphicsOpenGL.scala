@@ -15,7 +15,7 @@ import processing.opengl.PGraphicsOpenGL
 class FGraphicsOpenGL extends PGraphicsOpenGL {
   import processing.core.PConstants._
   import javax.media.opengl._
-  import math.FMath
+  import math.Common._
 
   // -- Camera -----------------------------------------------------------------
   import kit.gl.render.AdvancedCamera

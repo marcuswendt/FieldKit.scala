@@ -8,6 +8,7 @@
 package field.kit.gl.scene.shape
 
 import gl.scene._
+import math.Common._
 import math._
   
 /**
@@ -17,13 +18,13 @@ object Box {
   val DEFAULT_USE_QUADS = true
   
   /** Creates a new default Box */
-  def apply() = new Box("Box", new Vec3, 1f, 1f, 1f)
+  def apply() = new Box("Box", Vec3(), 1f, 1f, 1f)
   
   def apply(extent:Float) = 
-    new Box("Box", new Vec3, extent, extent, extent)
+    new Box("Box", Vec3(), extent, extent, extent)
   
   def apply(name:String, extent:Float) = 
-    new Box(name, new Vec3, extent, extent, extent)
+    new Box(name, Vec3(), extent, extent, extent)
 }
 
 /** 
@@ -152,14 +153,14 @@ class Box(name:String,
    */
   protected def computeVertices = {
     val a = new Array[Vec3](8)
-    a(0) = new Vec3(center) += (-extentX, -extentY, -extentZ)
-    a(1) = new Vec3(center) += (extentX, -extentY, -extentZ)
-    a(2) = new Vec3(center) += (extentX, extentY, -extentZ)
-    a(3) = new Vec3(center) += (-extentX, extentY, -extentZ)
-    a(4) = new Vec3(center) += (extentX, -extentY, extentZ)
-    a(5) = new Vec3(center) += (-extentX, -extentY, extentZ)
-    a(6) = new Vec3(center) += (extentX, extentY, extentZ)
-    a(7) = new Vec3(center) += (-extentX, extentY, extentZ)
+    a(0) = Vec3(center) += (-extentX, -extentY, -extentZ)
+    a(1) = Vec3(center) += (extentX, -extentY, -extentZ)
+    a(2) = Vec3(center) += (extentX, extentY, -extentZ)
+    a(3) = Vec3(center) += (-extentX, extentY, -extentZ)
+    a(4) = Vec3(center) += (extentX, -extentY, extentZ)
+    a(5) = Vec3(center) += (-extentX, -extentY, extentZ)
+    a(6) = Vec3(center) += (extentX, extentY, extentZ)
+    a(7) = Vec3(center) += (-extentX, extentY, extentZ)
     a
   }
 }

@@ -11,7 +11,7 @@ import field.kit._
 
 object CubeTest extends Sketch {
   import field.kit.gl.scene.Mesh
-  import field.kit.math.FMath
+  import field.kit.math.Common._
   
   var geoWidth = 400f
   var geoHeight = geoWidth
@@ -27,9 +27,9 @@ object CubeTest extends Sketch {
     
     // TODO improve rendering with points, need to figure out renderstates first
     beginGL
-    //s.rotation.y = FMath.TWO_PI * (mouseX/width.asInstanceOf[Float])
-    s.rotation.y = 360f * (mouseX/width.asInstanceOf[Float])
-    s.rotation.x = 360f * (1f- mouseY/height.asInstanceOf[Float])
+    //s.rotation.y = TWO_PI * (mouseX/width.toFloat)
+    s.rotation.y = 360f * (mouseX/width.toFloat)
+    s.rotation.x = 360f * (1f- mouseY/height.toFloat)
     s.translation.x = width/2f
     s.translation.y = height/2f
     s.render

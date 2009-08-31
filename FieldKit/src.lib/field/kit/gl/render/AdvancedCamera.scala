@@ -12,7 +12,7 @@ package field.kit.gl.render
  */
 class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   import math.Vec3
-  import math.FMath._
+  import math.Common._
   
   protected var azimuth = 0f
   protected var elevation = 0f
@@ -20,10 +20,10 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   protected var shotLength = 0f
 
   /** target position */
-  protected val target = new Vec3(_location.x, _location.y, 0)
+  protected val target = Vec3(_location.x, _location.y, 0)
   
   /** distance differences between camera and target */
-  protected val delta = new Vec3
+  protected val delta = Vec3()
   
   protected val TOL = 0.00001f
   
@@ -33,7 +33,7 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   // -- Instantaneous Changes --------------------------------------------------
   import processing.opengl._
   def feed(g:PGraphicsOpenGL) {
-    g.perspective(fovY, width/ height.asInstanceOf[Float], frustumNear, frustumFar)
+    g.perspective(fovY, width/ height.toFloat, frustumNear, frustumFar)
     g.camera(location.x, location.y, location.z,
              target.x, target.y, target.z,
              up.x, up.y, up.z)

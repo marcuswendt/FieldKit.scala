@@ -23,16 +23,16 @@ object Quad extends Enumeration {
   
   /** Creates a new default <code>Quad</code> */
   def apply() = 
-    new Quad("Quad", new Vec3, 1f, 1f)
+    new Quad("Quad", Vec3(), 1f, 1f)
   
   def apply(width:Float, height:Float) = 
-    new Quad("Quad", new Vec3, width, height)
+    new Quad("Quad", Vec3(), width, height)
   
   def apply(center:Vec3, width:Float, height:Float) = 
     new Quad("Quad", center, width, height)
   
   def apply(name:String, width:Float, height:Float) = 
-    new Quad(name, new Vec3, width, height)
+    new Quad(name, Vec3(), width, height)
 }
 
 

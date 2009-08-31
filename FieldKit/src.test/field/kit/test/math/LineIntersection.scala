@@ -60,6 +60,6 @@ object LineIntersectionTest extends Sketch {
     var b = new Vec2
     
     def intersects(other:LineDebug, result:Vec2) = 
-      FMath.intersects(a.x, a.y, b.x, b.y, other.a.x, other.a.y, other.b.x, other.b.y, result)
+      Common.intersects(a.x, a.y, b.x, b.y, other.a.x, other.a.y, other.b.x, other.b.y, result)
   }
 }

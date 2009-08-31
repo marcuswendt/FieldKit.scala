@@ -126,8 +126,8 @@ object Image extends field.kit.Logger {
         import java.awt.Color
          
         val af = AffineTransform.getScaleInstance(
-          image.texWidth/ image.width.asInstanceOf[Float],
-          image.texHeight/ image.height.asInstanceOf[Float] )
+          image.texWidth/ image.width.toFloat,
+          image.texHeight/ image.height.toFloat )
         
         val rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         val transform = new AffineTransformOp(af,rh)

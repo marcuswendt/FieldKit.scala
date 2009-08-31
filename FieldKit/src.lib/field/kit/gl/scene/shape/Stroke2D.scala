@@ -215,7 +215,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Mesh(name) {
       else
         Vec2.rayIntersectionPoint(p1, v1, p2, v3, vIntersect)
       
-      if(vIntersect.isNaNOrInfinite) {
+      if(!vIntersect.isValid) {
         vIntersect := vCur
         vIntersect += v2
       }

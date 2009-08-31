@@ -17,7 +17,7 @@ object OctreeTest extends test.Sketch {
   import processing.core.PConstants._
   import kit.math.geometry._
   import kit.math._
-  import kit.math.FMath._
+  import kit.math.Common._
   import kit.util.datatype.collection.ArrayBuffer
 
   class VisibleOctree(offset:Vec3, size:Float) extends Octree(offset, size) {
@@ -69,7 +69,7 @@ object OctreeTest extends test.Sketch {
   val pointer = new Vec3
   
   // view rotation
-  var xrot = FMath.THIRD_PI
+  var xrot = Common.THIRD_PI
   var zrot = 0.1f
   
   var points = new ArrayBuffer[Vec3]

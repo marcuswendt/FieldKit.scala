@@ -24,17 +24,17 @@ class Spline(capacity:Int) extends Curve(capacity) {
   val EPSILON = 0.000001f
   
   // internal fields used for calculating points on the curve
-  private val tmp0 = new Vec3
-  private val tmp1 = new Vec3
-  private val tmp2 = new Vec3
-  private val tmp3 = new Vec3
-  private val tmp4 = new Vec3
-  private val tmpResult = new Vec3
+  private val tmp0 = Vec3()
+  private val tmp1 = Vec3()
+  private val tmp2 = Vec3()
+  private val tmp3 = Vec3()
+  private val tmp4 = Vec3()
+  private val tmpResult = Vec3()
   
-  private val first = new Vec3
-  private val second = new Vec3
-  private val beforeLast = new Vec3
-  private val last = new Vec3
+  private val first = Vec3()
+  private val second = Vec3()
+  private val beforeLast = Vec3()
+  private val last = Vec3()
   
   private var needsUpdate = false
   

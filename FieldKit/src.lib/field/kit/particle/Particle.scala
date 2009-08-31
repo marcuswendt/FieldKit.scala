@@ -30,12 +30,12 @@ class Particle extends Vec3 with Logger {
   var age = 0f
   var lifeTime = 10 * 1000f
   
-  var velocity = new Vec3
-  var steer = new Vec3
+  var velocity = Vec3()
+  var steer = Vec3()
   var steerMax = 1f
   var velocityMax = 10f
   
-  protected val absVelocity = new Vec3
+  protected val absVelocity = Vec3()
   
   /** called automatically when the particle is added to the flock */
   def init {}

@@ -18,7 +18,7 @@ class Colour(
   var a:Float
 ) extends Logger {  
   import math._
-  import math.FMath._
+  import math.Common._
   
   def this() = this(0f,0f,0f,1f)
   def this(r:Float,g:Float,b:Float) = this(r,g,b,1f)

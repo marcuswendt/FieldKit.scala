@@ -78,7 +78,7 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
       var numPoints = 100
       data.vertexCount = numPoints
       for(i <- 0 until numPoints) {
-        curve.point(i / numPoints.asInstanceOf[Float], p)
+        curve.point(i / numPoints.toFloat, p)
         p put vertices
       }
       vertices.rewind
@@ -113,6 +113,7 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
 object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
   import field.kit.gl.scene._
   import field.kit.math._
+  import kit.math.Common._
   
   var p = new Polygon(100)
   
@@ -156,9 +157,9 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     val r1 = 350f
     var numPoints = (capacity * 0.66).asInstanceOf[Int]
     for(i <- 0 until numPoints) {
-      val t = (i / numPoints.asInstanceOf[Float]) * FMath.TWO_PI
-      vertices put FMath.sin(t) * r1 + offsetX
-      vertices put FMath.cos(t) * r1 + offsetY
+      val t = (i / numPoints.toFloat) * TWO_PI
+      vertices put sin(t) * r1 + offsetX
+      vertices put cos(t) * r1 + offsetY
       vertices put 0
       data.vertexCount += 1
     }
@@ -167,9 +168,9 @@ object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
     val r2 = 50f
     numPoints = (capacity * 0.33).asInstanceOf[Int]
     for(i <- 0 until numPoints) {
-      val t = (i / numPoints.asInstanceOf[Float]) * FMath.TWO_PI
-      vertices put FMath.sin(t) * r2 + offsetX
-      vertices put FMath.cos(t) * r2 + offsetY
+      val t = (i / numPoints.toFloat) * TWO_PI
+      vertices put sin(t) * r2 + offsetX
+      vertices put cos(t) * r2 + offsetY
       vertices put 0
       data.vertexCount += 1
     }

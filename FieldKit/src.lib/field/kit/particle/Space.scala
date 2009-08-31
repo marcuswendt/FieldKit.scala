@@ -14,14 +14,14 @@ package field.kit.particle
 class Space(w:Float, h:Float, d:Float) {
   import field.kit.math._
   
-  protected val _center = new Vec3
-  protected var _dimension = new Vec3(w, h, d)
+  protected val _center = Vec3()
+  protected var _dimension = Vec3(w, h, d)
   update
   
   def this() = this(1000f, 1000f, 1000f)
   
   def set(w:Float, h:Float, d:Float) {	
-    _dimension := (w,h,d)
+    _dimension := Vec3(w,h,d)
     update
   }
   

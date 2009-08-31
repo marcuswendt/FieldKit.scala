@@ -10,21 +10,21 @@ package field.kit.math.geometry
 /**
  * Axis-aligned bounding box used for Octrees and other optimisation techniques
  */
-class AABB(position:Vec3, var extent:Vec3) extends Vec3 {
-  import kit.math.FMath._
+class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
+  import kit.math.Common._
   
-  var min = new Vec3
-  var max = new Vec3
+  var min = Vec3()
+  var max = Vec3()
   
   this := position
   updateBounds
   
   // -- Constructors -----------------------------------------------------------  
   def this(extent:Vec3) = 
-    this(new Vec3, extent)
+    this(Vec3(), extent)
   
   def this(position:Vec3, extent:Float) = 
-    this(position, new Vec3(extent))
+    this(position, Vec3(extent))
   
   // -- Utilities --------------------------------------------------------------
   def updateBounds {

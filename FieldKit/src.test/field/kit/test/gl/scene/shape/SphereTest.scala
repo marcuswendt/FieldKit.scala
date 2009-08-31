@@ -8,7 +8,7 @@
 package field.kit.test.gl.scene.shape
 
 object SphereTest extends test.Sketch {
-  import kit.math.FMath._
+  import kit.math.Common._
   import kit.gl.scene._
   import kit.gl.scene.shape._
   
@@ -42,8 +42,8 @@ object SphereTest extends test.Sketch {
     t += 0.01f
     val r = 200f
     //s.translation := (hwidth + sin(t) * r, hheight, -250f + cos(t) * r)
-    scene.rotation.x = mouseY/ height.asInstanceOf[Float] * TWO_PI * 100f
-    scene.rotation.y = mouseX/ width.asInstanceOf[Float] * TWO_PI * 100f
+    scene.rotation.x = mouseY/ height.toFloat * TWO_PI * 100f
+    scene.rotation.y = mouseX/ width.toFloat * TWO_PI * 100f
     
     // render
     background(64)
@@ -52,7 +52,7 @@ object SphereTest extends test.Sketch {
 //    strokeWeight(2)
 //    val numLines = 6
 //    for(i <- 0 until numLines) {
-//      val x = i/numLines.asInstanceOf[Float] * width
+//      val x = i/numLines.toFloat * width
 //      line(x, 0, x, height)
 //    }
 //    noStroke
@@ -60,8 +60,8 @@ object SphereTest extends test.Sketch {
    	val numBoxes = 3
 	for(i <- 0 until numBoxes) {
 	  for(j <- 0 until numBoxes) {
-	    val x = i/ numBoxes.asInstanceOf[Float]
-        val y = j/ numBoxes.asInstanceOf[Float]
+	    val x = i/ numBoxes.toFloat
+        val y = j/ numBoxes.toFloat
         
 	    fill(x * 128 + y * 128, 128)
      
@@ -84,8 +84,8 @@ object SphereTest extends test.Sketch {
           fill(0,255,0)
         
         rect(x * width, y * height,
-             width/ numBoxes.asInstanceOf[Float], 
-             height/ numBoxes.asInstanceOf[Float])
+             width/ numBoxes.toFloat, 
+             height/ numBoxes.toFloat)
 	  }
 	}
   

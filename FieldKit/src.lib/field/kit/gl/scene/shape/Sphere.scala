@@ -20,19 +20,19 @@ object Sphere {
   }
   
   def apply() = 
-    new Sphere("Sphere", new Vec3, 1f, 16, 16)
+    new Sphere("Sphere", Vec3(), 1f, 16, 16)
 
   def apply(name:String, radius:Float) = 
-    new Sphere(name, new Vec3, radius, 16, 16)
+    new Sphere(name, Vec3(), radius, 16, 16)
   
   def apply(name:String, center:Vec3, radius:Float) = 
     new Sphere(name, center, radius, 16, 16)
   
   def apply(radius:Float, samples:Int) = 
-    new Sphere("Sphere", new Vec3, radius, samples, samples)
+    new Sphere("Sphere", Vec3(), radius, samples, samples)
   
   def apply(name:String, radius:Float, samples:Int) = 
-    new Sphere(name, new Vec3, radius, samples, samples)
+    new Sphere(name, Vec3(), radius, samples, samples)
   
   /**
    * Creates a Sphere that shares its data with another Sphere
@@ -80,7 +80,7 @@ class Sphere(name:String,
    * init vertices, texture coords and normals
    */
   protected def initGeometry {
-    import math.FMath._
+    import math.Common._
     import util.Buffer._
     
     val verts = (zSamples - 2) * (radialSamples + 1) + 2
@@ -106,9 +106,9 @@ class Sphere(name:String,
     
     // generate the sphere itself
     var i=0
-    val tempA = new Vec3
-    val tempB = new Vec3
-    val tempC = new Vec3
+    val tempA = Vec3()
+    val tempB = Vec3()
+    val tempC = Vec3()
     
     for(iZ <- 1 until zSamples-1) {
       val aFraction = HALF_PI * (-1.0f + zFactor * iZ) // in (-pi/2, pi/2)

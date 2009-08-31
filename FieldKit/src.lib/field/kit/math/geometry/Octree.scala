@@ -81,7 +81,7 @@ extends AABB(offset + halfSize, halfSize) {
         val octant = getOctantID(plocal)
         
         if(children(octant) == null) {
-          val o = new Vec3(offset)
+          val o = Vec3(offset)
           if((octant & 1) != 0) o.x += halfSize
           if((octant & 2) != 0) o.y += halfSize
           if((octant & 4) != 0) o.z += halfSize

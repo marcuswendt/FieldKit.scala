@@ -22,7 +22,7 @@ object Stroke2DTest extends Sketch {
     // update
     if(mousePressed) {
       info("point", mouseX, mouseY, "length", stroke.length)
-      //Math.sin(time).asInstanceOf[Float]
+      //Math.sin(time).toFloat
       stroke += (mouseX, mouseY, 5f)
 //      stroke.update
     }

@@ -17,15 +17,16 @@ class Wrap extends Behaviour("Wrap") {
   import field.kit.math.Vec3
   
   /** the normalized minimum coord */
-  var min = new Vec3
+  var min = Vec3()
+  
   /** the normalized maximum coord */
-  var max = new Vec3
+  var max = Vec3()
   
   /** the absolute minimum coord */
-  protected var _min = new Vec3
+  protected var _min = Vec3()
   
   /** the absolute minimum coord */
-  protected var _max = new Vec3
+  protected var _max = Vec3()
   
   // set detaults
   override def init {

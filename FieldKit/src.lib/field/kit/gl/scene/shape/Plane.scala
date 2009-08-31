@@ -16,7 +16,7 @@ import field.kit._
  */
 class Plane(name:String) extends Mesh(name) {
   import javax.media.opengl.GL
-  import field.kit.math.FMath
+  import field.kit.math.Common._
   
   var width:Float = _
   var height:Float = _
@@ -50,8 +50,8 @@ class Plane(name:String) extends Mesh(name) {
   def init(_cols:Int, _rows:Int) {
     def index(x:Int, y:Int) = y * rows + x
     
-	this.cols = FMath.max(1, _cols)
-    this.rows = FMath.max(1, _rows)
+	this.cols = max(1, _cols)
+    this.rows = max(1, _rows)
     
     var verts = rows * cols
     data.allocVertices(verts)
@@ -94,8 +94,8 @@ class Plane(name:String) extends Mesh(name) {
     
     for(y <- 0 until cols) {
       for(x <- 0 until rows) {
-        val u = (x / (rows.asInstanceOf[Float]-1)) * width
-        val v = (y / (cols.asInstanceOf[Float]-1)) * height
+        val u = (x / (rows.toFloat-1)) * width
+        val v = (y / (cols.toFloat-1)) * height
         vertices put u put v put 0f
         textureCoords put u put v
       }
@@ -107,12 +107,12 @@ class Plane(name:String) extends Mesh(name) {
   
   def update {
     import field.kit.math.Vec3
-    val cur = new Vec3
-    val left = new Vec3
-    val up = new Vec3
+    val cur = Vec3()
+    val left = Vec3()
+    val up = Vec3()
     
-    val v1 = new Vec3
-    val v2 = new Vec3
+    val v1 = Vec3()
+    val v2 = Vec3()
     
     val normals = data.normals
     val vertices = data.vertices

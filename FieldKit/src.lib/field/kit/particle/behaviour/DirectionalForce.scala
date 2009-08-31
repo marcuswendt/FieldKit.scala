@@ -8,6 +8,7 @@
 package field.kit.particle.behaviour
 
 import kit.math._
+import kit.math.Common._
 
 /**
  * a simple force that is applied to the steering vector of a particle
@@ -16,14 +17,14 @@ import kit.math._
  */
 class DirectionalForce(name:String) extends Behaviour(name) {
   protected var _weight = 1f
-  protected var _direction = new Vec3
-  protected val tmp = new Vec3
+  protected var _direction = Vec3()
+  protected val tmp = Vec3()
   
   override def prepare(dt:Float) = tmp := _direction *= _weight
   
   def apply(p:Particle, dt:Float) = p.steer += tmp
   
-  def weight_=(v:Float) = _weight = FMath.clamp(v, 0, 1)
+  def weight_=(v:Float) = _weight = clamp(v, 0, 1)
   def weight = _weight
   
   def direction_=(v:Vec3) = _direction := v normalize
@@ -31,9 +32,9 @@ class DirectionalForce(name:String) extends Behaviour(name) {
 }
 
 class Wind extends DirectionalForce("Wind") {
-  direction = new Vec3(1f, 0, 0)
+  direction = Vec3(1f, 0f, 0f)
 }
 
 class Gravity extends DirectionalForce("Gravity") {
-  direction = new Vec3(0, 1f, 0)
+  direction = Vec3(0f, 1f, 0f)
 }

@@ -33,7 +33,7 @@ object SplineTest extends test.Sketch {
     val p = new Vec3
     val numPoints = 100
     for(i <- 0 to numPoints) {
-      s.point(i / numPoints.asInstanceOf[Float],p)
+      s.point(i / numPoints.toFloat,p)
       rect(p.x, p.y, 3f, 3f)
     }
   }
@@ -47,6 +47,6 @@ object SplineTest extends test.Sketch {
   
   override def mousePressed {
     info("adding point @", mouseX, mouseY)
-    s.+=(mouseX.asInstanceOf[Float], mouseY.asInstanceOf[Float], 0f)
+    s.+=(mouseX.toFloat, mouseY.toFloat, 0f)
   }
 }
