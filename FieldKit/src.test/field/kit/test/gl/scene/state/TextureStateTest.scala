@@ -11,9 +11,10 @@ package field.kit.test.gl.scene.state
  * quick test for the texture state feature
  */
 object TextureStateTest extends field.kit.Sketch {
-  import field.kit.gl.scene._
-  import field.kit.gl.scene.shape._
-  import field.kit.gl.scene.state._
+  import kit.math.Common._
+  import kit.gl.scene._
+  import kit.gl.scene.shape._
+  import kit.gl.scene.state._
 
   val w = 350f
   val h = 350f

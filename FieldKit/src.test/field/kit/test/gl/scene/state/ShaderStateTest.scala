@@ -11,9 +11,10 @@ package field.kit.test.gl.scene.state
  * quick test for the glsl shader state feature
  */
 object ShaderStateTest extends test.Sketch {
-  import field.kit.gl.scene._
-  import field.kit.gl.scene.shape._
-  import field.kit.gl.scene.state._
+  import kit.math.Common._
+  import kit.gl.scene._
+  import kit.gl.scene.shape._
+  import kit.gl.scene.state._
   
   var scene:Group = null
   

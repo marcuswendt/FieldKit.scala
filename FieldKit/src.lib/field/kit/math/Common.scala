@@ -17,16 +17,8 @@ package field.kit.math
 object Common extends Trigonometry with Interpolation with Intersection {
   // Implicit conversions
   implicit def doubleTofloat(d: Double) = d.toFloat
-  
-  implicit def tuple2fToVec2(xy: (Float, Float)) = {
-    println("converting", xy, "to Vec2")
-    Vec2(xy._1, xy._2)
-  }
-  
-  implicit def tuple3fToVec3(xyz: (Float, Float, Float)) = {
-    println("converting", xyz, "to Vec3")
-    Vec3(xyz._1, xyz._2, xyz._3)
-  }
+  implicit def tuple2fToVec2(xy: (Float, Float)) = new Vec2(xy._1, xy._2)
+  implicit def tuple3fToVec3(xyz: (Float, Float, Float)) = new Vec3(xyz._1, xyz._2, xyz._3)
     
   /** regular expression to detect a number within a string with optional minus and fractional part */
   final val DECIMAL = """(-)?(\d+)(\.\d*)?""".r
