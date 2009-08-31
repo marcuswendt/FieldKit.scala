@@ -21,6 +21,12 @@ object Sphere {
   
   def apply() = 
     new Sphere("Sphere", new Vec3, 1f, 16, 16)
+
+  def apply(name:String, radius:Float) = 
+    new Sphere(name, new Vec3, radius, 16, 16)
+  
+  def apply(name:String, center:Vec3, radius:Float) = 
+    new Sphere(name, center, radius, 16, 16)
   
   def apply(radius:Float, samples:Int) = 
     new Sphere("Sphere", new Vec3, radius, samples, samples)

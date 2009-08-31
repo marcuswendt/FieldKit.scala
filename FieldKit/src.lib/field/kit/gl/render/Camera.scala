@@ -8,15 +8,23 @@
 package field.kit.gl.render
 
 /**
- * Companion object to class Camera
- */
-object Camera {
-  import javax.media.opengl.glu.GLU
-  val glu = new GLU
-}
-
-/**
  * Construct a new Camera with the given frame width and height.
+ * 
+ * The code is based on Ardor3Ds <code>Camera</code> and the 
+ * camera system in Processings <code>PGraphics</code> classes.
+ * 
+ * Compared to Ardor3D some of the more game specific features 
+ * (e.g. frustum culling planes) have been removed.
+ * 
+ * For better compability with Processing this classes initializes to the same 
+ * default projection and modelview matrices as PGraphics3D.
+ * 
+ * Also to provide more intuitive camera control methods some ideas from Kristian Linn Damkjers 
+ * Obsessive Camera Direction Processing plugin have been implemented. 
+ * 
+ * @see http://ardorlabs.trac.cvsdude.com/Ardor3Dv1/browser/trunk/ardor3d-core/src/main/java/com/ardor3d/renderer/Camera.java
+ * @see http://dev.processing.org/source/index.cgi/trunk/processing/core/src/processing/core/PGraphics3D.java?rev=5653&view=markup
+ * @see http://www.gdsstudios.com/processing/libraries/ocd/
  */
 class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   import math._
@@ -27,64 +35,61 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   
   // -- Depth Range ------------------------------------------------------------
   /** The near range for mapping depth values from normalized device coordinates to window coordinates. */
-  var depthRangeNear = 0f
+  protected var depthRangeNear = 0f
   
   /** The far range for mapping depth values from normalized device coordinates to window coordinates. */
-  var depthRangeFar = 1f
+  protected var depthRangeFar = 1f
   
   // -- Frame ------------------------------------------------------------------
   /** Camera's location */
-  val location = new Vec3(0,0,0)
+  protected val _location = new Vec3(0,0,0)
   
   /** Direction of camera's 'left' */
-  val left = new Vec3(1,0,0)
+  protected val _left = new Vec3(1,0,0)
   
   /** Direction of 'up' for camera. */
-  val up = new Vec3(0,1,0)
+  protected val _up = new Vec3(0,1,0)
   
   /** Direction the camera is facing. */
-  val direction = new Vec3(0,0,1)
+  protected val _direction = new Vec3(0,0,1)
   
   // -- Frustum ----------------------------------------------------------------
   /** Distance from camera to near frustum plane. */
-  var frustumNear = 1f
+  protected var frustumNear = 1f
   
   /** Distance from camera to far frustum plane. */
-  var frustumFar = 2f
+  protected var frustumFar = 2f
   
   /** Distance from camera to left frustum plane. */
-  var frustumLeft = -0.5f
+  protected var frustumLeft = -0.5f
   
   /** Distance from camera to right frustum plane. */
-  var frustumRight = 0.5f
+  protected var frustumRight = 0.5f
   
   /** Distance from camera to top frustum plane. */
-  var frustumTop = 0.5f
+  protected var frustumTop = 0.5f
   
   /** Distance from camera to bottom frustum plane. */
-  var frustumBottom = -0.5f
+  protected var frustumBottom = -0.5f
   
   // -- Viewport ---------------------------------------------------------------
   /** Percent value on display where horizontal viewing starts for this camera. */
-  var viewportLeft = 0f
+  protected var viewportLeft = 0f
   
   /** Percent value on display where horizontal viewing ends for this camera. */
-  var viewportRight = 1f
+  protected var viewportRight = 1f
   
   /** Percent value on display where vertical viewing ends for this camera. */
-  var viewportTop = 1f
+  protected var viewportTop = 1f
   
   /** Percent value on display where vertical viewing begins for this camera. */
-  var viewportBottom = 0f
+  protected var viewportBottom = 0f
   
   /** Defines wether this view is a parallel or perspective projection */
-  var parallelProjection = false
+  protected var parallelProjection = false
   
   /** Convenience store for fovY. Only set during setFrustumPerspective and never used. */
   var fovY = Float.NaN
-  
-//  /** Array holding the planes that this camera will check for culling. */
-//  var worldPlane = new Array[Plane]
   
   // -- Internal Variables -----------------------------------------------------
   protected var depthRangeDirty = false
@@ -105,114 +110,94 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   
   private val tempMatrixBuffer = Buffer.float(16)
   
-//  // Temporary values computed in onFrustumChange that are needed if a call is made to onFrameChange.
-//  protected val coeffLeft = new Array[Float](2)
-//  protected val coeffRight = new Array[Float](2)
-//  protected val coeffBottom = new Array[Float](2)
-//  protected val coeffTop = new Array[Float](2)
-  
   // -- Initialisation ---------------------------------------------------------
-  onDepthRangeChange
-  onFrustumChange
-  onViewportChange
-  onFrameChange
-  
-  def onDepthRangeChange = 
-    depthRangeDirty = true
+  init(PI / 3f, width, height)
   
   /**
-   * Updates internal frustum coefficient values to reflect the current frustum plane values.
+   * @param fovY field of view in radians
+   * @param width of the viewport
+   * @param height of the viewport
    */
-  def onFrustumChange = {
-//    // perspective projection
-//    if(!parallelProjection) {
-//      val nearSq = frustumNear * frustumNear
-//      val leftSq = frustumLeft * frustumLeft
-//      val rightSq = frustumRight * frustumRight
-//      val bottomSq = frustumBottom * frustumBottom
-//      val topSq = frustumTop * frustumTop
-//      
-//      var inverseLength = (1.0 / Math.sqrt(nearSq + leftSq)).asInstanceOf[Float]
-//      coeffLeft(0) = frustumNear * inverseLength
-//      coeffLeft(1) = -frustumLeft * inverseLength
-//
-//      inverseLength = (1.0 / Math.sqrt(nearSq + rightSq)).asInstanceOf[Float]
-//      coeffRight(0) = -frustumNear * inverseLength
-//      coeffRight(1) = frustumRight * inverseLength
-//
-//      inverseLength = (1.0 / Math.sqrt(nearSq + bottomSq)).asInstanceOf[Float]
-//      coeffBottom(0) = frustumNear * inverseLength
-//      coeffBottom(1) = -frustumBottom * inverseLength
-//
-//      inverseLength = (1.0 / Math.sqrt(nearSq + topSq)).asInstanceOf[Float]
-//      coeffTop(0) = -frustumNear * inverseLength
-//      coeffTop(1) = frustumTop * inverseLength
-//      
-//    // parallel projection
-//    } else {
-//      if (frustumRight > frustumLeft) {
-//        coeffLeft(0) = -1
-//        coeffLeft(1) = 0
-//        
-//        coeffRight(0) = 1
-//        coeffRight(1) = 0
-//        
-//      } else {
-//        coeffLeft(0) = 1
-//        coeffLeft(1) = 0
-//        
-//        coeffRight(0) = -1
-//        coeffRight(1) = 0
-//      }
-//      
-//      if (frustumBottom > frustumTop) {
-//        coeffBottom(0) = -1
-//        coeffBottom(1) = 0
-//        
-//        coeffTop(0) = 1
-//        coeffTop(1) = 0
-//      } else {
-//        coeffBottom(0) = 1
-//        coeffBottom(1) = 0
-//        
-//        coeffTop(0) = -1
-//        coeffTop(1) = 0
-//      }
-//    }
+  def init(fovY:Float, width:Int, height:Int) {
+    var x = width / 2f
+    var y = height / 2f
+    var z = y / tan(fovY * 0.5f)
+    var near = z / 10f
+    var far = z * 10f
+    var aspect = width/ height.asInstanceOf[Float]
     
-    updatePMatrix = true
-    updateMVPMatrix = true
-    updateInverseMVPMatrix = true
-    
-    frustumDirty = true
+    resize(width, height)
+    perspective(fovY, aspect, near, far)
+    frame(x,y,z, 
+    	  x,y,0,
+    	  0,1,0)
+//  	frame(0,0,z, 
+//    	  0,0,0,
+//    	  0,1,0)
   }
   
-  def onViewportChange = 
-    viewportDirty = true
+  def resize(width:Int, height:Int) {
+    this.width = width
+    this.height = height
+    onViewportChange
+  }
+  
+  def perspective(fovY:Float, aspect:Float, zNear:Float, zFar:Float) {
+    val ymax = zNear * tan(fovY / 2)
+    val ymin = -ymax
+    val xmin = ymin * aspect
+    val xmax = ymax * aspect
+    this.fovY = fovY
+    frustum(xmin, xmax, ymin, ymax, zNear, zFar)
+  }
+  
+  def frustum(left:Float, right:Float, bottom:Float, top:Float, near:Float, far:Float) {
+    frustumLeft = left
+    frustumRight = right
+    frustumBottom = bottom
+    frustumTop = top
+    frustumNear = near
+    frustumFar = far
+    onFrustumChange
+  }
+  
+  def frame(eyeX:Float, eyeY:Float, eyeZ:Float, 
+            centerX:Float, centerY:Float, centerZ:Float, 
+            upX:Float, upY:Float, upZ:Float) {
+    _location.set(eyeX, eyeY, eyeZ)
+    _up.set(upX, upY, upZ).normalize
+    _direction.set(centerX - eyeX, centerY - eyeY, centerZ - eyeZ).normalize
+    onFrameChange
+  }
   
   /**
-   * Updates the values of the world planes associated with this camera.
+   * Sets this camera to the values of a given camera
+   * @return itself
    */
-  def onFrameChange = {
-//    val dirDotLocation = direction.dot(location)
-//    val planeNormal = new Vec3
-//    
-//    // left plane
-//    planeNormal.x = left.x * coeffLeft(0)
-//    planeNormal.y = left.y * coeffLeft(0)
-//    planeNormal.z = left.z * coeffLeft(0)
-//    planeNormal += (direction.x * coeffLeft(1), 
-//                    direction.y * coeffLeft(1), 
-//                    direction.z * coeffLeft(1))
-//    
-//    worldPlane[LEFTPLANE].setNormal(planeNormal);
-//    worldPlane[LEFTPLANE].setConstant(location.dot(planeNormal))
+  def :=(c:Camera) = {
+    width = c.width
+    height = c.height
     
-	updateMVMatrix = true
-	updateMVPMatrix = true
-	updateInverseMVPMatrix = true
-        
-    frameDirty = true
+    depthRangeNear = c.depthRangeNear
+    depthRangeFar = c.depthRangeFar
+    
+    _location := c._location
+    _left := c._left
+    _up := c._up
+    _direction := c._direction
+    
+    frustumNear = c.frustumNear
+    frustumFar = c.frustumFar
+    frustumLeft = c.frustumLeft
+    frustumRight = c.frustumRight
+    frustumTop = c.frustumTop
+    frustumBottom = c.frustumBottom
+    parallelProjection = c.parallelProjection
+    fovY = c.fovY
+    
+    update
+    
+    this
   }
   
   /**
@@ -226,6 +211,38 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
     onFrameChange
   }
   
+  protected def onDepthRangeChange = 
+    depthRangeDirty = true
+  
+  /**
+   * Updates internal frustum coefficient values to reflect the current frustum plane values.
+   */
+  protected def onFrustumChange = {
+    updatePMatrix = true
+    updateMVPMatrix = true
+    updateInverseMVPMatrix = true
+    
+    frustumDirty = true
+  }
+  
+  protected def onViewportChange = 
+    viewportDirty = true
+  
+  /**
+   * Updates the values of the world planes associated with this camera.
+   */
+  protected def onFrameChange = {    
+	updateMVMatrix = true
+	updateMVPMatrix = true
+	updateInverseMVPMatrix = true
+        
+    frameDirty = true
+  }
+  
+  // -- Render -----------------------------------------------------------------
+  /**
+   * Applies this cameras matrices and settings to the GL view 
+   */
   def render {
     if(depthRangeDirty) {
       applyDepthRange
@@ -248,13 +265,14 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
     }
   }
   
+  
   // -- Perform Changes -------------------------------------------------------- 
   protected def applyDepthRange {
     gl.glDepthRange(depthRangeNear, depthRangeFar)
   }
   
   /** Apply the camera's projection matrix */
-  def applyProjectionMatrix {
+  protected def applyProjectionMatrix {
     tempMatrixBuffer.clear
     projection.put(tempMatrixBuffer)
     tempMatrixBuffer.rewind
@@ -276,7 +294,7 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   /** Apply the camera's modelview matrix */ 
   protected def applyModelViewMatrix {
     tempMatrixBuffer.clear
-    modelViewMatrix.put(tempMatrixBuffer)
+    modelView.put(tempMatrixBuffer)
     tempMatrixBuffer.rewind
     gl.glMatrixMode(GL.GL_MODELVIEW)
     gl.glLoadMatrixf(tempMatrixBuffer)
@@ -284,6 +302,27 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   } 
   
   // -- Getters ----------------------------------------------------------------
+  def location = _location
+  
+  def location_=(v:Vec3) {
+    location := v
+    onFrameChange
+  }
+  
+  def up = _up
+  
+  def up_=(v:Vec3) {
+    _up := v
+    onFrameChange
+  }
+  
+  def direction = _direction
+  
+  def direction_=(v:Vec3) {
+    direction := v
+    onFrameChange
+  }
+  
   /** @return this cameras projection matrix (updated if necessary) */
   def projection = {
     if(updatePMatrix) {
@@ -294,7 +333,7 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   }
   
   /** @return this cameras model view matrix (updated if necessary) */
-  def modelViewMatrix = {
+  def modelView = {
     if(updateMVMatrix) {
       updateModelViewMatrix
       updateMVMatrix = false
@@ -304,9 +343,9 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   
   // -- Updater ----------------------------------------------------------------
   /** 
-   * Updates the value of our projection matrix.
+   * Updates the projection matrix from the current frustum
    */
-  protected def updateProjectionMatrix {
+  private def updateProjectionMatrix {
 	if (parallelProjection) {
 	  _projection.identity
 	  _projection(0, 0) = 2f / (frustumRight - frustumLeft)
@@ -330,118 +369,29 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
 	}
   }
   
-  protected def updateModelViewMatrix {
+  /** 
+   * Updates the model view matrix from the current left, up, direction and location vectors
+   */
+  private def updateModelViewMatrix {
     _modelView.identity
-    _modelView(0, 0) = left.x
-    _modelView(1, 0) = left.y
-    _modelView(2, 0) = left.z
+    _modelView(0, 0) = _left.x
+    _modelView(1, 0) = _left.y
+    _modelView(2, 0) = _left.z
     
-    _modelView(0, 1) = up.x
-    _modelView(1, 1) = up.y
-    _modelView(2, 1) = up.z
+    _modelView(0, 1) = _up.x
+    _modelView(1, 1) = _up.y
+    _modelView(2, 1) = _up.z
 
-    _modelView(0, 2) = -direction.x
-    _modelView(1, 2) = -direction.y
-    _modelView(2, 2) = -direction.z
+    _modelView(0, 2) = -_direction.x
+    _modelView(1, 2) = -_direction.y
+    _modelView(2, 2) = -_direction.z
     
     _transMatrix.identity
-    _transMatrix(3, 0) = -location.x
-    _transMatrix(3, 1) = -location.y
-    _transMatrix(3, 2) = -location.z
+    _transMatrix(3, 0) = -_location.x
+    _transMatrix(3, 1) = _location.y
+    _transMatrix(3, 2) = -_location.z
     
     _transMatrix *= _modelView
     _modelView := _transMatrix
-  }
-  
-  // -- Setters ----------------------------------------------------------------
-  def resize(width:Int, height:Int) {
-    this.width = width
-    this.height = height
-    onViewportChange
-  }
-  
-  def frustum(fovY:Float, aspect:Float, near:Float, far:Float) {
-    var h =	tan(fovY * .5f) * near
-    var w = h * aspect
-    frustumLeft = -w
-    frustumRight = w
-    frustumBottom = -h
-    frustumTop = h
-    frustumNear = near
-    frustumFar = far
-    this.fovY = fovY
-    onFrustumChange
-  }
-  
-  def frustum(left:Float, right:Float, bottom:Float, top:Float, near:Float, far:Float) {
-    frustumLeft = left
-    frustumRight = right
-    frustumBottom = bottom
-    frustumTop = top
-    frustumNear = near
-    frustumFar = far
-    onFrustumChange
-  }
-  
-  def frame(eyeX:Float, eyeY:Float, eyeZ:Float, 
-            centerX:Float, centerY:Float, centerZ:Float, 
-            upX:Float, upY:Float, upZ:Float) {
-    location.set(eyeX, eyeY, eyeZ)
-    up.set(upX, upY, upZ).normalize
-    direction.set(centerX - eyeX, centerY - eyeY, centerZ - eyeZ).normalize
-    onFrameChange
-  }
-  
-  /** fov in degrees, width and height of the viewport */
-  def init(fovY:Float, width:Int, height:Int) {
-    var x = 0f
-    var y = 0f
-    var z = (height * .5f) / tan(fovY * 1f)
-    var near = z / 10f
-    var far = z * 10f
-    var aspect = width/ height.asInstanceOf[Float]
-    
-    resize(width, height)
-    frustum(fovY, aspect, near, far)
-    frame(0,0,1, 
-    	  0,0,0,
-    	  0,-1,0)
-    
-//    var x = width * .5f
-//    var y = height * .5f
-//    var z = y / tan(fovY * .5f)    
-//    frame(x,y,z, 
-//    	  x,y,0,
-//    	  0,-1,0)
-  }
-  
-  /**
-   * Sets this camera to the values of a given camera
-   * @return itself
-   */
-  def :=(c:Camera) = {
-    width = c.width
-    height = c.height
-    
-    depthRangeNear = c.depthRangeNear
-    depthRangeFar = c.depthRangeFar
-    
-    location := c.location
-    left := c.left
-    up := c.up
-    direction := c.direction
-    
-    frustumNear = c.frustumNear
-    frustumFar = c.frustumFar
-    frustumLeft = c.frustumLeft
-    frustumRight = c.frustumRight
-    frustumTop = c.frustumTop
-    frustumBottom = c.frustumBottom
-    parallelProjection = c.parallelProjection
-    fovY = c.fovY
-    
-    update
-    
-    this
   }
 }

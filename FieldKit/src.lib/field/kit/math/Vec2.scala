@@ -194,19 +194,19 @@ class Vec2(var x:Float, var y:Float) {
    * Adds the given <code>Vec2</code> to this <code>Vec2</code>
    * @return result as new vector 
    */
-  final def +(x:Float, y:Float):Vec2 = this - (x,y, null)
+  final def +(x:Float, y:Float):Vec2 = this + (x,y, null)
   
   /** 
    * Multiplies the given <code>Vec2</code> with this <code>Vec2</code>
    * @return result as new vector 
    */
-  final def *(x:Float, y:Float):Vec2 = this - (x,y, null)
+  final def *(x:Float, y:Float):Vec2 = this * (x,y, null)
   
   /** 
    * Divides this <code>Vec2</code> through the given <code>Vec2</code>
    * @return result as new vector 
    */
-  final def /(x:Float, y:Float):Vec2 = this - (x,y, null)
+  final def /(x:Float, y:Float):Vec2 = this / (x,y, null)
   
   /** 
    * Subtracts the given <code>Vec2</code> from this <code>Vec2</code>

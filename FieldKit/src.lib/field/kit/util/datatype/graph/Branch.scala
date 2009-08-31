@@ -28,6 +28,7 @@ trait Branch[T <: Node] extends Collection[T] {
       val child = children(i)
       if(child.name.equals(name))
         return child
+      i += 1
     }
     return null.asInstanceOf[T]
   }

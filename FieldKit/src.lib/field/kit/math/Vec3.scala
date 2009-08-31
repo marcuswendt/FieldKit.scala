@@ -189,19 +189,19 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    * Adds the given floats to this vector
    * @return result as new vector 
    */
-  final def +(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
+  final def +(x:Float, y:Float, z:Float):Vec3 = this + (x,y,z, null)
   
   /** 
    * Multiplies the given floats with this vector
    * @return result as new vector
    */
-  final def *(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
+  final def *(x:Float, y:Float, z:Float):Vec3 = this * (x,y,z, null)
   
   /** 
    * Divides this vector through the given floats
    * @return result as new vector  
    */
-  final def /(x:Float, y:Float, z:Float):Vec3 = this - (x,y,z, null)
+  final def /(x:Float, y:Float, z:Float):Vec3 = this / (x,y,z, null)
   
   /**
    * Subtracts the given scalar from this vector
@@ -213,19 +213,19 @@ class Vec3(var x:Float, var y:Float, var z:Float) {
    * Adds the given scalar to this vector
    * @return result as new vector 
    */
-  final def +(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  final def +(s:Float, result:Vec3):Vec3 = this + (s,s,s, result)
   
   /** 
    * Multiplies the given scalar with this vector
    * @return result as new vector
    */
-  final def *(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  final def *(s:Float, result:Vec3):Vec3 = this * (s,s,s, result)
   
   /** 
    * Divides this vector through the given scalar
    * @return result as new vector  
    */
-  final def /(s:Float, result:Vec3):Vec3 = this - (s,s,s, result)
+  final def /(s:Float, result:Vec3):Vec3 = this / (s,s,s, result)
   
   /** 
    * Subtracts the given scalar from this vector and returns the result

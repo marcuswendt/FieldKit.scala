@@ -18,8 +18,8 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
   import math.FMath
 
   // -- Camera -----------------------------------------------------------------
-  import kit.gl.render.Camera
-  var activeCamera:Camera = null
+  import kit.gl.render.AdvancedCamera
+  var activeCamera:AdvancedCamera = null
 
   /**
    * Creates a new <code>GLDrawable</code> and the default <code>Camera</code> 
@@ -45,10 +45,7 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
       gl = context.getGL
       
       // init camera
-      activeCamera = new Camera(width, height)
-      activeCamera.init(60 * FMath.DEG_TO_RAD, width, height)
-      
-      //activeCamera.location := (width*.5f, height*.5f, -623f)
+      activeCamera = new AdvancedCamera(width, height)
       
       // Flag defaults to be reset on the next trip into beginDraw().
       settingsInited = false
@@ -59,60 +56,51 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
   
   override def beginDraw {
     super.beginDraw()
-    
-    // p5 overrides the projection and modelview matrices, 
-    // therefore we need to refresh the camera on every frame
-    activeCamera.update
-    activeCamera.render
-    
+     
+    // Cannot render camera directly, 
+    // instead we need to override processings default matrices
+    activeCamera.feed(this)
+      
     /*
-    if (drawable != null) {
-      drawable.setRealized(parent.isDisplayable())
-      if (parent.isDisplayable()) {
-        drawable.setRealized(true)
-      } else {
-        return
-      }
-      detainContext()
-    }
+    modelview.m00 = activeCamera.modelView.m00
+    modelview.m01 = activeCamera.modelView.m01
+    modelview.m02 = activeCamera.modelView.m02
+    modelview.m03 = activeCamera.modelView.m03
     
-    if (!settingsInited) defaultSettings()
+    modelview.m10 = activeCamera.modelView.m10
+    modelview.m11 = activeCamera.modelView.m11
+    modelview.m12 = activeCamera.modelView.m12
+    modelview.m13 = activeCamera.modelView.m13
     
-    // -- PGraphics3D.beginDraw ------------------------------------------------
-    // reset vertices
-    vertexCount = 0;
+    modelview.m20 = activeCamera.modelView.m20
+    modelview.m21 = activeCamera.modelView.m21
+    modelview.m22 = activeCamera.modelView.m22
+    modelview.m23 = activeCamera.modelView.m23
     
-    // -- Camera ---------------------------------------------------------------
-//              super.beginDraw()
-//    activeCamera.update
-	activeCamera.init(60 * FMath.DEG_TO_RAD, width, height)
-    activeCamera.render
+    modelview.m30 = activeCamera.modelView.m30
+    modelview.m31 = activeCamera.modelView.m31
+    modelview.m32 = activeCamera.modelView.m32
+    modelview.m33 = activeCamera.modelView.m33
 
-    // -- Init GL --------------------------------------------------------------
-//    gl.glMatrixMode(GL.GL_MODELVIEW)
-//    gl.glLoadIdentity
-//    gl.glScalef(1, -1, 1)
+    projection.m00 = activeCamera.projection.m00
+    projection.m01 = activeCamera.projection.m01
+    projection.m02 = activeCamera.projection.m02
+    projection.m03 = activeCamera.projection.m03
     
-    // processing defaults
-    gl.glEnable(GL.GL_BLEND);
-    gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-
-    // this is necessary for 3D drawing
-    if(hints(DISABLE_DEPTH_TEST)) {
-      gl.glDisable(GL.GL_DEPTH_TEST)
-    } else {
-      gl.glEnable(GL.GL_DEPTH_TEST)
-    }
-    // use <= since that's what processing.core does
-    gl.glDepthFunc(GL.GL_LEQUAL)
-
-    // because y is flipped
-    gl.glFrontFace(GL.GL_CW)
-
-    // coloured stuff
-    gl.glEnable(GL.GL_COLOR_MATERIAL)
-    gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE)
-    gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR)
+    projection.m10 = activeCamera.projection.m10
+    projection.m11 = activeCamera.projection.m11
+    projection.m12 = activeCamera.projection.m12
+    projection.m13 = activeCamera.projection.m13
+    
+    projection.m20 = activeCamera.projection.m20
+    projection.m21 = activeCamera.projection.m21
+    projection.m22 = activeCamera.projection.m22
+    projection.m23 = activeCamera.projection.m23
+    
+    projection.m30 = activeCamera.projection.m30
+    projection.m31 = activeCamera.projection.m31
+    projection.m32 = activeCamera.projection.m32
+    projection.m33 = activeCamera.projection.m33
     */
   }
 }

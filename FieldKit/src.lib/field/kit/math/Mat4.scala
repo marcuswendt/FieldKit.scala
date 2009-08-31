@@ -84,7 +84,7 @@ final class Mat4 extends Matrix(4) {
   }
   
   /** @return Returns the value at the given position in the matrix. */
-  override def apply(i:Int, j:Int) = {
+  override def apply(j:Int, i:Int) = {
     i match {
       case 0 =>
         j match {
@@ -118,7 +118,7 @@ final class Mat4 extends Matrix(4) {
   }
   
   /** Sets the value at position i,j in the matrix. */
-  def update(i:Int, j:Int, s:Float) = {
+  def update(j:Int, i:Int, s:Float) = {
     i match {
       case 0 =>
         j match {

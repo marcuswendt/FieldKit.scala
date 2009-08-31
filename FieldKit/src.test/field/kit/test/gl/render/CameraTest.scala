@@ -36,11 +36,16 @@ object CameraTest extends test.Sketch {
     red.translation := (0,0,128)
     red.rotation := (QUARTER_PI, QUARTER_PI, 0)
     scene += red
+    
+    // floating blue sphere
+    val blue = Sphere("Blue", new Vec3(256f, 64f, 128), 32f)
+    blue.colour := Colour.BLUE
+    scene += blue
         
     // ground plane    
     val plane = Quad("Ground", height, height)
     plane.colour := Colour.GREEN
-//    plane.translation.x = 270
+    plane.translation.z = -10f
     scene += plane
   })
   
@@ -50,40 +55,59 @@ object CameraTest extends test.Sketch {
     
     val rotX = dt * 0.01f
     val rotY = dt * 0.01f
-    scene("Red").rotation += (rotX, rotX, 0)
+    scene("Red").rotation += (rotX, rotY, 0)
+    scene("Blue").rotation += (0, 0, rotX * 3f)
     
-    scene.rotation.x = (mouseY)/ height.asInstanceOf[Float] * TWO_PI * 25f
-    scene.rotation.z = (mouseX -hwidth)/ width.asInstanceOf[Float] * TWO_PI * 25f
+//    scene.rotation.x = (mouseY)/ height.asInstanceOf[Float] * TWO_PI * 25f
+//    scene.rotation.z = (mouseX -hwidth)/ width.asInstanceOf[Float] * TWO_PI * 25f
     
     import processing.core.PConstants
     val speedUp = 2f
     if(keyPressed) {
 	    keyCode match {
 	      case PConstants.LEFT => 
-	        camVelocity.x -= speedUp
+	        camVelocity.x += speedUp
 	          
 	      case PConstants.RIGHT => 
-	        camVelocity.x += speedUp
+	        camVelocity.x -= speedUp
 	        
 	      case PConstants.UP => 
-	        camVelocity.z -= speedUp
+	        camVelocity.y -= speedUp
 	    
 	      case PConstants.DOWN => 
-	        camVelocity.z += speedUp
+	        camVelocity.y += speedUp
 	
+	      case _ =>
+	    }
+     
+	    key match {
+	      case 'a' => 
+	        camVelocity.x += speedUp
+         
+	      case 'd' => 
+	        camVelocity.x -= speedUp
+         
+	      case 'w' => 
+	        camVelocity.z -= speedUp
+	    
+	      case 's' => 
+	        camVelocity.z += speedUp
 	      case _ =>
 	    }
     }
     
-    activeCamera.location += camVelocity
-    activeCamera.update
-//    activeCamera.render
+    activeCamera.truck(camVelocity.x)
+    activeCamera.boom(camVelocity.y)
+    activeCamera.dolly(camVelocity.z)
     
     camVelocity *= 0.9f
     
     // render
     import javax.media.opengl.GL
     background(64)
+    
+    fill(0,64,32, 128);
+    rect(0,0, width, height);
     
 //    pushMatrix
 //    translate(hwidth, hheight, 0)
@@ -103,9 +127,18 @@ object CameraTest extends test.Sketch {
     endGL
   }
   
+  override def mouseMoved {
+    // activeCamera.arc( (mouseY - pmouseY) * DEG_TO_RAD)
+    // activeCamera.circle( (mouseX - pmouseX) * DEG_TO_RAD * .5f )
+    activeCamera.tumble(radian(mouseX - pmouseX), radian(mouseY - pmouseY));
+  }
+  
+  def radian(d:Float) = DEG_TO_RAD * d
+  
   override def keyPressed {
     key match {
       case ' ' => useLights = !useLights
+      //case 'a' => activeCamera.aim( scene("Blue").translation )
       case _ =>
     }
   }
