@@ -196,7 +196,6 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
     fovY = c.fovY
     
     update
-    
     this
   }
   
@@ -393,5 +392,12 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
     
     _transMatrix *= _modelView
     _modelView := _transMatrix
+  }
+  
+  // -- Utilities --------------------------------------------------------------
+  override def clone = {
+    val c = new Camera(width, height)
+    c := this
+    c
   }
 }

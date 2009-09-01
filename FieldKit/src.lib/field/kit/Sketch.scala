@@ -175,9 +175,6 @@ abstract class Sketch extends BasicSketch {
   override def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
     super.init(width,height,fullscreen,initializer)
     
-    // init recorder
-    rec.init(width * 3, height * 3)
-    
     // dont show menubar in fullscreen mode, (deactivates keyboard shortcuts on linux)
     if(!fullscreen)
       frame.setMenuBar(initMenuBar)

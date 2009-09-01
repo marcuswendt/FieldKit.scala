@@ -41,79 +41,16 @@ object SphereTest extends test.Sketch {
     // update
     t += 0.01f
     val r = 200f
-    //s.translation := (hwidth + sin(t) * r, hheight, -250f + cos(t) * r)
     scene.rotation.x = mouseY/ height.toFloat * TWO_PI * 100f
     scene.rotation.y = mouseX/ width.toFloat * TWO_PI * 100f
     
     // render
     background(64)
     
-//    stroke(255)
-//    strokeWeight(2)
-//    val numLines = 6
-//    for(i <- 0 until numLines) {
-//      val x = i/numLines.toFloat * width
-//      line(x, 0, x, height)
-//    }
-//    noStroke
-    
-   	val numBoxes = 3
-	for(i <- 0 until numBoxes) {
-	  for(j <- 0 until numBoxes) {
-	    val x = i/ numBoxes.toFloat
-        val y = j/ numBoxes.toFloat
-        
-	    fill(x * 128 + y * 128, 128)
-     
-        if(x == 0.2f && y == .2f)
-          fill(255,0,255)
-     
-        if(x == 0.4f && y == .4f)
-          fill(255,255,0)
-        
-        if(x == .5f && y == .5f)
-          fill(255,0,0)
-        
-        if(x == 0f && y == 0f)
-          fill(255,0,255)
-        
-        if(x == 0.9f && y == 0f)
-          fill(0,255,255)
-        
-        if(x == 0.9f && y == 0.9f)
-          fill(0,255,0)
-        
-        rect(x * width, y * height,
-             width/ numBoxes.toFloat, 
-             height/ numBoxes.toFloat)
-	  }
-	}
-  
- 	stroke(255)
- 	strokeWeight(10)
- 	line(0.33f * width, 0, 0.33f * width, height)
-  
- 	stroke(255, 0,0)
- 	line(0.66f * width, 0, 0.66f * width, height)
-  
- 	stroke(255, 255,0)
- 	line(0, 0.33f * height, width, 0.33f * height)
-  
- 	stroke(0, 255, 255)
- 	line(0, 0.66f * height, width, 0.66f * height)
-    noStroke
-    
-//    beginGL
-//    gl.glEnable(GL.GL_LIGHTING)
-//    gl.glEnable(GL.GL_LIGHT0)
-//    scene.render
-//    endGL
-  }
-  
-  override def keyPressed {
-    key match {
-      case 'n' => rec.tiler.next
-      case _ =>
-    }
+    beginGL
+    gl.glEnable(GL.GL_LIGHTING)
+    gl.glEnable(GL.GL_LIGHT0)
+    scene.render
+    endGL
   }
 }

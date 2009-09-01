@@ -30,6 +30,17 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   // -- Initialisation ---------------------------------------------------------
   updateDelta
   
+  def :=(c:AdvancedCamera) = {
+    super.:=(c)
+    azimuth = c.azimuth
+    elevation = c.elevation
+    roll = c.roll
+    shotLength = c.shotLength
+    target := c.target
+    delta := c.delta
+    this
+  }
+  
   // -- Instantaneous Changes --------------------------------------------------
   import processing.opengl._
   def feed(g:PGraphicsOpenGL) {
@@ -94,8 +105,9 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   /** Moves the camera and target simultaneously in the camera's X-Y plane */
   def track(offsetX:Float, offsetY:Float) {
     truck(offsetX)
-    
+    boom(offsetY)
   }
+  
   // -- Helpers ----------------------------------------------------------------
   /** Update deltas and related information */
   protected def updateDelta {
@@ -145,4 +157,16 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
     
     onFrameChange
   }
+  
+  // -- Utilities --------------------------------------------------------------
+  override def clone = {
+    val c = new AdvancedCamera(width, height)
+    c := this
+    c
+  }
+  
+  override def toString =
+    "AdvancedCamera[azimuth:"+ azimuth +" elevation:"+ elevation +" roll:"+ roll +"\n"+
+    "               target:"+ target +"\n"+
+    "               location: "+ location +"]"
 }
