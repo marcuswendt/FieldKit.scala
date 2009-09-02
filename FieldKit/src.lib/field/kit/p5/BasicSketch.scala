@@ -166,7 +166,7 @@ abstract class BasicSketch extends PAppletProxy with Logger {
   // --------------------------------------------------------------------
   /* extras */
   def title = logName
-  final private def pgl = g.asInstanceOf[FGraphicsOpenGL]
+  final def pgl = g.asInstanceOf[FGraphicsOpenGL]
   final def gl = pgl.gl
   
   final def beginGL = pgl.beginGL

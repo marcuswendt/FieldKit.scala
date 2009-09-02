@@ -11,7 +11,7 @@ package field.kit.p5
  * Utility used by <code>Recorder</code> to render a high-res image from a smaller OpenGL view.
  */
 class Tiler(rec:Recorder) extends Logger {
-  import java.nio.Buffer
+  import java.nio.ByteBuffer
   import javax.media.opengl.GL
   
   import kit.gl.render.Camera
@@ -41,7 +41,7 @@ class Tiler(rec:Recorder) extends Logger {
   protected val sketch = rec.sketch
 
   // the buffer itself, must be large enough to hold the final image
-  protected var buffer:Buffer = null 
+  protected var buffer:ByteBuffer = null 
   
   /** stores the original */
   protected var originalCamera = sketch.activeCamera.clone
@@ -56,13 +56,15 @@ class Tiler(rec:Recorder) extends Logger {
    * @param width the hi-res image width
    * @param height the hi-res image height
    */
-  def init(imageWidth:Int, imageHeight:Int, buffer:Buffer, dataFormat:Int) {
+  def init(imageWidth:Int, imageHeight:Int, buffer:ByteBuffer, dataFormat:Int) {
     this.buffer = buffer
     this.dataFormat = dataFormat
     
     image.width = imageWidth
     image.height = imageHeight
     
+    info("init", image)
+        
     index := (0,0)
     
     // calculate number of tiles in x, y
@@ -76,6 +78,13 @@ class Tiler(rec:Recorder) extends Logger {
     originalCamera := sketch.activeCamera
     
     isFinished = false
+    
+//    buffer.clear
+//    for(i <- 0 until buffer.capacity)
+//      buffer.put(0.toByte)
+//    //buffer.flip
+//    buffer.clear
+//    buffer.rewind
   }
   
   /**
@@ -89,18 +98,65 @@ class Tiler(rec:Recorder) extends Logger {
     
     val x = offsetX + (tile.width * index.x) 
     val y = offsetY + (tile.height * index.y)
-          
 	val z = (originalCamera.location.z - (originalCamera.location.z / tiles.height)) * -1 
     
     sketch.activeCamera := originalCamera
     sketch.activeCamera.track(x, y)
     sketch.activeCamera.dolly(z)
+    sketch.activeCamera.feed(sketch)
+  }
+
+  
+  /**
+   * @return true, when the current render is finished
+   */
+  def post:Boolean = {
+    if(isFinished) return true
+      
+    val gl = sketch.gl
+      
+    // be sure OpenGL rendering is finished
+    gl.glFlush
+    
+    // save current glPixelStore values
+    val prevRowLength = new Array[Int](1)
+    val prevSkipRows = new Array[Int](1)
+    val prevSkipPixels = new Array[Int](1)
+    val prevAlignment = new Array[Int](1)
+    gl.glGetIntegerv(GL.GL_PACK_ROW_LENGTH, prevRowLength, 0)
+    gl.glGetIntegerv(GL.GL_PACK_SKIP_PIXELS, prevSkipPixels, 0)
+    gl.glGetIntegerv(GL.GL_PACK_SKIP_ROWS, prevSkipRows, 0)
+    gl.glGetIntegerv(GL.GL_PACK_ALIGNMENT, prevAlignment, 0)
+    
+    val destX = sketch.width * index.x
+    val destY = sketch.height * (tiles.y - index.y - 1)
+    
+    info("tile", index, "width", image.width.toInt, "dest", destX, destY)
+    
+    // setup pixel store for glReadPixels
+    gl.glPixelStorei(GL.GL_PACK_ROW_LENGTH, image.width.toInt)
+    gl.glPixelStorei(GL.GL_PACK_SKIP_ROWS, destY)
+    gl.glPixelStorei(GL.GL_PACK_SKIP_PIXELS, destX)
+    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
+    
+    // read the tile into the final image
+    gl.glReadPixels(0, 0, sketch.width, sketch.height, dataFormat, dataType, buffer)
+    
+    // restore previous glPixelStore values
+    gl.glPixelStorei(GL.GL_PACK_ROW_LENGTH, prevRowLength(0))
+    gl.glPixelStorei(GL.GL_PACK_SKIP_ROWS, prevSkipRows(0))
+    gl.glPixelStorei(GL.GL_PACK_SKIP_PIXELS, prevSkipPixels(0))
+    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, prevAlignment(0))
+
+    //import com.sun.opengl.util._
+    //import java.io.File
+    //Screenshot.writeToTargaFile(new File("recordings/tile"+ index.x +"_"+ index.y +".png"), 0, 0, sketch.width, sketch.height,false)
+    
+    next
   }
   
-  def next {
-    if(isFinished) return
-      
-    // increment counter and check if we're done
+  /** increment counter and check if we're done */
+  def next:Boolean = {      
     index.x += 1
     if(index.x == tiles.columns) {
       index.x = 0
@@ -114,70 +170,7 @@ class Tiler(rec:Recorder) extends Logger {
         isFinished = true
       }
     }
-  }
-  
-  /**
-   * @return true, when the current render is finished
-   */
-  def post = {
+    
     isFinished
-    
-    /*
-    val gl = sketch.gl
-    
-    // be sure OpenGL rendering is finished
-    gl.glFlush
-    
-    // save current glPixelStore values
-    val prevRowLength = Array(0)
-    val prevSkipRows = Array(0)
-    val prevSkipPixels = Array(0)
-    val prevAlignment = Array(0)
-    gl.glGetIntegerv(GL.GL_PACK_ROW_LENGTH, prevRowLength, 0)
-    gl.glGetIntegerv(GL.GL_PACK_SKIP_ROWS, prevSkipRows, 0)
-    gl.glGetIntegerv(GL.GL_PACK_SKIP_PIXELS, prevSkipPixels, 0)
-    gl.glGetIntegerv(GL.GL_PACK_ALIGNMENT, prevAlignment, 0)
-    
-    val srcX = border
-    val srcY = border
-    val srcWidth = current.width - 2 * border
-    val srcHeight = current.height - 2 * border
-    val destX = sizeNB.width * index.x
-    val destY = sizeNB.height * index.y
-       
-    // setup pixel store for glReadPixels
-    gl.glPixelStorei(GL.GL_PACK_ROW_LENGTH, imageWidth)
-    gl.glPixelStorei(GL.GL_PACK_SKIP_PIXELS, destX)
-    gl.glPixelStorei(GL.GL_PACK_SKIP_ROWS, destY)
-    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
-    
-    // read the tile into the final image
-    gl.glReadPixels(srcX, srcY, srcWidth, srcHeight, dataFormat, dataType, buffer)
-     
-    // restore previous glPixelStore values
-    gl.glPixelStorei(GL.GL_PACK_ROW_LENGTH, prevRowLength(0))
-    gl.glPixelStorei(GL.GL_PACK_SKIP_ROWS, prevSkipRows(0))
-    gl.glPixelStorei(GL.GL_PACK_SKIP_PIXELS, prevSkipPixels(0))
-    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, prevAlignment(0))
-    
-    // increment counter and check if we're done
-    var isFinished = false
-    index.x += 1
-    if(index.x == tiles.columns) {
-      index.x = 0
-      index.y += 1
-      if(index.y == tiles.rows) {
-        index.y = 0
-        
-        // redraw view using original camera settings
-        sketch.activeCamera.update
-        sketch.activeCamera.render
-        sketch.draw
-        isFinished = true
-      }
-    }
-    isFinished
-    */
   }
-  
 }

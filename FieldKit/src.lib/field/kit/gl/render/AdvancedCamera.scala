@@ -42,8 +42,10 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   }
   
   // -- Instantaneous Changes --------------------------------------------------
-  import processing.opengl._
-  def feed(g:PGraphicsOpenGL) {
+  import processing.opengl.PGraphicsOpenGL
+  import processing.core.PApplet
+  def feed(app:PApplet) {
+    val g = app.g.asInstanceOf[PGraphicsOpenGL]
     g.perspective(fovY, width/ height.toFloat, frustumNear, frustumFar)
     g.camera(location.x, location.y, location.z,
              target.x, target.y, target.z,
@@ -119,8 +121,7 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
     azimuth = atan2(delta.x, delta.z)
     elevation = atan2(delta.y, sqrt(delta.z * delta.z + delta.x * delta.x))
     
-    info("updateDelta", "shotLength", shotLength, "azimuth", azimuth, "elevation", elevation)
-    
+    //info("updateDelta", "shotLength", shotLength, "azimuth", azimuth, "elevation", elevation)
     updateUp
   }
   

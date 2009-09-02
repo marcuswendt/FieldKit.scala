@@ -34,18 +34,20 @@ object Compressor extends Actor with Logger {
   
   /** requests an image and buffer with the given dimensions */
   def init(width:Int, height:Int, alpha:Boolean) = {
-    var is:ImageState = null
     val list = images filter (s => s.isAvailable)
-    if(list.size == 0) {
-      val format = if(alpha) BufferedImage.TYPE_4BYTE_ABGR else BufferedImage.TYPE_3BYTE_BGR
-      val image = new BufferedImage(width, height, format)
-      val buffer = ByteBuffer.wrap((image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte]).getData)
-      is = new ImageState(image, buffer)
+    val is = if(list.size == 0 ) {
+      val is = new ImageState
       images += is
+      is
     } else {
-      is = list(0)
+      list(0)
     }
-    is.busy // mark image as in use 
+    
+    // check if we need to (re)create the image and its buffer
+    is.init(width, height, alpha)
+    
+    // mark image as in use
+    is.busy  
     (is.image, is.buffer)
   }
   
@@ -101,13 +103,28 @@ object Compressor extends Actor with Logger {
     def free = isAvailable = true
   }
   
-  class ProcessorState(var processor:Processor) extends StateRecord
+  protected class ProcessorState(var processor:Processor) extends StateRecord
   
-  class ImageState(var image:BufferedImage, var buffer:ByteBuffer) extends StateRecord
+  protected class ImageState extends StateRecord {
+    var image:BufferedImage = null
+    var buffer:ByteBuffer = null
+    
+    def init(width:Int, height:Int, alpha:Boolean) {
+      var reinit = false
+      if(image == null || image.getWidth != width || image.getHeight != height) {
+        reinit = true
+      }
+      if(reinit) {
+        val format = if(alpha) BufferedImage.TYPE_4BYTE_ABGR else BufferedImage.TYPE_3BYTE_BGR
+        image = new BufferedImage(width, height, format)
+        buffer = ByteBuffer.wrap((image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte]).getData)
+      }
+    }
+  }
   
   // ------------------------------------------------------------------------------------
   /** represents a single image processor that does the actual encoding work */
-  class Processor(id:Int) extends Actor with Logger {
+  protected class Processor(id:Int) extends Actor with Logger {
     import com.sun.opengl.util.ImageUtil
     import javax.imageio.ImageIO
     

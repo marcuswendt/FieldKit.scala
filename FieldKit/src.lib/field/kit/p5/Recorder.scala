@@ -77,16 +77,15 @@ class Recorder(val sketch:BasicSketch) extends Logger {
    * Initializes the <code>BufferedImage</code> and its <code>ByteBuffer</code> 
    */
   protected def init {
+    info("init", image.width, image.height, fileFormat)
+    
     // check if we need to reinitialize the image and buffer
     if(fileFormat != Recorder.FileFormat.TGA) {
       val ib = Compressor.init(image.width, image.height, alpha)
       awtImage = ib._1
       buffer = ib._2
-      
-      info("initiialized image", awtImage.getWidth, awtImage.getHeight,
-           "alpha", alpha, "capacity", buffer.capacity)
-      
-      buffer.rewind
+      buffer.clear
+      //buffer.rewind
     }
     
     // init tiler
@@ -171,12 +170,17 @@ class Recorder(val sketch:BasicSketch) extends Logger {
     // save the file
     try {
       fileFormat match {
-        case Recorder.FileFormat.TGA => Screenshot.writeToTargaFile(file, width, height, alpha)
+        case Recorder.FileFormat.TGA => 
+          Screenshot.writeToTargaFile(file, image.width, image.height, alpha)
+          
         case _ =>
-          // capture image into buffer
-          val readbackType = if(alpha) GL.GL_ABGR_EXT else GL.GL_BGR
-          sketch.gl.glReadPixels(0, 0, awtImage.getWidth, awtImage.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
-
+          // the tiler should already have filled the buffer
+          if(!useTiler) {
+        	  // capture image into buffer
+        	  val readbackType = if(alpha) GL.GL_ABGR_EXT else GL.GL_BGR
+        	  sketch.gl.glReadPixels(0, 0, awtImage.getWidth, awtImage.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
+          }
+          
           // compress buffer
           Compressor(awtImage, fileFormat.toString, file)
       }

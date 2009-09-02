@@ -12,12 +12,6 @@ import processing.core.PApplet
 import field.kit.p5.BasicSketch
 
 /**
- * contains global constants 
- * @author Marcus Wendt
- */
-object Sketch extends PApplet {}
-
-/**
  * extends the BasicSketch with useful features
  * @author Marcus Wendt
  */

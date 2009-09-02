@@ -11,8 +11,8 @@ object TilerTest extends test.Sketch {
   import kit.math.Common
   import kit.math.Common._
   
-  var gridX = 1f
-  var gridY = 1f
+  var gridX = 2f
+  var gridY = 2f
   
   var colours = new Array[Int](256)
   for(i <- 0 until colours.length)
@@ -20,7 +20,9 @@ object TilerTest extends test.Sketch {
   
   val theFont = loadFont("Inconsolata-48.vlw")
    
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
+    rec.init(width * gridX.toInt, height * gridY.toInt)
+  })
   
   def render {
     background(64)
@@ -46,7 +48,7 @@ object TilerTest extends test.Sketch {
         translate(0,0,10)
         fill(0)
         noStroke
-        text("x"+ i +"y"+ j, 
+        text("x"+ j +"y"+ i, 
              x + w * .5f, 
              y + h * .5f)
         popMatrix        
@@ -56,18 +58,22 @@ object TilerTest extends test.Sketch {
   
   override def keyPressed {
     import processing.core.PConstants
+    var needsRefresh = false
     keyCode match {
-      case PConstants.LEFT => gridX -= 1
-      case PConstants.RIGHT => gridX += 1
-      case PConstants.UP => gridY += 1
-      case PConstants.DOWN => gridY -= 1
+      case PConstants.LEFT => gridX -= 1; needsRefresh = true
+      case PConstants.RIGHT => gridX += 1; needsRefresh = true
+      case PConstants.UP => gridY += 1; needsRefresh = true
+      case PConstants.DOWN => gridY -= 1; needsRefresh = true
       case _ =>
     }
-    gridX = clamp(gridX, 1, 10)
-    gridY = clamp(gridY, 1, 10)
     
-    info("initializing grid", gridX, gridY)
-    rec.init(width * gridX.toInt, height * gridY.toInt)
+    if(needsRefresh) {
+      gridX = clamp(gridX, 1, 10)
+      gridY = clamp(gridY, 1, 10)
+    
+      info("initializing grid", gridX, gridY)
+      rec.init(width * gridX.toInt, height * gridY.toInt)
+    }
     
     key match {
       case 'n' => rec.tiler.next

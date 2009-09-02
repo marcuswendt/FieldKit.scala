@@ -67,6 +67,6 @@ Export-Package: com.lowagie.text,
  processing.opengl,
  processing.pdf,
  processing.xml
-Require-Bundle: scala.library;bundle-version="2.7.5"
+Require-Bundle: scala.library;bundle-version="2.7.5";visibility:=reexport
 Bundle-Vendor: www.field.io
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
