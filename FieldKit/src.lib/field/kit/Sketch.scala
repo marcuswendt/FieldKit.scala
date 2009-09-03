@@ -158,6 +158,25 @@ abstract class Sketch extends BasicSketch {
     file add SwingUtil.menuItem("Present", KeyEvent.VK_0, false, this.toggleFullscreen)
     file add SwingUtil.menuItem("Record Screenshot", KeyEvent.VK_R, false, rec.screenshot)
     file add SwingUtil.menuItem("Record Sequence", KeyEvent.VK_R, true, rec.sequence)
+    file add SwingUtil.menuItem("Recording Settings", {
+      import javax.swing.JOptionPane
+      
+      val options = new Array[Object](30)
+      for(i <- 0 until options.length)
+        options(i) = (i+1)*width +" x "+ (i+1)*height +" px"
+      
+      val input = JOptionPane.showInputDialog(frame, 
+                                              "Select the output dimension:",
+                                              "Recording Settings",
+                                              JOptionPane.PLAIN_MESSAGE,
+                                              null,
+                                              options,
+                                              options(0)).toString
+      
+      val outputWidth = input.substring(0, input.indexOf(' ')).toInt
+      val numTiles = outputWidth / width
+      rec.init(numTiles * width, numTiles * height)
+    })
     file add SwingUtil.menuItem("Quit", KeyEvent.VK_Q, false, exit)
   }
   
@@ -168,6 +187,9 @@ abstract class Sketch extends BasicSketch {
   
   override def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
     super.init(width,height,fullscreen,initializer)
+    
+    // set default recording dimensions
+    rec.init(width, height)
     
     // dont show menubar in fullscreen mode, (deactivates keyboard shortcuts on linux)
     if(!fullscreen)

@@ -21,7 +21,7 @@ object TilerTest extends test.Sketch {
   val theFont = loadFont("Inconsolata-48.vlw")
    
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
-    rec.init(width * gridX.toInt, height * gridY.toInt)
+    //rec.init(width * gridX.toInt, height * gridY.toInt)
   })
   
   def render {
@@ -72,11 +72,10 @@ object TilerTest extends test.Sketch {
       gridY = clamp(gridY, 1, 10)
     
       info("initializing grid", gridX, gridY)
-      rec.init(width * gridX.toInt, height * gridY.toInt)
+      //rec.init(width * gridX.toInt, height * gridY.toInt)
     }
     
     key match {
-      case 'n' => rec.tiler.next
       case _ =>
     }
   }

@@ -9,12 +9,16 @@ package field.kit.p5
 
 /**
  * Utility used by <code>Recorder</code> to render a high-res image from a smaller OpenGL view.
+ * 
+ * This class is still experimental and behaves unexpectedly when used with an 
+ * imageWidth and imageHeight that are not the exact same multiples of the renderer window dimensions.
+ * 
  */
 class Tiler(rec:Recorder) extends Logger {
   import java.nio.ByteBuffer
   import javax.media.opengl.GL
   
-  import kit.gl.render.Camera
+  import kit.gl.render._
   import kit.math.Common._
   import kit.math._
   
@@ -22,7 +26,7 @@ class Tiler(rec:Recorder) extends Logger {
   /** the current tile */
   var index = new Dim2[Int]
   
-  /** the total number of tiles (columns & rows)*/
+  /** the total number of tiles (columns & rows) */
   var tiles = new Dim2[Int]
 
   /** height & width of a single tile */
@@ -78,13 +82,6 @@ class Tiler(rec:Recorder) extends Logger {
     originalCamera := sketch.activeCamera
     
     isFinished = false
-    
-//    buffer.clear
-//    for(i <- 0 until buffer.capacity)
-//      buffer.put(0.toByte)
-//    //buffer.flip
-//    buffer.clear
-//    buffer.rewind
   }
   
   /**
@@ -100,10 +97,10 @@ class Tiler(rec:Recorder) extends Logger {
     val y = offsetY + (tile.height * index.y)
 	val z = (originalCamera.location.z - (originalCamera.location.z / tiles.height)) * -1 
     
-    sketch.activeCamera := originalCamera
-    sketch.activeCamera.track(x, y)
-    sketch.activeCamera.dolly(z)
-    sketch.activeCamera.feed(sketch)
+    camera := originalCamera
+    camera.track(x, y)
+    camera.dolly(z)
+    camera.feed(sketch)
   }
 
   
@@ -131,7 +128,7 @@ class Tiler(rec:Recorder) extends Logger {
     val destX = sketch.width * index.x
     val destY = sketch.height * (tiles.y - index.y - 1)
     
-    info("tile", index, "width", image.width.toInt, "dest", destX, destY)
+    //info("tile", index, "width", image.width.toInt, "dest", destX, destY)
     
     // setup pixel store for glReadPixels
     gl.glPixelStorei(GL.GL_PACK_ROW_LENGTH, image.width.toInt)
@@ -140,7 +137,7 @@ class Tiler(rec:Recorder) extends Logger {
     gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
     
     // read the tile into the final image
-    gl.glReadPixels(0, 0, sketch.width, sketch.height, dataFormat, dataType, buffer)
+    gl.glReadPixels(0, 0, camera.width, camera.height, dataFormat, dataType, buffer)
     
     // restore previous glPixelStore values
     gl.glPixelStorei(GL.GL_PACK_ROW_LENGTH, prevRowLength(0))
@@ -156,7 +153,7 @@ class Tiler(rec:Recorder) extends Logger {
   }
   
   /** increment counter and check if we're done */
-  def next:Boolean = {      
+  protected def next:Boolean = {      
     index.x += 1
     if(index.x == tiles.columns) {
       index.x = 0
@@ -165,8 +162,7 @@ class Tiler(rec:Recorder) extends Logger {
         index.y = 0
         
         // redraw view using original camera settings
-        sketch.activeCamera := originalCamera
-        sketch.activeCamera.update
+        camera := originalCamera
         isFinished = true
       }
     }
