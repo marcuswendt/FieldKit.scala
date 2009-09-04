@@ -161,7 +161,7 @@ abstract class Sketch extends BasicSketch {
     file add SwingUtil.menuItem("Recording Settings", {
       import javax.swing.JOptionPane
       
-      val options = new Array[Object](30)
+      val options = new Array[Object](10)
       for(i <- 0 until options.length)
         options(i) = (i+1)*width +" x "+ (i+1)*height +" px"
       

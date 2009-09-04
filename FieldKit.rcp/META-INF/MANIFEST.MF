@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: FieldKit Eclipse RCP Plug-in
-Bundle-SymbolicName: FieldKit.rcp;singleton:=true
+Bundle-SymbolicName: FieldKit.rcp
 Bundle-Version: 1.0.0
-Bundle-Vendor: field.io
-Require-Bundle: FieldKit.osgi;bundle-version="1.0.0",
+Bundle-Vendor: FIELD.IO
+Require-Bundle: FieldKit.osgi;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.edit;bundle-version="2.4.2",
- org.eclipse.emf.edit.ui;bundle-version="2.4.2",
- scala.library;bundle-version="2.7.5"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+ org.eclipse.emf.edit.ui;bundle-version="2.4.2"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5,
+ JavaSE-1.6
 Export-Package: field.kit.emf.edit,
  field.kit.emf.edit.provider,
  field.kit.emf.edit.provider.descriptor,

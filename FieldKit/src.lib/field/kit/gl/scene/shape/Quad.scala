@@ -51,7 +51,10 @@ class Quad(name:String,
   var useQuads = Quad.DEFAULT_USE_QUADS
   var mode = Quad.CENTER
   init(_width, _height)
-           
+
+  def this(name:String) =
+    this("Quad", Vec3(), 1f, 1f)
+  
   /**
    * initializes the geometry data of this Quad
    */
