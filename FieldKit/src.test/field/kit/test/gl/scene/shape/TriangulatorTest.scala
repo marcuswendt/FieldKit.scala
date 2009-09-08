@@ -9,8 +9,8 @@ package field.kit.test.gl.scene.shape
 
 import field.kit._
 
-abstract class TriangulatorTest extends Sketch {
-  init(1024,768)
+abstract class TriangulatorTest extends test.Sketch {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
 }
 
 /** 

@@ -17,7 +17,7 @@ object SphereTest extends test.Sketch {
   var s2:Sphere = _
   var t = 0f
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA,  {
     import processing.core.PConstants
     hint(PConstants.ENABLE_DEPTH_SORT)
     

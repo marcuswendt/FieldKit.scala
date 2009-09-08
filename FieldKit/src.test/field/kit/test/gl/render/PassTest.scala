@@ -20,7 +20,7 @@ object PassTest extends field.kit.test.Sketch {
   var pass:Pass = null
   var scene:Spatial = null
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA,  {
     info("initializing scene")
     scene = new TestParticleSystemScene
   })

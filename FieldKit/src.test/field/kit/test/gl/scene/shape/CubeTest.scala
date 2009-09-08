@@ -9,7 +9,7 @@ package field.kit.test.gl.scene.shape
 
 import field.kit._
 
-object CubeTest extends Sketch {
+object CubeTest extends test.Sketch {
   import field.kit.gl.scene.Mesh
   import field.kit.math.Common._
   
@@ -20,7 +20,7 @@ object CubeTest extends Sketch {
   var s:Mesh = _
   initMesh(4,4,4)
   
-  init(1280,768)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(240)

@@ -153,7 +153,14 @@
 	</target>
 
 	<target name="jar" description="creates a .jar file from the compiled sources">
+		<!-- copy internal data -->
+		<echo>copying internal data</echo>
+		<copy todir="${tmp.bin}/">
+			<fileset refid="data.internal" />
+		</copy>
+		
 		<!-- create project .jar -->
+		<echo>creating project .jar</echo>
 		<!-- http://java.sun.com/j2se/1.5.0/docs/guide/jar/jar.html#Manifest-Overview -->
 		<jar jarfile="${build.jar}" basedir="${tmp.bin}" index="true" filesetmanifest="skip">
 			<manifest>

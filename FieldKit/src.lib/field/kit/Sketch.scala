@@ -185,8 +185,8 @@ abstract class Sketch extends BasicSketch {
     help add SwingUtil.menuItem("About", showAbout)
   }
   
-  override def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
-    super.init(width,height,fullscreen,initializer)
+  override def init(width:Int, height:Int, fullscreen:Boolean, aaSamples:Int, initializer: => Unit) {
+    super.init(width, height, fullscreen, aaSamples, initializer)
     
     // set default recording dimensions
     rec.init(width, height)

@@ -51,7 +51,7 @@ object StatefulParticleSystemTest extends test.Sketch {
   
   val timer = new Timer
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
     info("initializer")
     ps.space.set(width, height, 100) 
     f.emitter := ps.space.center

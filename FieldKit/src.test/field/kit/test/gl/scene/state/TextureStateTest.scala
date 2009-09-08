@@ -10,7 +10,7 @@ package field.kit.test.gl.scene.state
 /** 
  * quick test for the texture state feature
  */
-object TextureStateTest extends field.kit.Sketch {
+object TextureStateTest extends test.Sketch {
   import kit.math.Common._
   import kit.gl.scene._
   import kit.gl.scene.shape._
@@ -62,9 +62,7 @@ object TextureStateTest extends field.kit.Sketch {
   var mode = AlphaState.BlendMode.OFF
   var onBlack = false
   
-  init(1280, 768, false, {
-    info("initializer")
-  })
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(if(onBlack) 0 else 255)

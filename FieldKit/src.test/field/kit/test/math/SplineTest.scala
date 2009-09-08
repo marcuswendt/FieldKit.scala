@@ -14,7 +14,7 @@ object SplineTest extends test.Sketch {
   
   var s = new Spline 
   
-  init(1024,768)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(235)

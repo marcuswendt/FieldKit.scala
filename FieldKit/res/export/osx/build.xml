@@ -33,10 +33,12 @@
 		</copy>
 
 		<!-- copy internal data -->
+		<!-- dont need that anymore, since data is already included in .jar
 		<echo>copying internal data...</echo>
 		<copy todir="${dist.resources}">
 			<fileset refid="data.internal" />
 		</copy>
+		-->
 
 		<!-- copy external data -->
 		<available file="${data.external.dir}" type="dir" property="data.external.present" />

@@ -21,7 +21,7 @@ object CameraTest extends test.Sketch {
   val camVelocity = new Vec3
   var useLights = false
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
     import kit.gl.scene.shape._
     
     import processing.core.PConstants

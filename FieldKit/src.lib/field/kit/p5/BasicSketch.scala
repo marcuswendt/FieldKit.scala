@@ -25,8 +25,9 @@ abstract class BasicSketch extends PAppletProxy with Logger {
   /** set to true when the sketch currently spans the full screen */
   var isFullscreen = false
   
+  var aaSamples = 0
+  
   /** the function used when initializing/ reinitializing the sketch */
-  //private var initializer:Unit = null
   protected var initializer:(() => Unit) = null
   
   /**
@@ -34,20 +35,20 @@ abstract class BasicSketch extends PAppletProxy with Logger {
    */
   def main(args:Array[String]):Unit = {}
   
-  /** alternate initializer */
-  def init(width:Int, height:Int):Unit = init(width, height, false, null)
-  
-  /** alternate initializer */
-  def init(width:Int, height:Int, initializer: => Unit):Unit = init(width, height, false, initializer)
-  
-  /** alternate initializer */  
-  def init(width:Int, height:Int, fullscreen:Boolean):Unit = init(width, height, fullscreen, null)
+//  /** alternate initializer */
+//  def init(width:Int, height:Int):Unit = init(width, height, false, null)
+//  
+//  /** alternate initializer */
+//  def init(width:Int, height:Int, initializer: => Unit):Unit = init(width, height, false, initializer)
+//  
+//  /** alternate initializer */  
+//  def init(width:Int, height:Int, fullscreen:Boolean):Unit = init(width, height, fullscreen, null)
   
   /** 
    * initialize the frame and sets the sketch up, you can pass in a custom initializer
    * function that will get executed after everything is set and before the window is displayed 
    */
-  def init(width:Int, height:Int, fullscreen:Boolean, initializer: => Unit) {
+  def init(width:Int, height:Int, fullscreen:Boolean, aaSamples:Int, initializer: => Unit) {
     info("initialising "+ title +" (width: "+ width +" height: "+ height +" fullscreen:"+ fullscreen +")")
 
     // initialize
@@ -56,6 +57,7 @@ abstract class BasicSketch extends PAppletProxy with Logger {
     this.hwidth = width / 2f
 	this.hheight = height / 2f
 	this.isFullscreen = fullscreen
+	this.aaSamples = aaSamples
  
 	if(this.initializer == null)
 		this.initializer = () => initializer
@@ -138,7 +140,7 @@ abstract class BasicSketch extends PAppletProxy with Logger {
       frame.dispose
       
       // initialize again
-      init(newWidth, newHeight, newFullscreen, initializer)
+      init(newWidth, newHeight, newFullscreen, aaSamples, initializer)
       newWidth = 0
       
     } else {

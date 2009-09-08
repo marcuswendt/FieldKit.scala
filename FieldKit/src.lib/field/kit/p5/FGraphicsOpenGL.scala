@@ -28,13 +28,11 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
     if (context == null) {
       val capabilities = new GLCapabilities
       
-       if (!hints(DISABLE_OPENGL_2X_SMOOTH)) {
+      // set aa samples
+      val s = parent.asInstanceOf[BasicSketch]
+      if(s.aaSamples > 0) {
         capabilities.setSampleBuffers(true)
-        capabilities.setNumSamples(2)
-        
-      } else if (hints(ENABLE_OPENGL_4X_SMOOTH)) {
-        capabilities.setSampleBuffers(true)
-        capabilities.setNumSamples(8) // de fault to 8 instead of 4  
+        capabilities.setNumSamples(s.aaSamples)
       }
       
       val factory = GLDrawableFactory.getFactory

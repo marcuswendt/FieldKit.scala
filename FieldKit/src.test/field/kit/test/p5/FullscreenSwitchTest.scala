@@ -12,7 +12,7 @@ package field.kit.test.p5
  */
 object FullscreenSwitchTest extends test.Sketch {
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     import processing.core.PConstants._

@@ -13,7 +13,7 @@ package field.kit.test.p5
  */
 object MinimalSketchTest extends test.Sketch {
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(random(255,random(255,random(255))))

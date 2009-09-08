@@ -18,7 +18,7 @@ object ShaderStateTest extends test.Sketch {
   
   var scene:Group = null
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
     import java.net.URL
     
     info("initializing scene")

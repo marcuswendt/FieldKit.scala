@@ -20,9 +20,7 @@ object TilerTest extends test.Sketch {
   
   val theFont = loadFont("Inconsolata-48.vlw")
    
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, {
-    //rec.init(width * gridX.toInt, height * gridY.toInt)
-  })
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(64)

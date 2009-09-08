@@ -9,14 +9,14 @@ package field.kit.test.gl.scene.shape
 
 import field.kit._
 
-abstract class ShapeTest extends Sketch {
+abstract class ShapeTest extends test.Sketch {
   import field.kit.gl.scene.Mesh
   
   var s:Mesh = _
   var geoWidth = 500f
   var geoHeight = 500f
   
-  init(1024,768)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(0)

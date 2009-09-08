@@ -23,4 +23,5 @@ abstract class Sketch extends field.kit.Sketch {
   val DEFAULT_WIDTH = 1280
   val DEFAULT_HEIGHT = 720
   val DEFAULT_FULLSCREEN = false
+  val DEFAULT_AA = 0
 }

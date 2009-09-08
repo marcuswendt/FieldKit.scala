@@ -9,7 +9,7 @@ package field.kit.test.math
 
 import field.kit._
 
-object LineIntersectionTest extends Sketch {
+object LineIntersectionTest extends test.Sketch {
   import field.kit.math._
   
   val l1 = new LineDebug
@@ -17,7 +17,7 @@ object LineIntersectionTest extends Sketch {
 
   var index = 0
   
-  init(1024, 768)
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   
   def render {
     background(16)
