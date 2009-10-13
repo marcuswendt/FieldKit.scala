@@ -46,8 +46,9 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
       var line = ""
       do {
         line = r.readLine
-        if(line != null)
+        if(line != null) {
           f += line 
+        }
       } while(line != null)
       
       r.close
@@ -79,7 +80,6 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
     
     regex findAllIn line foreach { m =>
       var e = m
-      if(e == null) e = null
       
       // trim trailing ,
       if(e.endsWith(",")) 
@@ -121,7 +121,7 @@ class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[Stri
       i += 1
       current
     }
-    def hasNext = i+1 < rows.length
+    def hasNext = i+1 <= rows.length
   }
   
   def +=(line:String) = rows += CSVFile.parse(line)

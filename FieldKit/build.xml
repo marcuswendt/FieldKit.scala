@@ -104,15 +104,16 @@
          ================================= -->
 	<target name="compile" depends="init">
 		<!-- compile scala sources -->
-        <!--
-		<scalac target="${scalac.target}" addparams="-optimise" srcdir="${src}" destdir="${tmp}">
+		<!-- addparams="-optimise" -->
+		<scalac target="${scalac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath refid="cp" />
 		</scalac>
-        -->
 
+		<!--
 		<fsc target="${scalac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath refid="cp" />
 		</fsc>
+		-->
 
 		<!-- compile java sources -->
 		<!--
