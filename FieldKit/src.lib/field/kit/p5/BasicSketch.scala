@@ -25,6 +25,7 @@ abstract class BasicSketch extends PAppletProxy with Logger {
   /** set to true when the sketch currently spans the full screen */
   var isFullscreen = false
   
+  /** number of samples used for anti-aliasing the opengl graphics */
   var aaSamples = 0
   
   /** the function used when initializing/ reinitializing the sketch */

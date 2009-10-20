@@ -23,25 +23,25 @@
 	<tstamp>
 		<format property="now" pattern="yyyy_MM_dd-HH_mm" />
 	</tstamp>
-	
+
 	<condition property="isMac">
 		<os family="mac" />
 	</condition>
-	
+
 	<condition property="isWindows">
 		<os family="windows" />
 	</condition>
-	
+
 	<condition property="isLinux">
 		<os family="unix" />
 	</condition>
-		
+
 	<!-- ================================= 
          INITIALISATION
          ================================= -->
 	<target name="init" depends="initMac, initWindows, initLinux">
 		<echo>using: ${scala.home}, ${scala-compiler.jar}, ${scala-library.jar}</echo>
-		
+
 		<!-- PATHS -->
 		<path id="scala.classpath">
 			<pathelement location="${scala-library.jar}" />
@@ -54,7 +54,7 @@
 				<pathelement location="${scala-library.jar}" />
 			</classpath>
 		</taskdef>
-		
+
 		<!-- BUILD FILES & DIRECTORIES -->
 		<property name="src" value="src.lib" />
 		<property name="res" value="res" />
@@ -72,26 +72,26 @@
 			<pathelement location="${scala-library.jar}" />
 			<fileset refid="libraries.jar" />
 		</path>
-		
+
 		<!-- CLEAN UP -->
 		<delete dir="${tmp}" />
 		<mkdir dir="${tmp}" />
 		<delete dir="${dist}" />
 		<mkdir dir="${dist}" />
 	</target>
-	
+
 	<target name="initMac" if="isMac">
 		<property name="scala.home" location="/opt/local/share/scala" />
 		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
 		<property name="scala-compiler.jar" location="${scala.home}/lib/scala-compiler.jar" />
 	</target>
-	
-	<target name="initWindows"  if="isWindows">
+
+	<target name="initWindows" if="isWindows">
 		<property name="scala.home" location="/opt/local/share/scala" />
 		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
 		<property name="scala-compiler.jar" location="${scala.home}/scala-compiler.jar" />
 	</target>
-	
+
 	<target name="initLinux" if="isLinux">
 		<property name="scala.home" location="/usr/share/java" />
 		<property name="scala-library.jar" location="${scala.home}/scala-library.jar" />
@@ -104,15 +104,14 @@
          ================================= -->
 	<target name="compile" depends="init">
 		<!-- compile scala sources -->
-        <!--
-		<scalac target="${scalac.target}" addparams="-optimise" srcdir="${src}" destdir="${tmp}">
+		<scalac target="${scalac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath refid="cp" />
 		</scalac>
-        -->
-
+		<!--
 		<fsc target="${scalac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath refid="cp" />
 		</fsc>
+		-->
 
 		<!-- compile java sources -->
 		<!--
@@ -163,11 +162,11 @@
 			<fileset file="${scala-library.jar}" />
 		</copy>
 	</target>
-	
+
 	<target name="test" depends="init">
 		<echo>preparing</echo>
 		<antcall target="dist" />
-			
+
 		<echo>----------------------------------------</echo>
 		<echo>Running ${project.name} tests...</echo>
 		<echo>----------------------------------------</echo>

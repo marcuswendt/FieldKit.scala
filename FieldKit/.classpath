@@ -11,7 +11,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/core/src"/>
+	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Development/Ressources/processing/core/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/opengl.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/opengl/src"/>
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
