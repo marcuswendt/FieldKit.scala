@@ -7,11 +7,19 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
+import util.Named
+
 /** 
  * a block of code that is applied to all particles, makes them do something
  * @author Marcus Wendt
  */
-abstract class Behaviour extends Logger {
+abstract class Behaviour extends Logger with Named {
+  
+  def this(name:String) {
+    this()
+    this.name = name
+  }
+  
   var ps:ParticleSystem = null
   var flock:Flock[_] = null
   var isEnabled = true
