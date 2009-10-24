@@ -15,7 +15,7 @@ import kit.math.Common._
  * e.g. Wind or Gravity
  * @author Marcus Wendt
  */
-class DirectionalForce(name:String) extends Behaviour(name) {
+class DirectionalForce extends Behaviour {
   protected var _weight = 1f
   protected var _direction = Vec3()
   protected val tmp = Vec3()
@@ -31,10 +31,12 @@ class DirectionalForce(name:String) extends Behaviour(name) {
   def direction = _direction
 }
 
-class Wind extends DirectionalForce("Wind") {
+class Wind extends DirectionalForce {
+  logName = "Wind"
   direction = Vec3(1f, 0f, 0f)
 }
 
-class Gravity extends DirectionalForce("Gravity") {
+class Gravity extends DirectionalForce {
+  logName = "Gravity"
   direction = Vec3(0f, 1f, 0f)
 }

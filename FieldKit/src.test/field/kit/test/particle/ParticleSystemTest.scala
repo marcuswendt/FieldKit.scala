@@ -24,7 +24,8 @@ object ParticleSystemTest extends test.Sketch {
   ps += f
   f += new Wind
   f += new Wrap
-  f += new Behaviour("perlin") {
+  f += new Behaviour {
+    logName = "perlin"
     var time = 0f
     var tmp = 0f
     

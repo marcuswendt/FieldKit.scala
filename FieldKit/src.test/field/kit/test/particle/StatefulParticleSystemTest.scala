@@ -22,7 +22,7 @@ object StatefulParticleSystemTest extends test.Sketch {
   f.emitter.interval = 25
   f.emitter.max = 2000
   
-  f.emitter += new Behaviour("initializer") {
+  f.emitter += new Behaviour {
     def apply(p:Particle, dt:Float) {
       p.steerMax = 2f
       p.velocityMax = 25f
@@ -35,7 +35,7 @@ object StatefulParticleSystemTest extends test.Sketch {
   f += new Gravity
   f += new Wrap
   
-  f += new Behaviour("perlin") {
+  f += new Behaviour {
     var time = 0f
     var tmp = 0f
     

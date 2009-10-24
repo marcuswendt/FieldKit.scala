@@ -51,7 +51,8 @@ object PassTest extends field.kit.test.Sketch {
     val f = new Flock[Particle]
     f.emitter.rate = 1
     f.emitter.interval = 100
-    f.emitter += new Behaviour("initializer") {
+    f.emitter += new Behaviour {
+      logName = "initializer"
       def apply(p:Particle, dt:Float) {
         p.velocityMax = 100f
         p.steerMax = 25f
@@ -61,7 +62,9 @@ object PassTest extends field.kit.test.Sketch {
     ps += f
     f += new Wind
     f += new Wrap
-    f += new Behaviour("perlin") {
+    f += new Behaviour {
+      logName = "perlin"
+      
       var time = 0f
       var tmp = 0f
     

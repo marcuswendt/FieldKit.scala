@@ -11,10 +11,7 @@ package field.kit.particle
  * a block of code that is applied to all particles, makes them do something
  * @author Marcus Wendt
  */
-abstract class Behaviour(name:String) extends Logger {
-  logName = name +"Behaviour"
-  fine("init")
-  
+abstract class Behaviour extends Logger {
   var ps:ParticleSystem = null
   var flock:Flock[_] = null
   var isEnabled = true
