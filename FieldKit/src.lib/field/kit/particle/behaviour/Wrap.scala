@@ -16,11 +16,13 @@ import field.kit.particle.Behaviour
 class Wrap extends Behaviour {
   import field.kit.math.Vec3
   
+  var margin = 0f 
+    
   /** the normalized minimum coord */
-  var min = Vec3()
+  protected var min = Vec3()
   
   /** the normalized maximum coord */
-  var max = Vec3()
+  protected var max = Vec3()
   
   /** the absolute minimum coord */
   protected var _min = Vec3()
@@ -28,18 +30,12 @@ class Wrap extends Behaviour {
   /** the absolute minimum coord */
   protected var _max = Vec3()
   
-  // set detaults
-  override def init {
-    min := 0f
-    max := 1f
-  }
-  
   /** update the absolute coords */
   override def prepare(dt:Float) {
-     _min := min *= ps.space.dimension
-     _max := max *= ps.space.dimension
+     _min := (-margin) *= ps.space.dimension
+     _max := (margin) *= ps.space.dimension
   }
-  
+    
   def apply(p:Particle, dt:Float) {
     if(p.x < _min.x)
       p.x = _max.x
@@ -55,11 +51,5 @@ class Wrap extends Behaviour {
       p.z = _max.z
     else if (p.z > _max.z)
       p.z = _min.z
-  }
-  
-  // setters
-  def margin(offset:Float) {
-    min := -offset
-    max := 1 + offset
-  }
+  }  
 }
