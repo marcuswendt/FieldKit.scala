@@ -110,7 +110,7 @@ class MeshData {
    * @return the current vertex buffer
    */
   def allocVertices(capacity:Int) = {
-    vertices = allocateFloatBuffer(vertices, capacity * 3)
+    vertices = Buffer.float(vertices, capacity * 3)
     
     // assumes the buffer is going to be filled with a static mesh
     updateVertexCount
@@ -122,7 +122,7 @@ class MeshData {
    * @return the current normal buffer
    */
   def allocNormals(capacity:Int) = {
-    normals = allocateFloatBuffer(normals, capacity * 3)
+    normals = Buffer.float(normals, capacity * 3)
     normals
   }
   
@@ -131,7 +131,7 @@ class MeshData {
    * @return the updated colour buffer
    */
   def allocColours(capacity:Int) = {
-    colours = allocateFloatBuffer(colours, capacity * 4)
+    colours = Buffer.float(colours, capacity * 4)
     colours
   }
   
@@ -143,7 +143,7 @@ class MeshData {
    * @return the current index buffer
    */
   def allocIndices(capacity:Int) = {
-    indices = allocateIntBuffer(indices, capacity)
+    indices = Buffer.int(indices, capacity)
     indices
   }
   
@@ -155,7 +155,7 @@ class MeshData {
     if(textureCoords == null)
       textureCoords = new ArrayBuffer[FloatBuffer]
     
-    val buffer = allocateFloatBuffer(textureCoords(textureUnit), capacity * 2)
+    val buffer = Buffer.float(textureCoords(textureUnit), capacity * 2)
     if(textureUnit >= textureCoords.size)
       textureCoords += buffer
     else
@@ -170,39 +170,7 @@ class MeshData {
    * @return the current interleaved data buffer
    */
   def allocInterleaved(capacity:Int) = {
-    interleaved = allocateFloatBuffer(interleaved, capacity)
+    interleaved = Buffer.float(interleaved, capacity)
     interleaved
-  }
-  
-  // ---------------------------------------------------------------------------
-//  def clear {
-//    vertexCount = 0
-//  }
-  
-  // -- Utilities --------------------------------------------------------------
-  /**
-   * @return a new FloatBuffer if the given ones capacity wasn sufficient
-   */
-  private def allocateFloatBuffer(buffer:FloatBuffer, capacity:Int):FloatBuffer = {
-    if(buffer != null) {
-      if(buffer.capacity <= capacity) {
-        buffer.rewind
-        return buffer
-      }
-    }
-    Buffer.float(capacity)
-  }
-  
-  /**
-   * @return a new FloatBuffer if the given ones capacity wasn sufficient
-   */
-  private def allocateIntBuffer(buffer:IntBuffer, capacity:Int):IntBuffer = {
-    if(buffer != null) {
-      if(buffer.capacity <= capacity) {
-        buffer.rewind
-        return buffer
-      }
-    }
-    Buffer.int(capacity)
   }
 }

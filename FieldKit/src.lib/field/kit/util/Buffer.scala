@@ -34,7 +34,7 @@ object Buffer {
     val bytes = size * (java.lang.Float.SIZE / 8)
     apply(bytes).asFloatBuffer
   }
-
+  
   // -- Complex Types ----------------------------------------------------------
   def vertex(size:Int) = float(size * 3)
   def normal(size:Int) = float(size * 3)
@@ -51,6 +51,33 @@ object Buffer {
     buf put (i, v.x)
     buf put (i + 1, v.y)
     buf put (i + 2, v.z)
+  }
+  
+  // -- Utilities --------------------------------------------------------------
+  /**
+   * Makes sure the given buffer has a certain capacity, otherwise allocates a new buffer
+   */
+  def float(buffer:FloatBuffer, capacity:Int):FloatBuffer = {
+    if(buffer != null) {
+      if(buffer.capacity <= capacity) {
+        buffer.rewind
+        return buffer
+      }
+    }
+    float(capacity)  
+  }
+  
+   /**
+   * Makes sure the given buffer has a certain capacity, otherwise allocates a new buffer
+   */
+  def int(buffer:IntBuffer, capacity:Int):IntBuffer = {
+    if(buffer != null) {
+      if(buffer.capacity <= capacity) {
+        buffer.rewind
+        return buffer
+      }
+    }
+    int(capacity)  
   }
   
   /**
