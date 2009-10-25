@@ -10,46 +10,60 @@ package field.kit.particle.behaviour
 import field.kit.particle.Behaviour
 
 /**
- * makes sure the particle stays within a defined cube-volume by wrapping it around its edges
+ * makes sure the particle stays within a defined square by wrapping it around its edges
  * @author Marcus Wendt
  */
-class Wrap extends Behaviour {
+class Wrap2D extends Behaviour {
   import field.kit.math.Vec3
   
   var margin = 0f 
     
-  /** the normalized minimum coord */
+  /** the absolute minimum coord */
   protected var min = Vec3()
   
-  /** the normalized maximum coord */
+  /** the absolute minimum coord */
   protected var max = Vec3()
-  
-  /** the absolute minimum coord */
-  protected var _min = Vec3()
-  
-  /** the absolute minimum coord */
-  protected var _max = Vec3()
   
   /** update the absolute coords */
   override def prepare(dt:Float) {
-     _min := (-margin) *= ps.space.dimension
-     _max := (1 + margin) *= ps.space.dimension
+     min := (-margin * .5f) *= ps.space.dimension
+     max := (1 + margin * .5f) *= ps.space.dimension
   }
     
   def apply(p:Particle, dt:Float) {
-    if(p.x < _min.x)
-      p.x = _max.x
-    else if(p.x > _max.x)
-      p.x = _min.x
+    if(p.x < min.x)
+      p.x = max.x
+    else if(p.x > max.x)
+      p.x = min.x
 
-    if(p.y < _min.y)
-      p.y = _max.y
-    else if(p.y > _max.y)
-      p.y = _min.y
+    if(p.y < min.y)
+      p.y = max.y
+    else if(p.y > max.y)
+      p.y = min.y
+  }  
+}
 
-    if (p.z < _min.z)
-      p.z = _max.z
-    else if (p.z > _max.z)
-      p.z = _min.z
+/**
+ * makes sure the particle stays within a defined cube-volume by wrapping it around its edges
+ * @author Marcus Wendt
+ */
+class Wrap3D extends Wrap2D {
+  import field.kit.math.Vec3
+    
+  override def apply(p:Particle, dt:Float) {
+    if(p.x < min.x)
+      p.x = max.x
+    else if(p.x > max.x)
+      p.x = min.x
+
+    if(p.y < min.y)
+      p.y = max.y
+    else if(p.y > max.y)
+      p.y = min.y
+
+    if (p.z < min.z)
+      p.z = max.z
+    else if (p.z > max.z)
+      p.z = min.z
   }  
 }
