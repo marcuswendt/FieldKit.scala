@@ -98,4 +98,6 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     b.init
     behaviours += b
   }
+  
+   override def toString = "Emitter["+ toLabel +"]"
 }

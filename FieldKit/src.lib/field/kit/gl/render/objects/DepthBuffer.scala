@@ -17,6 +17,9 @@ import javax.media.opengl.GL
  */
 class DepthBuffer extends GLObject {
   
+  // automatically create a buffer when this class is instantiated
+  create
+  
   def this(width:Int, height:Int) {
     this()
     create

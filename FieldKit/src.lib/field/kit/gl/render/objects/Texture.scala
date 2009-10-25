@@ -69,6 +69,9 @@ class Texture extends GLObject {
   // init
   id = Texture.UNDEFINED
   
+  // automatically create a texture when this class is instantiated
+  create
+
   // -- Methods ----------------------------------------------------------------
   def this(image:Image) = {
     this()

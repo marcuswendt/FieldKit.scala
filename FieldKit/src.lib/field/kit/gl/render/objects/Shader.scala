@@ -15,6 +15,9 @@ extends Exception(info) {}
 abstract class Shader extends GLObject {
   import javax.media.opengl.GL
   
+  // automatically create a shader when this class is instantiated
+  create
+
   def bind {}
   
   def unbind {}

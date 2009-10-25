@@ -60,6 +60,9 @@ class VertexBuffer(var state:VertexBuffer.State.Value) extends GLObject {
   
   val FLOAT_SIZE = 4
   
+  // automatically create a buffer when this class is instantiated
+  create
+  
   def this() = this(VertexBuffer.State.VERTEX)
   
   def this(buffer:java.nio.FloatBuffer) {

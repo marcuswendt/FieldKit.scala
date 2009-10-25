@@ -57,4 +57,6 @@ class Particle extends Vec3 with Logger {
     velocity *= ps.friction
     steer.zero
   }
+  
+   override def toString = "Particle["+ toLabel +"]"
 }

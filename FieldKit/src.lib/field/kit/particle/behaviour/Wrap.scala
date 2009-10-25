@@ -33,7 +33,7 @@ class Wrap extends Behaviour {
   /** update the absolute coords */
   override def prepare(dt:Float) {
      _min := (-margin) *= ps.space.dimension
-     _max := (margin) *= ps.space.dimension
+     _max := (1 + margin) *= ps.space.dimension
   }
     
   def apply(p:Particle, dt:Float) {

@@ -19,6 +19,10 @@ import javax.media.opengl.GL
  * @author Marcus Wendt
  */
 class FrameBuffer extends GLObject {
+
+  // automatically create a framebuffer when this class is instantiated
+  create
+  
   def create {
     val ids = new Array[Int](1)
     gl.glGenFramebuffersEXT(ids.length, ids, 0)
