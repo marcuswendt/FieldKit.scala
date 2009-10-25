@@ -22,10 +22,8 @@ object CSVFormatTest extends field.kit.Logger {
       info("DATA")
       var i = 0
       csv foreach { row =>
-        println("")
-        info("ROW", i)
-        info("columns ", row.length )
-        info( ("" /: row) (_+"| "+_))
+//        info("ROW", i, "columns ", row.length)
+		info( ("" /: row) (_+" | "+_))
         i += 1
       }
       

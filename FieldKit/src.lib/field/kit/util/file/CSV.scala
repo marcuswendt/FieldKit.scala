@@ -46,8 +46,7 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
       var line = ""
       do {
         line = r.readLine
-        if(line != null)
-          f += line 
+        if(line != null) f += line
       } while(line != null)
       
       r.close
@@ -79,7 +78,6 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
     
     regex findAllIn line foreach { m =>
       var e = m
-      if(e == null) e = null
       
       // trim trailing ,
       if(e.endsWith(",")) 
