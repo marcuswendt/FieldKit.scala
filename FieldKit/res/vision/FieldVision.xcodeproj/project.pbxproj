@@ -84,7 +84,6 @@
 		2CA9DA141095F82A00F64E39 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2CA9DA161095F82A00F64E39 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007B10E23952700A7472A /* Carbon.framework */; };
 		2CA9DA181095F82A00F64E39 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
-		2CA9DA191095F82A00F64E39 /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2CA9DA251095F84200F64E39 /* TestOpenCVCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9DA241095F84200F64E39 /* TestOpenCVCamera.cpp */; };
 		2CD960971095BD6C00D42F64 /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* FieldVision.cpp */; };
 		2CD960981095BD6C00D42F64 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
@@ -94,10 +93,8 @@
 		2CD9609D1095BD6C00D42F64 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE58E90E2220FD00DBD37B /* Blob.cpp */; };
 		2CD9609E1095BD6C00D42F64 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
 		2CD960A01095BD6C00D42F64 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
-		2CD960A11095BD6C00D42F64 /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2CD960A21095BD6C00D42F64 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007B10E23952700A7472A /* Carbon.framework */; };
 		2CD960A41095BD6C00D42F64 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
-		2CD960A51095BD6C00D42F64 /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2CD960AC1095BD8000D42F64 /* TestOpenCVCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD960901095BD3400D42F64 /* TestOpenCVCapture.cpp */; };
 		2CD960AD1095BD8900D42F64 /* OpenCVCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD960921095BD5E00D42F64 /* OpenCVCamera.cpp */; };
 		2CFE58EB0E2220FD00DBD37B /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE58E90E2220FD00DBD37B /* Blob.cpp */; };
@@ -194,7 +191,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				2CA9DA181095F82A00F64E39 /* OpenCV.framework in Copy Frameworks */,
-				2CA9DA191095F82A00F64E39 /* dc1394.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,7 +202,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				2CD960A41095BD6C00D42F64 /* OpenCV.framework in Copy Frameworks */,
-				2CD960A51095BD6C00D42F64 /* dc1394.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,13 +241,11 @@
 		2C82E00A0E23F591002B2C24 /* CVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVImageCache.h; sourceTree = "<group>"; };
 		2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVImageCache.cpp; sourceTree = "<group>"; };
 		2CA9DA1D1095F82A00F64E39 /* TestOpenCVCaptureBasic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestOpenCVCaptureBasic.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CA9DA221095F82A00F64E39 /* Info copy 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy 2.plist"; sourceTree = "<group>"; };
 		2CA9DA241095F84200F64E39 /* TestOpenCVCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestOpenCVCamera.cpp; sourceTree = "<group>"; };
 		2CD960901095BD3400D42F64 /* TestOpenCVCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestOpenCVCapture.cpp; sourceTree = "<group>"; };
 		2CD960911095BD5E00D42F64 /* OpenCVCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVCamera.h; sourceTree = "<group>"; };
 		2CD960921095BD5E00D42F64 /* OpenCVCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenCVCamera.cpp; sourceTree = "<group>"; };
 		2CD960A91095BD6C00D42F64 /* TestOpenCVCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestOpenCVCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CD960AB1095BD6C00D42F64 /* Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy.plist"; sourceTree = "<group>"; };
 		2CFE58E90E2220FD00DBD37B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blob.cpp; sourceTree = "<group>"; };
 		2CFE58EA0E2220FD00DBD37B /* Blob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blob.h; sourceTree = "<group>"; };
 		32DBCF6D0370B57F00C91783 /* header.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = header.pch; sourceTree = "<group>"; };
@@ -315,7 +308,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CD960A01095BD6C00D42F64 /* OpenCV.framework in Frameworks */,
-				2CD960A11095BD6C00D42F64 /* dc1394.framework in Frameworks */,
 				2CD960A21095BD6C00D42F64 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,8 +358,6 @@
 			children = (
 				8D0C4E960486CD37000505A6 /* Info.plist */,
 				0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */,
-				2CD960AB1095BD6C00D42F64 /* Info copy.plist */,
-				2CA9DA221095F82A00F64E39 /* Info copy 2.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

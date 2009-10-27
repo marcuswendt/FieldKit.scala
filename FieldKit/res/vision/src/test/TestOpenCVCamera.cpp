@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	while( 1 ) {
 		
 		camera->update();
-		IplImage* frame = camera->getIplImage();
+		IplImage* frame = camera->getImage();
 		
 		cvShowImage("mywindow", frame);
 		

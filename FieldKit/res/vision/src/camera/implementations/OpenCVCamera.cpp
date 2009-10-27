@@ -31,11 +31,21 @@ namespace field
 			return ERR_CAMERA_INIT;
 		}
 		
+		printf("requested %i x %i", width, height);
+		
 		// only seems to be implemented in the opencv linux (ffmpeg or gstreamer based) versions
 		cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, width);
 		cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT, height);
 		cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, fps);
 
+		// grab one frame to figure out the actual dimensions of the camera image
+		update();
+		
+		width = getImage()->width;
+		height = getImage()->height;
+		
+		printf("actual %i x %i", width, height);
+		
 		return super::init();
 	}
 	
@@ -61,14 +71,8 @@ namespace field
 	// HELPERS
 	// -------------------------------------------------------------------------
 	#pragma mark -- Helpers --
-	ImagePtr OpenCVCamera::getImage(int channel)
+	IplImage* OpenCVCamera::getImage(int channel)
 	{
-		IplImage* image = cvRetrieveFrame(capture);
-		printf("get image: %i %i \n", image->width, image->height);
-		return (ImagePtr) image->imageData;
-	}
-	
-	IplImage* OpenCVCamera::getIplImage() {
 		return cvRetrieveFrame(capture);
 	}
 }

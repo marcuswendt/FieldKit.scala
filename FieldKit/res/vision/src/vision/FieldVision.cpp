@@ -140,7 +140,7 @@ namespace field
 		Error err;
 		err = camera->update();
 		if(err != SUCCESS) return err;
-
+		
 		err = processor->update(camera);
 		if(err != SUCCESS) return err;
 		

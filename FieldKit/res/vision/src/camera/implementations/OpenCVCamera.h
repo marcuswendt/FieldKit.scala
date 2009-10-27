@@ -27,9 +27,7 @@ namespace field
 		Error init();
 		Error update();
 		Error close();
-		
-		ImagePtr getImage(int channel);
-		IplImage* getIplImage();
+		IplImage* getImage(int channel=0);
 		
 	private:
 		typedef Camera super;

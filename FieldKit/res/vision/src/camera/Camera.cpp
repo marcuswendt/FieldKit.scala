@@ -9,12 +9,19 @@
 #include "Camera.h"
 
 namespace field {
+	// -------------------------------------------------------------------------
+	// CON- & DESTRUCTORS
+	// -------------------------------------------------------------------------
 	Camera::Camera() {
 		isInitialized = false;
 		isStarted = false;
 		width = VISION_DEFAULT_WIDTH;
 		height = VISION_DEFAULT_HEIGHT;
 		fps = VISION_DEFAULT_FPS;
+	}
+	
+	Camera::~Camera() {
+		this->close();
 	}
 	
 	// -------------------------------------------------------------------------
@@ -81,7 +88,17 @@ namespace field {
 	// CLOSE
 	// -------------------------------------------------------------------------
 	Error Camera::close() {
+		if(isStarted) 
+			this->stop();
+			
 		isInitialized = false;
 		return SUCCESS;
+	}
+
+	// -------------------------------------------------------------------------
+	// GET IMAGE
+	// -------------------------------------------------------------------------
+	IplImage* Camera::getImage(int channel) {
+		return NULL;
 	}
 }

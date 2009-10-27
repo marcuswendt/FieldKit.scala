@@ -6,8 +6,8 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#ifndef VISION2_H
-#define VISION2_H
+#ifndef FIELD_VISION_H
+#define FIELD_VISION_H
 
 #include "Camera.h"
 #include "CVFrameProcessor.h"

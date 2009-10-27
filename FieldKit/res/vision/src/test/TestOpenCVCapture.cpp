@@ -20,24 +20,24 @@ const int SCREEN_HEIGHT = 480;
 int main(int argc, char* argv[])
 {
 	LOG("************************************************");
-	LOG("TestCanopusADVC");
+	LOG("TestOpenCVCapture");
 	LOG("************************************************");
 	LOG(" ");
-
-	LOG("** init processor **");	
+	
+	FieldVision *v = new FieldVision();
+	
+	LOG("init camera");
+	v->setCamera(new OpenCVCamera(0));
+	
+	
+	LOG("init frame processor");	
 	CVBlobDetector *proc = new CVBlobDetector();
-	proc->setSize(320, 240);
-	//proc->setSize(640, 480);
-	proc->setSize(720, 576);	
 	proc->setStageEnabled(true);
 	proc->setCameraSource(1);
-	
-	LOG("** init vision **");	
-	FieldVision *v = new FieldVision();
-	v->setCamera(new OpenCVCamera(0));
 	v->setProcessor(proc);
+	
+	LOG("** init vision **");
 	v->init();
-	v->getCamera()->setFramerate(24);
 	
 	LOG("** set sliders **");
 	// sliders must be set after Vision was initialized

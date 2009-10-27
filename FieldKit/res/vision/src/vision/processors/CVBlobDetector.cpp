@@ -10,9 +10,9 @@
 
 namespace field 
 {
-	// ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark -- Constructor --
-	// ---------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	CVBlobDetector::CVBlobDetector()
 	{
 		initStages(STAGE_MAX);
@@ -20,21 +20,21 @@ namespace field
 		useAdaptiveTresholding = false;
 	}
 
-	// ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark -- Destructor --
-	// ---------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	CVBlobDetector::~CVBlobDetector()
 	{
 		cvReleaseMat(&warpMatrix);	
 		//free(&font);
 	}
 
-	// ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark -- Init --
-	// ---------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	Error CVBlobDetector::init()
 	{
-		// sliders --------------------------------------------------------------------------------------
+		// sliders -------------------------------------------------------------
 		setSlider(SLIDER_BACKGROUND, new Slider(0, 1));
 		setSlider(SLIDER_THRESHOLD, new Slider(0, 255));
 		setSlider(SLIDER_DILATE, new Slider(0, 35));
@@ -44,7 +44,7 @@ namespace field
 		setSlider(SLIDER_CONTOUR_REDUCE, new Slider(0, 10));
 		setSlider(SLIDER_TRACK_RANGE, new Slider(0, 1));
 
-		// warp ----------------------------------------------------------------------------------------
+		// warp ----------------------------------------------------------------
 		warpMatrix = cvCreateMat(3, 3, CV_32FC1);
 
 		setWarp(0, 0,
@@ -52,7 +52,7 @@ namespace field
 				size.width, size.height,
 				0, size.height);
 
-		// blobs ---------------------------------------------------------------------------------------
+		// blobs ---------------------------------------------------------------
 		blobNum = BLOB_MAX_COUNT;
 		foundBlobs = new Blob*[blobNum];
 		trackedBlobs = new Blob*[blobNum];
@@ -64,23 +64,23 @@ namespace field
 		// background
 		doResetBackground = true;
 		
-		// contours -------------------------------------------------------------------------------------
+		// contours ------------------------------------------------------------
 		contourStorage = cvCreateMemStorage(0);
 		return SUCCESS;
 	};
 	
 	Error CVBlobDetector::update(Camera *camera)
 	{
-		// images --------------------------------------------------------------------------------------
+		// images --------------------------------------------------------------
 		srcImage32F = cache->getTmp(IMAGE_SRC32F, roiSize, IPL_DEPTH_32F, 1);
 		dstImage32F = cache->getTmp(IMAGE_DST32F, roiSize, IPL_DEPTH_32F, 1);
 		srcImage8U = cache->getTmp(IMAGE_SRC8U, roiSize, IPL_DEPTH_8U, 1);
 		dstImage8U = cache->getTmp(IMAGE_DST8U, roiSize, IPL_DEPTH_8U, 1);
 		
-		// input ---------------------------------------------------------------------------------------
-		// put camera data into inputImage
+		// input ---------------------------------------------------------------
+		IplImage* sourceImage = camera->getImage(cameraSource);
 		IplImage* inputImage = cache->getTmp(IMAGE_INPUT, cvSize(camera->getWidth(), camera->getHeight()));
-		cvSetImageData(inputImage, camera->getImage(cameraSource), camera->getWidth());
+		cvCvtColor(sourceImage, inputImage, CV_BGR2GRAY);
 		
 		// resize inputImage if necessary
 		IplImage* inputImageResized = cache->getTmp(IMAGE_INPUT_RESIZED, size);
@@ -89,7 +89,7 @@ namespace field
 		} else {
 			inputImageResized = inputImage;
 		}
-
+		
 		copyStage(STAGE_INPUT, inputImageResized);	
 		
 		// crop region of interest out of inputImageResized into srcImage
@@ -101,7 +101,7 @@ namespace field
 			cvCopy(inputImageResized, srcImage);
 		}
 				
-		// warp ----------------------------------------------------------------------------------------
+		// warp ----------------------------------------------------------------
 		if(warpEnabled) {
 			setMode(MODE_8U);
 			cvWarpPerspective(srcImage, dstImage, warpMatrix, CV_WARP_FILL_OUTLIERS, cvScalarAll(0));
@@ -109,7 +109,7 @@ namespace field
 			swap();
 		}
 		
-		// background ----------------------------------------------------------------------------------
+		// background ----------------------------------------------------------
 		setMode(MODE_32F);
 		float bgValue = doResetBackground ? 1.0 : get(SLIDER_BACKGROUND);
 		IplImage *bgImage = cache->getTmp(IMAGE_BG, roiSize, IPL_DEPTH_32F, 1);
@@ -134,13 +134,13 @@ namespace field
 			doResetBackground = false;
 		}
 		
-		// difference ---------------------------------------------------------------------------------
+		// difference ----------------------------------------------------------
 		setMode(MODE_32F);
 		cvAbsDiff(srcImage, bgImage, dstImage);
 		copyStage(STAGE_DIFFERENCE, dstImage);
 		swap();
 
-		// threshold -----------------------------------------------------------------------------------
+		// threshold -----------------------------------------------------------
 		if(useAdaptiveTresholding) {
 			setMode(MODE_8U);
 			// adaptive treshold works with 8U images, we need to convert the source image first
@@ -152,7 +152,7 @@ namespace field
 		copyStage(STAGE_THRESHOLD, dstImage);
 		swap();
 		
-		// dilate --------------------------------------------------------------------------------------
+		// dilate --------------------------------------------------------------
 		float dilate = get(SLIDER_DILATE);
 		if(dilate > 0) {
 			setMode(MODE_8U);
@@ -161,7 +161,7 @@ namespace field
 			swap();
 		}
 		
-		// erode ---------------------------------------------------------------------------------------
+		// erode ---------------------------------------------------------------
 		float erode = get(SLIDER_ERODE);
 		if(erode > 0) {
 			setMode(MODE_8U);
@@ -170,13 +170,13 @@ namespace field
 			swap();
 		}
 		
-		// contours ------------------------------------------------------------------------------------
+		// contours ------------------------------------------------------------
 		setMode(MODE_8U);
 		findContours();
 		drawContours();
 		swap();
 		
-		// blobs ---------------------------------------------------------------------------------------
+		// blobs ---------------------------------------------------------------
 		findBlobs();
 		drawBlobs(STAGE_DETECTION, foundBlobs);
 		
@@ -187,9 +187,9 @@ namespace field
 	}
 
 	
-	// --------------------------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	// CONTOURS
-	// --------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark ---- Contours ----
 	void CVBlobDetector::findContours()
 	{
@@ -218,9 +218,9 @@ namespace field
 	}
 
 	
-	// --------------------------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	// BLOBS
-	// --------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark ---- Blobs ----
 	void CVBlobDetector::findBlobs()
 	{
@@ -335,9 +335,9 @@ namespace field
 	}
 	
 	
-	// --------------------------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	// HELPERS
-	// --------------------------------------------------------------------------------------------------		
+	// -------------------------------------------------------------------------
 	#pragma mark ---- Helpers ----
 	void CVBlobDetector::swap()
 	{
@@ -387,9 +387,9 @@ namespace field
 	}
 	
 	
-	// --------------------------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	// SETTERS
-	// --------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark ---- Setters ----	
 	void CVBlobDetector::setWarp(float sx1, float sy1,
 								 float sx2, float sy2,
@@ -441,9 +441,9 @@ namespace field
 	}
 	
 	
-	// --------------------------------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	// GETTERS
-	// --------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark ---- Getters ----	
 	Blob** CVBlobDetector::getBlobs()
 	{

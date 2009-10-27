@@ -17,7 +17,7 @@ namespace field {
 	{
 	public:
 		Camera();
-		~Camera() {};
+		~Camera();
 		
 		virtual Error init();
 		virtual Error start();
@@ -34,7 +34,7 @@ namespace field {
 		int getHeight() { return height; };
 		int getFramerate() { return fps; };
 		
-		virtual ImagePtr getImage(int channel) = 0;
+		virtual IplImage* getImage(int channel = 0);
 		
 	protected:
 		bool isInitialized;
