@@ -1,0 +1,8 @@
+//
+// Prefix header for all targets of the vision2 project
+//
+
+#include <Carbon/Carbon.h>
+#include <OpenCV/OpenCV.h>
+
+#include "constants.h"

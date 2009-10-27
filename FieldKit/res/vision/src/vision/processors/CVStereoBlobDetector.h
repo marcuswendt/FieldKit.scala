@@ -1,0 +1,70 @@
+/*
+ *  CVStereoBlobDetector.h
+ *  vision2
+ *
+ *  Created by Marcus Wendt on 6/19/08.
+ *  Copyright 2008 MarcusWendt.com. All rights reserved.
+ *
+ */
+
+#ifndef CV_STEREO_BLOB_DETECTOR_H
+#define CV_STEREO_BLOB_DETECTOR_H
+
+#include "CVFrameProcessor.h"
+#include "CVBlobDetector.h"
+
+namespace Vision 
+{
+	//
+	// OpenCV Stereo Blob Detector
+	//
+	class CVStereoBlobDetector : public CVFrameProcessor
+	{
+	public:
+		enum StageName { STAGE_COMBINED = CVBlobDetector::STAGE_MAX,
+						 STAGE_MAX
+		};
+		
+		enum Image {
+			IMAGE_BLUE = 10,
+			IMAGE_COMPOSED = 20,
+		};
+		
+		CVStereoBlobDetector();
+		~CVStereoBlobDetector();
+		
+		Error init();
+		Error update(Camera *camera);
+		
+		// Overridden 
+		void set(int slider, float value);
+		void setStageEnabled(bool enabled, int key=-1);
+		
+		// Getters
+		IplImage* getImage(int key);
+		Blob** getBlobs();
+		int getBlobNum();
+		
+		// Setters
+		void setSize(int width, int height);
+		void setROI(int x, int y, int w, int h);
+		void setWarp(float sx1, float sy1,
+					 float sx2, float sy2,
+					 float sx3, float sy3,
+					 float sx4, float sy4);	
+		
+	protected:		
+		CVBlobDetector *left;
+		CVBlobDetector *right;
+		Blob **blobs;
+		int blobNum;
+		
+		void findFingerPoints();
+		void findFurthestPoint(CvPoint2D64f *result, Blob *blob);
+		void drawFingerPoints();
+		
+	private:
+		Error err;
+	};
+};
+#endif

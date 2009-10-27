@@ -1,0 +1,751 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C26C12D0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C26C12C0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.cpp */; };
+		2C26C2560E0BCDA2007B47B9 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C26C2570E0BCDA2007B47B9 /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C26C2580E0BCDA2007B47B9 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		2C39D1990E0A75D400867C99 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C39D19A0E0A75D400867C99 /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C39D19B0E0A75D400867C99 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		2C39D19C0E0A75DA00867C99 /* TestVisionStereo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0700E0A759C00867C99 /* TestVisionStereo.cpp */; };
+		2C39D20E0E0A78F800867C99 /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2C39D20F0E0A78FD00867C99 /* PTGreyBumblebee2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */; };
+		2C39D2100E0A78FD00867C99 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
+		2C39D3610E0A925C00867C99 /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
+		2C52856C0E0C162500F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C52856D0E0C162500F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C52856F0E0C163E00F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C5285700E0C163E00F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C52857C0E0C25B500F68F4F /* CVBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */; };
+		2C52857D0E0C25B500F68F4F /* CVBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */; };
+		2C5285850E0D03F300F68F4F /* CVFrameProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5285840E0D03F300F68F4F /* CVFrameProcessor.cpp */; };
+		2C5285860E0D03F300F68F4F /* CVFrameProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5285840E0D03F300F68F4F /* CVFrameProcessor.cpp */; };
+		2C5286CC0E0D11F000F68F4F /* TestVisionMono.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5286CA0E0D11F000F68F4F /* TestVisionMono.cpp */; };
+		2C5286D70E0D120E00F68F4F /* TestVisionMono.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5286CA0E0D11F000F68F4F /* TestVisionMono.cpp */; };
+		2C5287970E0D122B00F68F4F /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C5287980E0D122B00F68F4F /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C5287990E0D122B00F68F4F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		2C52879A0E0D123100F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C52879B0E0D123100F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C52879D0E0D124500F68F4F /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2C52879E0E0D124500F68F4F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
+		2C52879F0E0D124500F68F4F /* PTGreyBumblebee2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */; };
+		2C5287A00E0D124500F68F4F /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
+		2C5287A10E0D124500F68F4F /* TestDepthViaCorrelatedPoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C26C12C0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.cpp */; };
+		2C5287A20E0D124500F68F4F /* CVBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */; };
+		2C5287A30E0D124500F68F4F /* CVFrameProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5285840E0D03F300F68F4F /* CVFrameProcessor.cpp */; };
+		2C528C550E0DAC5700F68F4F /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C528C560E0DAC5700F68F4F /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C528C570E0DAC5700F68F4F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		2C528C580E0DAC5F00F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
+		2C528C590E0DAC5F00F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
+		2C528C5C0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C528C5B0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp */; };
+		2CD9648B0E21471E001D3A62 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD9648A0E21471E001D3A62 /* Blob.cpp */; };
+		2CD9648C0E21471E001D3A62 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD9648A0E21471E001D3A62 /* Blob.cpp */; };
+		2CD9648D0E21471E001D3A62 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD9648A0E21471E001D3A62 /* Blob.cpp */; };
+		2CD9648E0E21471E001D3A62 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD9648A0E21471E001D3A62 /* Blob.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2C5285760E0C164900F68F4F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2C52856C0E0C162500F68F4F /* OpenCV.framework in Copy Frameworks */,
+				2C52856D0E0C162500F68F4F /* dc1394.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C5285770E0C164900F68F4F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2C52856F0E0C163E00F68F4F /* OpenCV.framework in Copy Frameworks */,
+				2C5285700E0C163E00F68F4F /* dc1394.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C5287AA0E0D12A800F68F4F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2C52879A0E0D123100F68F4F /* OpenCV.framework in Copy Frameworks */,
+				2C52879B0E0D123100F68F4F /* dc1394.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C528C5D0E0DAC7C00F68F4F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2C528C580E0DAC5F00F68F4F /* OpenCV.framework in Copy Frameworks */,
+				2C528C590E0DAC5F00F68F4F /* dc1394.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0867D6ABFE840B52C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		2C26C12B0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDepthViaCorrelatedPoints.h; sourceTree = "<group>"; };
+		2C26C12C0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestDepthViaCorrelatedPoints.cpp; sourceTree = "<group>"; };
+		2C26C13A0E0BCD92007B47B9 /* TestDepthViaCorrelatedPoints.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestDepthViaCorrelatedPoints.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C39D01D0E0A663A00867C99 /* Vision2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vision2.h; sourceTree = "<group>"; };
+		2C39D01E0E0A663A00867C99 /* Vision2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vision2.cpp; sourceTree = "<group>"; };
+		2C39D0230E0A67CB00867C99 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		2C39D0240E0A67CB00867C99 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		2C39D0560E0A724F00867C99 /* PTGreyBumblebee2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTGreyBumblebee2.h; sourceTree = "<group>"; };
+		2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTGreyBumblebee2.cpp; sourceTree = "<group>"; };
+		2C39D0700E0A759C00867C99 /* TestVisionStereo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestVisionStereo.cpp; sourceTree = "<group>"; };
+		2C39D0750E0A75B400867C99 /* TestVisionStereo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestVisionStereo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C39D1C10E0A774700867C99 /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		2C39D35F0E0A925C00867C99 /* CVStereoBlobDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVStereoBlobDetector.h; sourceTree = "<group>"; };
+		2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVStereoBlobDetector.cpp; sourceTree = "<group>"; };
+		2C5285780E0C258A00F68F4F /* CVFrameProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVFrameProcessor.h; sourceTree = "<group>"; };
+		2C52857A0E0C25B500F68F4F /* CVBlobDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVBlobDetector.h; sourceTree = "<group>"; };
+		2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVBlobDetector.cpp; sourceTree = "<group>"; };
+		2C5285840E0D03F300F68F4F /* CVFrameProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVFrameProcessor.cpp; sourceTree = "<group>"; };
+		2C5286CA0E0D11F000F68F4F /* TestVisionMono.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestVisionMono.cpp; sourceTree = "<group>"; };
+		2C5286D10E0D120600F68F4F /* TestVisionMono.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestVisionMono.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C5287D80E0D372400F68F4F /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		2C528C4E0E0DAC3C00F68F4F /* TestGaussStatBgModel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestGaussStatBgModel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C528C5B0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestGaussStatBgModel.cpp; sourceTree = "<group>"; };
+		2C7058340E0964C2009094FB /* OpenCV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCV.framework; path = ../../../../../../../Library/Frameworks/OpenCV.framework; sourceTree = SOURCE_ROOT; };
+		2C7058350E0964C2009094FB /* dc1394.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = dc1394.framework; path = ../../../../../../../Library/Frameworks/dc1394.framework; sourceTree = SOURCE_ROOT; };
+		2CD964890E21471E001D3A62 /* Blob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blob.h; sourceTree = "<group>"; };
+		2CD9648A0E21471E001D3A62 /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blob.cpp; sourceTree = "<group>"; };
+		32DBCF6D0370B57F00C91783 /* vision2_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vision2_Prefix.pch; sourceTree = "<group>"; };
+		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2C26C1380E0BCD92007B47B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C26C2560E0BCDA2007B47B9 /* OpenCV.framework in Frameworks */,
+				2C26C2570E0BCDA2007B47B9 /* dc1394.framework in Frameworks */,
+				2C26C2580E0BCDA2007B47B9 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C39D0730E0A75B400867C99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C39D1990E0A75D400867C99 /* OpenCV.framework in Frameworks */,
+				2C39D19A0E0A75D400867C99 /* dc1394.framework in Frameworks */,
+				2C39D19B0E0A75D400867C99 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C5286CF0E0D120600F68F4F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C5287970E0D122B00F68F4F /* OpenCV.framework in Frameworks */,
+				2C5287980E0D122B00F68F4F /* dc1394.framework in Frameworks */,
+				2C5287990E0D122B00F68F4F /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C528C4C0E0DAC3C00F68F4F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C528C550E0DAC5700F68F4F /* OpenCV.framework in Frameworks */,
+				2C528C560E0DAC5700F68F4F /* dc1394.framework in Frameworks */,
+				2C528C570E0DAC5700F68F4F /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		195DF8CFFE9D517E11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2C39D0750E0A75B400867C99 /* TestVisionStereo.app */,
+				2C26C13A0E0BCD92007B47B9 /* TestDepthViaCorrelatedPoints.app */,
+				2C5286D10E0D120600F68F4F /* TestVisionMono.app */,
+				2C528C4E0E0DAC3C00F68F4F /* TestGaussStatBgModel.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20286C29FDCF999611CA2CEA /* vision2 */ = {
+			isa = PBXGroup;
+			children = (
+				20286C2AFDCF999611CA2CEA /* src */,
+				20286C2CFDCF999611CA2CEA /* Resources */,
+				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
+				195DF8CFFE9D517E11CA2CBB /* Products */,
+			);
+			name = vision2;
+			sourceTree = "<group>";
+		};
+		20286C2AFDCF999611CA2CEA /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2C39D1C10E0A774700867C99 /* constants.h */,
+				32DBCF6D0370B57F00C91783 /* vision2_Prefix.pch */,
+				2C70582F0E09645E009094FB /* camera */,
+				2C70582D0E0963EC009094FB /* vision */,
+				2C7058920E096500009094FB /* test */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		20286C2CFDCF999611CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D0C4E960486CD37000505A6 /* Info.plist */,
+				0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				2C7058340E0964C2009094FB /* OpenCV.framework */,
+				2C7058350E0964C2009094FB /* dc1394.framework */,
+				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		2C39D0550E0A723500867C99 /* implementations */ = {
+			isa = PBXGroup;
+			children = (
+				2C39D0560E0A724F00867C99 /* PTGreyBumblebee2.h */,
+				2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */,
+			);
+			path = implementations;
+			sourceTree = "<group>";
+		};
+		2C5285790E0C258F00F68F4F /* processors */ = {
+			isa = PBXGroup;
+			children = (
+				2C39D35F0E0A925C00867C99 /* CVStereoBlobDetector.h */,
+				2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */,
+				2C52857A0E0C25B500F68F4F /* CVBlobDetector.h */,
+				2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */,
+				2CD964890E21471E001D3A62 /* Blob.h */,
+				2CD9648A0E21471E001D3A62 /* Blob.cpp */,
+			);
+			path = processors;
+			sourceTree = "<group>";
+		};
+		2C70582D0E0963EC009094FB /* vision */ = {
+			isa = PBXGroup;
+			children = (
+				2C5285790E0C258F00F68F4F /* processors */,
+				2C5285780E0C258A00F68F4F /* CVFrameProcessor.h */,
+				2C5285840E0D03F300F68F4F /* CVFrameProcessor.cpp */,
+				2C39D01D0E0A663A00867C99 /* Vision2.h */,
+				2C39D01E0E0A663A00867C99 /* Vision2.cpp */,
+				2C5287D80E0D372400F68F4F /* Slider.h */,
+			);
+			path = vision;
+			sourceTree = "<group>";
+		};
+		2C70582F0E09645E009094FB /* camera */ = {
+			isa = PBXGroup;
+			children = (
+				2C39D0550E0A723500867C99 /* implementations */,
+				2C39D0230E0A67CB00867C99 /* Camera.h */,
+				2C39D0240E0A67CB00867C99 /* Camera.cpp */,
+			);
+			path = camera;
+			sourceTree = "<group>";
+		};
+		2C7058920E096500009094FB /* test */ = {
+			isa = PBXGroup;
+			children = (
+				2C5286CA0E0D11F000F68F4F /* TestVisionMono.cpp */,
+				2C39D0700E0A759C00867C99 /* TestVisionStereo.cpp */,
+				2C26C12B0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.h */,
+				2C26C12C0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.cpp */,
+				2C528C5B0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2C26C1390E0BCD92007B47B9 /* TestDepthViaCorrelatedPoints */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C26C13F0E0BCD92007B47B9 /* Build configuration list for PBXNativeTarget "TestDepthViaCorrelatedPoints" */;
+			buildPhases = (
+				2C26C1360E0BCD92007B47B9 /* Resources */,
+				2C26C1370E0BCD92007B47B9 /* Sources */,
+				2C26C1380E0BCD92007B47B9 /* Frameworks */,
+				2C5285770E0C164900F68F4F /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestDepthViaCorrelatedPoints;
+			productName = TestDepthViaCorrelatedPoints;
+			productReference = 2C26C13A0E0BCD92007B47B9 /* TestDepthViaCorrelatedPoints.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2C39D0740E0A75B400867C99 /* TestVisionStereo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C39D07A0E0A75B500867C99 /* Build configuration list for PBXNativeTarget "TestVisionStereo" */;
+			buildPhases = (
+				2C39D0710E0A75B400867C99 /* Resources */,
+				2C39D0720E0A75B400867C99 /* Sources */,
+				2C39D0730E0A75B400867C99 /* Frameworks */,
+				2C5285760E0C164900F68F4F /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestVisionStereo;
+			productName = TestVisionStereo;
+			productReference = 2C39D0750E0A75B400867C99 /* TestVisionStereo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2C5286D00E0D120600F68F4F /* TestVisionMono */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C5286D60E0D120700F68F4F /* Build configuration list for PBXNativeTarget "TestVisionMono" */;
+			buildPhases = (
+				2C5286CD0E0D120600F68F4F /* Resources */,
+				2C5286CE0E0D120600F68F4F /* Sources */,
+				2C5286CF0E0D120600F68F4F /* Frameworks */,
+				2C5287AA0E0D12A800F68F4F /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestVisionMono;
+			productName = TestVisionMono;
+			productReference = 2C5286D10E0D120600F68F4F /* TestVisionMono.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2C528C4D0E0DAC3C00F68F4F /* TestGaussStatBgModel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C528C530E0DAC3D00F68F4F /* Build configuration list for PBXNativeTarget "TestGaussStatBgModel" */;
+			buildPhases = (
+				2C528C4A0E0DAC3C00F68F4F /* Resources */,
+				2C528C4B0E0DAC3C00F68F4F /* Sources */,
+				2C528C4C0E0DAC3C00F68F4F /* Frameworks */,
+				2C528C5D0E0DAC7C00F68F4F /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestGaussStatBgModel;
+			productName = TestGaussStatBgModel;
+			productReference = 2C528C4E0E0DAC3C00F68F4F /* TestGaussStatBgModel.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20286C28FDCF999611CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "vision2" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 20286C29FDCF999611CA2CEA /* vision2 */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2C39D0740E0A75B400867C99 /* TestVisionStereo */,
+				2C26C1390E0BCD92007B47B9 /* TestDepthViaCorrelatedPoints */,
+				2C5286D00E0D120600F68F4F /* TestVisionMono */,
+				2C528C4D0E0DAC3C00F68F4F /* TestGaussStatBgModel */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C26C1360E0BCD92007B47B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C39D0710E0A75B400867C99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C5286CD0E0D120600F68F4F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C528C4A0E0DAC3C00F68F4F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2C26C1370E0BCD92007B47B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C52857D0E0C25B500F68F4F /* CVBlobDetector.cpp in Sources */,
+				2C5285860E0D03F300F68F4F /* CVFrameProcessor.cpp in Sources */,
+				2C5286CC0E0D11F000F68F4F /* TestVisionMono.cpp in Sources */,
+				2CD9648D0E21471E001D3A62 /* Blob.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C39D0720E0A75B400867C99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C39D19C0E0A75DA00867C99 /* TestVisionStereo.cpp in Sources */,
+				2C39D20E0E0A78F800867C99 /* Vision2.cpp in Sources */,
+				2C39D2100E0A78FD00867C99 /* Camera.cpp in Sources */,
+				2C39D20F0E0A78FD00867C99 /* PTGreyBumblebee2.cpp in Sources */,
+				2C39D3610E0A925C00867C99 /* CVStereoBlobDetector.cpp in Sources */,
+				2C26C12D0E0BCD79007B47B9 /* TestDepthViaCorrelatedPoints.cpp in Sources */,
+				2C52857C0E0C25B500F68F4F /* CVBlobDetector.cpp in Sources */,
+				2C5285850E0D03F300F68F4F /* CVFrameProcessor.cpp in Sources */,
+				2CD9648E0E21471E001D3A62 /* Blob.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C5286CE0E0D120600F68F4F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C5286D70E0D120E00F68F4F /* TestVisionMono.cpp in Sources */,
+				2C52879D0E0D124500F68F4F /* Vision2.cpp in Sources */,
+				2C52879E0E0D124500F68F4F /* Camera.cpp in Sources */,
+				2C52879F0E0D124500F68F4F /* PTGreyBumblebee2.cpp in Sources */,
+				2C5287A00E0D124500F68F4F /* CVStereoBlobDetector.cpp in Sources */,
+				2C5287A10E0D124500F68F4F /* TestDepthViaCorrelatedPoints.cpp in Sources */,
+				2C5287A20E0D124500F68F4F /* CVBlobDetector.cpp in Sources */,
+				2C5287A30E0D124500F68F4F /* CVFrameProcessor.cpp in Sources */,
+				2CD9648C0E21471E001D3A62 /* Blob.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C528C4B0E0DAC3C00F68F4F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C528C5C0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp in Sources */,
+				2CD9648B0E21471E001D3A62 /* Blob.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0867D6ABFE840B52C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2C26C13D0E0BCD92007B47B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestDepthViaCorrelatedPoints;
+			};
+			name = Debug;
+		};
+		2C26C13E0E0BCD92007B47B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Library/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "TestDepthViaCorrelatedPoints-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestDepthViaCorrelatedPoints;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		2C39D0780E0A75B500867C99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestVisionStereo;
+			};
+			name = Debug;
+		};
+		2C39D0790E0A75B500867C99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Library/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "TestVisionStereo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestVisionStereo;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		2C5286D40E0D120700F68F4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestVisionMono;
+			};
+			name = Debug;
+		};
+		2C5286D50E0D120700F68F4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Library/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "TestVisionMono-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestVisionMono;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		2C528C510E0DAC3C00F68F4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestGaussStatBgModel;
+			};
+			name = Debug;
+		};
+		2C528C520E0DAC3C00F68F4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Library/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "TestGaussStatBgModel-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestGaussStatBgModel;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C0E91ACA08A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+				FRAMEWORK_SEARCH_PATHS = "~/Library/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = src/vision2_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Debug;
+		};
+		C0E91ACB08A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C26C13F0E0BCD92007B47B9 /* Build configuration list for PBXNativeTarget "TestDepthViaCorrelatedPoints" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C26C13D0E0BCD92007B47B9 /* Debug */,
+				2C26C13E0E0BCD92007B47B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C39D07A0E0A75B500867C99 /* Build configuration list for PBXNativeTarget "TestVisionStereo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C39D0780E0A75B500867C99 /* Debug */,
+				2C39D0790E0A75B500867C99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C5286D60E0D120700F68F4F /* Build configuration list for PBXNativeTarget "TestVisionMono" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C5286D40E0D120700F68F4F /* Debug */,
+				2C5286D50E0D120700F68F4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C528C530E0DAC3D00F68F4F /* Build configuration list for PBXNativeTarget "TestGaussStatBgModel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C528C510E0DAC3C00F68F4F /* Debug */,
+				2C528C520E0DAC3C00F68F4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "vision2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91ACA08A95435008D54AB /* Debug */,
+				C0E91ACB08A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20286C28FDCF999611CA2CEA /* Project object */;
+}
