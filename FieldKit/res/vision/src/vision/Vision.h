@@ -6,19 +6,19 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#ifndef FIELD_VISION_H
-#define FIELD_VISION_H
+#ifndef VISION_H
+#define VISION_H
 
 #include "Camera.h"
 #include "CVFrameProcessor.h"
 
 namespace field
 {
-	class FieldVision
+	class Vision
 	{
 	public:
-		FieldVision();
-		~FieldVision();
+		Vision();
+		~Vision();
 		
 		Error init();
 		Error start();

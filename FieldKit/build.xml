@@ -104,7 +104,6 @@
          ================================= -->
 	<target name="compile" depends="init">
 		<!-- compile scala sources -->
-		<!-- addparams="-optimise" -->
 		<scalac target="${scalac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath refid="cp" />
 		</scalac>
@@ -116,13 +115,11 @@
 		-->
 
 		<!-- compile java sources -->
-		<!--
 		<javac target="${javac.target}" srcdir="${src}" destdir="${tmp}">
 			<classpath>
 				<fileset refid="libraries.jar" />
 			</classpath>
 		</javac>
-		-->
 	</target>
 
 	<target name="jar" depends="compile">

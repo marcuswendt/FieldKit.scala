@@ -33,7 +33,7 @@ object StatefulParticleSystemTest extends test.Sketch {
   ps += f
   f += new Wind
   f += new Gravity
-  f += new Wrap
+  f += new Wrap2D
   
   f += new Behaviour {
     var time = 0f

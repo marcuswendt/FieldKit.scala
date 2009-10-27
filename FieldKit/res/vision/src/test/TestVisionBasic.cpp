@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
 	LOG("init camera");
 	v->setCamera(new OpenCVCamera(0));
 	
-	
 	LOG("init frame processor");	
 	CVBlobDetector *proc = new CVBlobDetector();
 	proc->setStageEnabled(true);

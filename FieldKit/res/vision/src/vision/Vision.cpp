@@ -6,11 +6,11 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "FieldVision.h"
+#include "Vision.h"
 
 namespace field
 {
-	FieldVision::FieldVision() {
+	Vision::Vision() {
 		isInitialized = false;
 		isStarted = false;
 		width = VISION_DEFAULT_WIDTH;
@@ -18,7 +18,7 @@ namespace field
 		fps = VISION_DEFAULT_FPS;
 	}
 	
-	FieldVision::~FieldVision()
+	Vision::~Vision()
 	{
 		camera->close();
 		delete camera;	
@@ -28,34 +28,34 @@ namespace field
 	// -------------------------------------------------------------------------
 	// SETTERS
 	// -------------------------------------------------------------------------
-	void FieldVision::setSize(int width, int height) {
+	void Vision::setSize(int width, int height) {
 		if(isStarted) {
-			LOG_ERR("FieldVision: Cannot set size, since vision is already started.");
+			LOG_ERR("Vision: Cannot set size, since vision is already started.");
 			return;
 		}
 		this->width = width;
 		this->height = height;
 	}
 	
-	void FieldVision::setFramerate(int fps) {
+	void Vision::setFramerate(int fps) {
 		if(isStarted) {
-			LOG_ERR("FieldVision: Cannot set framerate, since camera is already started.");
+			LOG_ERR("Vision: Cannot set framerate, since camera is already started.");
 			return;
 		}
 		this->fps = fps;
 	}
 	
-	void FieldVision::setCamera(Camera *camera) { 
+	void Vision::setCamera(Camera *camera) { 
 		if(isStarted) {
-			LOG_ERR("FieldVision: Cannot set camera, since camera is already started.");
+			LOG_ERR("Vision: Cannot set camera, since camera is already started.");
 			return;
 		}		
 		this->camera = camera; 
 	}
 	
-	void FieldVision::setProcessor(CVFrameProcessor *processor) {
+	void Vision::setProcessor(CVFrameProcessor *processor) {
 		if(isStarted) {
-			LOG_ERR("FieldVision: Cannot set frame processor, since camera is already started.");
+			LOG_ERR("Vision: Cannot set frame processor, since camera is already started.");
 			return;
 		}		
 		this->processor = processor; 
@@ -65,11 +65,11 @@ namespace field
 	// -------------------------------------------------------------------------
 	// INIT
 	// -------------------------------------------------------------------------
-	Error FieldVision::init()
+	Error Vision::init()
 	{
 		// initialize camera
 		if(camera == NULL) {
-			LOG_ERR("FieldVision: Cannot initialize, since there is no camera set yet.");
+			LOG_ERR("Vision: Cannot initialize, since there is no camera set yet.");
 			return FAILURE;
 		}
 		camera->setSize(width, height);
@@ -81,7 +81,7 @@ namespace field
 
 		// initialize frame processor
 		if(processor == NULL) {
-			LOG_ERR("FieldVision: Cannot initialize, since there is no frame processor set yet.");
+			LOG_ERR("Vision: Cannot initialize, since there is no frame processor set yet.");
 			return FAILURE;
 		}
 
@@ -96,7 +96,7 @@ namespace field
 	// -------------------------------------------------------------------------
 	// START
 	// -------------------------------------------------------------------------
-	Error FieldVision::start()
+	Error Vision::start()
 	{
 		Error err;
 		
@@ -116,7 +116,7 @@ namespace field
 	// -------------------------------------------------------------------------
 	// STOP
 	// -------------------------------------------------------------------------
-	Error FieldVision::stop()
+	Error Vision::stop()
 	{
 		if(!isStarted) return FAILURE;
 
@@ -130,10 +130,10 @@ namespace field
 	// -------------------------------------------------------------------------
 	// UPDATE
 	// -------------------------------------------------------------------------
-	Error FieldVision::update()
+	Error Vision::update()
 	{
 		if(!isStarted) {
-			LOG_ERR("FieldVision: Cannot update, since vision is not started yet.");
+			LOG_ERR("Vision: Cannot update, since vision is not started yet.");
 			return FAILURE;
 		}
 		
