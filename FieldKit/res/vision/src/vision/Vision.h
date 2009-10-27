@@ -20,11 +20,11 @@ namespace field
 		Vision();
 		~Vision();
 		
-		Error init();
-		Error start();
-		virtual Error update();
-		Error stop();
-		Error shutdown();
+		int init();
+		int start();
+		virtual int update();
+		int stop();
+		int shutdown();
 		
 		// setters
 		void setSize(int width, int height);
@@ -46,6 +46,9 @@ namespace field
 		int width, height, fps;
 		Camera *camera;
 		CVFrameProcessor *processor;
+		
+	private:
+		int err;
 	};
 };
 #endif

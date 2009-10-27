@@ -51,12 +51,12 @@ namespace field
 		PTGreyBumblebee2();
 		~PTGreyBumblebee2() {};
 		
-		Error init();
-		Error start();
-		Error update();
-		Error stop();
-		Error close();
-		ImagePtr getImage(int channel);
+		int init();
+		int start();
+		int update();
+		int stop();
+		int close();
+		IplImage* getImage(int channel = 0);
 		
 	private:
 		dc1394_t *dc1394;
@@ -68,9 +68,9 @@ namespace field
 		ImagePtr bufferRight;
 		ImagePtr bufferDeinterlace;
 		
-		Error setFramerate(int framerate);		
-		Error setMode(Feature feature, Mode mode);
-		Error setValue(Feature feature, float normalizedValue);
+		int setFramerate(int framerate);		
+		int setMode(Feature feature, Mode mode);
+		int setValue(Feature feature, float normalizedValue);
 		float getValue(Feature feature);		
 	};
 };

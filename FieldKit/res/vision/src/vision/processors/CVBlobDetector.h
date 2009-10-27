@@ -69,9 +69,9 @@ namespace field
 		CVBlobDetector();
 		~CVBlobDetector();
 		
-		Error init();
-		Error update(Camera *camera);
-		Error deinit();
+		int init();
+		int update(Camera *camera);
+		int deinit();
 		
 		// getters
 		Blob** getBlobs();
@@ -141,7 +141,7 @@ namespace field
 		
 	#pragma mark -- private --
 	private:
-		Error err;	
+		int err;	
 	};
 };
 #endif

@@ -32,8 +32,8 @@ namespace field
 		CVStereoBlobDetector();
 		~CVStereoBlobDetector();
 		
-		Error init();
-		Error update(Camera *camera);
+		int init();
+		int update(Camera *camera);
 		
 		// Overridden 
 		void set(int slider, float value);
@@ -63,7 +63,7 @@ namespace field
 		void drawFingerPoints();
 		
 	private:
-		Error err;
+		int err;
 	};
 };
 #endif

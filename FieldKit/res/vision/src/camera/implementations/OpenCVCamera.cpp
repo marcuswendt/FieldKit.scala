@@ -17,18 +17,18 @@ namespace field
 	// -------------------------------------------------------------------------
 	// INIT
 	// -------------------------------------------------------------------------
-	Error OpenCVCamera::init()
+	int OpenCVCamera::init()
 	{
 		if(isStarted) {
 			LOG_ERR("OpenCVCamera: Cannot initialize, since camera is already started.");
-			return FAILURE;
+			return FK_ERROR;
 		}
 				
 		capture = cvCreateCameraCapture(cameraIndex);
 		
 		if(!capture) {
 			LOG_ERR("OpenCVCamera: Couldnt create camera capture.");
-			return ERR_CAMERA_INIT;
+			return FK_ERROR;
 		}
 		
 		printf("requested %i x %i", width, height);
@@ -52,7 +52,7 @@ namespace field
 	// -------------------------------------------------------------------------
 	// CLOSE
 	// -------------------------------------------------------------------------
-	Error OpenCVCamera::close()
+	int OpenCVCamera::close()
 	{
 		cvReleaseCapture(&capture);
 		return super::close();
@@ -61,10 +61,10 @@ namespace field
 	// -------------------------------------------------------------------------
 	// UPDATE
 	// -------------------------------------------------------------------------
-	Error OpenCVCamera::update()
+	int OpenCVCamera::update()
 	{
-		if(cvGrabFrame(capture)) return SUCCESS;
-		return ERR_CAMERA_UPDATE;
+		if(cvGrabFrame(capture)) return FK_SUCCESS;
+		return FK_ERROR;
 	}
 	
 	// -------------------------------------------------------------------------

@@ -32,7 +32,7 @@ namespace field
 	// -------------------------------------------------------------------------
 	#pragma mark -- Init --
 	// -------------------------------------------------------------------------
-	Error CVBlobDetector::init()
+	int CVBlobDetector::init()
 	{
 		// sliders -------------------------------------------------------------
 		setSlider(SLIDER_BACKGROUND, new Slider(0, 1));
@@ -66,10 +66,10 @@ namespace field
 		
 		// contours ------------------------------------------------------------
 		contourStorage = cvCreateMemStorage(0);
-		return SUCCESS;
+		return FK_SUCCESS;
 	};
 	
-	Error CVBlobDetector::update(Camera *camera)
+	int CVBlobDetector::update(Camera *camera)
 	{
 		// images --------------------------------------------------------------
 		srcImage32F = cache->getTmp(IMAGE_SRC32F, roiSize, IPL_DEPTH_32F, 1);
@@ -183,7 +183,7 @@ namespace field
 		trackBlobs();
 		drawBlobs(STAGE_TRACKING, trackedBlobs);
 		
-		return SUCCESS;
+		return FK_SUCCESS;
 	}
 
 	

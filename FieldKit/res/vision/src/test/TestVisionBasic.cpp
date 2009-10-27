@@ -6,7 +6,7 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "FieldVision.h"
+#include "Vision.h"
 #include "OpenCVCamera.h"
 #include "CVBlobDetector.h"
 
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	LOG("************************************************");
 	LOG(" ");
 	
-	FieldVision *v = new FieldVision();
+	Vision *v = new Vision();
 	
 	LOG("init camera");
 	v->setCamera(new OpenCVCamera(0));

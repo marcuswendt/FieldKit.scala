@@ -6,7 +6,7 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "FieldVision.h"
+#include "Vision.h"
 #include "PTGreyBumblebee2.h"
 #include "CVBlobDetector.h"
 #include "CVStereoBlobDetector.h"
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	proc->setStageEnabled(true);
 	
 	LOG("** init vision **");	
-	FieldVision *v = new FieldVision();
+	Vision *v = new Vision();
 	v->setCamera(new PTGreyBumblebee2());
 	v->setProcessor(proc);
 	v->init();

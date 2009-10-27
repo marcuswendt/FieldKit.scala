@@ -65,30 +65,30 @@ namespace field
 	// -------------------------------------------------------------------------
 	// INIT
 	// -------------------------------------------------------------------------
-	Error Vision::init()
+	int Vision::init()
 	{
 		// initialize camera
 		if(camera == NULL) {
 			LOG_ERR("Vision: Cannot initialize, since there is no camera set yet.");
-			return FAILURE;
+			return FK_ERROR;
 		}
 		camera->setSize(width, height);
 		camera->setFramerate(fps);
 
-		Error err;
+		int err;
 		err = camera->init();
-		if(err != SUCCESS) return err;
+		if(err != FK_SUCCESS) return err;
 
 		// initialize frame processor
 		if(processor == NULL) {
 			LOG_ERR("Vision: Cannot initialize, since there is no frame processor set yet.");
-			return FAILURE;
+			return FK_ERROR;
 		}
 
 		processor->setSize(width, height);
 		err = processor->init();
 		
-		if(err == SUCCESS) isInitialized = true;
+		if(err == FK_SUCCESS) isInitialized = true;
 		
 		return err;
 	}
@@ -96,54 +96,52 @@ namespace field
 	// -------------------------------------------------------------------------
 	// START
 	// -------------------------------------------------------------------------
-	Error Vision::start()
+	int Vision::start()
 	{
-		Error err;
+		int err;
 		
 		// check if we need to initialize first
 		if(!isInitialized) {
 			err = this->init();
-			if(err != SUCCESS) return err;
+			if(err != FK_SUCCESS) return err;
 		}
 		
 		// all good, begin grabbing frames
 		err = camera->start();
 		
-		if(err == SUCCESS) isStarted = true;
+		if(err == FK_SUCCESS) isStarted = true;
 		return err;
 	}
 
 	// -------------------------------------------------------------------------
 	// STOP
 	// -------------------------------------------------------------------------
-	Error Vision::stop()
+	int Vision::stop()
 	{
-		if(!isStarted) return FAILURE;
+		if(!isStarted) return FK_ERROR;
 
-		Error err;
 		err = camera->stop();
 		
-		if(err == SUCCESS) isStarted = false;
+		if(err == FK_SUCCESS) isStarted = false;
 		return err;
 	}
 	
 	// -------------------------------------------------------------------------
 	// UPDATE
 	// -------------------------------------------------------------------------
-	Error Vision::update()
+	int Vision::update()
 	{
 		if(!isStarted) {
 			LOG_ERR("Vision: Cannot update, since vision is not started yet.");
-			return FAILURE;
+			return FK_SUCCESS;
 		}
 		
-		Error err;
 		err = camera->update();
-		if(err != SUCCESS) return err;
+		if(err != FK_ERROR) return err;
 		
 		err = processor->update(camera);
-		if(err != SUCCESS) return err;
+		if(err != FK_ERROR) return err;
 		
-		return SUCCESS;
+		return FK_SUCCESS;
 	};
 };

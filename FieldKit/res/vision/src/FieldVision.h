@@ -9,8 +9,37 @@
 #ifndef FIELD_VISION_H
 #define FIELD_VISION_H
 
+#include "Vision.h"
+#include "CVFrameProcessor.h"
+#include "Camera.h"
+
 //
 // Defines a C function interface to the C++ vision and camera components
 //
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
+// global vision pointer
+field::Vision* vision;
+
+// functions
+int fvCreate();
+
+int fvSetCamera(int name);
+int fvSetSize(int width, int height);
+int fvSetFramerate(int fps);
+
+int fvInit();
+int fvUpdate();
+int fvDestroy();
+
+// helpers
+int fvError(int err);
+	
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -40,8 +40,8 @@ namespace field
 		CVFrameProcessor();
 		virtual ~CVFrameProcessor();
 		
-		virtual Error init() = 0;
-		virtual Error update(Camera *camera) = 0;
+		virtual int init() = 0;
+		virtual int update(Camera *camera) = 0;
 
 		// size
 		virtual void setSize(int width, int height);

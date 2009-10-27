@@ -19,11 +19,11 @@ namespace field {
 		Camera();
 		~Camera();
 		
-		virtual Error init();
-		virtual Error start();
-		virtual Error update();
-		virtual Error stop();
-		virtual Error close();
+		virtual int init();
+		virtual int start();
+		virtual int update();
+		virtual int stop();
+		virtual int close();
 		
 		// setters
 		void setSize(int width, int height);
@@ -40,6 +40,9 @@ namespace field {
 		bool isInitialized;
 		bool isStarted;
 		int width, height, fps;
+		
+	private:
+		int err;
 	};
 };
 #endif

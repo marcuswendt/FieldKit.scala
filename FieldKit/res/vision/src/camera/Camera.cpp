@@ -47,52 +47,50 @@ namespace field {
 	// -------------------------------------------------------------------------
 	// INIT
 	// -------------------------------------------------------------------------
-	Error Camera::init() {
+	int Camera::init() {
 		isInitialized = true;
-		return SUCCESS;
+		return FK_SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
 	// START
 	// -------------------------------------------------------------------------
-	Error Camera::start() {
-		Error err;
-		
+	int Camera::start() {
 		// check if we need to initialize first
 		if(!isInitialized) {
 			err = this->init();
-			if(err != SUCCESS) return err;
+			if(err != FK_SUCCESS) return err;
 		}
 		
 		isStarted = true;
 		
-		return SUCCESS;
+		return FK_SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
 	// UPDATE
 	// -------------------------------------------------------------------------
-	Error Camera::update() {
-		return SUCCESS;
+	int Camera::update() {
+		return FK_SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
 	// STOP
 	// -------------------------------------------------------------------------
-	Error Camera::stop() {
+	int Camera::stop() {
 		isStarted = false;
-		return SUCCESS;
+		return FK_SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
 	// CLOSE
 	// -------------------------------------------------------------------------
-	Error Camera::close() {
+	int Camera::close() {
 		if(isStarted) 
 			this->stop();
 			
 		isInitialized = false;
-		return SUCCESS;
+		return FK_SUCCESS;
 	}
 
 	// -------------------------------------------------------------------------

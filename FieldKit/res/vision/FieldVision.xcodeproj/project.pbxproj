@@ -15,7 +15,6 @@
 			dependencies = (
 				2CC997BC1096FB520008F21D /* PBXTargetDependency */,
 				2CC997BA1096FB520008F21D /* PBXTargetDependency */,
-				2CC997B61096FB520008F21D /* PBXTargetDependency */,
 				2CC997B41096FB520008F21D /* PBXTargetDependency */,
 				2CC997B21096FB520008F21D /* PBXTargetDependency */,
 			);
@@ -102,13 +101,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2CD960931095BD6C00D42F64;
 			remoteInfo = TestOpenCVCapture;
-		};
-		2CC997B51096FB520008F21D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2C528C4D0E0DAC3C00F68F4F;
-			remoteInfo = TestGaussStatBgModel;
 		};
 		2CC997B91096FB520008F21D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -204,7 +196,7 @@
 		2C7058350E0964C2009094FB /* dc1394.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = dc1394.framework; path = ../../../../../../Library/Frameworks/dc1394.framework; sourceTree = SOURCE_ROOT; };
 		2C82E00A0E23F591002B2C24 /* CVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVImageCache.h; sourceTree = "<group>"; };
 		2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVImageCache.cpp; sourceTree = "<group>"; };
-		2CA9DA1D1095F82A00F64E39 /* TestOpenCVCaptureBasic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestOpenCVCaptureBasic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CA9DA1D1095F82A00F64E39 /* TestCanopusADVC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCanopusADVC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CA9DA241095F84200F64E39 /* TestOpenCVCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestOpenCVCamera.cpp; sourceTree = "<group>"; };
 		2CD960901095BD3400D42F64 /* TestVisionBasic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestVisionBasic.cpp; sourceTree = "<group>"; };
 		2CD960911095BD5E00D42F64 /* OpenCVCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVCamera.h; sourceTree = "<group>"; };
@@ -276,7 +268,7 @@
 				2C528C4E0E0DAC3C00F68F4F /* TestGaussStatBgModel.app */,
 				2C1007610E2392CB00A7472A /* libFieldVision.dylib */,
 				2CD960A91095BD6C00D42F64 /* TestVisionBasic.app */,
-				2CA9DA1D1095F82A00F64E39 /* TestOpenCVCaptureBasic.app */,
+				2CA9DA1D1095F82A00F64E39 /* TestCanopusADVC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -470,7 +462,7 @@
 			);
 			name = TestOpenCVCamera;
 			productName = TestVisionMono;
-			productReference = 2CA9DA1D1095F82A00F64E39 /* TestOpenCVCaptureBasic.app */;
+			productReference = 2CA9DA1D1095F82A00F64E39 /* TestCanopusADVC.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2CD960931095BD6C00D42F64 /* TestVisionBasic */ = {
@@ -632,11 +624,6 @@
 			target = 2CD960931095BD6C00D42F64 /* TestVisionBasic */;
 			targetProxy = 2CC997B31096FB520008F21D /* PBXContainerItemProxy */;
 		};
-		2CC997B61096FB520008F21D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2C528C4D0E0DAC3C00F68F4F /* TestGaussStatBgModel */;
-			targetProxy = 2CC997B51096FB520008F21D /* PBXContainerItemProxy */;
-		};
 		2CC997BA1096FB520008F21D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2C39D0740E0A75B400867C99 /* TestVisionStereo */;
@@ -686,7 +673,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_EXTENSION = jnilib;
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -906,7 +892,7 @@
 					Carbon,
 				);
 				PREBINDING = NO;
-				VALID_ARCHS = "x86_64 i386";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -935,7 +921,7 @@
 					"-framework",
 					Carbon,
 				);
-				VALID_ARCHS = "x86_64 i386";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};

@@ -24,9 +24,9 @@ namespace field
 		OpenCVCamera(int cameraIndex);
 		~OpenCVCamera() {};
 		
-		Error init();
-		Error update();
-		Error close();
+		int init();
+		int update();
+		int close();
 		IplImage* getImage(int channel=0);
 		
 	private:

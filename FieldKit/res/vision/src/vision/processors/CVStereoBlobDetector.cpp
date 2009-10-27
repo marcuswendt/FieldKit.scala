@@ -37,15 +37,15 @@ namespace field
 		delete right;
 	}
 
-	Error CVStereoBlobDetector::init()
+	int CVStereoBlobDetector::init()
 	{
 		left->init();
 		right->init();
 		
-		return SUCCESS;
+		return FK_SUCCESS;
 	}	
 	
-	Error CVStereoBlobDetector::update(Camera *camera)
+	int CVStereoBlobDetector::update(Camera *camera)
 	{
 		// update processors
 		left->update(camera);
@@ -55,7 +55,7 @@ namespace field
 		
 		drawFingerPoints();
 		
-		return SUCCESS;
+		return FK_SUCCESS;
 	}
 
 	
