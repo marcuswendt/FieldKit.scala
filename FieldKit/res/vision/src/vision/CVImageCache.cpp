@@ -1,11 +1,10 @@
-/*
- *  ImageCache.cpp
- *  vision2
- *
- *  Created by Marcus Wendt on 7/8/08.
- *  Copyright 2008 MarcusWendt.com. All rights reserved.
- *
- */
+/*                                                                            *\
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
+\*                                                                            */
+/* created October 27, 2009 */
 
 #include "CVImageCache.h"
 

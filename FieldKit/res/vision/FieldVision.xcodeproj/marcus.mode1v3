@@ -272,17 +272,11 @@
 								<string>2C7058920E096500009094FB</string>
 								<string>2C1007510E23921800A7472A</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>2CA9DA431095F9F900F64E39</string>
-								<string>2CA9DA441095F9F900F64E39</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>8</integer>
-									<integer>5</integer>
-									<integer>4</integer>
-									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -317,40 +311,18 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>TestOpenCVCamera.cpp</string>
+								<string>&lt;No Editor&gt;</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
-										<key>PBXProjectModuleLabel</key>
-										<string>TestOpenCVCamera.cpp</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>2CA9DA581095FAD800F64E39</string>
-										<key>history</key>
-										<array>
-											<string>2CA9D9E91095F7D400F64E39</string>
-											<string>2CA9D9EB1095F7D400F64E39</string>
-											<string>2CA9D9ED1095F7D400F64E39</string>
-											<string>2CA9D9EE1095F7D400F64E39</string>
-											<string>2CA9D9F11095F7D400F64E39</string>
-											<string>2CA9D9F21095F7D400F64E39</string>
-											<string>2CA9DA281095F8DC00F64E39</string>
-											<string>2CA9DA541095FAD800F64E39</string>
-											<string>2CA9DA551095FAD800F64E39</string>
-											<string>2CA9DA561095FAD800F64E39</string>
-											<string>2CA9DA571095FAD800F64E39</string>
-										</array>
 									</dict>
 									<key>SplitCount</key>
 									<string>1</string>
@@ -361,16 +333,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {690, 1013}}</string>
+								<string>{{0, 0}, {690, 0}}</string>
 								<key>RubberWindowFrame</key>
 								<string>1 59 949 1119 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>1013pt</string>
+							<string>0pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -381,14 +355,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 1018}, {690, 60}}</string>
+								<string>{{0, 5}, {690, 1073}}</string>
 								<key>RubberWindowFrame</key>
 								<string>1 59 949 1119 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>60pt</string>
+							<string>1073pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -407,9 +381,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2CA9D9F51095F7D400F64E39</string>
+				<string>2CA9DA881096F7E000F64E39</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2CA9D9F61095F7D400F64E39</string>
+				<string>2CA9DA891096F7E000F64E39</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -545,12 +519,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>2CA9DA591095FAD800F64E39</string>
-		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>2CA9D9F81095F7D400F64E39</string>
-		<string>2CA9D9F91095F7D400F64E39</string>
-		<string>1CD10A99069EF8BA00B06720</string>
+		<string>2CA9DA9A1096F81300F64E39</string>
+		<string>2CA9DA9B1096F81300F64E39</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>2CB60E320E20FF6800EDA08E</string>
 		<string>/Users/marcus/Documents/Development/FieldKit/FieldKit/res/vision/FieldVision.xcodeproj</string>
 	</array>
@@ -576,7 +548,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>TestOpenCVCamera.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -593,8 +565,6 @@
 							<string>153pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -634,7 +604,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2CB60E320E20FF6800EDA08E</string>
-				<string>2CA9D9BF1095F1E200F64E39</string>
+				<string>2CA9DA8A1096F7E000F64E39</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -645,7 +615,7 @@
 			<key>WindowToolGUID</key>
 			<string>2CB60E320E20FF6800EDA08E</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -754,13 +724,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>2CA9D9C01095F1E200F64E39</string>
+				<string>2CA9DA921096F81300F64E39</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>2CA9D9C11095F1E200F64E39</string>
-				<string>2CA9D9C21095F1E200F64E39</string>
-				<string>2CA9D9C31095F1E200F64E39</string>
-				<string>2CA9D9C41095F1E200F64E39</string>
-				<string>2CA9D9C51095F1E200F64E39</string>
+				<string>2CA9DA931096F81300F64E39</string>
+				<string>2CA9DA941096F81300F64E39</string>
+				<string>2CA9DA951096F81300F64E39</string>
+				<string>2CA9DA961096F81300F64E39</string>
+				<string>2CA9DA971096F81300F64E39</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -879,8 +849,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -916,7 +884,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>2CA9D9C81095F1E200F64E39</string>
+				<string>2CA9DA981096F81300F64E39</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
@@ -926,7 +894,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

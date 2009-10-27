@@ -63,7 +63,6 @@
 		2CA9DA111095F82A00F64E39 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE58E90E2220FD00DBD37B /* Blob.cpp */; };
 		2CA9DA121095F82A00F64E39 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
 		2CA9DA141095F82A00F64E39 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
-		2CA9DA151095F82A00F64E39 /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2CA9DA161095F82A00F64E39 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007B10E23952700A7472A /* Carbon.framework */; };
 		2CA9DA181095F82A00F64E39 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2CA9DA191095F82A00F64E39 /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
@@ -243,7 +242,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CA9DA141095F82A00F64E39 /* OpenCV.framework in Frameworks */,
-				2CA9DA151095F82A00F64E39 /* dc1394.framework in Frameworks */,
 				2CA9DA161095F82A00F64E39 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -847,7 +845,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "Info copy 2.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -894,7 +892,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -931,7 +929,6 @@
 		C0E91ACA08A95435008D54AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "~/Library/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
@@ -949,8 +946,7 @@
 					Carbon,
 				);
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Debug;
 		};
@@ -958,7 +954,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "~/Library/Frameworks";
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -980,8 +975,7 @@
 					"-framework",
 					Carbon,
 				);
-				SDKROOT = macosx10.5;
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Release;
 		};

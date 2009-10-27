@@ -1,11 +1,10 @@
-/*
- *  TestOpenCVCaptureBasic.cpp
- *  FieldVision
- *
- *  Created by Marcus Wendt on 26/10/2009.
- *  Copyright 2009 FIELD. All rights reserved.
- *
- */
+/*                                                                            *\
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
+\*                                                                            */
+/* created October 27, 2009 */
 
 #include "Vision2.h"
 #include "OpenCVCamera.h"
