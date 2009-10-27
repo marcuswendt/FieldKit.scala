@@ -6,11 +6,11 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "Vision2.h"
+#include "FieldVision.h"
 #include "PTGreyBumblebee2.h"
 #include "CVBlobDetector.h"
 
-using namespace Vision;
+using namespace field;
 
 //--------------------------------------------------------------------------------------------
 const int SCREEN_WIDTH = 1400;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 	proc->setCameraSource(1);
 	
 	LOG("** init vision **");	
-	Vision2 *v = new Vision2();
+	FieldVision *v = new FieldVision();
 	v->setCamera(new PTGreyBumblebee2());
 	v->setProcessor(proc);
 	v->init();

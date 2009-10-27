@@ -15,7 +15,7 @@
 #include "Slider.h";
 #include "CVImageCache.h"
 
-namespace Vision 
+namespace field 
 {
 	class Stage
 	{

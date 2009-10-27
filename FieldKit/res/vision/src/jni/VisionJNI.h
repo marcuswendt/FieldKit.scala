@@ -10,7 +10,7 @@
 #define VISION2_JNI_H
 
 // vision classes
-#include "Vision2.h"
+#include "FieldVision.h"
 #include "PTGreyBumblebee2.h"
 #include "CVBlobDetector.h"
 #include "CVStereoBlobDetector.h"
@@ -37,9 +37,9 @@ int dataIndex;
 bool dataReverseByteOrder;
 
 // objects
-Vision::Vision2 *vision;
-Vision::CVBlobDetector *proc;
-Vision::PTGreyBumblebee2 *camera;
+field::FieldVision *vision;
+field::CVBlobDetector *proc;
+field::PTGreyBumblebee2 *camera;
 
 //
 // FUNCTIONS

@@ -9,7 +9,7 @@
 #ifndef SLIDER_H
 #define SLIDER_H
 
-namespace Vision 
+namespace field 
 {
 	class Slider
 	{
@@ -39,4 +39,5 @@ namespace Vision
 		float min;
 	};
 };
+
 #endif

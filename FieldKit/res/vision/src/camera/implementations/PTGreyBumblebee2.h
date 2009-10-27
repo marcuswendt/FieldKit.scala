@@ -17,7 +17,7 @@
 
 #include "Camera.h"
 
-namespace Vision 
+namespace field 
 {
 	const int bb2Width = 640;
 	const int bb2Height = 480;
@@ -56,13 +56,7 @@ namespace Vision
 		Error update();
 		Error stop();
 		Error close();
-		
 		ImagePtr getImage(int channel);
-		Error setFramerate(int framerate);
-		
-		Error setMode(Feature feature, Mode mode);
-		Error setValue(Feature feature, float normalizedValue);
-		float getValue(Feature feature);
 		
 	private:
 		dc1394_t *dc1394;
@@ -73,6 +67,11 @@ namespace Vision
 		ImagePtr bufferLeft;
 		ImagePtr bufferRight;
 		ImagePtr bufferDeinterlace;
+		
+		Error setFramerate(int framerate);		
+		Error setMode(Feature feature, Mode mode);
+		Error setValue(Feature feature, float normalizedValue);
+		float getValue(Feature feature);		
 	};
 };
 #endif

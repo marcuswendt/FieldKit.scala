@@ -8,7 +8,7 @@
 
 #include "CVBlobDetector.h"
 
-namespace Vision 
+namespace field 
 {
 	// ---------------------------------------------------------------------------------
 	#pragma mark -- Constructor --

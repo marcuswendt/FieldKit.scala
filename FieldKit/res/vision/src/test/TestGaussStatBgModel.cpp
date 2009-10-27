@@ -6,7 +6,12 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-/* Demo of the background/foreground detection algorithme */
+/* 
+ 
+ Demo of the background/foreground detection algorithm.
+ Found somewhere on the old OpenCV forums.
+ 
+ */
 
 #include <OpenCV/OpenCV.h>
 #include <ctype.h>

@@ -13,7 +13,7 @@
 #include "CVFrameProcessor.h"
 #include "Blob.h"
 
-namespace Vision 
+namespace field 
 {
 	//
 	// OpenCV Blob Detector

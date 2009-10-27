@@ -9,7 +9,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-namespace Vision {
+namespace field {
 	//
 	// TYPES
 	//
@@ -20,6 +20,10 @@ namespace Vision {
 	// CONSTANTS
 	//
 	const static int BLOB_MAX_COUNT = 10;
+	
+	const static int VISION_DEFAULT_WIDTH = 320;
+	const static int VISION_DEFAULT_HEIGHT = 240;
+	const static int VISION_DEFAULT_FPS = 30;
 	
 	typedef enum {
 		SUCCESS =  0,

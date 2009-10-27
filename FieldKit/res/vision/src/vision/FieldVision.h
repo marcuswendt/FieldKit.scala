@@ -12,33 +12,40 @@
 #include "Camera.h"
 #include "CVFrameProcessor.h"
 
-namespace Vision 
+namespace field
 {
-	class Vision2
+	class FieldVision
 	{
 	public:
-		Vision2() {};
-		~Vision2();
+		FieldVision();
+		~FieldVision();
 		
 		Error init();
 		Error start();
 		virtual Error update();
 		Error stop();
+		Error shutdown();
 		
 		// setters
-		void setCamera(Camera *camera) { this->camera = camera; };
-		void setProcessor(CVFrameProcessor *processor) { this->processor = processor; };
+		void setSize(int width, int height);
+		void setFramerate(int fps);
+		void setCamera(Camera *camera);
+		void setProcessor(CVFrameProcessor *processor);
 		
 		// getters
+		int getWidth() { return width; };
+		int getHeight() { return height; };
+		int getFPS() { return fps; };
+		
 		Camera* getCamera() { return camera; };
 		CVFrameProcessor* getProcessor() { return processor; };
 		
 	protected:
+		bool isInitialized;
+		bool isStarted;
+		int width, height, fps;
 		Camera *camera;
 		CVFrameProcessor *processor;
-		
-	private:
-		Error err;
 	};
 };
 #endif

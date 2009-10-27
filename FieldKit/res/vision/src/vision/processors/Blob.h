@@ -9,7 +9,7 @@
 #ifndef BLOB_H
 #define BLOB_H
 
-namespace Vision 
+namespace field 
 {
 	class Blob
 	{

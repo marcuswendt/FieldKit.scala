@@ -6,13 +6,32 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		2CC997AE1096FB470008F21D /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2CC997C21096FB660008F21D /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				2CC997BC1096FB520008F21D /* PBXTargetDependency */,
+				2CC997BA1096FB520008F21D /* PBXTargetDependency */,
+				2CC997B81096FB520008F21D /* PBXTargetDependency */,
+				2CC997B61096FB520008F21D /* PBXTargetDependency */,
+				2CC997B41096FB520008F21D /* PBXTargetDependency */,
+				2CC997B21096FB520008F21D /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		2C1007770E23933600A7472A /* Vision2JNI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1007750E23933600A7472A /* Vision2JNI.cpp */; };
+		2C1007770E23933600A7472A /* VisionJNI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1007750E23933600A7472A /* VisionJNI.cpp */; };
 		2C1007B00E23951200A7472A /* JavaVM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007AF0E23951200A7472A /* JavaVM.framework */; };
 		2C1007B20E23952700A7472A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007B10E23952700A7472A /* Carbon.framework */; };
 		2C1007B80E23953500A7472A /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2C1007B90E23953500A7472A /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
-		2C1007CE0E23999300A7472A /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2C1007CE0E23999300A7472A /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* FieldVision.cpp */; };
 		2C1007CF0E23999300A7472A /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
 		2C1007D00E23999300A7472A /* PTGreyBumblebee2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */; };
 		2C1007D10E23999300A7472A /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
@@ -22,7 +41,7 @@
 		2C39D1990E0A75D400867C99 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2C39D19A0E0A75D400867C99 /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2C39D19C0E0A75DA00867C99 /* TestVisionStereo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0700E0A759C00867C99 /* TestVisionStereo.cpp */; };
-		2C39D20E0E0A78F800867C99 /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2C39D20E0E0A78F800867C99 /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* FieldVision.cpp */; };
 		2C39D20F0E0A78FD00867C99 /* PTGreyBumblebee2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */; };
 		2C39D2100E0A78FD00867C99 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
 		2C39D3610E0A925C00867C99 /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
@@ -35,7 +54,7 @@
 		2C5287980E0D122B00F68F4F /* dc1394.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2C52879A0E0D123100F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2C52879B0E0D123100F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
-		2C52879D0E0D124500F68F4F /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2C52879D0E0D124500F68F4F /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* FieldVision.cpp */; };
 		2C52879E0E0D124500F68F4F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
 		2C52879F0E0D124500F68F4F /* PTGreyBumblebee2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */; };
 		2C5287A00E0D124500F68F4F /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
@@ -55,7 +74,7 @@
 		2C82E5820E250555002B2C24 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007B10E23952700A7472A /* Carbon.framework */; };
 		2C82E5830E250556002B2C24 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1007B10E23952700A7472A /* Carbon.framework */; };
 		2CA9DA0A1095F82A00F64E39 /* OpenCVCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD960921095BD5E00D42F64 /* OpenCVCamera.cpp */; };
-		2CA9DA0C1095F82A00F64E39 /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2CA9DA0C1095F82A00F64E39 /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* FieldVision.cpp */; };
 		2CA9DA0D1095F82A00F64E39 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
 		2CA9DA0E1095F82A00F64E39 /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
 		2CA9DA0F1095F82A00F64E39 /* CVBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */; };
@@ -67,7 +86,7 @@
 		2CA9DA181095F82A00F64E39 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2CA9DA191095F82A00F64E39 /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2CA9DA251095F84200F64E39 /* TestOpenCVCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9DA241095F84200F64E39 /* TestOpenCVCamera.cpp */; };
-		2CD960971095BD6C00D42F64 /* Vision2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* Vision2.cpp */; };
+		2CD960971095BD6C00D42F64 /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D01E0E0A663A00867C99 /* FieldVision.cpp */; };
 		2CD960981095BD6C00D42F64 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
 		2CD9609A1095BD6C00D42F64 /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
 		2CD9609B1095BD6C00D42F64 /* CVBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */; };
@@ -85,6 +104,51 @@
 		2CFE58EC0E2220FD00DBD37B /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE58E90E2220FD00DBD37B /* Blob.cpp */; };
 		2CFE58EE0E2220FD00DBD37B /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE58E90E2220FD00DBD37B /* Blob.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2CC997B11096FB520008F21D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CA9DA071095F82A00F64E39;
+			remoteInfo = TestOpenCVCamera;
+		};
+		2CC997B31096FB520008F21D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CD960931095BD6C00D42F64;
+			remoteInfo = TestOpenCVCapture;
+		};
+		2CC997B51096FB520008F21D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C528C4D0E0DAC3C00F68F4F;
+			remoteInfo = TestGaussStatBgModel;
+		};
+		2CC997B71096FB520008F21D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C5286D00E0D120600F68F4F;
+			remoteInfo = TestVisionMono;
+		};
+		2CC997B91096FB520008F21D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C39D0740E0A75B400867C99;
+			remoteInfo = TestVisionStereo;
+		};
+		2CC997BB1096FB520008F21D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C1007600E2392CB00A7472A;
+			remoteInfo = FieldVision;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		2C5285760E0C164900F68F4F /* Copy Frameworks */ = {
@@ -152,13 +216,13 @@
 /* Begin PBXFileReference section */
 		0867D6ABFE840B52C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2C10075C0E2392B800A7472A /* mw_lib_vision_Vision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mw_lib_vision_Vision.h; path = jni/mw_lib_vision_Vision.h; sourceTree = "<group>"; };
-		2C1007610E2392CB00A7472A /* libVision2.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libVision2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C1007740E23933600A7472A /* Vision2JNI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vision2JNI.h; path = jni/Vision2JNI.h; sourceTree = "<group>"; };
-		2C1007750E23933600A7472A /* Vision2JNI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vision2JNI.cpp; path = jni/Vision2JNI.cpp; sourceTree = "<group>"; };
+		2C1007610E2392CB00A7472A /* libFieldVision.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFieldVision.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C1007740E23933600A7472A /* VisionJNI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisionJNI.h; path = jni/VisionJNI.h; sourceTree = "<group>"; };
+		2C1007750E23933600A7472A /* VisionJNI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisionJNI.cpp; path = jni/VisionJNI.cpp; sourceTree = "<group>"; };
 		2C1007AF0E23951200A7472A /* JavaVM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaVM.framework; path = System/Library/Frameworks/JavaVM.framework; sourceTree = SDKROOT; };
 		2C1007B10E23952700A7472A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		2C39D01D0E0A663A00867C99 /* Vision2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vision2.h; sourceTree = "<group>"; };
-		2C39D01E0E0A663A00867C99 /* Vision2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vision2.cpp; sourceTree = "<group>"; };
+		2C39D01D0E0A663A00867C99 /* FieldVision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldVision.h; sourceTree = "<group>"; };
+		2C39D01E0E0A663A00867C99 /* FieldVision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldVision.cpp; sourceTree = "<group>"; };
 		2C39D0230E0A67CB00867C99 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		2C39D0240E0A67CB00867C99 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		2C39D0560E0A724F00867C99 /* PTGreyBumblebee2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTGreyBumblebee2.h; sourceTree = "<group>"; };
@@ -191,7 +255,7 @@
 		2CD960AB1095BD6C00D42F64 /* Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy.plist"; sourceTree = "<group>"; };
 		2CFE58E90E2220FD00DBD37B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blob.cpp; sourceTree = "<group>"; };
 		2CFE58EA0E2220FD00DBD37B /* Blob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blob.h; sourceTree = "<group>"; };
-		32DBCF6D0370B57F00C91783 /* vision2.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vision2.pch; sourceTree = "<group>"; };
+		32DBCF6D0370B57F00C91783 /* header.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = header.pch; sourceTree = "<group>"; };
 		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,7 +329,7 @@
 				2C39D0750E0A75B400867C99 /* TestVisionStereo.app */,
 				2C5286D10E0D120600F68F4F /* TestVisionMono.app */,
 				2C528C4E0E0DAC3C00F68F4F /* TestGaussStatBgModel.app */,
-				2C1007610E2392CB00A7472A /* libVision2.dylib */,
+				2C1007610E2392CB00A7472A /* libFieldVision.dylib */,
 				2CD960A91095BD6C00D42F64 /* TestOpenCVCapture.app */,
 				2CA9DA1D1095F82A00F64E39 /* TestOpenCVCaptureBasic.app */,
 			);
@@ -288,7 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				2C39D1C10E0A774700867C99 /* constants.h */,
-				32DBCF6D0370B57F00C91783 /* vision2.pch */,
+				32DBCF6D0370B57F00C91783 /* header.pch */,
 				2C70582F0E09645E009094FB /* camera */,
 				2C70582D0E0963EC009094FB /* vision */,
 				2C7058920E096500009094FB /* test */,
@@ -323,8 +387,8 @@
 			isa = PBXGroup;
 			children = (
 				2C10075C0E2392B800A7472A /* mw_lib_vision_Vision.h */,
-				2C1007740E23933600A7472A /* Vision2JNI.h */,
-				2C1007750E23933600A7472A /* Vision2JNI.cpp */,
+				2C1007740E23933600A7472A /* VisionJNI.h */,
+				2C1007750E23933600A7472A /* VisionJNI.cpp */,
 			);
 			name = jni;
 			sourceTree = "<group>";
@@ -361,8 +425,8 @@
 				2C5285840E0D03F300F68F4F /* CVFrameProcessor.cpp */,
 				2C82E00A0E23F591002B2C24 /* CVImageCache.h */,
 				2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */,
-				2C39D01D0E0A663A00867C99 /* Vision2.h */,
-				2C39D01E0E0A663A00867C99 /* Vision2.cpp */,
+				2C39D01D0E0A663A00867C99 /* FieldVision.h */,
+				2C39D01E0E0A663A00867C99 /* FieldVision.cpp */,
 				2C5287D80E0D372400F68F4F /* Slider.h */,
 			);
 			path = vision;
@@ -404,9 +468,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2C1007600E2392CB00A7472A /* Vision2 */ = {
+		2C1007600E2392CB00A7472A /* FieldVision */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2C1007730E2392FC00A7472A /* Build configuration list for PBXNativeTarget "Vision2" */;
+			buildConfigurationList = 2C1007730E2392FC00A7472A /* Build configuration list for PBXNativeTarget "FieldVision" */;
 			buildPhases = (
 				2C10075D0E2392CB00A7472A /* Headers */,
 				2C10075E0E2392CB00A7472A /* Sources */,
@@ -416,9 +480,9 @@
 			);
 			dependencies = (
 			);
-			name = Vision2;
+			name = FieldVision;
 			productName = Vision2;
-			productReference = 2C1007610E2392CB00A7472A /* libVision2.dylib */;
+			productReference = 2C1007610E2392CB00A7472A /* libFieldVision.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		2C39D0740E0A75B400867C99 /* TestVisionStereo */ = {
@@ -523,7 +587,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2C1007600E2392CB00A7472A /* Vision2 */,
+				2CC997AE1096FB470008F21D /* All */,
+				2C1007600E2392CB00A7472A /* FieldVision */,
 				2C39D0740E0A75B400867C99 /* TestVisionStereo */,
 				2C5286D00E0D120600F68F4F /* TestVisionMono */,
 				2C528C4D0E0DAC3C00F68F4F /* TestGaussStatBgModel */,
@@ -576,8 +641,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C1007770E23933600A7472A /* Vision2JNI.cpp in Sources */,
-				2C1007CE0E23999300A7472A /* Vision2.cpp in Sources */,
+				2C1007770E23933600A7472A /* VisionJNI.cpp in Sources */,
+				2C1007CE0E23999300A7472A /* FieldVision.cpp in Sources */,
 				2C1007CF0E23999300A7472A /* Camera.cpp in Sources */,
 				2C1007D00E23999300A7472A /* PTGreyBumblebee2.cpp in Sources */,
 				2C1007D10E23999300A7472A /* CVStereoBlobDetector.cpp in Sources */,
@@ -593,7 +658,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C39D19C0E0A75DA00867C99 /* TestVisionStereo.cpp in Sources */,
-				2C39D20E0E0A78F800867C99 /* Vision2.cpp in Sources */,
+				2C39D20E0E0A78F800867C99 /* FieldVision.cpp in Sources */,
 				2C39D2100E0A78FD00867C99 /* Camera.cpp in Sources */,
 				2C39D20F0E0A78FD00867C99 /* PTGreyBumblebee2.cpp in Sources */,
 				2C39D3610E0A925C00867C99 /* CVStereoBlobDetector.cpp in Sources */,
@@ -609,7 +674,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C5286D70E0D120E00F68F4F /* TestVisionMono.cpp in Sources */,
-				2C52879D0E0D124500F68F4F /* Vision2.cpp in Sources */,
+				2C52879D0E0D124500F68F4F /* FieldVision.cpp in Sources */,
 				2C52879E0E0D124500F68F4F /* Camera.cpp in Sources */,
 				2C52879F0E0D124500F68F4F /* PTGreyBumblebee2.cpp in Sources */,
 				2C5287A00E0D124500F68F4F /* CVStereoBlobDetector.cpp in Sources */,
@@ -635,7 +700,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CA9DA0A1095F82A00F64E39 /* OpenCVCamera.cpp in Sources */,
-				2CA9DA0C1095F82A00F64E39 /* Vision2.cpp in Sources */,
+				2CA9DA0C1095F82A00F64E39 /* FieldVision.cpp in Sources */,
 				2CA9DA0D1095F82A00F64E39 /* Camera.cpp in Sources */,
 				2CA9DA0E1095F82A00F64E39 /* CVStereoBlobDetector.cpp in Sources */,
 				2CA9DA0F1095F82A00F64E39 /* CVBlobDetector.cpp in Sources */,
@@ -652,7 +717,7 @@
 			files = (
 				2CD960AD1095BD8900D42F64 /* OpenCVCamera.cpp in Sources */,
 				2CD960AC1095BD8000D42F64 /* TestOpenCVCapture.cpp in Sources */,
-				2CD960971095BD6C00D42F64 /* Vision2.cpp in Sources */,
+				2CD960971095BD6C00D42F64 /* FieldVision.cpp in Sources */,
 				2CD960981095BD6C00D42F64 /* Camera.cpp in Sources */,
 				2CD9609A1095BD6C00D42F64 /* CVStereoBlobDetector.cpp in Sources */,
 				2CD9609B1095BD6C00D42F64 /* CVBlobDetector.cpp in Sources */,
@@ -663,6 +728,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2CC997B21096FB520008F21D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CA9DA071095F82A00F64E39 /* TestOpenCVCamera */;
+			targetProxy = 2CC997B11096FB520008F21D /* PBXContainerItemProxy */;
+		};
+		2CC997B41096FB520008F21D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CD960931095BD6C00D42F64 /* TestOpenCVCapture */;
+			targetProxy = 2CC997B31096FB520008F21D /* PBXContainerItemProxy */;
+		};
+		2CC997B61096FB520008F21D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C528C4D0E0DAC3C00F68F4F /* TestGaussStatBgModel */;
+			targetProxy = 2CC997B51096FB520008F21D /* PBXContainerItemProxy */;
+		};
+		2CC997B81096FB520008F21D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C5286D00E0D120600F68F4F /* TestVisionMono */;
+			targetProxy = 2CC997B71096FB520008F21D /* PBXContainerItemProxy */;
+		};
+		2CC997BA1096FB520008F21D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C39D0740E0A75B400867C99 /* TestVisionStereo */;
+			targetProxy = 2CC997B91096FB520008F21D /* PBXContainerItemProxy */;
+		};
+		2CC997BC1096FB520008F21D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C1007600E2392CB00A7472A /* FieldVision */;
+			targetProxy = 2CC997BB1096FB520008F21D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */ = {
@@ -692,7 +790,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
-				PRODUCT_NAME = Vision2;
+				PRODUCT_NAME = FieldVision;
 			};
 			name = Debug;
 		};
@@ -707,7 +805,7 @@
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
-				PRODUCT_NAME = Vision2;
+				PRODUCT_NAME = FieldVision;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -879,6 +977,27 @@
 			};
 			name = Release;
 		};
+		2CC997AF1096FB470008F21D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = All;
+			};
+			name = Debug;
+		};
+		2CC997B01096FB470008F21D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = All;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		2CD960A71095BD6C00D42F64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -934,7 +1053,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = src/vision2.pch;
+				GCC_PREFIX_HEADER = src/header.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/JavaVM.framework/Headers;
@@ -964,7 +1083,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = src/vision2.pch;
+				GCC_PREFIX_HEADER = src/header.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/JavaVM.framework/Headers;
@@ -982,7 +1101,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2C1007730E2392FC00A7472A /* Build configuration list for PBXNativeTarget "Vision2" */ = {
+		2C1007730E2392FC00A7472A /* Build configuration list for PBXNativeTarget "FieldVision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2C1007620E2392CC00A7472A /* Debug */,
@@ -1023,6 +1142,15 @@
 			buildConfigurations = (
 				2CA9DA1B1095F82A00F64E39 /* Debug */,
 				2CA9DA1C1095F82A00F64E39 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CC997C21096FB660008F21D /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CC997AF1096FB470008F21D /* Debug */,
+				2CC997B01096FB470008F21D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -9,36 +9,37 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-namespace Vision {
+namespace field {
 	//
 	// base class for all camera types
 	//
 	class Camera
 	{
 	public:
-		Camera() {
-			isInitialized = false;
-			isStarted = false;
-		};
+		Camera();
 		~Camera() {};
 		
-		virtual Error init() = 0;
-		virtual Error start() = 0;
-		virtual Error update() = 0;
-		virtual Error stop()  = 0;
-		virtual Error close()  = 0;
+		virtual Error init();
+		virtual Error start();
+		virtual Error update();
+		virtual Error stop();
+		virtual Error close();
 		
-		virtual ImagePtr getImage(int channel) = 0;
-		virtual Error setFramerate(int framerate) = 0;
+		// setters
+		void setSize(int width, int height);
+		void setFramerate(int fps);
 		
+		// getters
 		int getWidth() { return width; };
 		int getHeight() { return height; };
+		int getFramerate() { return fps; };
+		
+		virtual ImagePtr getImage(int channel) = 0;
 		
 	protected:
-		int width, height;
-		
 		bool isInitialized;
 		bool isStarted;
+		int width, height, fps;
 	};
 };
 #endif

@@ -8,7 +8,7 @@
 
 #include "CVStereoBlobDetector.h"
 
-namespace Vision 
+namespace field 
 {
 	// ---------------------------------------------------------------------------------
 	#pragma mark -- Lifecycle --

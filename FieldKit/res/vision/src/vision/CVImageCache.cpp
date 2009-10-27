@@ -8,7 +8,7 @@
 
 #include "CVImageCache.h"
 
-namespace Vision
+namespace field
 {
 	CVImageCache::CVImageCache() 
 	{

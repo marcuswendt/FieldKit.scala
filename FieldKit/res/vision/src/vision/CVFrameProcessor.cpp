@@ -8,7 +8,7 @@
 
 #include "CVFrameProcessor.h"
 
-namespace Vision 
+namespace field 
 {	
 	// ---------------------------------------------------------------------------------
 	#pragma mark -- Constructor --

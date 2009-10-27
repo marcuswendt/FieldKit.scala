@@ -6,10 +6,10 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "Vision2.h"
+#include "FieldVision.h"
 #include "OpenCVCamera.h"
 
-using namespace Vision;
+using namespace field;
 
 //--------------------------------------------------------------------------------------------
 const int SCREEN_WIDTH = 1920;
@@ -25,6 +25,8 @@ int main(int argc, char* argv[])
 	
 	OpenCVCamera* camera = new OpenCVCamera(0);
 	
+	camera->setSize(320, 240);
+	camera->setFramerate(24);
 	camera->init();
 	camera->start();
 	

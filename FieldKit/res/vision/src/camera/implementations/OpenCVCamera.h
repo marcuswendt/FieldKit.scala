@@ -12,7 +12,7 @@
 #include <OpenCV/OpenCV.h>
 #include "Camera.h"
 
-namespace Vision 
+namespace field 
 {
 	//
 	// integrates the capture components from opencv
@@ -25,17 +25,15 @@ namespace Vision
 		~OpenCVCamera() {};
 		
 		Error init();
-		Error start();
 		Error update();
-		Error stop();
 		Error close();
-		
-		Error setFramerate(int framerate);
 		
 		ImagePtr getImage(int channel);
 		IplImage* getIplImage();
 		
 	private:
+		typedef Camera super;
+		
 		int cameraIndex;
 		CvCapture* capture;
 	};

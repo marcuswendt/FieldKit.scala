@@ -6,7 +6,7 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "Vision2JNI.h"
+#include "FieldVisionJNI.h"
 
 // -------------------------------------------------------------------------------
 #pragma mark -- Create --
@@ -26,7 +26,7 @@ JNIEXPORT void JNICALL Java_mw_lib_vision_Vision_jniCreate
 
 	camera = new Vision::PTGreyBumblebee2();
 	
-	vision = new Vision::Vision2();
+	vision = new Vision::FieldVision();
 	vision->setCamera(camera);
 	vision->setProcessor(proc);
 	vision->init();

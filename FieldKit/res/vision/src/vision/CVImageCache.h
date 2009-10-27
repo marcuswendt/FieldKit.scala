@@ -11,7 +11,7 @@
 
 #include <map>
 
-namespace Vision 
+namespace field 
 {
 	class CVImageCache
 	{

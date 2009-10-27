@@ -12,7 +12,7 @@
 #include "CVFrameProcessor.h"
 #include "CVBlobDetector.h"
 
-namespace Vision 
+namespace field 
 {
 	//
 	// OpenCV Stereo Blob Detector

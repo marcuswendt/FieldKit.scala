@@ -8,69 +8,58 @@
 
 #include "OpenCVCamera.h"
 
-namespace Vision 
+namespace field 
 {
 	OpenCVCamera::OpenCVCamera(int cameraIndex) {
 		this->cameraIndex = cameraIndex;
 	}
 	
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// INIT
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	Error OpenCVCamera::init()
 	{
+		if(isStarted) {
+			LOG_ERR("OpenCVCamera: Cannot initialize, since camera is already started.");
+			return FAILURE;
+		}
+				
 		capture = cvCreateCameraCapture(cameraIndex);
 		
-		if(!capture)
+		if(!capture) {
+			LOG_ERR("OpenCVCamera: Couldnt create camera capture.");
 			return ERR_CAMERA_INIT;
-			
-		IplImage* image = cvRetrieveFrame(capture);
-		width = image->width;
-		height = image->height;
+		}
 		
-		return SUCCESS;
+		// only seems to be implemented in the opencv linux (ffmpeg or gstreamer based) versions
+		cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, width);
+		cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT, height);
+		cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, fps);
+
+		return super::init();
 	}
 	
-	// ------------------------------------------------------------------------------------------------
-	// START
-	// ------------------------------------------------------------------------------------------------
-	Error OpenCVCamera::start()
-	{
-		return SUCCESS;
-	}
-	
-	// ------------------------------------------------------------------------------------------------
-	// STOP
-	// ------------------------------------------------------------------------------------------------
-	Error OpenCVCamera::stop()
-	{
-		return SUCCESS;
-	}
-	
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// CLOSE
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	Error OpenCVCamera::close()
 	{
 		cvReleaseCapture(&capture);
-		return SUCCESS;
+		return super::close();
 	}
 	
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// UPDATE
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	Error OpenCVCamera::update()
 	{
-		if(cvGrabFrame(capture) == 1) {
-			return SUCCESS;
-		} else {
-			return ERR_CAMERA_UPDATE;
-		}
+		if(cvGrabFrame(capture)) return SUCCESS;
+		return ERR_CAMERA_UPDATE;
 	}
 	
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// HELPERS
-	// ------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	#pragma mark -- Helpers --
 	ImagePtr OpenCVCamera::getImage(int channel)
 	{
@@ -81,10 +70,5 @@ namespace Vision
 	
 	IplImage* OpenCVCamera::getIplImage() {
 		return cvRetrieveFrame(capture);
-	}
-	
-	Error OpenCVCamera::setFramerate(int framerate)
-	{
-		return SUCCESS;
 	}
 }
