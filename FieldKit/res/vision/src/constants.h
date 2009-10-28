@@ -9,49 +9,42 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-// error codes
-#define FK_SUCCESS						1
-#define FK_ERROR						0
-
-#define FK_ERR_INVALID_ARGUMENT			-10
-
-#define FK_ERR_NOT_CREATED				-200
-#define FK_ERR_NOT_INITIALIZED			-201
-
-// camera types
-#define FK_CAMERA_OPENCV				0
-#define FK_CAMERA_OPENCV_FIRST			1
-#define FK_CAMERA_OPENCV_SECOND			2
-#define FK_CAMERA_OPENCV_THIRD			3
-#define FK_CAMERA_OPENCV_FOURTH			4
-#define FK_CAMERA_PTGREY_BUMBLEBEE		10
-
-// frame processor properties
-#define FK_PROC_BACKGROUND				0
-#define FK_PROC_THRESHOLD				1
-#define FK_PROC_DILATE					2
-#define FK_PROC_ERODE					3
-#define FK_PROC_CONTOUR_MIN				4
-#define FK_PROC_CONTOUR_MAX				5
-#define FK_PROC_CONTOUR_REDUCE			6
-#define FK_PROC_TRACK_RANGE				7
-
 namespace field {
-	//
-	// TYPES
-	//
-	typedef unsigned char Image;
-	typedef Image* ImagePtr;
+	#define consti const static int
 	
-	//
-	// CONSTANTS
-	//
-	const static int BLOB_MAX_COUNT = 10;
-	
-	const static int VISION_DEFAULT_WIDTH = 320;
-	const static int VISION_DEFAULT_HEIGHT = 240;
-	const static int VISION_DEFAULT_FPS = 30;
+	// error codes
+	consti ERROR	= 0;
+	consti SUCCESS	= 1;
+		
+	consti ERR_INVALID_ARGUMENT =		-10;
+		
+	consti ERR_NOT_CREATED =			-20;
+	consti ERR_NOT_INITIALIZED =		-21;
+		
+	// camera types
+	consti CAMERA_OPENCV =				0;
+	consti CAMERA_OPENCV_FIRST =		1;
+	consti CAMERA_OPENCV_SECOND	=		2;
+	consti CAMERA_OPENCV_THIRD =		3;
+	consti CAMERA_OPENCV_FOURTH	=		4;
+	consti CAMERA_PTGREY_BUMBLEBEE =	10;
+		
+	// frame processor properties
+	consti PROC_BACKGROUND =			0;
+	consti PROC_THRESHOLD =				1;
+	consti PROC_DILATE =				2;
+	consti PROC_ERODE =					3;
+	consti PROC_CONTOUR_MIN =			4;
+	consti PROC_CONTOUR_MAX =			5;
+	consti PROC_CONTOUR_REDUCE =		6;
+	consti PROC_TRACK_RANGE =			7;
 
+	// defaults
+	consti VISION_DEFAULT_WIDTH = 320;
+	consti VISION_DEFAULT_HEIGHT = 240;
+	consti VISION_DEFAULT_FPS = 30;
+	consti VISION_BLOB_COUNT = 20;
+	
 	//
 	// INLINE FUNCTIONS
 	//

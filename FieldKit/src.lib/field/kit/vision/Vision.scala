@@ -24,6 +24,9 @@ object Vision extends Logger {
   val CAMERA_OPENCV_THIRD = 3
   val CAMERA_PTGREY_BUMBLEBEE = 10
 
+  /** maximum number of contour points*/
+  val CONTOUR_DATA_MAX = 1000 * 2
+  
 //  /** Lists all supported Camera types */
 //  object Camera extends Enumeration {
 //    val OpenCV = Value(0)
@@ -37,7 +40,6 @@ object Vision extends Logger {
    * Interface defining the available FieldVision C methods
    */
   protected trait CVision extends Library {
-    //import com.sun.jna.ptr.IntByReference
     import java.nio._
     
     def fvCreate:Int;
@@ -50,14 +52,34 @@ object Vision extends Logger {
     def fvSetCamera(camera:Int):Int
     def fvSetSize(width:Int, height:Int):Int
     def fvSetFramerate(fps:Int):Int
+    def fvSet(property:Int, value:Float)
     
+    def fvGetBlobCount:Int
     def fvGetBlobData:Pointer
     def fvGetBlobDataLength:Int
+    def fvGet(property:Int)
   }
-  
+
   protected val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
+  protected val blobs = new Array[Blob](native.fvGetBlobCount)
+  protected var fps = 0 
   
-  protected var fps = 30
+  // -- Initialisation ---------------------------------------------------------
+  
+  // automatically create vision when this singleton is instantiated
+  create
+  
+  // set defaults
+  setSize(320, 240)
+  setFramerate(30)
+  
+  // initialize blobs
+  for(i <- 0 until blobs.size)
+    blobs(i) = new Blob(i)
+  
+  Runtime.getRuntime.addShutdownHook(new Thread(new Runnable() {
+    def run = destroy
+  }))
   
   // -- Methods ----------------------------------------------------------------
   protected def create = {
@@ -83,8 +105,54 @@ object Vision extends Logger {
       warn("Couldnt start vision")
   }
   
+  /**
+   * processes the next frame and updates the blob list
+   */
   def update {
+    // process frame
     native.fvUpdate
+    
+    // reset blob list
+    blobs foreach { _.active = false }
+    
+    // begin reading the int data
+    val length = native.fvGetBlobDataLength
+    val data = native.fvGetBlobData
+    
+    // no data
+    if(data == 0) return
+     
+    var i = 0
+    def next = {
+      val value = data.getInt(i * 4)
+      i += 1
+      value
+    }
+    
+    while(i < length) {
+      next // read blob header
+      
+      // get current blob using its index
+      val blob = blobs(next)
+      blob.active = true
+      blob.x = next
+      blob.y = next
+      
+      next // read bounding box header
+      blob.bounds.x1 = next
+      blob.bounds.y1 = next
+      blob.bounds.width = next
+      blob.bounds.height = next
+      
+      next // read contour header
+      blob.contourPoints = next
+      
+      blob.contour.clear
+      for(j <- 0 until blob.contourPoints) {
+        blob.contour.put(next).put(next)
+      }
+      blob.contour.rewind
+    }
   }
 
   def setCamera(camera:Int) {
@@ -105,56 +173,5 @@ object Vision extends Logger {
       warn("Couldnt set framerate")
     else
       this.fps = fps
-  }
-
-  // -- Initialisation ---------------------------------------------------------
-  
-  // automatically create vision when this singleton is instantiated
-  create
-  
-  Runtime.getRuntime.addShutdownHook(new Thread(new Runnable() {
-    def run = destroy
-  }))
-  
-  // -- Test -------------------------------------------------------------------
-  def main(args:Array[String]) {
-    
-    info("---- Basic FieldVision Test ----")
-    
-    Logger.level = Logger.FINE
-    
-    Vision.setCamera(Vision.CAMERA_OPENCV)
-    Vision.setSize(640, 480)
-    Vision.start
-    
-//    for(i <- 0 until 100) {
-//      info("frame", i)
-//      Vision.update
-//    }
-    
-    for(i <- 0 until 10) {
-      info("frame", i)
-      
-      //Thread.sleep(1000/ fps)
-      //Thread.yield
-      
-      Vision.update
-      
-      
-      val length = Vision.native.fvGetBlobDataLength
-      info("length:", length)
-      println("---------------------------------------------------------------")
-
-      val data = Vision.native.fvGetBlobData.getIntArray(0, length)
-      
-      for(i <- 0 until data.length) {
-        info(i +":\t", data(i))
-      }
-//      val data = Vision.native.fvGetBlobData
-//      for(i <- 0 until Vision.native.fvGetBlobDataLength)
-//        info(i +":\t", data.getInt(i * 4))
-    }
-    
-    info("done")
   }
 }

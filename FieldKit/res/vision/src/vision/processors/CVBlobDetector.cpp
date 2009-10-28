@@ -35,24 +35,24 @@ namespace field
 	int CVBlobDetector::init()
 	{
 		// properties
-		addProperty(FK_PROC_BACKGROUND);
-		addProperty(FK_PROC_THRESHOLD, 0, 255);
-		addProperty(FK_PROC_DILATE, 0, 35);
-		addProperty(FK_PROC_ERODE, 0, 35);
-		addProperty(FK_PROC_CONTOUR_MIN);
-		addProperty(FK_PROC_CONTOUR_MAX);
-		addProperty(FK_PROC_CONTOUR_REDUCE, 0, 10);
-		addProperty(FK_PROC_TRACK_RANGE);
+		addProperty(PROC_BACKGROUND);
+		addProperty(PROC_THRESHOLD, 0, 255);
+		addProperty(PROC_DILATE, 0, 35);
+		addProperty(PROC_ERODE, 0, 35);
+		addProperty(PROC_CONTOUR_MIN);
+		addProperty(PROC_CONTOUR_MAX);
+		addProperty(PROC_CONTOUR_REDUCE, 0, 10);
+		addProperty(PROC_TRACK_RANGE);
 
 		// property defaults
-		set(FK_PROC_BACKGROUND, 0.15f);
-		set(FK_PROC_THRESHOLD, 0.1f);
-		set(FK_PROC_DILATE, 0.15f);
-		set(FK_PROC_ERODE, 0.05f);
-		set(FK_PROC_CONTOUR_MIN, 0.01f);
-		set(FK_PROC_CONTOUR_MAX, 1.0f);
-		set(FK_PROC_CONTOUR_REDUCE, 0.1f);
-		set(FK_PROC_TRACK_RANGE, 0.5f);
+		set(PROC_BACKGROUND, 0.1f);
+		set(PROC_THRESHOLD, 0.1f);
+		set(PROC_DILATE, 0.2f);
+		set(PROC_ERODE, 0.05f);
+		set(PROC_CONTOUR_MIN, 0.005f);
+		set(PROC_CONTOUR_MAX, 1.0f);
+		set(PROC_CONTOUR_REDUCE, 0.1f);
+		set(PROC_TRACK_RANGE, 0.5f);
 		
 		// warp ----------------------------------------------------------------
 		warpMatrix = cvCreateMat(3, 3, CV_32FC1);
@@ -63,10 +63,10 @@ namespace field
 				0, size.height);
 
 		// blobs ---------------------------------------------------------------
-		blobNum = BLOB_MAX_COUNT;
-		foundBlobs = new Blob*[blobNum];
-		trackedBlobs = new Blob*[blobNum];
-		for (int i=0; i<blobNum; i++) {
+		blobCount = VISION_BLOB_COUNT;
+		foundBlobs = new Blob*[blobCount];
+		trackedBlobs = new Blob*[blobCount];
+		for (int i=0; i<blobCount; i++) {
 			foundBlobs[i] = new Blob(i);
 			trackedBlobs[i] = new Blob(i);
 		}
@@ -76,7 +76,7 @@ namespace field
 		
 		// contours ------------------------------------------------------------
 		contourStorage = cvCreateMemStorage(0);
-		return FK_SUCCESS;
+		return SUCCESS;
 	};
 	
 	int CVBlobDetector::update(Camera *camera)
@@ -121,7 +121,7 @@ namespace field
 		
 		// background ----------------------------------------------------------
 		setMode(MODE_32F);
-		float bgValue = doResetBackground ? 1.0 : get(FK_PROC_BACKGROUND);
+		float bgValue = doResetBackground ? 1.0 : get(PROC_BACKGROUND);
 		IplImage *bgImage = cache->getTmp(IMAGE_BG, roiSize, IPL_DEPTH_32F, 1);
 		//IplImage *bgImage = cache->getTmp(IMAGE_BG, srcImage);
 
@@ -157,13 +157,13 @@ namespace field
 			//cvAdaptiveThreshold(srcImage8U, dstImage8U, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 5, -7);
 			cvAdaptiveThreshold(srcImage, dstImage, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 9, -5);
 		} else {
-			cvThreshold(srcImage, dstImage, get(FK_PROC_THRESHOLD), 255, CV_THRESH_BINARY);			
+			cvThreshold(srcImage, dstImage, get(PROC_THRESHOLD), 255, CV_THRESH_BINARY);			
 		}
 		copyStage(STAGE_THRESHOLD, dstImage);
 		swap();
 		
 		// dilate --------------------------------------------------------------
-		float dilate = get(FK_PROC_DILATE);
+		float dilate = get(PROC_DILATE);
 		if(dilate > 0) {
 			setMode(MODE_8U);
 			cvDilate(srcImage, dstImage, NULL, dilate);
@@ -172,7 +172,7 @@ namespace field
 		}
 		
 		// erode ---------------------------------------------------------------
-		float erode = get(FK_PROC_ERODE);
+		float erode = get(PROC_ERODE);
 		if(erode > 0) {
 			setMode(MODE_8U);
 			cvErode(srcImage, dstImage, NULL, erode);
@@ -193,7 +193,7 @@ namespace field
 		trackBlobs();
 		drawBlobs(STAGE_TRACKING, trackedBlobs);
 		
-		return FK_SUCCESS;
+		return SUCCESS;
 	}
 
 	
@@ -220,7 +220,7 @@ namespace field
 			CvSeq* contour = contourFirst;
 			CvSeq *approxContour;
 			for( ; contour != 0; contour = contour->h_next ) {
-				approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(FK_PROC_CONTOUR_REDUCE));
+				approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(PROC_CONTOUR_REDUCE));
 				cvDrawContours(dstImage, approxContour, cGrey, cDarkGrey, 3, 2);
 			}
 		}
@@ -235,16 +235,16 @@ namespace field
 	void CVBlobDetector::findBlobs()
 	{
 		// reset active blobs
-		for(int i=0; i<BLOB_MAX_COUNT; i++) {
+		for(int i=0; i<VISION_BLOB_COUNT; i++)
 			foundBlobs[i]->init();
-		}
+		
 
 		// no contours found
 		if(contourFirst == NULL) return;
 
 		int imageArea = size.width * size.height;
-		int minArea = get(FK_PROC_CONTOUR_MIN) * imageArea;
-		int maxArea = get(FK_PROC_CONTOUR_MAX) * imageArea;
+		int minArea = get(PROC_CONTOUR_MIN) * imageArea;
+		int maxArea = get(PROC_CONTOUR_MAX) * imageArea;
 		
 		CvSeq *approxContour;	
 		CvMoments moments;
@@ -254,11 +254,11 @@ namespace field
 		
 		CvSeq* contour = contourFirst;
 		for( ; contour != 0; contour = contour->h_next ) {
-			approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(FK_PROC_CONTOUR_REDUCE));
+			approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(PROC_CONTOUR_REDUCE));
 			float area = fabs(cvContourArea(approxContour));
 			
 			if (area > minArea && area < maxArea) {
-				if(foundBlobCount == BLOB_MAX_COUNT) {
+				if(foundBlobCount == VISION_BLOB_COUNT) {
 					LOG("Too many contours");
 					return;
 				}
@@ -268,7 +268,7 @@ namespace field
 				// update blob
 				Blob *b = foundBlobs[foundBlobCount++];
 				b->isActive = true;
-				b->position = cvPoint(moments.m10/moments.m00, moments.m01/moments.m00);
+				b->position = cvPoint(moments.m10/moments.m00, moments.m01/moments.m00);				
 				b->position64f = cvPoint2D64f(moments.m10/moments.m00, moments.m01/moments.m00);
 				b->bounds = cvBoundingRect(approxContour, 0);
 				b->contour = approxContour;
@@ -282,18 +282,18 @@ namespace field
 		float dist, distClosest;
 		
 		int imageArea = size.width * size.height;
-		float distMax = get(FK_PROC_TRACK_RANGE) * imageArea;
+		float distMax = get(PROC_TRACK_RANGE) * imageArea;
 		distMax *= distMax;
 		
 		// loop through tracked blobs
-		for (int i=0; i<BLOB_MAX_COUNT; i++) {
+		for (int i=0; i<VISION_BLOB_COUNT; i++) {
 			tracked = trackedBlobs[i];
 			//if(!tracked->isActive()) continue;
 			match = NULL;
 			distClosest = distMax;
 			
 			// try to find a match among the new found blobs within the slider range
-			for (int j=0; j<BLOB_MAX_COUNT; j++) {
+			for (int j=0; j<VISION_BLOB_COUNT; j++) {
 				found = foundBlobs[j];
 				if(!found->isActive || found->isAssigned) continue;
 				dist = ptDistanceSquared(found->position, tracked->position);
@@ -325,12 +325,12 @@ namespace field
 		
 		char* label = (char *) malloc(10);
 		
-		for(int i=0; i<BLOB_MAX_COUNT; i++) {
+		for(int i=0; i<VISION_BLOB_COUNT; i++) {
 			Blob *b = blobs[i];
 			
 			if(b->isActive) {
 				//CvScalar c = cvScalarAll(255 - i * (255/ blobNum) );
-				CvScalar c = cvScalarAll(i * (255/ blobNum) );
+				CvScalar c = cvScalarAll(i * (255/ blobCount) );
 				CvRect br = b->bounds;
 				cvRectangle(dstImage, cvPoint(br.x, br.y), cvPoint(br.x + br.width, br.y + br.height), cWhite);
 				//cvCircle(dstImage, b->position, 2, cWhite, 2, CV_AA );

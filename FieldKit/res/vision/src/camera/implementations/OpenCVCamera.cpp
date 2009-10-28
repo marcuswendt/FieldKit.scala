@@ -21,14 +21,14 @@ namespace field
 	{
 		if(isStarted) {
 			LOG_ERR("OpenCVCamera: Cannot initialize, since camera is already started.");
-			return FK_ERROR;
+			return ERROR;
 		}
 				
 		capture = cvCreateCameraCapture(cameraIndex);
 		
 		if(!capture) {
 			LOG_ERR("OpenCVCamera: Couldnt create camera capture.");
-			return FK_ERROR;
+			return ERROR;
 		}
 		
 		//printf("OpenCVCamera: requested %i x %i\n", width, height);
@@ -63,8 +63,8 @@ namespace field
 	// -------------------------------------------------------------------------
 	int OpenCVCamera::update()
 	{
-		if(cvGrabFrame(capture)) return FK_SUCCESS;
-		return FK_ERROR;
+		if(cvGrabFrame(capture)) return SUCCESS;
+		return ERROR;
 	}
 	
 	// -------------------------------------------------------------------------

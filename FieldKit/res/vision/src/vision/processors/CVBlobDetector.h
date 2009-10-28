@@ -64,7 +64,7 @@ namespace field
 		
 		// getters
 		Blob** getBlobs();
-		int getBlobNum() { return blobNum; };
+		int getBlobCount() { return blobCount; };
 		
 		// setters
 		void setCameraSource(int source) { cameraSource = source; };
@@ -110,7 +110,7 @@ namespace field
 		CvPoint center;
 		Blob **foundBlobs;
 		Blob **trackedBlobs;
-		int blobNum;
+		int blobCount;
 
 		// ---------------------------------------------------------------------------------------
 		// Helper & Utiltiy Methods

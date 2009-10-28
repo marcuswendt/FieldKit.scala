@@ -29,8 +29,8 @@ int main(int argc, char* argv[])
 	
 	LOG("** init vision **");
 	fvCreate();
-	fvSetCamera(FK_CAMERA_OPENCV);
-	fvSetSize(400, 400);
+	fvSetCamera(CAMERA_OPENCV);
+	fvSetSize(400, 300);
 	fvSetFramerate(20);
 	fvStart();
 	
@@ -38,14 +38,14 @@ int main(int argc, char* argv[])
 	CVBlobDetector* proc = (CVBlobDetector*) fvGetVision()->getProcessor();
 	proc->setStageEnabled(true);
 	
-//	fvSet(FK_PROC_BACKGROUND, 0.15f);
-//	fvSet(FK_PROC_THRESHOLD, 0.1f);
-//	fvSet(FK_PROC_DILATE, 0.15f);
-//	fvSet(FK_PROC_ERODE, 0.06f);
-//	fvSet(FK_PROC_CONTOUR_MIN, 0.001f);
-//	fvSet(FK_PROC_CONTOUR_MAX, 1.0f);
-//	fvSet(FK_PROC_CONTOUR_REDUCE, 0.5f);
-//	fvSet(FK_PROC_TRACK_RANGE, 0.5f);
+//	fvSet(PROC_BACKGROUND, 0.15f);
+//	fvSet(PROC_THRESHOLD, 0.1f);
+//	fvSet(PROC_DILATE, 0.15f);
+//	fvSet(PROC_ERODE, 0.06f);
+//	fvSet(PROC_CONTOUR_MIN, 0.001f);
+//	fvSet(PROC_CONTOUR_MAX, 1.0f);
+//	fvSet(PROC_CONTOUR_REDUCE, 0.5f);
+//	fvSet(PROC_TRACK_RANGE, 0.5f);
 ////	 proc->setWarp(0, 0,
 ////	 320, 0,
 ////	 320, 239,

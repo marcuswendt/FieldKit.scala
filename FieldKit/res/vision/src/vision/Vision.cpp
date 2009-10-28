@@ -71,19 +71,19 @@ namespace field
 		// initialize camera
 		if(camera == NULL) {
 			LOG_ERR("Vision: Cannot initialize, since there is no camera set yet.");
-			return FK_ERROR;
+			return ERROR;
 		}
 		camera->setSize(width, height);
 		camera->setFramerate(fps);
 
 		int err;
 		err = camera->init();
-		if(err != FK_SUCCESS) return err;
+		if(err != SUCCESS) return err;
 
 		// initialize frame processor
 		if(processor == NULL) {
 			LOG_ERR("Vision: Cannot initialize, since there is no frame processor set yet.");
-			return FK_ERROR;
+			return ERROR;
 		}
 
 		processor->setSize(width, height);
@@ -91,7 +91,7 @@ namespace field
 		
 		err = processor->init();
 		
-		if(err == FK_SUCCESS) isInitialized = true;
+		if(err == SUCCESS) isInitialized = true;
 		
 		return err;
 	}
@@ -105,13 +105,13 @@ namespace field
 		if(!isInitialized) {
 			//LOG("need to initialize");
 			err = this->init();
-			if(err != FK_SUCCESS) return err;
+			if(err != SUCCESS) return err;
 		}
 		
 		// all good, begin grabbing frames
 		err = camera->start();
 		
-		if(err == FK_SUCCESS) isStarted = true;
+		if(err == SUCCESS) isStarted = true;
 		return err;
 	}
 
@@ -120,11 +120,11 @@ namespace field
 	// -------------------------------------------------------------------------
 	int Vision::stop()
 	{
-		if(!isStarted) return FK_ERROR;
+		if(!isStarted) return ERROR;
 
 		err = camera->stop();
 		
-		if(err == FK_SUCCESS) isStarted = false;
+		if(err == SUCCESS) isStarted = false;
 		return err;
 	}
 	
@@ -135,15 +135,15 @@ namespace field
 	{
 		if(!isStarted) {
 			LOG_ERR("Vision: Cannot update, since vision is not started yet.");
-			return FK_SUCCESS;
+			return SUCCESS;
 		}
 		
 		err = camera->update();
-		if(err != FK_SUCCESS) return err;
+		if(err != SUCCESS) return err;
 		
 		err = processor->update(camera);
-		if(err != FK_SUCCESS) return err;
+		if(err != SUCCESS) return err;
 		
-		return FK_SUCCESS;
+		return SUCCESS;
 	};
 };

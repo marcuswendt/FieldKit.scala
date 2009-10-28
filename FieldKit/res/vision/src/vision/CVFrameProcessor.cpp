@@ -31,8 +31,8 @@ namespace field
 		properties = std::map<int, CVProperty*>();
 		stages = std::map<int, Stage*>();
 		
-		setSize(320, 240);
-		setROI(0, 0, 320, 240);
+		setSize(VISION_DEFAULT_WIDTH, VISION_DEFAULT_HEIGHT);
+		setROI(0, 0, VISION_DEFAULT_WIDTH, VISION_DEFAULT_HEIGHT);
 	}
 
 	

@@ -18,7 +18,7 @@ namespace field
 		initStages(STAGE_MAX);
 		
 		// init blobs
-		blobNum = BLOB_MAX_COUNT;
+		blobNum = VISION_BLOB_COUNT;
 		blobs = new Blob*[blobNum];
 		for(int i=0; i < blobNum; i++) {
 			blobs[i] = new Blob(i);
@@ -42,7 +42,7 @@ namespace field
 		left->init();
 		right->init();
 		
-		return FK_SUCCESS;
+		return SUCCESS;
 	}	
 	
 	int CVStereoBlobDetector::update(Camera *camera)
@@ -55,7 +55,7 @@ namespace field
 		
 		drawFingerPoints();
 		
-		return FK_SUCCESS;
+		return SUCCESS;
 	}
 
 	
@@ -209,7 +209,7 @@ namespace field
 		return blobs;
 	}
 	
-	int CVStereoBlobDetector::getBlobNum()
+	int CVStereoBlobDetector::getBlobCount()
 	{
 		return blobNum;
 	}

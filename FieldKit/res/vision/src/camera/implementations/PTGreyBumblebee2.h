@@ -64,9 +64,9 @@ namespace field
 		dc1394video_frame_t *frame;
 		dc1394error_t err;
 		
-		ImagePtr bufferLeft;
-		ImagePtr bufferRight;
-		ImagePtr bufferDeinterlace;
+		IplImage* bufferLeft;
+		IplImage* bufferRight;
+		IplImage* bufferDeinterlace;
 		
 		int setFramerate(int framerate);		
 		int setMode(Feature feature, Mode mode);

@@ -10,7 +10,7 @@
 #define FIELD_VISION_H
 
 #include "Vision.h"
-#include "Camera.h"
+
 //
 // Defines a C function interface to the C++ vision and camera classes
 //
@@ -19,14 +19,14 @@
 extern "C" {
 #endif
 	
-#define FK_VISION_DATA_SIZE				300
-
-#define FK_VISION_DATA_BLOB				-1000
-#define FK_VISION_DATA_BLOB_BOUNDS		-1001
-#define FK_VISION_DATA_BLOB_CONTOURS	-1002
-	
 // namespace
 using namespace field;
+
+#define VISION_DATA_SIZE				10000
+	
+#define VISION_DATA_BLOB				-1000
+#define VISION_DATA_BLOB_BOUNDS			-1001
+#define VISION_DATA_BLOB_CONTOURS		-1002
 	
 // global variables
 struct VisionData {
@@ -52,11 +52,13 @@ int fvSetFramerate(int fps);
 
 // getters
 float fvGet(int property);
+	
 Vision* fvGetVision();
+int fvGetBlobCount();
+	
 int* fvGetBlobData();
 int fvGetBlobDataLength();
 
-	
 // helpers
 int fvError(int err);
 inline void fvPushData(int value);

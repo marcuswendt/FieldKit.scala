@@ -42,7 +42,7 @@ namespace field
 		// Getters
 		IplImage* getImage(int key);
 		Blob** getBlobs();
-		int getBlobNum();
+		int getBlobCount();
 		
 		// Setters
 		void setSize(int width, int height);

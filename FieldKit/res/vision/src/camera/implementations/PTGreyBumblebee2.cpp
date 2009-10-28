@@ -22,7 +22,7 @@ namespace field
 	// -------------------------------------------------------------------------
 	int PTGreyBumblebee2::init()
 	{
-		if(isStarted) return FK_ERROR;
+		if(isStarted) return ERROR;
 		
 		dc1394camera_list_t* list;
 		
@@ -32,7 +32,7 @@ namespace field
 		
 		printf("dc1394_camera_enumerate %i\n", list->num);
 		
-		if (list->num == 0) return FK_ERROR;
+		if (list->num == 0) return ERROR;
 
 		// init camera
 		camera = dc1394_camera_new(dc1394, list->ids[0].guid);
@@ -46,20 +46,21 @@ namespace field
 		printf("---------------------------------------------------------------------------------\n");
 		
 		// allocate memory for image buffers
-		bufferDeinterlace = (ImagePtr) malloc(bb2ImageSize * 2);
+		//bufferDeinterlace = (ImagePtr) malloc(bb2ImageSize * 2);
+		// TODO need to create IplImage
 		
 		// load factory defaults
 		err = err = dc1394_memory_load(camera, 0);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		err = dc1394_video_set_iso_speed(camera, DC1394_ISO_SPEED_400);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		err = dc1394_video_set_mode(camera, DC1394_VIDEO_MODE_FORMAT7_3);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		err = dc1394_video_set_operation_mode(camera, DC1394_OPERATION_MODE_1394B);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		
 		//printf("---------------------------------------------------------------------------------\n");
@@ -104,7 +105,7 @@ namespace field
 		
 		setFramerate(bb2DefaultFPS);
 		
-		return FK_SUCCESS;
+		return SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
@@ -112,17 +113,17 @@ namespace field
 	// -------------------------------------------------------------------------
 	int PTGreyBumblebee2::start()
 	{
-		if(!isInitialized) return FK_ERROR;
-		if(isStarted) return FK_ERROR;
+		if(!isInitialized) return ERROR;
+		if(isStarted) return ERROR;
 
 		err = dc1394_capture_setup(camera, 8, DC1394_CAPTURE_FLAGS_DEFAULT);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		err = dc1394_video_set_transmission(camera, DC1394_ON);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		isStarted = true;
-		return FK_SUCCESS;
+		return SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
@@ -130,17 +131,17 @@ namespace field
 	// -------------------------------------------------------------------------
 	int PTGreyBumblebee2::stop()
 	{
-		if(!isInitialized) return FK_ERROR;
-		if(!isStarted) return FK_ERROR;
+		if(!isInitialized) return ERROR;
+		if(!isStarted) return ERROR;
 		
 		err = dc1394_video_set_transmission(camera, DC1394_OFF);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 
 		err = dc1394_capture_stop(camera);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		isStarted = false;
-		return FK_SUCCESS;		
+		return SUCCESS;		
 	}
 	
 	// -------------------------------------------------------------------------
@@ -148,14 +149,14 @@ namespace field
 	// -------------------------------------------------------------------------
 	int PTGreyBumblebee2::close()
 	{
-		if(!isInitialized) return FK_ERROR;
-		if(isStarted) return FK_ERROR;
+		if(!isInitialized) return ERROR;
+		if(isStarted) return ERROR;
 		
 		dc1394_camera_free(camera);
 		dc1394_free(dc1394);
 
 		free(bufferDeinterlace);		
-		return FK_SUCCESS;		
+		return SUCCESS;		
 	}
 	
 	// -------------------------------------------------------------------------
@@ -163,24 +164,25 @@ namespace field
 	// -------------------------------------------------------------------------
 	int PTGreyBumblebee2::update()
 	{
-		if(!isInitialized) return FK_ERROR;
-		if(!isStarted) return FK_ERROR;
+		if(!isInitialized) return ERROR;
+		if(!isStarted) return ERROR;
 				
 		// 1. retrieve frame from cameras ringbuffer
 		err = dc1394_capture_dequeue(camera, DC1394_CAPTURE_POLICY_WAIT, &frame);
-		if(err!=DC1394_SUCCESS) return FK_ERROR;
+		if(err!=DC1394_SUCCESS) return ERROR;
 	
 		// 2. convert stereo image to two mono images
-		err = dc1394_deinterlace_stereo(frame->image, bufferDeinterlace, width, height * 2);
-		if(err!=DC1394_SUCCESS) return FK_ERROR;
+		//err = dc1394_deinterlace_stereo(frame->image, bufferDeinterlace, width, height * 2);
+		// TODO need to create ipl image
+		if(err!=DC1394_SUCCESS) return ERROR;
 		bufferLeft = bufferDeinterlace;
 		bufferRight = bufferDeinterlace + bb2ImageSize;
 
 		// 3. enqueue frame in the ringbuffer again
 		err = dc1394_capture_enqueue(camera, frame);
-		if(err!=DC1394_SUCCESS) return FK_ERROR;
+		if(err!=DC1394_SUCCESS) return ERROR;
 		
-		return FK_SUCCESS;
+		return SUCCESS;
 	}
 	
 	// -------------------------------------------------------------------------
@@ -189,15 +191,15 @@ namespace field
 	#pragma mark -- Helpers --
 	int PTGreyBumblebee2::setFramerate(int framerate)
 	{
-		if(!isInitialized) return FK_ERROR;
-		if(isStarted) return FK_ERROR;
+		if(!isInitialized) return ERROR;
+		if(isStarted) return ERROR;
 
 		printf("PTGreyBumblebee2: setting framerate to %i \n", framerate);
 
 		// sets the framerate => bb2PacketSize * fps
 		err = dc1394_format7_set_roi(camera, DC1394_VIDEO_MODE_FORMAT7_3, DC1394_COLOR_CODING_MONO16, bb2PacketSize * framerate, 0, 0, width, height);
-		if(err!=DC1394_SUCCESS) return FK_ERROR;
-		return FK_SUCCESS;
+		if(err!=DC1394_SUCCESS) return ERROR;
+		return SUCCESS;
 	};
 	
 	int PTGreyBumblebee2::setMode(Feature feature, Mode mode)
@@ -207,12 +209,12 @@ namespace field
 		// check if feature is present
 		dc1394bool_t isPresent;
 		err = dc1394_feature_is_present(camera, _feature, &isPresent);
-		if(!isPresent || err != DC1394_SUCCESS) return FK_ERROR;
+		if(!isPresent || err != DC1394_SUCCESS) return ERROR;
 
 		// set mode
 		dc1394feature_mode_t _mode = (dc1394feature_mode_t) mode;
 		err = dc1394_feature_set_mode(camera, _feature, _mode);
-		return (err == DC1394_SUCCESS) ? FK_SUCCESS : FK_ERROR;
+		return (err == DC1394_SUCCESS) ? SUCCESS : ERROR;
 	}
 	
 	int PTGreyBumblebee2::setValue(Feature feature, float normalizedValue)
@@ -222,7 +224,7 @@ namespace field
 		// check if feature is present
 		dc1394bool_t isPresent;
 		err = dc1394_feature_is_present(camera, _feature, &isPresent);
-		if(!isPresent || err != DC1394_SUCCESS) return FK_ERROR;
+		if(!isPresent || err != DC1394_SUCCESS) return ERROR;
 		
 		// make sure the normalizedValue is within [0, 1] range
 		if(normalizedValue > 1.0f) normalizedValue = 1.0f;
@@ -231,12 +233,12 @@ namespace field
 		// get range
 		uint32_t min, max;
 		err = dc1394_feature_get_boundaries(camera, _feature, &min, &max);
-		if(err != DC1394_SUCCESS) return FK_ERROR;
+		if(err != DC1394_SUCCESS) return ERROR;
 		
 		// set value
 		uint32_t value = min + (normalizedValue * (max - min));
 		err = dc1394_feature_set_value(camera, _feature, value);
-		return (err == DC1394_SUCCESS) ? FK_SUCCESS : FK_ERROR;
+		return (err == DC1394_SUCCESS) ? SUCCESS : ERROR;
 	}
 	
 	float PTGreyBumblebee2::getValue(Feature feature)
