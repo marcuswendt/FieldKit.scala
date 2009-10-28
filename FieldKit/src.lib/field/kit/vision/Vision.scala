@@ -37,6 +37,9 @@ object Vision extends Logger {
    * Interface defining the available FieldVision C methods
    */
   protected trait CVision extends Library {
+    //import com.sun.jna.ptr.IntByReference
+    import java.nio._
+    
     def fvCreate:Int;
     def fvDestroy:Int
     
@@ -47,6 +50,9 @@ object Vision extends Logger {
     def fvSetCamera(camera:Int):Int
     def fvSetSize(width:Int, height:Int):Int
     def fvSetFramerate(fps:Int):Int
+    
+    def fvGetBlobData:Pointer
+    def fvGetBlobDataLength:Int
   }
   
   protected val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
@@ -59,7 +65,7 @@ object Vision extends Logger {
     native.fvCreate
   }
 
-  def destroy {
+  protected def destroy {
     fine("Destroying vision object")
     native.fvDestroy
   }
@@ -121,10 +127,32 @@ object Vision extends Logger {
     Vision.setSize(640, 480)
     Vision.start
     
-    for(i <- 0 until 60) {
+//    for(i <- 0 until 100) {
+//      info("frame", i)
+//      Vision.update
+//    }
+    
+    for(i <- 0 until 10) {
       info("frame", i)
+      
+      //Thread.sleep(1000/ fps)
+      //Thread.yield
+      
       Vision.update
-      Thread.sleep(1000/ fps)
+      
+      
+      val length = Vision.native.fvGetBlobDataLength
+      info("length:", length)
+      println("---------------------------------------------------------------")
+
+      val data = Vision.native.fvGetBlobData.getIntArray(0, length)
+      
+      for(i <- 0 until data.length) {
+        info(i +":\t", data(i))
+      }
+//      val data = Vision.native.fvGetBlobData
+//      for(i <- 0 until Vision.native.fvGetBlobDataLength)
+//        info(i +":\t", data.getInt(i * 4))
     }
     
     info("done")

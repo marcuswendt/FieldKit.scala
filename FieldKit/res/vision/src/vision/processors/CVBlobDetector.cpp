@@ -34,16 +34,26 @@ namespace field
 	// -------------------------------------------------------------------------
 	int CVBlobDetector::init()
 	{
-		// sliders -------------------------------------------------------------
-		setSlider(SLIDER_BACKGROUND, new Slider(0, 1));
-		setSlider(SLIDER_THRESHOLD, new Slider(0, 255));
-		setSlider(SLIDER_DILATE, new Slider(0, 35));
-		setSlider(SLIDER_ERODE, new Slider(0, 35));
-		setSlider(SLIDER_CONTOUR_MIN, new Slider(0, 1));
-		setSlider(SLIDER_CONTOUR_MAX, new Slider(0, 1));
-		setSlider(SLIDER_CONTOUR_REDUCE, new Slider(0, 10));
-		setSlider(SLIDER_TRACK_RANGE, new Slider(0, 1));
+		// properties
+		addProperty(FK_PROC_BACKGROUND);
+		addProperty(FK_PROC_THRESHOLD, 0, 255);
+		addProperty(FK_PROC_DILATE, 0, 35);
+		addProperty(FK_PROC_ERODE, 0, 35);
+		addProperty(FK_PROC_CONTOUR_MIN);
+		addProperty(FK_PROC_CONTOUR_MAX);
+		addProperty(FK_PROC_CONTOUR_REDUCE, 0, 10);
+		addProperty(FK_PROC_TRACK_RANGE);
 
+		// property defaults
+		set(FK_PROC_BACKGROUND, 0.15f);
+		set(FK_PROC_THRESHOLD, 0.1f);
+		set(FK_PROC_DILATE, 0.15f);
+		set(FK_PROC_ERODE, 0.05f);
+		set(FK_PROC_CONTOUR_MIN, 0.01f);
+		set(FK_PROC_CONTOUR_MAX, 1.0f);
+		set(FK_PROC_CONTOUR_REDUCE, 0.1f);
+		set(FK_PROC_TRACK_RANGE, 0.5f);
+		
 		// warp ----------------------------------------------------------------
 		warpMatrix = cvCreateMat(3, 3, CV_32FC1);
 
@@ -70,7 +80,7 @@ namespace field
 	};
 	
 	int CVBlobDetector::update(Camera *camera)
-	{
+	{	
 		// images --------------------------------------------------------------
 		srcImage32F = cache->getTmp(IMAGE_SRC32F, roiSize, IPL_DEPTH_32F, 1);
 		dstImage32F = cache->getTmp(IMAGE_DST32F, roiSize, IPL_DEPTH_32F, 1);
@@ -111,7 +121,7 @@ namespace field
 		
 		// background ----------------------------------------------------------
 		setMode(MODE_32F);
-		float bgValue = doResetBackground ? 1.0 : get(SLIDER_BACKGROUND);
+		float bgValue = doResetBackground ? 1.0 : get(FK_PROC_BACKGROUND);
 		IplImage *bgImage = cache->getTmp(IMAGE_BG, roiSize, IPL_DEPTH_32F, 1);
 		//IplImage *bgImage = cache->getTmp(IMAGE_BG, srcImage);
 
@@ -147,13 +157,13 @@ namespace field
 			//cvAdaptiveThreshold(srcImage8U, dstImage8U, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 5, -7);
 			cvAdaptiveThreshold(srcImage, dstImage, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 9, -5);
 		} else {
-			cvThreshold(srcImage, dstImage, get(SLIDER_THRESHOLD), 255, CV_THRESH_BINARY);			
+			cvThreshold(srcImage, dstImage, get(FK_PROC_THRESHOLD), 255, CV_THRESH_BINARY);			
 		}
 		copyStage(STAGE_THRESHOLD, dstImage);
 		swap();
 		
 		// dilate --------------------------------------------------------------
-		float dilate = get(SLIDER_DILATE);
+		float dilate = get(FK_PROC_DILATE);
 		if(dilate > 0) {
 			setMode(MODE_8U);
 			cvDilate(srcImage, dstImage, NULL, dilate);
@@ -162,7 +172,7 @@ namespace field
 		}
 		
 		// erode ---------------------------------------------------------------
-		float erode = get(SLIDER_ERODE);
+		float erode = get(FK_PROC_ERODE);
 		if(erode > 0) {
 			setMode(MODE_8U);
 			cvErode(srcImage, dstImage, NULL, erode);
@@ -210,7 +220,7 @@ namespace field
 			CvSeq* contour = contourFirst;
 			CvSeq *approxContour;
 			for( ; contour != 0; contour = contour->h_next ) {
-				approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(SLIDER_CONTOUR_REDUCE));
+				approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(FK_PROC_CONTOUR_REDUCE));
 				cvDrawContours(dstImage, approxContour, cGrey, cDarkGrey, 3, 2);
 			}
 		}
@@ -233,8 +243,8 @@ namespace field
 		if(contourFirst == NULL) return;
 
 		int imageArea = size.width * size.height;
-		int minArea = get(SLIDER_CONTOUR_MIN) * imageArea;
-		int maxArea = get(SLIDER_CONTOUR_MAX) * imageArea;
+		int minArea = get(FK_PROC_CONTOUR_MIN) * imageArea;
+		int maxArea = get(FK_PROC_CONTOUR_MAX) * imageArea;
 		
 		CvSeq *approxContour;	
 		CvMoments moments;
@@ -244,7 +254,7 @@ namespace field
 		
 		CvSeq* contour = contourFirst;
 		for( ; contour != 0; contour = contour->h_next ) {
-			approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(SLIDER_CONTOUR_REDUCE));
+			approxContour = cvApproxPoly(contour, sizeof(CvContour), contourStorage, CV_POLY_APPROX_DP, get(FK_PROC_CONTOUR_REDUCE));
 			float area = fabs(cvContourArea(approxContour));
 			
 			if (area > minArea && area < maxArea) {
@@ -272,7 +282,7 @@ namespace field
 		float dist, distClosest;
 		
 		int imageArea = size.width * size.height;
-		float distMax = get(SLIDER_TRACK_RANGE) * imageArea;
+		float distMax = get(FK_PROC_TRACK_RANGE) * imageArea;
 		distMax *= distMax;
 		
 		// loop through tracked blobs

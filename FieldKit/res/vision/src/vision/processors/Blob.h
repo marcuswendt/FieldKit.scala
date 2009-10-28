@@ -11,6 +11,9 @@
 
 namespace field 
 {
+	//
+	// represents a single detected element in the scene
+	//
 	class Blob
 	{
 		public:

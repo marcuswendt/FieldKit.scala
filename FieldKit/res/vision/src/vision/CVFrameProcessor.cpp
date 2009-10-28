@@ -28,7 +28,7 @@ namespace field
 		
 		cache = new CVImageCache();
 
-		sliders = std::map<int, Slider*>();
+		properties = std::map<int, CVProperty*>();
 		stages = std::map<int, Stage*>();
 		
 		setSize(320, 240);
@@ -120,24 +120,25 @@ namespace field
 	// ---------------------------------------------------------------------------------
 	void CVFrameProcessor::set(int key, float value) 
 	{
-		Slider* s = getSlider(key);
-		if(s!=NULL) s->setValue(value);
+		CVProperty* p = getProperty(key);		
+		if(p!=NULL) p->setValue(value);
 	}
 	
 	float CVFrameProcessor::get(int key) 
 	{
-		Slider* s = getSlider(key);
-		return (s==NULL) ? 0 : s->get();
+		CVProperty* p = getProperty(key);
+		return (p==NULL) ? 0 : p->get();
 	};
 	
-	void CVFrameProcessor::setSlider(int key, Slider* slider)
+	void CVFrameProcessor::addProperty(int key, float min, float max)
 	{
-		sliders.insert(std::make_pair(key, slider)); 
+		CVProperty* p = new CVProperty(min, max);
+		properties.insert(std::make_pair(key, p)); 
 	}
 	
-	Slider* CVFrameProcessor::getSlider(int key) 
+	CVProperty* CVFrameProcessor::getProperty(int key) 
 	{
-		std::map<int, Slider*>::iterator i = sliders.find(key);
+		std::map<int, CVProperty*>::iterator i = properties.find(key);
 		return (*i).second;
 	}	
 	
@@ -156,5 +157,6 @@ namespace field
 	void CVFrameProcessor::setSize(int width, int height)
 	{
 		size = cvSize(width, height);
+		//printf("CVFrameProcessor: setting size to %ix%i\n", width, height);
 	}
 };

@@ -48,17 +48,6 @@ namespace field
 						 STAGE_MAX 
 		};
 		
-		enum SliderName { SLIDER_BACKGROUND, 
-						  SLIDER_THRESHOLD, 
-						  SLIDER_DILATE, 
-						  SLIDER_ERODE, 
-						  SLIDER_CONTOUR_MIN, 
-						  SLIDER_CONTOUR_MAX, 
-						  SLIDER_CONTOUR_REDUCE,
-						  SLIDER_TRACK_RANGE, 
-						  SLIDER_MAX 
-		};
-		
 		enum Mode { MODE_8U,
 					MODE_32F
 		};

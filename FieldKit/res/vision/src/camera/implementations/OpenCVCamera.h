@@ -6,8 +6,8 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#ifndef CANOPUS_ADVC_H
-#define CANOPUS_ADVC_H
+#ifndef OPENCV_CAMERA_H
+#define OPENCV_CAMERA_H
 
 #include <OpenCV/OpenCV.h>
 #include "Camera.h"

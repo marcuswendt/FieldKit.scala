@@ -87,6 +87,8 @@ namespace field
 		}
 
 		processor->setSize(width, height);
+		processor->setROI(0, 0, width, height);
+		
 		err = processor->init();
 		
 		if(err == FK_SUCCESS) isInitialized = true;
@@ -101,7 +103,7 @@ namespace field
 	{
 		// check if we need to initialize first
 		if(!isInitialized) {
-			LOG("need to initialize");
+			//LOG("need to initialize");
 			err = this->init();
 			if(err != FK_SUCCESS) return err;
 		}
@@ -137,10 +139,10 @@ namespace field
 		}
 		
 		err = camera->update();
-		if(err != FK_ERROR) return err;
+		if(err != FK_SUCCESS) return err;
 		
 		err = processor->update(camera);
-		if(err != FK_ERROR) return err;
+		if(err != FK_SUCCESS) return err;
 		
 		return FK_SUCCESS;
 	};

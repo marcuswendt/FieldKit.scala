@@ -6,16 +6,16 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#ifndef SLIDER_H
-#define SLIDER_H
+#ifndef CV_PROPERTY_H
+#define CV_PROPERTY_H
 
 namespace field 
 {
-	class Slider
+	class CVProperty
 	{
 	public:
-		Slider (float min, float max) { init(min, max); };
-		~Slider();
+		CVProperty (float min, float max) { init(min, max); };
+		~CVProperty();
 		
 		void init (float min, float max) {
 			this->min = min;

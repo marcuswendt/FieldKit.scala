@@ -9,12 +9,32 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define FK_SUCCESS 1
-#define FK_ERROR 0
+// error codes
+#define FK_SUCCESS						1
+#define FK_ERROR						0
 
+#define FK_ERR_INVALID_ARGUMENT			-10
 
-#define FK_ERR_NOT_CREATED -200
-#define FK_ERR_NOT_INITIALIZED -201
+#define FK_ERR_NOT_CREATED				-200
+#define FK_ERR_NOT_INITIALIZED			-201
+
+// camera types
+#define FK_CAMERA_OPENCV				0
+#define FK_CAMERA_OPENCV_FIRST			1
+#define FK_CAMERA_OPENCV_SECOND			2
+#define FK_CAMERA_OPENCV_THIRD			3
+#define FK_CAMERA_OPENCV_FOURTH			4
+#define FK_CAMERA_PTGREY_BUMBLEBEE		10
+
+// frame processor properties
+#define FK_PROC_BACKGROUND				0
+#define FK_PROC_THRESHOLD				1
+#define FK_PROC_DILATE					2
+#define FK_PROC_ERODE					3
+#define FK_PROC_CONTOUR_MIN				4
+#define FK_PROC_CONTOUR_MAX				5
+#define FK_PROC_CONTOUR_REDUCE			6
+#define FK_PROC_TRACK_RANGE				7
 
 namespace field {
 	//
@@ -31,22 +51,6 @@ namespace field {
 	const static int VISION_DEFAULT_WIDTH = 320;
 	const static int VISION_DEFAULT_HEIGHT = 240;
 	const static int VISION_DEFAULT_FPS = 30;
-	
-//	typedef enum {
-//		SUCCESS =  0,
-//		FAILURE,
-//		ERR_CAMERA_INIT,
-//		ERR_CAMERA_START,
-//		ERR_CAMERA_UPDATE,
-//		ERR_CAMERA_STOP,
-//		ERR_CAMERA_CLOSE,
-//		ERR_NO_CAMERA_FOUND,
-//		ERR_CAMERA_CANT_SET_FRAMERATE,
-//		ERR_CAMERA_INVALID_CHANNEL,
-//		ERR_CAMERA_NOT_INITIALIZED,
-//		ERR_CAMERA_ALREADY_STARTED,
-//		ERR_CAMERA_NOT_STARTED,
-//	} Error;
 
 	//
 	// INLINE FUNCTIONS

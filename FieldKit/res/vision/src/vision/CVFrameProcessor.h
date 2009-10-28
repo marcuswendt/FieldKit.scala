@@ -12,7 +12,7 @@
 #include <map>
 
 #include "Camera.h";
-#include "Slider.h";
+#include "CVProperty.h";
 #include "CVImageCache.h"
 
 namespace field 
@@ -58,8 +58,7 @@ namespace field
 		int getStageNum();
 			
 		// sliders
-		void setSlider(int index, Slider* slider);
-		Slider* getSlider(int key);
+		void addProperty(int key, float min=0, float max=1);
 		void set(int key, float value);
 		float get(int key);
 		
@@ -76,12 +75,13 @@ namespace field
 		void copyStage(int stage, IplImage *image);
 		
 	private:	
-		std::map<int, Slider*> sliders;
+		std::map<int, CVProperty*> properties;
 		std::map<int, Stage*> stages;
 		
 		inline int max(int a, int b) { return a > b ? a : b; };
 		inline int min(int a, int b) { return a > b ? b : a; };
-			
+		
+		CVProperty* getProperty(int key);
 	};
 };
 

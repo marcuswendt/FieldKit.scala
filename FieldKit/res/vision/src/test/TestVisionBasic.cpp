@@ -6,8 +6,10 @@
 \*                                                                            */
 /* created October 27, 2009 */
 
-#include "Vision.h"
-#include "OpenCVCamera.h"
+//#include "Vision.h"
+//#include "OpenCVCamera.h"
+
+#include "FieldVision.h"
 #include "CVBlobDetector.h"
 
 using namespace field;
@@ -20,42 +22,38 @@ const int SCREEN_HEIGHT = 480;
 int main(int argc, char* argv[])
 {
 	LOG("************************************************");
-	LOG("TestOpenCVCapture");
+	LOG("TestVisionBasic");
 	LOG("************************************************");
 	LOG(" ");
 	
-	Vision *v = new Vision();
-	
-	LOG("init camera");
-	v->setCamera(new OpenCVCamera(0));
-	
-	LOG("init frame processor");	
-	CVBlobDetector *proc = new CVBlobDetector();
-	proc->setStageEnabled(true);
-	proc->setCameraSource(1);
-	v->setProcessor(proc);
 	
 	LOG("** init vision **");
-	v->init();
+	fvCreate();
+	fvSetCamera(FK_CAMERA_OPENCV);
+	fvSetSize(400, 400);
+	fvSetFramerate(20);
+	fvStart();
 	
-	LOG("** set sliders **");
-	// sliders must be set after Vision was initialized
-	proc->set(CVBlobDetector::SLIDER_BACKGROUND, 0.25f);
-	proc->set(CVBlobDetector::SLIDER_THRESHOLD, 0.10f);
-	proc->set(CVBlobDetector::SLIDER_DILATE, 0.15f);
-	proc->set(CVBlobDetector::SLIDER_ERODE, 0.06f);
-	proc->set(CVBlobDetector::SLIDER_CONTOUR_MIN, 0.005f);
-	proc->set(CVBlobDetector::SLIDER_CONTOUR_MAX, 1.0f);
-	proc->set(CVBlobDetector::SLIDER_CONTOUR_REDUCE, 0.5f);
-	proc->set(CVBlobDetector::SLIDER_TRACK_RANGE, 0.5f);
-//	 proc->setWarp(0, 0,
-//	 320, 0,
-//	 320, 239,
-//	 0, 240);	
-//	proc->setROI(320, 240, 320, 240);
+	LOG("** init blob detector **");
+	CVBlobDetector* proc = (CVBlobDetector*) fvGetVision()->getProcessor();
+	proc->setStageEnabled(true);
+	
+//	fvSet(FK_PROC_BACKGROUND, 0.15f);
+//	fvSet(FK_PROC_THRESHOLD, 0.1f);
+//	fvSet(FK_PROC_DILATE, 0.15f);
+//	fvSet(FK_PROC_ERODE, 0.06f);
+//	fvSet(FK_PROC_CONTOUR_MIN, 0.001f);
+//	fvSet(FK_PROC_CONTOUR_MAX, 1.0f);
+//	fvSet(FK_PROC_CONTOUR_REDUCE, 0.5f);
+//	fvSet(FK_PROC_TRACK_RANGE, 0.5f);
+////	 proc->setWarp(0, 0,
+////	 320, 0,
+////	 320, 239,
+////	 0, 240);	
+////	proc->setROI(320, 240, 320, 240);
 	
 	LOG("** init gui **");
-	CvSize windowSize = cvSize(v->getProcessor()->getROI().width, v->getProcessor()->getROI().height);
+	CvSize windowSize = cvSize(proc->getROI().width, proc->getROI().height);
 	if(windowSize.height > 240) windowSize.height = 240;
 	int tmpX = 0;
 	int tmpY = 45;
@@ -81,14 +79,13 @@ int main(int argc, char* argv[])
 	
 	// start vision
 	LOG("** starting ** ");	
-	v->start();
 	bool updateStages = true;
 	while(true) {
-		v->update();
+		fvUpdate();
 		
 		if(updateStages) {
 			for(int i=0; i<CVBlobDetector::STAGE_MAX; i++) {
-				IplImage *image = v->getProcessor()->getImage(i);
+				IplImage *image = proc->getImage(i);
 				if(image!=NULL) {
 					cvShowImage(windows[i], image);
 				}
@@ -109,8 +106,7 @@ int main(int argc, char* argv[])
 		cvDestroyWindow(windows[i]);
 	}
 	
-	v->stop();	
-	delete v;
+	fvDestroy();
 	
 	LOG("** finished **");
 	return 0;
