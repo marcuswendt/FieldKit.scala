@@ -23,17 +23,19 @@ extern "C" {
 	
 // global vision pointer
 field::Vision* vision;
-
+field::CVFrameProcessor* proc;
+	
 // functions
 int fvCreate();
+int fvDestroy();
 
+int fvStart();
+int fvStop();
+int fvUpdate();
+	
 int fvSetCamera(int name);
 int fvSetSize(int width, int height);
 int fvSetFramerate(int fps);
-
-int fvInit();
-int fvUpdate();
-int fvDestroy();
 
 // helpers
 int fvError(int err);

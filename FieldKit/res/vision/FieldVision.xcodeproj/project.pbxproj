@@ -42,8 +42,8 @@
 		2C39D20F0E0A78FD00867C99 /* PTGreyBumblebee2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */; };
 		2C39D2100E0A78FD00867C99 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D0240E0A67CB00867C99 /* Camera.cpp */; };
 		2C39D3610E0A925C00867C99 /* CVStereoBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C39D3600E0A925C00867C99 /* CVStereoBlobDetector.cpp */; };
-		2C524E8410979311006A85F6 /* FieldVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C524E8210979311006A85F6 /* FieldVision.h */; };
 		2C524E8510979311006A85F6 /* FieldVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C524E8310979311006A85F6 /* FieldVision.cpp */; };
+		2C5250781097C372006A85F6 /* OpenCVCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD960921095BD5E00D42F64 /* OpenCVCamera.cpp */; };
 		2C52856C0E0C162500F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2C52856D0E0C162500F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2C52857C0E0C25B500F68F4F /* CVBlobDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C52857B0E0C25B500F68F4F /* CVBlobDetector.cpp */; };
@@ -53,7 +53,6 @@
 		2C528C580E0DAC5F00F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2C528C590E0DAC5F00F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2C528C5C0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C528C5B0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp */; };
-		2C82E00C0E23F591002B2C24 /* CVImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C82E00A0E23F591002B2C24 /* CVImageCache.h */; };
 		2C82E00D0E23F591002B2C24 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
 		2C82E00E0E23F591002B2C24 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
 		2C82E0100E23F591002B2C24 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
@@ -386,8 +385,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C82E00C0E23F591002B2C24 /* CVImageCache.h in Headers */,
-				2C524E8410979311006A85F6 /* FieldVision.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C5250781097C372006A85F6 /* OpenCVCamera.cpp in Sources */,
 				2C1007CE0E23999300A7472A /* Vision.cpp in Sources */,
 				2C1007CF0E23999300A7472A /* Camera.cpp in Sources */,
 				2C1007D00E23999300A7472A /* PTGreyBumblebee2.cpp in Sources */,

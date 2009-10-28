@@ -24,7 +24,6 @@ namespace field
 		int start();
 		virtual int update();
 		int stop();
-		int shutdown();
 		
 		// setters
 		void setSize(int width, int height);

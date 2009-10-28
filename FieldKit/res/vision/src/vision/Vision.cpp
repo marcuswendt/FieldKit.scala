@@ -20,6 +20,7 @@ namespace field
 	
 	Vision::~Vision()
 	{
+		stop();
 		camera->close();
 		delete camera;	
 		delete processor;
@@ -98,10 +99,9 @@ namespace field
 	// -------------------------------------------------------------------------
 	int Vision::start()
 	{
-		int err;
-		
 		// check if we need to initialize first
 		if(!isInitialized) {
+			LOG("need to initialize");
 			err = this->init();
 			if(err != FK_SUCCESS) return err;
 		}

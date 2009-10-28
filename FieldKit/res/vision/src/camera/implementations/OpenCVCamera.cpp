@@ -31,7 +31,7 @@ namespace field
 			return FK_ERROR;
 		}
 		
-		printf("requested %i x %i", width, height);
+		//printf("OpenCVCamera: requested %i x %i\n", width, height);
 		
 		// only seems to be implemented in the opencv linux (ffmpeg or gstreamer based) versions
 		cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, width);
@@ -44,7 +44,7 @@ namespace field
 		width = getImage()->width;
 		height = getImage()->height;
 		
-		printf("actual %i x %i", width, height);
+		//printf("OpenCVCamera: actual %i x %i\n", width, height);
 		
 		return super::init();
 	}

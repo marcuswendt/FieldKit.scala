@@ -273,14 +273,16 @@
 								<string>20286C2CFDCF999611CA2CEA</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>2C5250261097B531006A85F6</string>
-								<string>2C5250271097B531006A85F6</string>
-								<string>2C5250281097B531006A85F6</string>
+								<string>2C52507B1097C37B006A85F6</string>
+								<string>2C52507C1097C37B006A85F6</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>5</integer>
+									<integer>11</integer>
+									<integer>7</integer>
+									<integer>6</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -323,7 +325,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>FieldVision.h</string>
+								<string>OpenCVCamera.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,11 +333,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>FieldVision.h</string>
+										<string>OpenCVCamera.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C52503F1097B77E006A85F6</string>
+										<string>2C5250911097C43C006A85F6</string>
 										<key>history</key>
 										<array>
 											<string>2CC997C71096FBC90008F21D</string>
@@ -350,24 +352,23 @@
 											<string>2C02511A10971F700061EF38</string>
 											<string>2C02511C10971F700061EF38</string>
 											<string>2C02511F10971F700061EF38</string>
-											<string>2C02512910971F9A0061EF38</string>
 											<string>2C02512A10971F9A0061EF38</string>
 											<string>2C02512B10971F9A0061EF38</string>
 											<string>2C025134109722DA0061EF38</string>
 											<string>2C025135109722DA0061EF38</string>
 											<string>2C524EDD10979CF2006A85F6</string>
-											<string>2C524EDE10979CF2006A85F6</string>
-											<string>2C524EDF10979CF2006A85F6</string>
 											<string>2C524EE010979CF2006A85F6</string>
-											<string>2C524EE210979CF2006A85F6</string>
 											<string>2C524EE410979CF2006A85F6</string>
 											<string>2C524EE510979CF2006A85F6</string>
 											<string>2C524F291097A01D006A85F6</string>
 											<string>2C524F2A1097A01D006A85F6</string>
-											<string>2C52502D1097B531006A85F6</string>
-											<string>2C52503C1097B77E006A85F6</string>
-											<string>2C52503D1097B77E006A85F6</string>
-											<string>2C52503E1097B77E006A85F6</string>
+											<string>2C52504D1097C175006A85F6</string>
+											<string>2C52504F1097C175006A85F6</string>
+											<string>2C52506D1097C2B2006A85F6</string>
+											<string>2C5250821097C3A5006A85F6</string>
+											<string>2C52508B1097C41B006A85F6</string>
+											<string>2C52508F1097C43C006A85F6</string>
+											<string>2C5250901097C43C006A85F6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -568,8 +569,8 @@
 		<string>2C524EF110979CF2006A85F6</string>
 		<string>2C524EF210979CF2006A85F6</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>2CB60E320E20FF6800EDA08E</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>2CB60E320E20FF6800EDA08E</string>
 		<string>/Users/marcus/Documents/Development/FieldKit/FieldKit/res/vision/FieldVision.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -589,12 +590,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>PTGreyBumblebee2.cpp</string>
+								<string>FieldVision.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -611,8 +614,6 @@
 							<string>775pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>

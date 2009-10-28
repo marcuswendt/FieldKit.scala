@@ -20,49 +20,62 @@ extern "C" {
 int fvCreate() {
 	if(vision != NULL) fvDestroy();
 	vision = new field::Vision();
+	
+	proc = new field::CVBlobDetector();
+	vision->setProcessor(proc);
 	return FK_SUCCESS;
 }
 
-// -- Setters ------------------------------------------------------------------
-int fvSetCamera(int name) {
+	
+// -- Destroy ------------------------------------------------------------------
+int fvDestroy() {
 	if(!vision) return fvError(FK_ERR_NOT_CREATED);
-	
+	delete vision;
 	return FK_SUCCESS;
 }
 
-int fvSetSize(int width, int height) {
+// -- Start ---------------------------------------------------------------------
+int fvStart() {
 	if(!vision) return fvError(FK_ERR_NOT_CREATED);
-	
-	return FK_SUCCESS;
+	return vision->start();
 }
-
-int fvSetFramerate(int fps) {
-	if(!vision) return fvError(FK_ERR_NOT_CREATED);	
 	
-	return FK_SUCCESS;
-}
-
-// -- Init ---------------------------------------------------------------------
-int fvInit() {
+// -- Stop ---------------------------------------------------------------------
+int fvStop() {
 	if(!vision) return fvError(FK_ERR_NOT_CREATED);
-	
-	return FK_SUCCESS;
+	return vision->stop();
 }
 
 // -- Update -------------------------------------------------------------------
 int fvUpdate() {
 	if(!vision) return fvError(FK_ERR_NOT_CREATED);
+	return vision->update();
+}
+
 	
+// -- Setters ------------------------------------------------------------------
+int fvSetCamera(int name) {
+	if(!vision) return fvError(FK_ERR_NOT_CREATED);
+	
+	// TODO!!!
+	
+	field::Camera* camera = new field::OpenCVCamera(0);
+	vision->setCamera(camera);
 	return FK_SUCCESS;
 }
 
-// -- Destroy ------------------------------------------------------------------
-int fvDestroy() {
+int fvSetSize(int width, int height) {
+	if(!vision) return fvError(FK_ERR_NOT_CREATED);
+	vision->setSize(width, height);
+	return FK_SUCCESS;
+}
+
+int fvSetFramerate(int fps) {
 	if(!vision) return fvError(FK_ERR_NOT_CREATED);	
-	
+	vision->setFramerate(fps);
 	return FK_SUCCESS;
 }
-
+	
 // -- Helpers ------------------------------------------------------------------
 int fvError(int err) {
 	const char* msg;
