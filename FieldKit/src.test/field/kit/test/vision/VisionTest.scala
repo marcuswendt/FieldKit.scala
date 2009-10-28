@@ -12,7 +12,7 @@ package field.kit.test.vision
  * Until OpenCV.framework can be compiled as 64bit also use -d32
  */
 object VisionTest extends test.Sketch {
-  import kit.vision.Vision
+  import kit.vision._
   import processing.core._
   
   Logger.level = Logger.FINE

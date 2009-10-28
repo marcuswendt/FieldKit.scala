@@ -8,15 +8,12 @@
 package field.kit.vision
 
 /**
- * VM Args: -Djna.library.path=res/vision/build/Release 
+ * VM Args: -Djna.library.path=res/vision/build/Release -d32
  */
 object Vision extends Logger {
   import com.sun.jna._
-  
-  /** C function return values */
-  val SUCCESS = 1
-  val ERROR = 0
-  
+
+  // external constants
   /** Camera selection */
   val CAMERA_OPENCV = 0
   val CAMERA_OPENCV_FIRST = 1
@@ -24,24 +21,28 @@ object Vision extends Logger {
   val CAMERA_OPENCV_THIRD = 3
   val CAMERA_PTGREY_BUMBLEBEE = 10
 
+  // internal constants
+  /** C function return values */
+  protected val SUCCESS = 1
+  protected val ERROR = 0
+  
+  /** Frame processor properties */
+  protected val PROC_BACKGROUND = 0;
+  protected val PROC_THRESHOLD = 1;
+  protected val PROC_DILATE = 2;
+  protected val PROC_ERODE = 3;
+  protected val PROC_CONTOUR_MIN = 4;
+  protected val PROC_CONTOUR_MAX = 5;
+  protected val PROC_CONTOUR_REDUCE = 6;
+  protected val PROC_TRACK_RANGE = 7;
+  
   /** maximum number of contour points*/
   val CONTOUR_DATA_MAX = 1000 * 2
-  
-//  /** Lists all supported Camera types */
-//  object Camera extends Enumeration {
-//    val OpenCV = Value(0)
-//    val First = Value(1)
-//    val Second = Value(2)
-//    val Third = Value(3)
-//    val PTGreyBumblebee2 = Value(10)
-//  }
                                    
   /**
    * Interface defining the available FieldVision C methods
    */
   protected trait CVision extends Library {
-    import java.nio._
-    
     def fvCreate:Int;
     def fvDestroy:Int
     
@@ -81,6 +82,7 @@ object Vision extends Logger {
   for(i <- 0 until blobs.size)
     blobs(i) = new Blob(i)
   
+// TODO find a thread safe way to call destroy 
 //  Runtime.getRuntime.addShutdownHook(new Thread(new Runnable() {
 //    def run = destroy
 //  }))
@@ -177,6 +179,10 @@ object Vision extends Logger {
       warn("Couldnt set size")
   }
   
+  /**
+   * Sets the cameras frames per second,
+   * also sets the internal fps that makes sure 
+   */
   def setFramerate(fps:Int) {
     fine("Setting framerate to", fps)
     if(native.fvSetFramerate(fps) == ERROR)
