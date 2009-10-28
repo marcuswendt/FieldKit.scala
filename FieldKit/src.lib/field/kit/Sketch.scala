@@ -202,7 +202,7 @@ abstract class Sketch extends BasicSketch {
   rec.name = meta.name
   
   /** enables/disabled the vertical sync, prevents tearing */
-  var vsyncEnabled = true
+  var vsyncEnabled = false
   
   override def draw {
     if(vsyncEnabled) gl.setSwapInterval(1)

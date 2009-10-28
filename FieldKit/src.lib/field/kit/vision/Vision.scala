@@ -12,7 +12,7 @@ package field.kit.vision
  */
 object Vision extends Logger {
   import com.sun.jna._
-
+  
   /** C function return values */
   val SUCCESS = 1
   val ERROR = 0
@@ -61,11 +61,15 @@ object Vision extends Logger {
   }
 
   protected val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
-  protected val blobs = new Array[Blob](native.fvGetBlobCount)
-  protected var fps = 0 
+  protected var fps = 0
+  
+  val blobs = new Array[Blob](native.fvGetBlobCount)
+
+  import util.Timer
+  val timer = new Timer
   
   // -- Initialisation ---------------------------------------------------------
-  
+
   // automatically create vision when this singleton is instantiated
   create
   
@@ -77,9 +81,9 @@ object Vision extends Logger {
   for(i <- 0 until blobs.size)
     blobs(i) = new Blob(i)
   
-  Runtime.getRuntime.addShutdownHook(new Thread(new Runnable() {
-    def run = destroy
-  }))
+//  Runtime.getRuntime.addShutdownHook(new Thread(new Runnable() {
+//    def run = destroy
+//  }))
   
   // -- Methods ----------------------------------------------------------------
   protected def create = {
@@ -109,6 +113,12 @@ object Vision extends Logger {
    * processes the next frame and updates the blob list
    */
   def update {
+    // do not update faster than the framerate
+  	if(timer.sinceStart < 1000/ fps.toFloat)
+     return
+   
+    timer.update
+      
     // process frame
     native.fvUpdate
     

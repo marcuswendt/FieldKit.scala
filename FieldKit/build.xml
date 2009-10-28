@@ -162,6 +162,9 @@
 		</copy>
 	</target>
 
+	<!-- ================================= 
+         TEST
+         ================================= -->
 	<target name="test" depends="init">
 		<echo>preparing</echo>
 		<antcall target="dist" />
@@ -169,5 +172,14 @@
 		<echo>----------------------------------------</echo>
 		<echo>Running ${project.name} tests...</echo>
 		<echo>----------------------------------------</echo>
+	</target>
+	
+	<!-- ================================= 
+         VISION
+         ================================= -->
+	<target name="vision">
+		<copy todir="lib/vision">
+			<fileset file="res/vision/build/Release/*.dylib" />
+		</copy>
 	</target>
 </project>

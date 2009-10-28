@@ -23,6 +23,9 @@ class Timer {
   
   reset
   
+  /** @return the time since the last update in ms */
+  def sinceStart = (time - last) * time2millisec
+  
   /** update delta time since last update */
   def update = {
     val now = time

@@ -4221,16 +4221,16 @@
 	2C524E8210979311006A85F6 /* FieldVision.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {659, 910}}";
-			sepNavSelRange = "{1317, 0}";
+			sepNavSelRange = "{702, 0}";
 			sepNavVisRange = "{0, 1478}";
 			sepNavWindowFrame = "{{15, 317}, {831, 856}}";
 		};
 	};
 	2C524E8310979311006A85F6 /* FieldVision.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {659, 2587}}";
-			sepNavSelRange = "{2206, 0}";
-			sepNavVisRange = "{1622, 1827}";
+			sepNavIntBoundsRect = "{{0, 0}, {593, 2561}}";
+			sepNavSelRange = "{2383, 16}";
+			sepNavVisRange = "{1791, 1225}";
 			sepNavWindowFrame = "{{1000, 483}, {652, 695}}";
 		};
 	};
