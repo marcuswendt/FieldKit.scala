@@ -11,5 +11,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="opengl.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/opengl/src"/>
+	<classpathentry kind="lib" path="jna.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
