@@ -242,7 +242,7 @@ namespace field
 		// no contours found
 		if(contourFirst == NULL) return;
 
-		int imageArea = size.width * size.height;
+		int imageArea = (size.width * size.height) / 2;
 		int minArea = get(PROC_CONTOUR_MIN) * imageArea;
 		int maxArea = get(PROC_CONTOUR_MAX) * imageArea;
 		

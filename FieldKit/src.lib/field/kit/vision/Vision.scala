@@ -62,6 +62,10 @@ object Vision extends Logger {
   }
 
   protected val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
+  
+  protected var cameraType = 0
+  protected var width:Int = 0
+  protected var height:Int = 0
   protected var fps = 0
   
   val blobs = new Array[Blob](native.fvGetBlobCount)
@@ -75,8 +79,9 @@ object Vision extends Logger {
   create
   
   // set defaults
+  camera = Vision.CAMERA_OPENCV
   setSize(320, 240)
-  setFramerate(30)
+  framerate = 30
   
   // initialize blobs
   for(i <- 0 until blobs.size)
@@ -167,27 +172,90 @@ object Vision extends Logger {
     }
   }
 
-  def setCamera(camera:Int) {
-    fine("Setting camera to", camera)
-    if(native.fvSetCamera(camera) == ERROR)
-      warn("Couldnt set camera to:", camera)
+  /** sets the type of camera to use */
+  def camera_=(cameraType:Int) {
+    fine("Setting camera to", cameraType)
+    if(native.fvSetCamera(cameraType) == ERROR) {
+      warn("Couldnt set camera to:", cameraType)
+    } else {
+      this.cameraType = cameraType
+    }
   }
   
+  /** @return the current camera type */
+  def camera = cameraType
+  
+  /** sets the */
   def setSize(width:Int, height:Int) {
     fine("Setting size to", width, "x", height)
-    if(native.fvSetSize(width, height) == ERROR)
+    if(native.fvSetSize(width, height) == ERROR) {
       warn("Couldnt set size")
+    } else {
+      this.width = width
+      this.height = height
+    }
   }
   
-  /**
-   * Sets the cameras frames per second,
-   * also sets the internal fps that makes sure 
-   */
-  def setFramerate(fps:Int) {
+  /** sets the cameras framerate in frames per second */
+  def framerate_=(fps:Int) {
     fine("Setting framerate to", fps)
     if(native.fvSetFramerate(fps) == ERROR)
       warn("Couldnt set framerate")
     else
       this.fps = fps
   }
+  
+  /** @return the framerate */
+  def framerate = fps
+  
+  // -- Properties -------------------------------------------------------------
+  
+  /** sets the background learning rate */
+  def background_=(value:Float) = native.fvSet(PROC_BACKGROUND, value)
+  
+  /** @return the background learning rate */
+  def background = native.fvGet(PROC_BACKGROUND)
+  
+  /** sets the background discrimination value */
+  def threshold_=(value:Float) = native.fvSet(PROC_THRESHOLD, value)
+  
+  /** @return the background discrimination value */
+  def threshold = native.fvGet(PROC_THRESHOLD)
+  
+  /** sets the dilate value */
+  def dilate_=(value:Float) = native.fvSet(PROC_DILATE, value)
+  
+  /** @return the dilate value */
+  def dilate = native.fvGet(PROC_DILATE)
+  
+  /** sets the erode value */
+  def erode_=(value:Float) = native.fvSet(PROC_ERODE, value)
+  
+  /** @return the erode value */
+  def erode = native.fvGet(PROC_ERODE)
+  
+  /** sets the minimum contour area */
+  def contourMin_=(value:Float) = native.fvSet(PROC_CONTOUR_MIN, value)
+  
+  /** @return the minimum contour area */
+  def contourMin = native.fvGet(PROC_CONTOUR_MIN)
+  
+  /** sets the minimum contour area */
+  def contourMax_=(value:Float) = native.fvSet(PROC_CONTOUR_MAX, value)
+  
+  /** @return the maximum contour area */
+  def contourMax = native.fvGet(PROC_CONTOUR_MAX)
+  
+  /** sets the contour reduction value */
+  def contourReduce_=(value:Float) = native.fvSet(PROC_CONTOUR_REDUCE, value)
+  
+  /** @return the contour reduction value */
+  def contourReduce = native.fvGet(PROC_CONTOUR_REDUCE)
+  
+  /** sets the maximum distance at which one blob in two consecutive frames can still be matched */
+  def trackRange_=(value:Float) = native.fvSet(PROC_TRACK_RANGE, value)
+  
+  /** @return the track range value */
+  def trackRange = native.fvGet(PROC_TRACK_RANGE)
+  
 }

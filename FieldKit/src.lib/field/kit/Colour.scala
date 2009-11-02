@@ -8,6 +8,24 @@
 package field.kit // note NOT .colour
 
 /**
+ * Companion object to class <code>Colour</code>
+ */
+object Colour {
+//  def apply() = new Colour(0f,0f,0f,1f)
+//  def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
+//  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
+//  def apply(grey:Float, a:Float) = new Colour(grey,grey,grey,a)
+//  
+  val BLACK = new Colour(0f)
+  val WHITE = new Colour(1f)
+  
+  val RED = new Colour(1f, 0f, 0f)
+  val GREEN = new Colour(0f, 1f, 0f)
+  val BLUE = new Colour(0f, 0f, 1f)
+}
+
+
+/**
  * A versatile RGBA Colour utility, used as datatype and for conversion 
  * @author Marcus Wendt
  */
@@ -201,18 +219,4 @@ class Colour(
   def toInt = toARGB
   override def toString = "Colour("+ toLabel +")"
   def toLabel = "R"+ r +" G"+ g +" B"+ b +" A"+ a
-}
-
-object Colour {
-//  def apply() = new Colour(0f,0f,0f,1f)
-//  def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
-//  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
-//  def apply(grey:Float, a:Float) = new Colour(grey,grey,grey,a)
-//  
-  val BLACK = new Colour(0f)
-  val WHITE = new Colour(1f)
-  
-  val RED = new Colour(1f, 0f, 0f)
-  val GREEN = new Colour(0f, 1f, 0f)
-  val BLUE = new Colour(0f, 0f, 1f)
 }

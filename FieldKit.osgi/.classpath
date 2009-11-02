@@ -5,7 +5,11 @@
 	<classpathentry exported="true" kind="lib" path="core.jar" sourcepath="/Users/marcus/Documents/Development/Ressources/processing/core/src"/>
 	<classpathentry exported="true" kind="lib" path="FieldKit.jar" sourcepath="/FieldKit/src.lib"/>
 	<classpathentry exported="true" kind="lib" path="gluegen-rt.jar"/>
-	<classpathentry exported="true" kind="lib" path="jogl.jar"/>
+	<classpathentry exported="true" kind="lib" path="jogl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FieldKit/lib/jogl"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="opengl.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/opengl/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
