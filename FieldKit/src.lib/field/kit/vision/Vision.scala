@@ -59,7 +59,7 @@ object Vision extends Logger {
     def fvGetBlobCount:Int
     def fvGetBlobData:Pointer
     def fvGetBlobDataLength:Int
-    def fvGet(property:Int)
+    def fvGet(property:Int):Float
     
     def fvGetStageImage(stage:Int):Pointer
     def fvGetStageWidth(stage:Int):Int

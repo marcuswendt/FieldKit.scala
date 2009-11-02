@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -278,6 +276,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>4</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -312,12 +312,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>FieldVision.cpp</string>
+								<string>CVFrameProcessor.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -325,7 +327,23 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>FieldVision.cpp</string>
+										<string>CVFrameProcessor.cpp</string>
+										<key>_historyCapacity</key>
+										<integer>0</integer>
+										<key>bookmark</key>
+										<string>2CCBABAD109F689700129A15</string>
+										<key>history</key>
+										<array>
+											<string>2CCBABA5109F689700129A15</string>
+											<string>2CCBABA6109F689700129A15</string>
+											<string>2CCBABA7109F689700129A15</string>
+											<string>2CCBABA8109F689700129A15</string>
+											<string>2CCBABA9109F689700129A15</string>
+											<string>2CCBABAA109F689700129A15</string>
+											<string>2CCBABAB109F689700129A15</string>
+											<string>2CCBABAC109F689700129A15</string>
+											<string>2CCBAB9D109F688F00129A15</string>
+										</array>
 									</dict>
 									<key>SplitCount</key>
 									<string>1</string>
@@ -336,14 +354,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {720, 962}}</string>
+								<string>{{0, 0}, {720, 960}}</string>
 								<key>RubberWindowFrame</key>
 								<string>1 59 996 1119 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>962pt</string>
+							<string>960pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -356,14 +374,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 967}, {720, 111}}</string>
+								<string>{{0, 965}, {720, 113}}</string>
 								<key>RubberWindowFrame</key>
 								<string>1 59 996 1119 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>111pt</string>
+							<string>113pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -382,9 +400,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2CD919B0109EE4BE00A1B8CD</string>
+				<string>2CCBAB8C109F5F8400129A15</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2CD919B1109EE4BE00A1B8CD</string>
+				<string>2CCBAB8D109F5F8400129A15</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -522,6 +540,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>2CB60E320E20FF6800EDA08E</string>
 		<string>/Users/marcus/Documents/Development/FieldKit/FieldKit/res/vision/FieldVision.xcodeproj</string>
 	</array>
@@ -603,7 +622,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2CB60E320E20FF6800EDA08E</string>
-				<string>2CD919B2109EE4BE00A1B8CD</string>
+				<string>2CCBAB8E109F5F8400129A15</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -761,7 +780,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>TestOpenCVCamera.cpp</string>
+										<string>CVFrameProcessor.cpp</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -819,8 +838,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>2C3E9F5F1098B6B100CFD048</string>
-				<string>2C3E9F601098B6B100CFD048</string>
+				<string>2CCBAB9F109F688F00129A15</string>
+				<string>2CCBABA0109F688F00129A15</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>

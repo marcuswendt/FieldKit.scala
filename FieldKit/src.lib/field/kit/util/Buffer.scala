@@ -80,6 +80,19 @@ object Buffer {
     int(capacity)  
   }
   
+   /**
+   * Makes sure the given buffer has a certain capacity, otherwise allocates a new buffer
+   */
+  def byte(buffer:ByteBuffer, capacity:Int):ByteBuffer = {
+    if(buffer != null) {
+      if(buffer.capacity <= capacity) {
+        buffer.rewind
+        return buffer
+      }
+    }
+    byte(capacity)  
+  }
+  
   /**
    * Copies floats from one position in the buffer to another.
    * 

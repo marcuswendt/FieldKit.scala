@@ -121,6 +121,7 @@ namespace field
 	void CVFrameProcessor::set(int key, float value) 
 	{
 		CVProperty* p = getProperty(key);		
+		//printf("setting %i = %f \n", key, value);
 		if(p!=NULL) p->setValue(value);
 	}
 	

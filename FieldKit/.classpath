@@ -14,6 +14,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Development/Ressources/processing/core/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/opengl.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/opengl/src"/>
 	<classpathentry kind="lib" path="lib/vision/jna.jar"/>
+	<classpathentry kind="lib" path="lib/p5/controlP5.jar"/>
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jogl/gluegen-rt.jar"/>

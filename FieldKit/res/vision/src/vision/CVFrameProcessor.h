@@ -59,6 +59,7 @@ namespace field
 			
 		// sliders
 		void addProperty(int key, float min=0, float max=1);
+		CVProperty* getProperty(int key);
 		void set(int key, float value);
 		float get(int key);
 		
@@ -80,8 +81,6 @@ namespace field
 		
 		inline int max(int a, int b) { return a > b ? a : b; };
 		inline int min(int a, int b) { return a > b ? b : a; };
-		
-		CVProperty* getProperty(int key);
 	};
 };
 

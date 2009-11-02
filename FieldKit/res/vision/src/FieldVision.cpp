@@ -176,7 +176,7 @@ void fvSetStageEnabled(int stage, bool enabled) {
 // -- Getters ------------------------------------------------------------------
 float fvGet(int property) {
 	if(!vision) return fvError(ERR_NOT_CREATED);
-	return vision->getProcessor()->get(property);
+	return vision->getProcessor()->getProperty(property)->getValue();
 }
 	
 Vision* fvGetVision() { return vision; }
