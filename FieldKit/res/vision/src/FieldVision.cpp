@@ -169,6 +169,9 @@ int fvSetFramerate(int fps) {
 	return SUCCESS;
 }
 
+void fvSetStageEnabled(int stage, bool enabled) {
+	vision->getProcessor()->setStageEnabled(enabled, stage);
+}
 	
 // -- Getters ------------------------------------------------------------------
 float fvGet(int property) {
@@ -184,6 +187,36 @@ int* fvGetBlobData() { return visionData->buffer; }
 
 int fvGetBlobDataLength() { return visionData->index; }
 
+	
+int fvGetStageWidth(int stage) {
+	IplImage *image = vision->getProcessor()->getImage(stage);
+	if(image == NULL) return 0;
+	return image->width;
+}	
+
+int fvGetStageHeight(int stage) {
+	IplImage *image = vision->getProcessor()->getImage(stage);
+	if(image == NULL) return 0;
+	return image->height;
+}	
+	
+int fvGetStageDepth(int stage) {
+	IplImage *image = vision->getProcessor()->getImage(stage);
+	if(image == NULL) return 0;
+	return image->depth;
+}	
+	
+int fvGetStageSize(int stage) {
+	IplImage *image = vision->getProcessor()->getImage(stage);
+	if(image == NULL) return 0;
+	return image->imageSize;
+}	
+	
+char* fvGetStageImage(int stage) {
+	IplImage *image = vision->getProcessor()->getImage(stage);
+	if(image == NULL) return NULL;
+	return image->imageData;
+}
 	
 // -- Helpers ------------------------------------------------------------------
 inline void fvPushData(int value) {

@@ -14,6 +14,8 @@ package field.kit.test.vision
 object VisionTest extends test.Sketch {
   import kit.vision._
   import processing.core._
+  import processing.core.PConstants._
+  import javax.media.opengl._
   
   Logger.level = Logger.FINE
   
@@ -36,7 +38,8 @@ object VisionTest extends test.Sketch {
   v.start
   */
   
-  Vision.setCamera(Vision.CAMERA_OPENCV)
+  var index = 0
+  //Vision.setCamera(Vision.CAMERA_OPENCV)
   //Vision.setSize(640, 480)
   Vision.start
   
@@ -49,20 +52,42 @@ object VisionTest extends test.Sketch {
     // render
     background(0)
     
-    rectMode(PConstants.CENTER)
-    
-    pushMatrix
-    scale(width / 320f, height / 240f, 1f)
-    
-    Vision.blobs filter (_.active == true) foreach { b =>
-      val c = 128 + 128 * (b.id / Vision.blobs.size.toFloat)
-      stroke(c)
-      noFill
-      rect(b.bounds.x1, b.bounds.y1, b.bounds.x2, b.bounds.y2)
-      
-      fill(c)
-      rect(b.x, b.y, 10, 10)
+    // draw stage
+    {
+      val s = Vision.stage(index)
+      val format = if(s.depth == 8) GL.GL_LUMINANCE else GL.GL_BGR
+      gl.glPixelZoom(width / s.width.toFloat, height / s.height.toFloat)
+      gl.glDrawPixels(s.width, s.height, format, GL.GL_UNSIGNED_BYTE, s.image)
     }
-    popMatrix
+    
+    // draw blobs
+    {
+    	rectMode(PConstants.CENTER)
+	    pushMatrix
+	    scale(width / 320f, height / 240f, 1f)
+	    Vision.blobs filter (_.active == true) foreach { b =>
+	      val c = 128 + 128 * (b.id / Vision.blobs.size.toFloat)
+	      stroke(c)
+	      noFill
+	      rect(b.bounds.x1, b.bounds.y1, b.bounds.x2, b.bounds.y2)
+	      
+	      fill(c)
+	      rect(b.x, b.y, 10, 10)
+	    }
+	    popMatrix
+    }
+  }
+  
+  override def keyPressed {
+    keyCode match {
+      case LEFT =>
+        index -= 1
+        if(index < 0) index = Vision.Stages.size - 1
+      case RIGHT => 
+        index += 1
+        if(index == Vision.Stages.size) index = 0
+      case UP => index = 0
+      case _ =>
+    }
   }
 }

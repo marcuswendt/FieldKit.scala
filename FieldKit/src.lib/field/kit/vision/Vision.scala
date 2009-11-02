@@ -54,14 +54,21 @@ object Vision extends Logger {
     def fvSetSize(width:Int, height:Int):Int
     def fvSetFramerate(fps:Int):Int
     def fvSet(property:Int, value:Float)
+    def fvSetStageEnabled(stage:Int, enabled:Boolean)
     
     def fvGetBlobCount:Int
     def fvGetBlobData:Pointer
     def fvGetBlobDataLength:Int
     def fvGet(property:Int)
+    
+    def fvGetStageImage(stage:Int):Pointer
+    def fvGetStageWidth(stage:Int):Int
+    def fvGetStageHeight(stage:Int):Int
+    def fvGetStageDepth(stage:Int):Int
+    def fvGetStageSize(stage:Int):Int
   }
 
-  protected val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
+  protected[vision] val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
   
   protected var cameraType = 0
   protected var width:Int = 0
@@ -258,4 +265,51 @@ object Vision extends Logger {
   /** @return the track range value */
   def trackRange = native.fvGet(PROC_TRACK_RANGE)
   
+  // -- Stages -----------------------------------------------------------------
+  
+  def stage(index:Int) = Stages(index).asInstanceOf[Stages.Stage]
+  
+  /**
+   * Lists all frame processing stages and gives access to their images and properties
+   */
+  object Stages extends Enumeration {
+    val input = new Stage(0, "Input")
+    val warp = new Stage(1, "Warp")
+    val background = new Stage(2, "Background")
+    val difference = new Stage(3, "Difference")
+    val threshold = new Stage(4, "Threshold")
+    val dilate = new Stage(5, "Dilate")
+    val erode = new Stage(6, "Erode")
+    val contour = new Stage(7, "Contour")
+    val detection = new Stage(8, "Detection")
+    val tracking = new Stage(9, "Tracking")
+    
+    def size = maxId
+    
+    /**
+     * Encapsulates a single processing stage image of the frame processor
+     */
+    class Stage(id:Int, name:String) extends Val(id:Int, name:String) {
+      import java.nio.ByteBuffer
+      
+      def width = native.fvGetStageWidth(id)
+	  def height = native.fvGetStageHeight(id)
+	  def depth = native.fvGetStageDepth(id)
+	  def size = native.fvGetStageSize(id)
+	
+	  protected var isEnabled = false
+	  def enabled = isEnabled
+	  def enabled_=(b:Boolean) = {
+	    isEnabled = b
+	    native.fvSetStageEnabled(id, isEnabled)
+	  } 
+	  
+	  def image:ByteBuffer = {
+	    val size = native.fvGetStageSize(id)
+	    val pointer = native.fvGetStageImage(id)
+	    if(pointer == null) return null
+	    pointer.getByteBuffer(0, size)
+	  }
+    }
+  }
 }

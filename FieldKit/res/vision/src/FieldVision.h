@@ -49,7 +49,8 @@ void fvSet(int property, float value);
 int fvSetCamera(int name);
 int fvSetSize(int width, int height);
 int fvSetFramerate(int fps);
-
+void fvSetStageEnabled(int stage, bool enabled);
+	
 // getters
 float fvGet(int property);
 	
@@ -59,6 +60,12 @@ int fvGetBlobCount();
 int* fvGetBlobData();
 int fvGetBlobDataLength();
 
+char* fvGetStageImage(int stage);
+int fvGetStageSize(int stage);
+int fvGetStageWidth(int stage);
+int fvGetStageHeight(int stage);
+int fvGetStageDepth(int stage);
+	
 // helpers
 int fvError(int err);
 inline void fvPushData(int value);

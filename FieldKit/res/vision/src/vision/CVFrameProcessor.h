@@ -26,7 +26,7 @@ namespace field
 		
 		Stage(int key) {
 			this->key = key;
-			this->isEnabled = false;
+			this->isEnabled = true;
 			this->image = NULL;
 		}
 	};

@@ -54,7 +54,7 @@ namespace field
 		set(PROC_CONTOUR_REDUCE, 0.1f);
 		set(PROC_TRACK_RANGE, 0.5f);
 		
-		// warp ----------------------------------------------------------------
+		// warp
 		warpMatrix = cvCreateMat(3, 3, CV_32FC1);
 
 		setWarp(0, 0,
@@ -62,7 +62,7 @@ namespace field
 				size.width, size.height,
 				0, size.height);
 
-		// blobs ---------------------------------------------------------------
+		// blobs
 		blobCount = VISION_BLOB_COUNT;
 		foundBlobs = new Blob*[blobCount];
 		trackedBlobs = new Blob*[blobCount];
@@ -76,6 +76,8 @@ namespace field
 		
 		// contours ------------------------------------------------------------
 		contourStorage = cvCreateMemStorage(0);
+		
+		// stages
 		return SUCCESS;
 	};
 	
