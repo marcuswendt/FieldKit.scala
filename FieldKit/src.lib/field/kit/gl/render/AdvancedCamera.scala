@@ -20,7 +20,7 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   protected var shotLength = 0f
 
   /** target position */
-  protected val target = Vec3(_location.x, _location.y, 0)
+  protected val target = Vec3(_location.x, _location.y, 0f)
   
   /** distance differences between camera and target */
   protected val delta = Vec3()

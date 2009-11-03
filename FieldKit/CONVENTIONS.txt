@@ -3,7 +3,7 @@
 	FieldKit
 	- conventions used in this library
 
-	* All positionable objects extend Vec3
+	* All positionable objects extend Vec3/Vec2
 	  e.g. Particle, Emitter, Sphere etc.
 	  
 	* += and -= operators are always used for adding/ removing an object to 

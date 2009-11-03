@@ -11,9 +11,9 @@ package field.kit.test.particle
  * quick test for the particle system
  */
 object ParticleSystemTest extends test.Sketch {
-  import field.kit.particle._
-  import field.kit.particle.behaviour._
-  import field.kit.util.Timer
+  import kit.particle._
+  import kit.particle.behaviour._
+  import kit.util.Timer
   
   val ps = new ParticleSystem
   val f = new Flock[Particle]
@@ -43,7 +43,7 @@ object ParticleSystemTest extends test.Sketch {
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
     info("initializer")
-    ps.space.set(width, height, 100) 
+    ps.space = new Space(width, height, 100) 
     info("space width", ps.space.width, "height", ps.space.height, "depth", ps.space.depth)
   })
   

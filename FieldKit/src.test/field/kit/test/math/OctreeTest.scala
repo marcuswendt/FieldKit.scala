@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created August 03, 2009 */
 package field.kit.test.math
@@ -20,16 +20,16 @@ object OctreeTest extends test.Sketch {
   import kit.math.Common._
   import kit.util.datatype.collection.ArrayBuffer
 
-  class VisibleOctree(offset:Vec3, size:Float) extends Octree(offset, size) {
+  class VisibleOctree(offset:Vec3, size:Float) extends Octree(null, offset, Vec3(size)) {
     def draw = drawNode(this)
     
     def drawNode(n:Octree) {
       if(n.numChildren > 0) {
         noFill
-        stroke(n.depth, 20)
+        stroke(n.treeDepth, 20)
         pushMatrix
         translate(n.x, n.y, n.z)
-        box(n.size)
+        box(n.size.x, n.size.y, n.size.z)
         popMatrix
         
         for(i <- 0 until 8) {

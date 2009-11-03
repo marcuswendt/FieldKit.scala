@@ -163,8 +163,8 @@ object Vision extends Logger {
       blob.y = next
       
       next // read bounding box header
-      blob.bounds.x1 = next
-      blob.bounds.y1 = next
+      blob.bounds.min.x = next
+      blob.bounds.min.y = next
       blob.bounds.width = next
       blob.bounds.height = next
       

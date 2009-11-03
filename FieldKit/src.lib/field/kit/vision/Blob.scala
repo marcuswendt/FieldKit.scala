@@ -12,11 +12,11 @@ package field.kit.vision
  * @author Marcus Wendt
  */
 class Blob(val id:Int) extends math.Vec3 {
-  import math.geometry.Rect
+  import math.geometry.AABR
   import util.Buffer
   
   var active = false
-  val bounds = new Rect(0,0,0,0)
+  val bounds = AABR()
   val contour = Buffer.float(Vision.CONTOUR_DATA_MAX)
   var contourPoints = 0
 }

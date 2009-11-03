@@ -1,43 +1,66 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created April 02, 2009 */
 package field.kit.particle
 
+import kit.math.Vec3
+import kit.math.geometry.AABB
+
+/**
+ * Companion object to Space
+ */
+object Space {
+  def apply() = new Space(1000f, 1000f, 1000f)
+}
+
 /** 
- * represents a cubic space
+ * Represents a cubic space
  * @author Marcus Wendt
  */
-class Space(w:Float, h:Float, d:Float) {
-  import field.kit.math._
+class Space(val width:Float, val height:Float, val depth:Float) 
+extends AABB(Vec3(width, height, depth)) {
+//class Space(val width:Float, val height:Float, val depth:Float) 
+//extends Octree(null, 
+//               Vec3(-width/2f, -height/2f, -depth/2f),
+//               Vec3(width, height, depth)) {
+//  
+//  import math._
+//  import math.Common._
+//  import math.geometry._
   
-  protected val _center = Vec3()
-  protected var _dimension = Vec3(w, h, d)
-  update
+  val dimension = Vec3(width, height, depth)
   
-  def this() = this(1000f, 1000f, 1000f)
+  /*
+  val dimension = Vec3()
+  var octree:Octree = _
+
+  // set initial dimensions
+  set(w,h,d) 
+  */
   
-  def set(w:Float, h:Float, d:Float) {	
-    _dimension := Vec3(w,h,d)
-    update
-  }
+  // -- Constructors -----------------------------------------------------------  
+  /** initialize default dimensions */
+//  def this() = this(1000f, 1000f, 1000f)
   
-  def update {
-    _center.x = _dimension.x * .5f
-    _center.y = _dimension.y * .5f
-    _center.z = _dimension.z * .5f
+  /*
+  /** sets the new extent and updates the space dimensions */
+  def set(w:Float, h:Float, d:Float) {
+    dimension := (w, h, d)
+    extent := dimension /= 2f
+    octree = 
+    updateBounds
   }
   
   // -- Getters ----------------------------------------------------------------
-  def width = _dimension.x
-  def height = _dimension.y
-  def depth = _dimension.z
-  def dimension = _dimension
-  def center = _center
+  def width = dimension.x
+  def height = dimension.y
+  def depth = dimension.z
   
   // -- Helpers ----------------------------------------------------------------
   override def toString = "Space("+ width +" "+ height +" "+ depth +")"
+  */
 }

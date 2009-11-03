@@ -13,7 +13,7 @@ package field.kit.particle.behaviour
  * @author Marcus Wendt
  */
 class Randomize extends Behaviour {
-  import field.kit.math.Vec3
+  import math.Vec3
   
   val min = Vec3(0f)
   val max = Vec3(1f)

@@ -60,7 +60,7 @@ object AlphaStateTest extends field.kit.test.Sketch {
       as.set(mode)
     })
     
-    scene.translation := (width/2f, height/2f, 0)
+    scene.translation := (width/2f, height/2f, 0f)
     
     beginGL
     scene.render

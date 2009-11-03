@@ -4,30 +4,26 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created August 03, 2009 */
+/* created November 03, 2009 */
 package field.kit.math.geometry
 
 /**
- * Companion update to class <code>Octree</code>
+ * Companion update to class <code>Quadtree</code>
  */
-object Octree {
+object Quadtree {
   // factory methods
-  def apply(offset:Vec3, size:Float) = new Octree(null, offset, Vec3(size/2f))
+  def apply(offset:Vec2, size:Float) = new Quadtree(null, offset, Vec2(size/2f))
 }
 
 
 /**
+ * Implements a spatial subdivision tree to work efficiently with large numbers 
+ * of 2D particles.
  * 
- * Direct port of Karsten Schmidts PointOctree.java to Scala/ FieldKit
- * 
- * Implements a spatial subdivision tree to work efficiently with large numbers
- * of 3D particles. This octree can only be used for particle type objects and
- * does NOT support 3D mesh geometry as other forms of Octrees do.
- * 
- * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointOctree.java
+ * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointQuadree.java
  */
-class Octree(val parent:Octree, val offset:Vec3, val halfSize:Vec3) 
-extends AABB(offset + halfSize, halfSize) {
+class Quadtree(val parent:Quadtree, val offset:Vec2, val halfSize:Vec2) 
+extends AABR(offset + halfSize, halfSize) {
   import kit.util.datatype.collection.ArrayBuffer
   
   /**
@@ -38,14 +34,14 @@ extends AABB(offset + halfSize, halfSize) {
   
   val size = halfSize * 2f
   
-  val treeDepth:Int = if(parent == null) 0 else parent.treeDepth + 1
+  val depth:Int = if(parent == null) 0 else parent.depth + 1
   
-  protected var data:ArrayBuffer[Vec3] = null
+  protected var data:ArrayBuffer[Vec2] = null
   
   /**
    * Stores the child nodes of this node
    */
-  var children:Array[Octree] = null
+  var children:Array[Quadtree] = null
   
   /**
    * the number of child nodes (max. 8)
@@ -64,33 +60,32 @@ extends AABB(offset + halfSize, halfSize) {
    * @param p
    * @return true, if point has been added successfully
    */
-  def insert(p:Vec3):Boolean = {
+  def insert(p:Vec2):Boolean = {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
-      if(halfSize.x <= minSize || halfSize.y <= minSize || halfSize.z <= minSize) {
+      if(halfSize.x <= minSize || halfSize.y <= minSize) {
         if(data == null)
-          data = new ArrayBuffer[Vec3]
+          data = new ArrayBuffer[Vec2]
         
         data += p
         true
       } else {
         if(children == null)
-          children = new Array[Octree](8)
+          children = new Array[Quadtree](8)
         
         val plocal = p - offset
-        val octant = octantID(plocal)
+        val quadrant = quadrantID(plocal)
         
-        if(children(octant) == null) {
-          val o = Vec3(offset)
-          if((octant & 1) != 0) o.x += halfSize.x
-          if((octant & 2) != 0) o.y += halfSize.y
-          if((octant & 4) != 0) o.z += halfSize.z
+        if(children(quadrant) == null) {
+          val o = Vec2(offset)
+          if((quadrant & 1) != 0) o.x += halfSize.x
+          if((quadrant & 2) != 0) o.y += halfSize.y
           
-          children(octant) = new Octree(this, o, halfSize * 0.5f);
+          children(quadrant) = new Quadtree(this, o, halfSize * 0.5f);
           numChildren += 1
         }
-        children(octant) insert p  
+        children(quadrant) insert p  
       }
     } else {
       false
@@ -103,7 +98,7 @@ extends AABB(offset + halfSize, halfSize) {
    * @param p point to delete
    * @return true, if the point was found & removed
    */
-  def remove(p:Vec3):Boolean = {
+  def remove(p:Vec2):Boolean = {
     var found = false 
     val leaf = apply(p)
     if(leaf != null) {
@@ -143,13 +138,13 @@ extends AABB(offset + halfSize, halfSize) {
    * @param p point to check
    * @return leaf node or null if point is outside the tree dimensions
    */
-  def apply(p:Vec3):Octree = {
+  def apply(p:Vec2):Quadtree = {
     // if not a leaf node...
     if (this contains p) {
       if(numChildren > 0) {
-        val octant = octantID(p - offset)
-        if(children(octant) != null)
-          return children(octant)(p)
+        val quadrant = quadrantID(p - offset)
+        if(children(quadrant) != null)
+          return children(quadrant)(p)
         
       } else if(data != null) {
         return this
@@ -165,8 +160,8 @@ extends AABB(offset + halfSize, halfSize) {
    * @param result the ArrayBuffer
    * @return all points with the box volume
    */
-  def apply(box:AABB, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
-    val r = if(result == null) new ArrayBuffer[Vec3] else result
+  def apply(box:AABR, result:ArrayBuffer[Vec2]):ArrayBuffer[Vec2] = {
+    val r = if(result == null) new ArrayBuffer[Vec2] else result
     
     if (this intersects box) {
       if(data != null) {
@@ -188,20 +183,20 @@ extends AABB(offset + halfSize, halfSize) {
   /**
    * Selects all stored points within the given sphere volume
    */
-  def apply(sphere:Sphere, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
-    val r = if(result == null) new ArrayBuffer[Vec3] else result
+  def apply(circle:Circle, result:ArrayBuffer[Vec2]):ArrayBuffer[Vec2] = {
+    val r = if(result == null) new ArrayBuffer[Vec2] else result
     
-    if (this intersects sphere) {
+    if (this intersects circle) {
       if(data != null) {
         data foreach { p => 
-          if(sphere contains p)
+          if(circle contains p)
             r += p
         }                       
       } else if(numChildren > 0) {
         for(i <- 0 until 8) {
           val child = children(i)
           if(child != null)
-            child(sphere, result)
+            child(circle, result)
         }
       }
     }
@@ -209,19 +204,19 @@ extends AABB(offset + halfSize, halfSize) {
   }
   
   /**
-   * Alias for apply(p:Vec3)
+   * Alias for apply(p:Vec2)
    */
-  def leafForPoint(p:Vec3) = apply(p)
+  def leafForPoint(p:Vec2) = apply(p)
   
   /**
-   * Alias for apply(box:AABB, result:ArrayBuffer[Vec3])
+   * Alias for apply(rect:AABR, result:ArrayBuffer[Vec2])
    */
-  def pointsWithinBox(box:AABB, result:ArrayBuffer[Vec3]) = apply(box,result)
+  def pointsWithinBox(rect:AABR, result:ArrayBuffer[Vec2]) = apply(rect, result)
   
   /**
-   * Alias for apply(sphere:Sphere, result:ArrayBuffer[Vec3])
+   * Alias for apply(circle:Circle, result:ArrayBuffer[Vec2])
    */
-  def pointsWithinSphere(sphere:Sphere, result:ArrayBuffer[Vec3]) = apply(sphere,result)
+  def pointsWithinCircle(circle:Circle, result:ArrayBuffer[Vec2]) = apply(circle, result)
   
   /**
    * Clears all children and data of this node
@@ -234,18 +229,17 @@ extends AABB(offset + halfSize, halfSize) {
   }
   
   /**
-   * Computes the local child octant/cube index for the given point
+   * Computes the local child quadrant/cube index for the given point
    * @param plocal point in the node-local coordinate system
-   * @return octant index
+   * @return quadrant index
    */
-  protected final def octantID(plocal:Vec3):Int = {
+  protected final def quadrantID(plocal:Vec2):Int = {
     var id = 0
     if(plocal.x >= halfSize.x) id += 1
     if(plocal.y >= halfSize.y) id += 2
-    if(plocal.z >= halfSize.z) id += 4
     id
    }
   
   override def toString = 
-    "Octree[X"+ x +" Y"+ y +"Z"+ z +" extent X"+ extent.x +" Y"+ extent.y +" Z"+ extent.z +"]"
+    "Quadtree[X"+ x +" Y"+ y +" extent X"+ extent.x +" Y"+ extent.y +"]"
 }

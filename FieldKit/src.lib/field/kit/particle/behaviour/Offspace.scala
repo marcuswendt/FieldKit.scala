@@ -4,20 +4,20 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created April 20, 2009 */
+/* created November 3, 2009 */
 package field.kit.particle.behaviour
 
-import field.kit.particle.Behaviour
 
 /**
- * makes sure the particle stays within a defined square by wrapping it around its edges
+ * reflects a particle at the edges of a defined plane
  * @author Marcus Wendt
  */
-class Wrap2D extends Behaviour {
+class Offspace extends Behaviour {
+  import math.Common._
   import math.Vec3
   
-  var margin = 0f 
-    
+  var margin = 0f
+  
   /** the absolute minimum coord */
   protected var min = Vec3()
   
@@ -31,37 +31,6 @@ class Wrap2D extends Behaviour {
   }
     
   def apply(p:Particle, dt:Float) {
-    if(p.x < min.x)
-      p.x = max.x
-    else if(p.x > max.x)
-      p.x = min.x
-
-    if(p.y < min.y)
-      p.y = max.y
-    else if(p.y > max.y)
-      p.y = min.y
-  }  
-}
-
-/**
- * makes sure the particle stays within a defined cube-volume by wrapping it around its edges
- * @author Marcus Wendt
- */
-class Wrap3D extends Wrap2D {
-  override def apply(p:Particle, dt:Float) {
-    if(p.x < min.x)
-      p.x = max.x
-    else if(p.x > max.x)
-      p.x = min.x
-
-    if(p.y < min.y)
-      p.y = max.y
-    else if(p.y > max.y)
-      p.y = min.y
-
-    if (p.z < min.z)
-      p.z = max.z
-    else if (p.z > max.z)
-      p.z = min.z
-  }  
+    
+  }
 }

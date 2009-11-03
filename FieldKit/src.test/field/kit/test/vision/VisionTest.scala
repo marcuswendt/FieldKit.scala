@@ -90,7 +90,7 @@ object VisionTest extends test.Sketch {
       val c = 128 + 128 * (b.id / Vision.blobs.size.toFloat)
       stroke(c)
       noFill
-      rect(b.bounds.x1, b.bounds.y1, b.bounds.x2, b.bounds.y2)
+      rect(b.bounds.min.x, b.bounds.min.y, b.bounds.width, b.bounds.height)
       
       fill(c)
       rect(b.x, b.y, 10, 10)

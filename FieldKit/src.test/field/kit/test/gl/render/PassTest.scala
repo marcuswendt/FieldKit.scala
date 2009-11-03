@@ -46,7 +46,7 @@ object PassTest extends field.kit.test.Sketch {
     
     // initialize particle system
     val ps = new ParticleSystem
-    ps.space.set(width, height, 100)
+    ps.space = new Space(width, height, 100)
     
     val f = new Flock[Particle]
     f.emitter.rate = 1

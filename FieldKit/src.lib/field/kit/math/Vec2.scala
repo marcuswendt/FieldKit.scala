@@ -19,10 +19,9 @@ object Vec2 {
   val UNIT_Y = new Vec2(0, 1)
   val UNIT_XY = new Vec2(1, 1)
   
+  // factory methods
   def apply() = new Vec2(0, 0)
   def apply(s:Float) = new Vec2(s,s)
-//  def apply(x:Float, y:Float) = new Vec2(x, y)
-
   def apply(v:Vec2) = new Vec2(v.x,v.y)
   def apply(s:String) = { val v = new Vec2(0,0); v := s; v }
   

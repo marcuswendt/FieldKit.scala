@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 31, 2009 */
 package field.kit.particle
@@ -10,7 +10,7 @@ package field.kit.particle
 import field.kit.Logger
 
 /** 
- * a simple particle system
+ * A basic particle system
  * @author Marcus Wendt
  */
 class ParticleSystem extends Logger {
@@ -19,16 +19,21 @@ class ParticleSystem extends Logger {
   
   var friction = 0.97f
   var timeStep = 60f
+  var useSpatialOptimisation = false
   
-  var space = new Space
+  var space = Space()
   var flocks = new ArrayBuffer[Flock[_]]
+  
+  /**
+   * Prepare particle space and update all flocks
+   */
   def update(dt:Float) = {
-    //flocks.foreach(_.update(dt))
-    var i = 0
-    while(i < flocks.size) {
-      flocks(i).update(dt)
-      i += 1
-    }
+    // particle space is filled during flock.update
+//    if(useSpatialOptimisation)
+//      space.clear
+
+    // update flocks & particles
+    flocks.foreach(_.update(dt))
   }
   
   def +=(f:Flock[_]) {

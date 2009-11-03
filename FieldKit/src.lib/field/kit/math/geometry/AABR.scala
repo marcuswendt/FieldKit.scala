@@ -4,27 +4,30 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created August 03, 2009 */
+/* created November 03, 2009 */
 package field.kit.math.geometry
 
 /**
- * Axis-aligned bounding box used for Octrees and other optimisation techniques
+ * Companion update to class <code>AABR</code>
  */
-class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
+object AABR {
+  // factory methods
+  def apply() = new AABR(Vec2(), Vec2())
+  def apply(extent:Vec2) = new AABR(Vec2(), extent)
+  def apply(position:Vec2, extent:Float) = new AABR(position, Vec2(extent))
+}
+
+/**
+ * Axis-aligned bounding rect used for Quadtrees and other optimisation techniques
+ */
+class AABR(position:Vec2, var extent:Vec2) extends Vec2(0,0) {
   import kit.math.Common._
   
-  var min = Vec3()
-  var max = Vec3()
+  var min = Vec2()
+  var max = Vec2()
   
   this := position
   updateBounds
-  
-  // -- Constructors -----------------------------------------------------------  
-  def this(extent:Vec3) = 
-    this(Vec3(), extent)
-  
-  def this(position:Vec3, extent:Float) = 
-    this(position, Vec3(extent))
   
   // -- Utilities --------------------------------------------------------------
   def updateBounds {
@@ -35,27 +38,26 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
   /**
    * @return true, when the given AABB intersects with itself
    */
-  def intersects(box:AABB) = {
-  	val t = box - this
-  	abs(t.x) <= (extent.x + box.extent.x) &&
-    abs(t.y) <= (extent.y + box.extent.y) &&
-    abs(t.z) <= (extent.z + box.extent.z)
+  def intersects(rect:AABR) = {
+  	val t = rect - this
+  	abs(t.x) <= (extent.x + rect.extent.x) &&
+    abs(t.y) <= (extent.y + rect.extent.y)
   }
 
   /**
    * @return true, when the given Sphere intersects with itself
    */
-  def intersects(sphere:Sphere):Boolean = intersects(sphere, sphere.radius)
+  def intersects(circle:Circle):Boolean = intersects(circle, circle.radius)
   
   /**
    * @return true, when the given Sphere intersects with itself
    */
-  def intersects(center:Vec3, radius:Float) = {
+  def intersects(center:Vec2, radius:Float) = {
     var s = 0f
     var d = 0f
     
     // find the square of the distance
-    // from the sphere to the box
+    // from the circle to the rect
     if (center.x < min.x) {
       s = center.x - min.x
       d = s * s
@@ -71,14 +73,6 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
       s = center.y - max.y
       d += s * s
     }
-
-    if (center.z < min.z) {
-      s = center.z - min.z
-      d += s * s
-    } else if (center.z > max.z) {
-      s = center.z - max.z
-      d += s * s
-    }
     
     d <= radius * radius
   }
@@ -86,10 +80,19 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
   /** 
    * @return true, if the given Vec3 lies within this bounding volume 
    */
-  def contains(p:Vec3):Boolean = {
+  def contains(p:Vec2):Boolean = {
     if(p.x < min.x || p.x > max.x) return false
     if(p.y < min.y || p.y > max.y) return false
-    if(p.z < min.z || p.z > max.z) return false
     true
   }
+  
+  /** @return the width of this rectangle */
+  def width = max.x - min.x
+
+  def width_=(value:Float) = max.x = min.x + value
+  
+  /** @return the height of this rectangle */
+  def height = max.y - min.y
+  
+  def height_=(value:Float) = max.y = min.y + value
 }
