@@ -54,6 +54,8 @@ object OctreeTest extends test.Sketch {
   val DIM = 100f
   val DIM2 = DIM/2f
 
+  val CONTINOUS_COUNT = 10000
+  
   // setup empty octree so that it's centered around the world origin
   val octree = new VisibleOctree(new Vec3(-DIM2,-DIM2,-DIM2), DIM)
   // add an initial particle at the origin
@@ -67,6 +69,10 @@ object OctreeTest extends test.Sketch {
   
   // use clip sphere or axis aligned bounding box
   var useSphere = false
+  
+  var continous = false
+  
+  var showPoints = true
   
   val pointer = new Vec3
   
@@ -82,6 +88,8 @@ object OctreeTest extends test.Sketch {
   // -- Render -----------------------------------------------------------------
   def render {
     // -- update ---------------------------------------------------------------
+    frameInfo
+    
     // rotate view on mouse drag
     if (mousePressed) {
       xrot += (mouseY*0.01f-xrot)*0.1f
@@ -91,6 +99,13 @@ object OctreeTest extends test.Sketch {
     } else {
       pointer.x = -(width*0.5f-mouseX)/(width/2)*DIM2
       pointer.y = -(height*0.5f-mouseY)/(height/2)*DIM2
+    }
+    
+    // stress test
+    if(continous) {
+      octree.clear 
+      for(i <- 0 until CONTINOUS_COUNT)
+        octree insert (Vec3.random *= random(DIM2))
     }
   
     // -- render ---------------------------------------------------------------
@@ -110,7 +125,8 @@ object OctreeTest extends test.Sketch {
     drawCursor
     
     // show selected points
-    drawPoints
+    if(showPoints)
+      drawPoints
     
     // show clipping sphere
     drawSphere
@@ -149,13 +165,22 @@ object OctreeTest extends test.Sketch {
     }
   }
   
-  
   def drawSphere {
     fill(0,30)
     pushMatrix
     translate(pointer.x,pointer.y,0)
     sphere(RADIUS)
     popMatrix
+  }
+  
+  val timer = new kit.util.Timer
+  def frameInfo {
+    val dt = timer.update
+    if(frameCount % 100 == 0) {
+      val used = Common.round(Runtime.getRuntime.totalMemory / 1048576, 2)
+      val free = Common.round(Runtime.getRuntime().freeMemory / 1048576, 2)
+      info("frame", frameCount, "fps", 1000f/ dt ,"used", used, "free", free)
+    }
   }
   
   override def keyPressed {
@@ -176,7 +201,9 @@ object OctreeTest extends test.Sketch {
         numParticles += 1
         
       case 'o' => showOctree = !showOctree
+      case 'p' => showPoints = !showPoints
       case 's' => useSphere = !useSphere
+      case 'c' => continous = !continous; info("continous", continous)
       case _ =>
     }
   }

@@ -14,9 +14,8 @@ package field.kit.math.geometry
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointQuadree.java
  */
 class Quadtree(val parent:Quadtree, val offset:Vec2, val halfSize:Float) 
-extends AABR(offset + halfSize, Vec2(halfSize)) {
-  //import kit.util.datatype.collection.ArrayBuffer
-  import scala.collection.mutable.ArrayBuffer
+extends AABR(offset + halfSize, halfSize) {
+  import kit.util.datatype.collection.ArrayBuffer
 
   /**
   * Constructs a new Quadtree root node

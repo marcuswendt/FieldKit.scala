@@ -18,18 +18,16 @@ object QuadtreeTest extends test.Sketch {
   import kit.util.datatype.collection.ArrayBuffer
 
   class VisibleQuadtree(offset:Vec2, size:Float) extends Quadtree(offset, size) {
-    def draw = drawNode(this)
+    def draw = {
+      rectMode(processing.core.PConstants.CENTER)
+      drawNode(this)
+    }
     
     def drawNode(n:Quadtree) {
       if(n.numChildren > 0) {
         noFill
         stroke(n.depth, 64)
-        //pushMatrix
         rect(n.x, n.y, n.size, n.size)
-        //translate(n.x, n.y, n.z)
-        //box(n.size.x, n.size.y, n.size.z)
-        //rect()
-        //popMatrix
         
         for(i <- 0 until 4) {
           val child = n.children(i)
@@ -51,10 +49,12 @@ object QuadtreeTest extends test.Sketch {
   val DIM = 100f
   val DIM2 = DIM/2f
 
+  val CONTINOUS_COUNT = 10000
+  
   // setup empty octree so that it's centered around the world origin
   val quadtree = new VisibleQuadtree(new Vec2(-DIM2,-DIM2), DIM)
   // add an initial particle at the origin
-  quadtree insert new Vec2    
+  quadtree insert new Vec3    
   
   // start with one particle
   var numParticles = 1
@@ -62,8 +62,12 @@ object QuadtreeTest extends test.Sketch {
   // show quadtree debug info
   var showQuadtree = true
   
-  // use clip sphere or axis aligned bounding box
+  // use clip circle or axis aligned bounding rect
   var useCircle = false
+  
+  var continous = false
+  
+  var showPoints = true
   
   val pointer = new Vec3
   
@@ -79,6 +83,8 @@ object QuadtreeTest extends test.Sketch {
   // -- Render -----------------------------------------------------------------
   def render {
     // -- update ---------------------------------------------------------------
+    frameInfo
+    
     // rotate view on mouse drag
     if (mousePressed) {
       xrot += (mouseY*0.01f-xrot)*0.1f
@@ -88,6 +94,13 @@ object QuadtreeTest extends test.Sketch {
     } else {
       pointer.x = -(width*0.5f-mouseX)/(width/2)*DIM2
       pointer.y = -(height*0.5f-mouseY)/(height/2)*DIM2
+    }
+    
+    // stress test
+    if(continous) {
+      quadtree.clear 
+      for(i <- 0 until CONTINOUS_COUNT)
+        quadtree insert (Vec3.random *= random(DIM2))
     }
   
     // -- render ---------------------------------------------------------------
@@ -107,7 +120,8 @@ object QuadtreeTest extends test.Sketch {
     drawCursor
     
     // show selected points
-    drawPoints
+    if(showPoints)
+      drawPoints
     
     // show clipping sphere
     drawSphere
@@ -147,17 +161,26 @@ object QuadtreeTest extends test.Sketch {
     }
   }
   
-  
   def drawSphere {
     fill(0,30)
     ellipse(pointer.x,pointer.y, RADIUS*2, RADIUS*2)
+  }
+  
+  val timer = new kit.util.Timer
+  def frameInfo {
+    val dt = timer.update
+    if(frameCount % 100 == 0) {
+      val used = Common.round(Runtime.getRuntime.totalMemory / 1048576, 2)
+      val free = Common.round(Runtime.getRuntime().freeMemory / 1048576, 2)
+      info("frame", frameCount, "fps", 1000f/ dt ,"used", used, "free", free)
+    }
   }
   
   override def keyPressed {
     key match {
       case ' ' =>
         // add NUM new particles within a sphere of radius DIM2
-        val v = Vec2.random *= random(DIM2)
+        val v = Vec3.random *= random(DIM2)
         val insertNum = random(NUM).asInstanceOf[Int]
         for(i <- 0 until insertNum)
            quadtree insert v
@@ -171,7 +194,9 @@ object QuadtreeTest extends test.Sketch {
         numParticles += 1
         
       case 'o' => showQuadtree = !showQuadtree
+      case 'p' => showPoints = !showPoints
       case 's' => useCircle = !useCircle
+      case 'c' => continous = !continous; info("continous", continous)
       case _ =>
     }
   }

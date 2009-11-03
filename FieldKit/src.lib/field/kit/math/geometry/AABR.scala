@@ -29,6 +29,9 @@ class AABR(position:Vec2, var extent:Vec2) extends Vec2(0,0) {
   this := position
   updateBounds
   
+  def this(position:Vec2, extent:Float) = 
+    this(position, Vec2(extent))
+  
   // -- Utilities --------------------------------------------------------------
   def updateBounds {
     min := this -= extent

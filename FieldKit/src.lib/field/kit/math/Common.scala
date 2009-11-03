@@ -54,11 +54,6 @@ object Common extends Trigonometry with Interpolation with Intersection {
     Math.round(value * exp) / exp
   }
   
-  final def round(value:Double, precision:Int):Double = {
-    val exp = Math.pow(10, precision).toFloat
-    Math.round(value * exp) / exp
-  }
-  
   final def clamp(value:Float):Float = clamp(value, 0f, 1f)
   
   final def clamp(value:Float, min:Float, max:Float) = {
