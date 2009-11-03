@@ -7,22 +7,27 @@
 /* created November 03, 2009 */
 package field.kit.math.geometry
 
+///** Companion object to class <code>Quadtree</code> */
+//object Quadtree {
+//  def apply(offset:Vec2, size:Float) = 
+//	  new Quadtree(null, offset, Vec2(size/2f))
+//  
+//  def apply(size:Float) = 
+//	  new Quadtree(null, Vec2(size / 2f), Vec2(size))
+//  
+//  def apply(size:Vec2) = 
+//    new Quadtree(null, size / 2f, size)
+//}
+
 
 /**
  * Implements a spatial subdivision tree to work efficiently with large numbers of 2D particles.
  * 
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointQuadree.java
  */
-class Quadtree(val parent:Quadtree, val offset:Vec2, val halfSize:Float) 
+class Quadtree(val parent:Quadtree, val offset:Vec2, val halfSize:Vec2) 
 extends AABR(offset + halfSize, halfSize) {
-  import kit.util.datatype.collection.ArrayBuffer
-
-  /**
-  * Constructs a new Quadtree root node
-  */
-  def this(offset:Vec2, size:Float) {
-    this(null, offset, size/2f)
-  }
+  import scala.collection.mutable.ArrayBuffer
   
   /**
    * Alternative tree recursion limit, number of world units when cells are
@@ -58,13 +63,15 @@ extends AABR(offset + halfSize, halfSize) {
    * @param p
    * @return true, if point has been added successfully
    */
-  def insert(p:Vec):Boolean = {
+  final def insert(p:Vec):Boolean = {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
-      if(halfSize <= minSize || halfSize <= minSize) {
-        if(data == null)
+      if(halfSize.x <= minSize || halfSize.y <= minSize) {
+        if(data == null) {
+          // import kit.util.datatype.collection.ArrayBuffer
           data = new ArrayBuffer[Vec]
+        }
         
         data += p
         true
@@ -76,8 +83,8 @@ extends AABR(offset + halfSize, halfSize) {
         
         if(children(quadrant) == null) {
           val o = Vec2(offset)
-          if((quadrant & 1) != 0) o.x += halfSize
-          if((quadrant & 2) != 0) o.y += halfSize
+          if((quadrant & 1) != 0) o.x += halfSize.x
+          if((quadrant & 2) != 0) o.y += halfSize.y
           
           children(quadrant) = new Quadtree(this, o, halfSize * 0.5f);
           numChildren += 1
@@ -135,7 +142,7 @@ extends AABR(offset + halfSize, halfSize) {
    * @param p point to check
    * @return leaf node or null if point is outside the tree dimensions
    */
-  def apply(p:Vec):Quadtree = {
+  final def apply(p:Vec):Quadtree = {
     // if not a leaf node...
     if (this contains p) {
       if(numChildren > 0) {
@@ -219,7 +226,6 @@ extends AABR(offset + halfSize, halfSize) {
    * Clears all children and data of this node
    */
   def clear {
-    // TODO consider just clearing the arrays to avoid the cost of recreating them
     numChildren = 0
     children = null
     data = null
@@ -232,11 +238,61 @@ extends AABR(offset + halfSize, halfSize) {
    */
   protected final def quadrantID(x:Float, y:Float):Int = {
     var id = 0
-    if(x >= halfSize) id += 1
-    if(y >= halfSize) id += 2
+    if(x >= halfSize.x) id += 1
+    if(y >= halfSize.y) id += 2
     id
    }
   
   override def toString = 
     "Quadtree[X"+ x +" Y"+ y +" extent X"+ extent.x +" Y"+ extent.y +"]"
 }
+/*
+ tested this simplified insert, but doesnt seem to improve performance a lot
+ 
+  def fastInsert(p:Vec):Boolean = {
+    // check if point is inside cube
+    if(this contains p) {
+      if(isLeafNode) {
+        data += p
+        true
+      } else {
+        val quadrant = quadrantID(p.x - offset.x, p.y - offset.y)
+        children(quadrant) insert p
+      }
+    } else {
+      false
+    }
+  }
+  
+  var isLeafNode = false
+  fastInit
+  def fastInit {
+    import kit.math.Common._
+    
+    val childSize = halfSize * .5f
+    if(childSize <= minSize) {
+      isLeafNode = true
+      data = new ArrayBuffer[Vec]
+      
+    } else {
+      isLeafNode = false
+      children = new Array[Quadtree](4)
+      numChildren = 4
+      children(0) = new Quadtree(this, offset, childSize)
+      children(1) = new Quadtree(this, offset + (halfSize, 0), childSize)
+      children(2) = new Quadtree(this, offset + (0, halfSize), childSize)
+      children(3) = new Quadtree(this, offset + (halfSize, halfSize), childSize)
+    }
+  }
+ 
+  def fastClear {
+   	if(data != null) data.clear
+    
+    for(i <- 0 until numChildren) {
+      val child = children(i)
+      if(child != null)
+        child.clear
+    }
+  }
+
+*/

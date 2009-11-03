@@ -12,25 +12,29 @@ package field.kit.math.geometry
  */
 object AABR {
   // factory methods
-  def apply() = new AABR(Vec2(), Vec2())
-  def apply(extent:Vec) = new AABR(Vec2(), Vec2(extent))
-  def apply(position:Vec, extent:Float) = new AABR(Vec2(position), Vec2(extent))
+  def apply() = new AABR(Vec2())
+  def apply(position:Vec, extent:Float) = {
+    val r = new AABR(Vec2(extent))
+    r := position
+    r.updateBounds
+    r
+  }
 }
 
 /**
  * Axis-aligned bounding rect used for Quadtrees and other optimisation techniques
  */
-class AABR(position:Vec2, var extent:Vec2) extends Vec2(0,0) {
+class AABR(var extent:Vec2) extends Vec2(0,0) {
   import math.Common._
   
   var min = Vec2()
   var max = Vec2()
   
-  this := position
-  updateBounds
-  
-  def this(position:Vec2, extent:Float) = 
-    this(position, Vec2(extent))
+  def this(position:Vec2, extent:Vec2) = {
+    this(extent)
+    this := position
+    updateBounds
+  } 
   
   // -- Utilities --------------------------------------------------------------
   def updateBounds {

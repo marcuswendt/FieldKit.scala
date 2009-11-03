@@ -17,7 +17,7 @@ object QuadtreeTest extends test.Sketch {
   import kit.math.Common._
   import kit.util.datatype.collection.ArrayBuffer
 
-  class VisibleQuadtree(offset:Vec2, size:Float) extends Quadtree(offset, size) {
+  class VisibleQuadtree(offset:Vec2, size:Vec2) extends Quadtree(null, offset, size) {
     def draw = {
       rectMode(processing.core.PConstants.CENTER)
       drawNode(this)
@@ -27,7 +27,8 @@ object QuadtreeTest extends test.Sketch {
       if(n.numChildren > 0) {
         noFill
         stroke(n.depth, 64)
-        rect(n.x, n.y, n.size, n.size)
+        //rect(n.x, n.y, n.size, n.size)
+        rect(n.x, n.y, n.size.x, n.size.y)
         
         for(i <- 0 until 4) {
           val child = n.children(i)
@@ -52,7 +53,8 @@ object QuadtreeTest extends test.Sketch {
   val CONTINOUS_COUNT = 10000
   
   // setup empty octree so that it's centered around the world origin
-  val quadtree = new VisibleQuadtree(new Vec2(-DIM2,-DIM2), DIM)
+  val quadtree = new VisibleQuadtree(Vec2(-DIM/2f), Vec2(DIM))
+  
   // add an initial particle at the origin
   quadtree insert new Vec3    
   
@@ -78,7 +80,9 @@ object QuadtreeTest extends test.Sketch {
   var points = new ArrayBuffer[Vec]
   
   // -- Init -------------------------------------------------------------------
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
+  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
+    //frameRate(1000)
+  })
 
   // -- Render -----------------------------------------------------------------
   def render {
@@ -147,7 +151,7 @@ object QuadtreeTest extends test.Sketch {
     points.clear
     
     if(useCircle) {
-      quadtree(Circle(pointer, RADIUS), points)
+      quadtree(new Circle(pointer, RADIUS), points)
     } else {
       quadtree(AABR(pointer, RADIUS), points)
     }

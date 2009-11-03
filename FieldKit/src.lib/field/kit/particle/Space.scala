@@ -7,60 +7,74 @@
 /* created April 02, 2009 */
 package field.kit.particle
 
-import kit.math.Vec3
-import kit.math.geometry.AABB
+import math._
+import math.geometry.AABB
 
-/**
- * Companion object to Space
- */
-object Space {
-  def apply() = new Space(1000f, 1000f, 1000f)
-}
+import scala.collection.mutable.ArrayBuffer
 
 /** 
- * Represents a cubic space
+ * Represents a cubic space and also provides an interface (through subclassing) 
+ * for various spatial optimisation techniques (Octree, Quadtree, ...)
+ * 
  * @author Marcus Wendt
  */
 class Space(val width:Float, val height:Float, val depth:Float) 
-extends AABB(Vec3(width, height, depth)) {
-//class Space(val width:Float, val height:Float, val depth:Float) 
-//extends Octree(null, 
-//               Vec3(-width/2f, -height/2f, -depth/2f),
-//               Vec3(width, height, depth)) {
-//  
-//  import math._
-//  import math.Common._
-//  import math.geometry._
+extends AABB(width, height, depth) {
   
   val dimension = Vec3(width, height, depth)
   
-  /*
-  val dimension = Vec3()
-  var octree:Octree = _
-
-  // set initial dimensions
-  set(w,h,d) 
-  */
+  /** inserts another particle into this space */
+  def insert(particle:Vec) {}
   
-  // -- Constructors -----------------------------------------------------------  
-  /** initialize default dimensions */
-//  def this() = this(1000f, 1000f, 1000f)
-  
-  /*
-  /** sets the new extent and updates the space dimensions */
-  def set(w:Float, h:Float, d:Float) {
-    dimension := (w, h, d)
-    extent := dimension /= 2f
-    octree = 
-    updateBounds
+  /** @return a list of particles at the given position */
+  def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
+    result.clear
+    result
   }
   
-  // -- Getters ----------------------------------------------------------------
-  def width = dimension.x
-  def height = dimension.y
-  def depth = dimension.z
+  /** removes all registered particles from this space */
+  def clear {}
   
-  // -- Helpers ----------------------------------------------------------------
+  // helpers
   override def toString = "Space("+ width +" "+ height +" "+ depth +")"
-  */
+}
+
+
+/**
+ * A space that uses a Quadtree to find neighbouring particles 
+ */
+class QuadtreeSpace(width:Float, height:Float, depth:Float) 
+extends Space(width, height, depth) {
+  import math.geometry._
+  import math.Common._
+  
+  val tree = new Quadtree(null, (-width/2f, -height/2f), (width, height))
+  
+  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = 
+    tree(new Circle(point, radius), result)
+
+  override def insert(particle:Vec) = tree.insert(particle)
+
+  override def clear = tree.clear  
+}
+
+
+/**
+ * A space that uses an Octree to find neighbouring particles 
+ */
+class OctreeSpace(width:Float, height:Float, depth:Float) 
+extends Space(width, height, depth) {
+  import math.geometry._
+  import math.Common._
+  
+  val tree = new Octree(null, 
+                        (-width/2f, -height/2f, -depth/2f), 
+                        (width, height, depth))
+  
+  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = 
+    tree(new Sphere(point, radius), result)
+
+  override def insert(particle:Vec) = tree.insert(particle)
+  
+  override def clear = tree.clear
 }

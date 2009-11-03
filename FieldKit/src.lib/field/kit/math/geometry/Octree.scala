@@ -7,7 +7,6 @@
 /* created August 03, 2009 */
 package field.kit.math.geometry
 
-
 /**
  * 
  * Direct port of Karsten Schmidts PointOctree.java to Scala/ FieldKit
@@ -18,15 +17,15 @@ package field.kit.math.geometry
  * 
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointOctree.java
  */
-class Octree(val parent:Octree, val offset:Vec3, val halfSize:Float) 
+class Octree(val parent:Octree, val offset:Vec3, val halfSize:Vec3) 
 extends AABB(offset + halfSize, halfSize) {
-  import kit.util.datatype.collection.ArrayBuffer
+  import scala.collection.mutable.ArrayBuffer
   
   /**
   * Constructs a new Octree root node
   */
   def this(offset:Vec3, size:Float) {
-    this(null, offset, size/2f)
+    this(null, offset, Vec3(size/2f))
   }
 
   /**
@@ -39,7 +38,7 @@ extends AABB(offset + halfSize, halfSize) {
   
   val depth:Int = if(parent == null) 0 else parent.depth + 1
   
-  protected var data:ArrayBuffer[Vec3] = null
+  protected var data:ArrayBuffer[Vec] = null
   
   /**
    * Stores the child nodes of this node
@@ -63,13 +62,13 @@ extends AABB(offset + halfSize, halfSize) {
    * @param p
    * @return true, if point has been added successfully
    */
-  def insert(p:Vec3):Boolean = {
+  def insert(p:Vec):Boolean = {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
-      if(halfSize <= minSize) {
+      if(halfSize.x <= minSize || halfSize.y <= minSize || halfSize.z <= minSize) {
         if(data == null)
-          data = new ArrayBuffer[Vec3]
+          data = new ArrayBuffer[Vec]
         
         data += p
         true
@@ -81,9 +80,9 @@ extends AABB(offset + halfSize, halfSize) {
         
         if(children(octant) == null) {
           val o = Vec3(offset)
-          if((octant & 1) != 0) o.x += halfSize
-          if((octant & 2) != 0) o.y += halfSize
-          if((octant & 4) != 0) o.z += halfSize
+          if((octant & 1) != 0) o.x += halfSize.x
+          if((octant & 2) != 0) o.y += halfSize.y
+          if((octant & 4) != 0) o.z += halfSize.z
           
           children(octant) = new Octree(this, o, halfSize * 0.5f);
           numChildren += 1
@@ -101,7 +100,7 @@ extends AABB(offset + halfSize, halfSize) {
    * @param p point to delete
    * @return true, if the point was found & removed
    */
-  def remove(p:Vec3):Boolean = {
+  def remove(p:Vec):Boolean = {
     var found = false 
     val leaf = apply(p)
     if(leaf != null) {
@@ -141,7 +140,7 @@ extends AABB(offset + halfSize, halfSize) {
    * @param p point to check
    * @return leaf node or null if point is outside the tree dimensions
    */
-  def apply(p:Vec3):Octree = {
+  def apply(p:Vec):Octree = {
     // if not a leaf node...
     if (this contains p) {
       if(numChildren > 0) {
@@ -163,8 +162,8 @@ extends AABB(offset + halfSize, halfSize) {
    * @param result the ArrayBuffer
    * @return all points with the box volume
    */
-  def apply(box:AABB, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
-    val r = if(result == null) new ArrayBuffer[Vec3] else result
+  def apply(box:AABB, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
+    val r = if(result == null) new ArrayBuffer[Vec] else result
     
     if (this intersects box) {
       if(data != null) {
@@ -186,8 +185,8 @@ extends AABB(offset + halfSize, halfSize) {
   /**
    * Selects all stored points within the given sphere volume
    */
-  def apply(sphere:Sphere, result:ArrayBuffer[Vec3]):ArrayBuffer[Vec3] = {
-    val r = if(result == null) new ArrayBuffer[Vec3] else result
+  def apply(sphere:Sphere, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
+    val r = if(result == null) new ArrayBuffer[Vec] else result
     
     if (this intersects sphere) {
       if(data != null) {
@@ -207,19 +206,19 @@ extends AABB(offset + halfSize, halfSize) {
   }
   
   /**
-   * Alias for apply(p:Vec3)
+   * Alias for apply(p:Vec)
    */
-  def leafForPoint(p:Vec3) = apply(p)
+  def leafForPoint(p:Vec) = apply(p)
   
   /**
-   * Alias for apply(box:AABB, result:ArrayBuffer[Vec3])
+   * Alias for apply(box:AABB, result:ArrayBuffer[Vec])
    */
-  def pointsWithinBox(box:AABB, result:ArrayBuffer[Vec3]) = apply(box,result)
+  def pointsWithinBox(box:AABB, result:ArrayBuffer[Vec]) = apply(box,result)
   
   /**
-   * Alias for apply(sphere:Sphere, result:ArrayBuffer[Vec3])
+   * Alias for apply(sphere:Sphere, result:ArrayBuffer[Vec])
    */
-  def pointsWithinSphere(sphere:Sphere, result:ArrayBuffer[Vec3]) = apply(sphere,result)
+  def pointsWithinSphere(sphere:Sphere, result:ArrayBuffer[Vec]) = apply(sphere,result)
   
   /**
    * Clears all children and data of this node
@@ -238,9 +237,9 @@ extends AABB(offset + halfSize, halfSize) {
    */
   protected final def octantID(x:Float, y:Float, z:Float):Int = {
     var id = 0
-    if(x >= halfSize) id += 1
-    if(y >= halfSize) id += 2
-    if(z >= halfSize) id += 4
+    if(x >= halfSize.x) id += 1
+    if(y >= halfSize.y) id += 2
+    if(z >= halfSize.z) id += 4
     id
    }
   

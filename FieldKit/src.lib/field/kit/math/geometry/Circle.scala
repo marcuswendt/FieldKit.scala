@@ -8,20 +8,15 @@
 package field.kit.math.geometry
 
 /**
- * Companion object to class <code>Circle</code>
- */
-object Circle {
-  def apply(position:Vec, radius:Float) = {
-    val c = new Circle(radius)
-    c := position
-    c
-  }
-}
-
-/**
  * Defines a mathematical Circle
  */
 class Circle(var radius:Float) extends Vec2 {
+  
+  def this(position:Vec, radius:Float) = {
+    this(radius)
+    this := position
+  }
+  
   def contains(p:Vec) = {
     val dx = this.x - p.x
     val dy = this.y - p.y

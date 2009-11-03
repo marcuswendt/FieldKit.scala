@@ -15,6 +15,7 @@ package field.kit.util.datatype.collection
  * the general idea is to avoid iterators completely
  */
 class ArrayBuffer[A] extends scala.collection.mutable.ArrayBuffer[A] {
+  
   override def apply(i:Int) = array(i).asInstanceOf[A]
   
   override def foreach(func: A => Unit) {

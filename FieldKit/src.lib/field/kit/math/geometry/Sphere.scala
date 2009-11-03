@@ -12,12 +12,12 @@ package field.kit.math.geometry
  */
 class Sphere(var radius:Float) extends Vec3 {
   
-  def this(position:Vec3, radius:Float) {
+  def this(position:Vec, radius:Float) = {
     this(radius)
     this := position
   }
   
-  def contains(p:Vec3) = {
+  def contains(p:Vec) = {
     val d = (this - p).lengthSquared
     (d <= radius * radius)
   }

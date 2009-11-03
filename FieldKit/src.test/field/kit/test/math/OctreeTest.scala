@@ -30,8 +30,8 @@ object OctreeTest extends test.Sketch {
         stroke(n.depth, 20)
         pushMatrix
         translate(n.x, n.y, n.z)
-        //box(n.size.x, n.size.y, n.size.z)
-        box(n.size)
+        box(n.size.x, n.size.y, n.size.z)
+        //box(n.size)
         popMatrix
         
         for(i <- 0 until 8) {
@@ -80,7 +80,7 @@ object OctreeTest extends test.Sketch {
   var xrot = Common.THIRD_PI
   var zrot = 0.1f
   
-  var points = new ArrayBuffer[Vec3]
+  var points = new ArrayBuffer[Vec]
   
   // -- Init -------------------------------------------------------------------
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})

@@ -21,7 +21,7 @@ class ParticleSystem extends Logger {
   var timeStep = 60f
   var useSpatialOptimisation = false
   
-  var space = Space()
+  var space:Space = new OctreeSpace(1000f, 1000f, 1000f)
   var flocks = new ArrayBuffer[Flock[_]]
   
   /**
@@ -29,8 +29,8 @@ class ParticleSystem extends Logger {
    */
   def update(dt:Float) = {
     // particle space is filled during flock.update
-//    if(useSpatialOptimisation)
-//      space.clear
+    if(useSpatialOptimisation)
+      space.clear
 
     // update flocks & particles
     flocks.foreach(_.update(dt))
