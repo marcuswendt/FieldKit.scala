@@ -50,7 +50,7 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
   /**
    * @return true, when the given Sphere intersects with itself
    */
-  def intersects(center:Vec3, radius:Float) = {
+  def intersects(center:Vec, radius:Float) = {
     var s = 0f
     var d = 0f
     
@@ -86,7 +86,7 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
   /** 
    * @return true, if the given Vec3 lies within this bounding volume 
    */
-  def contains(p:Vec3):Boolean = {
+  def contains(p:Vec):Boolean = {
     if(p.x < min.x || p.x > max.x) return false
     if(p.y < min.y || p.y > max.y) return false
     if(p.z < min.z || p.z > max.z) return false

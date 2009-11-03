@@ -21,7 +21,7 @@ object AABR {
  * Axis-aligned bounding rect used for Quadtrees and other optimisation techniques
  */
 class AABR(position:Vec2, var extent:Vec2) extends Vec2(0,0) {
-  import kit.math.Common._
+  import math.Common._
   
   var min = Vec2()
   var max = Vec2()
@@ -52,7 +52,7 @@ class AABR(position:Vec2, var extent:Vec2) extends Vec2(0,0) {
   /**
    * @return true, when the given Sphere intersects with itself
    */
-  def intersects(center:Vec2, radius:Float) = {
+  def intersects(center:Vec, radius:Float) = {
     var s = 0f
     var d = 0f
     
@@ -80,7 +80,7 @@ class AABR(position:Vec2, var extent:Vec2) extends Vec2(0,0) {
   /** 
    * @return true, if the given Vec3 lies within this bounding volume 
    */
-  def contains(p:Vec2):Boolean = {
+  def contains(p:Vec):Boolean = {
     if(p.x < min.x || p.x > max.x) return false
     if(p.y < min.y || p.y > max.y) return false
     true

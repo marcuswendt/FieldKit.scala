@@ -38,7 +38,7 @@ object Vec3 {
  * 3 Dimensional Float Vector
  * @author Marcus Wendt
  */
-case class Vec3(var x:Float, var y:Float, var z:Float) {
+case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
   import java.nio.FloatBuffer
   import Common._
   

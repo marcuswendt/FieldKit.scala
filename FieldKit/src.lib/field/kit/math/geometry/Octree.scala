@@ -15,7 +15,6 @@ object Octree {
   def apply(offset:Vec3, size:Float) = new Octree(null, offset, Vec3(size/2f))
 }
 
-
 /**
  * 
  * Direct port of Karsten Schmidts PointOctree.java to Scala/ FieldKit

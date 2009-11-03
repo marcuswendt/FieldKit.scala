@@ -50,7 +50,7 @@ object Vec2 {
  * 2 Dimensional Float Vector
  * @author Marcus Wendt
  */
-case class Vec2(var x:Float, var y:Float) {
+class Vec2(var x:Float, var y:Float) extends Vec {
   import java.nio.FloatBuffer
   import Common._
   
@@ -317,7 +317,11 @@ case class Vec2(var x:Float, var y:Float) {
     if (Float.isNaN(y)) return false
     true
   }
-  
+
+  // base vector interface methods
+  def z = 0
+  def z_=(value:Float) {}
+    
   // helpers
   override def clone = new Vec2(x,y)
   

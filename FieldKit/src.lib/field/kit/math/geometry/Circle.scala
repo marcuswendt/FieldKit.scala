@@ -17,8 +17,10 @@ class Circle(var radius:Float) extends Vec2 {
     this := position
   }
   
-  def contains(p:Vec2) = {
-    val d = (this - p).lengthSquared
+  def contains(p:Vec) = {
+    val dx = this.x - p.x
+    val dy = this.y - p.y
+    val d = dx*dx + dy*dy
     (d <= radius * radius)
   }
 }
