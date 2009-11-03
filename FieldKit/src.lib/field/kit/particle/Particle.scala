@@ -29,6 +29,7 @@ class Particle extends Vec3 with Logger {
   
   var age = 0f
   var lifeTime = 10 * 1000f
+  var size = 1f
   
   var velocity = Vec3()
   var steer = Vec3()

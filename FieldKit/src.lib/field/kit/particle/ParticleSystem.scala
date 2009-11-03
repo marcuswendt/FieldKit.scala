@@ -19,7 +19,7 @@ class ParticleSystem extends Logger {
   
   var friction = 0.97f
   var timeStep = 60f
-  var useSpatialOptimisation = false
+  var useSpatialOptimisation = true
   
   var space:Space = new OctreeSpace(1000f, 1000f, 1000f)
   var flocks = new ArrayBuffer[Flock[_]]
@@ -29,8 +29,14 @@ class ParticleSystem extends Logger {
    */
   def update(dt:Float) = {
     // particle space is filled during flock.update
-    if(useSpatialOptimisation)
+    if(useSpatialOptimisation) {
+      import math.Vec
       space.clear
+          
+      flocks foreach { f =>
+        f.particles foreach { p => space.insert(p.asInstanceOf[Vec]) }
+      }
+    }
 
     // update flocks & particles
     flocks.foreach(_.update(dt))

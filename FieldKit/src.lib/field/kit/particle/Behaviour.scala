@@ -7,13 +7,13 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import util.Named
+import util.Nameable
 
 /** 
  * a block of code that is applied to all particles, makes them do something
  * @author Marcus Wendt
  */
-abstract class Behaviour extends Logger with Named {
+abstract class Behaviour extends Logger with Nameable {
   
   def this(name:String) {
     this()

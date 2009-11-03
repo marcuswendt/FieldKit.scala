@@ -7,6 +7,6 @@
 /* created October 24, 2009 */
 package field.kit.util
 
-trait Named {
+trait Nameable {
   var name:String = _
 }

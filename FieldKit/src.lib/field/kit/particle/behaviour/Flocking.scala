@@ -15,23 +15,25 @@ package field.kit.particle.behaviour
 class Repel extends RangedBehaviour {
   import math.Common._
   import math.Vec3
-  
-//  var margin = 0f
-//  
-//  /** the absolute minimum coord */
-//  protected var min = Vec3()
-//  
-//  /** the absolute minimum coord */
-//  protected var max = Vec3()
-  
-  /** update the absolute coords */
-  override def prepare(dt:Float) {
-//     min := (-margin * .5f) *= ps.space.dimension
-//     max := (1 + margin * .5f) *= ps.space.dimension
-  }
     
   def apply(p:Particle, dt:Float) {
-    
+    ps.space(p, range, neighbours)
+
+	neighbours foreach { _n =>
+	  val n = _n.asInstanceOf[Particle]
+      if(n != p) {
+        tmp := n -= p
+        //val dist = tmp.length
+        val dist = n.distance(p)
+        if(dist < range*2f) {
+          tmp *= -weight
+          p.steer += tmp
+        }
+      }
+    }
+ 
+//    if(neighbours.size)
+    info("neighbours", neighbours.size, p.steer)
   }
 }
 

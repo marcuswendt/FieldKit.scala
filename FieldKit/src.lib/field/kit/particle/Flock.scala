@@ -62,10 +62,6 @@ extends Logger {
       // remove dead particles
       if(p.age > p.lifeTime && p.lifeTime != Particle.UNDEFINED) this -= p
     
-//      // add particle to space
-//      if(ps.useSpatialOptimisation)
-//        ps.space insert p
-    
       i += 1
     }
     /*

@@ -19,7 +19,7 @@ import scala.collection.mutable.ArrayBuffer
  * @author Marcus Wendt
  */
 class Space(val width:Float, val height:Float, val depth:Float) 
-extends AABB(width, height, depth) {
+extends AABB(Vec3(0, 0, -depth/2f), Vec3(width, height, depth)) {
   
   val dimension = Vec3(width, height, depth)
   
@@ -48,10 +48,12 @@ extends Space(width, height, depth) {
   import math.geometry._
   import math.Common._
   
-  val tree = new Quadtree(null, (-width/2f, -height/2f), (width, height))
+  val tree = new Quadtree(null, (x,y), (width/2f, height/2f))
   
-  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = 
+  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
+    result.clear
     tree(new Circle(point, radius), result)
+  }
 
   override def insert(particle:Vec) = tree.insert(particle)
 
@@ -67,12 +69,12 @@ extends Space(width, height, depth) {
   import math.geometry._
   import math.Common._
   
-  val tree = new Octree(null, 
-                        (-width/2f, -height/2f, -depth/2f), 
-                        (width, height, depth))
+  val tree = new Octree(null, this, (width/2f, height/2f, depth/2f))
   
-  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = 
+  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
+    result.clear
     tree(new Sphere(point, radius), result)
+  }
 
   override def insert(particle:Vec) = tree.insert(particle)
   

@@ -13,8 +13,12 @@ package field.kit.particle.behaviour
  */
 abstract class RangedBehaviour extends Behaviour {
   import math.Common._
+  import math._
+  import scala.collection.mutable.ArrayBuffer
   
-  var range = 10f
+  var range = 10f  
+  var weight = 1f
   
-  var weight = 0f
+  protected val tmp = Vec3()
+  protected val neighbours = new ArrayBuffer[Vec] 
 }
