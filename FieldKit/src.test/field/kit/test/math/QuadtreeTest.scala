@@ -4,37 +4,34 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created August 03, 2009 */
+/* created November 03, 2009 */
 package field.kit.test.math
 
 /**
- * Test for the Octree geometry class 
- * 
- * This is a direct port of Karsten Schmidts OctreeDemo
- * @see http://www.toxiclibs.org
+ * Test for the Quadtree geometry class
  */
-object OctreeTest extends test.Sketch {
+object QuadtreeTest extends test.Sketch {
   import processing.core.PConstants._
   import kit.math.geometry._
   import kit.math._
   import kit.math.Common._
   import kit.util.datatype.collection.ArrayBuffer
 
-  class VisibleOctree(offset:Vec3, size:Float)
-  extends Octree(offset, size) {
+  class VisibleQuadtree(offset:Vec2, size:Float) extends Quadtree(offset, size) {
     def draw = drawNode(this)
     
-    def drawNode(n:Octree) {
+    def drawNode(n:Quadtree) {
       if(n.numChildren > 0) {
         noFill
-        stroke(n.depth, 20)
-        pushMatrix
-        translate(n.x, n.y, n.z)
+        stroke(n.depth, 64)
+        //pushMatrix
+        rect(n.x, n.y, n.size, n.size)
+        //translate(n.x, n.y, n.z)
         //box(n.size.x, n.size.y, n.size.z)
-        box(n.size)
-        popMatrix
+        //rect()
+        //popMatrix
         
-        for(i <- 0 until 8) {
+        for(i <- 0 until 4) {
           val child = n.children(i)
           if(child != null)
             drawNode(child)
@@ -55,18 +52,18 @@ object OctreeTest extends test.Sketch {
   val DIM2 = DIM/2f
 
   // setup empty octree so that it's centered around the world origin
-  val octree = new VisibleOctree(new Vec3(-DIM2,-DIM2,-DIM2), DIM)
+  val quadtree = new VisibleQuadtree(new Vec2(-DIM2,-DIM2), DIM)
   // add an initial particle at the origin
-  octree insert new Vec3    
+  quadtree insert new Vec2    
   
   // start with one particle
   var numParticles = 1
   
-  // show octree debug info
-  var showOctree = true
+  // show quadtree debug info
+  var showQuadtree = true
   
   // use clip sphere or axis aligned bounding box
-  var useSphere = false
+  var useCircle = false
   
   val pointer = new Vec3
   
@@ -74,7 +71,7 @@ object OctreeTest extends test.Sketch {
   var xrot = Common.THIRD_PI
   var zrot = 0.1f
   
-  var points = new ArrayBuffer[Vec3]
+  var points = new ArrayBuffer[Vec]
   
   // -- Init -------------------------------------------------------------------
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
@@ -104,7 +101,7 @@ object OctreeTest extends test.Sketch {
     scale(4)
   
     // show debug view of tree
-    if (showOctree) octree.draw
+    if (showQuadtree) quadtree.draw
     
     // show crosshair 3D cursor
     drawCursor
@@ -135,10 +132,11 @@ object OctreeTest extends test.Sketch {
   def drawPoints {
     points.clear
     
-    if(useSphere)
-      octree(new Sphere(pointer, RADIUS), points)
-    else
-      octree(new AABB(pointer, RADIUS), points)
+    if(useCircle) {
+      quadtree(Circle(pointer, RADIUS), points)
+    } else {
+      quadtree(AABR(pointer, RADIUS), points)
+    }
     
     points foreach { p =>
       pushMatrix
@@ -152,31 +150,28 @@ object OctreeTest extends test.Sketch {
   
   def drawSphere {
     fill(0,30)
-    pushMatrix
-    translate(pointer.x,pointer.y,0)
-    sphere(RADIUS)
-    popMatrix
+    ellipse(pointer.x,pointer.y, RADIUS*2, RADIUS*2)
   }
   
   override def keyPressed {
     key match {
       case ' ' =>
         // add NUM new particles within a sphere of radius DIM2
-        val v = Vec3.random *= random(DIM2)
+        val v = Vec2.random *= random(DIM2)
         val insertNum = random(NUM).asInstanceOf[Int]
         for(i <- 0 until insertNum)
-           octree insert v
+           quadtree insert v
         
         numParticles += insertNum
         
         info("added", insertNum, "particles => total:", numParticles)
       case 't' =>
-        var v = new Vec3(-75f, -25f, -50f)
-        octree insert v
+        var v = new Vec3(-75f, -25f, 55f)
+        quadtree insert v
         numParticles += 1
         
-      case 'o' => showOctree = !showOctree
-      case 's' => useSphere = !useSphere
+      case 'o' => showQuadtree = !showQuadtree
+      case 's' => useCircle = !useCircle
       case _ =>
     }
   }

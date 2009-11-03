@@ -7,13 +7,6 @@
 /* created August 03, 2009 */
 package field.kit.math.geometry
 
-/**
- * Companion update to class <code>Octree</code>
- */
-object Octree {
-  // factory methods
-  def apply(offset:Vec3, size:Float) = new Octree(null, offset, Vec3(size/2f))
-}
 
 /**
  * 
@@ -25,10 +18,17 @@ object Octree {
  * 
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointOctree.java
  */
-class Octree(val parent:Octree, val offset:Vec3, val halfSize:Vec3) 
+class Octree(val parent:Octree, val offset:Vec3, val halfSize:Float) 
 extends AABB(offset + halfSize, halfSize) {
   import kit.util.datatype.collection.ArrayBuffer
   
+  /**
+  * Constructs a new Octree root node
+  */
+  def this(offset:Vec3, size:Float) {
+    this(null, offset, size/2f)
+  }
+
   /**
    * Alternative tree recursion limit, number of world units when cells are
    * not subdivided any further
@@ -37,7 +37,7 @@ extends AABB(offset + halfSize, halfSize) {
   
   val size = halfSize * 2f
   
-  val treeDepth:Int = if(parent == null) 0 else parent.treeDepth + 1
+  val depth:Int = if(parent == null) 0 else parent.depth + 1
   
   protected var data:ArrayBuffer[Vec3] = null
   
@@ -67,7 +67,7 @@ extends AABB(offset + halfSize, halfSize) {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
-      if(halfSize.x <= minSize || halfSize.y <= minSize || halfSize.z <= minSize) {
+      if(halfSize <= minSize) {
         if(data == null)
           data = new ArrayBuffer[Vec3]
         
@@ -77,14 +77,13 @@ extends AABB(offset + halfSize, halfSize) {
         if(children == null)
           children = new Array[Octree](8)
         
-        val plocal = p - offset
-        val octant = octantID(plocal)
+        val octant = octantID(p.x - offset.x, p.y - offset.y, p.z - offset.z)
         
         if(children(octant) == null) {
           val o = Vec3(offset)
-          if((octant & 1) != 0) o.x += halfSize.x
-          if((octant & 2) != 0) o.y += halfSize.y
-          if((octant & 4) != 0) o.z += halfSize.z
+          if((octant & 1) != 0) o.x += halfSize
+          if((octant & 2) != 0) o.y += halfSize
+          if((octant & 4) != 0) o.z += halfSize
           
           children(octant) = new Octree(this, o, halfSize * 0.5f);
           numChildren += 1
@@ -146,7 +145,7 @@ extends AABB(offset + halfSize, halfSize) {
     // if not a leaf node...
     if (this contains p) {
       if(numChildren > 0) {
-        val octant = octantID(p - offset)
+        val octant = octantID(p.x - offset.x, p.y - offset.y, p.z - offset.z)
         if(children(octant) != null)
           return children(octant)(p)
         
@@ -237,11 +236,11 @@ extends AABB(offset + halfSize, halfSize) {
    * @param plocal point in the node-local coordinate system
    * @return octant index
    */
-  protected final def octantID(plocal:Vec3):Int = {
+  protected final def octantID(x:Float, y:Float, z:Float):Int = {
     var id = 0
-    if(plocal.x >= halfSize.x) id += 1
-    if(plocal.y >= halfSize.y) id += 2
-    if(plocal.z >= halfSize.z) id += 4
+    if(x >= halfSize) id += 1
+    if(y >= halfSize) id += 2
+    if(z >= halfSize) id += 4
     id
    }
   

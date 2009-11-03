@@ -22,7 +22,7 @@ object Vec2 {
   // factory methods
   def apply() = new Vec2(0, 0)
   def apply(s:Float) = new Vec2(s,s)
-  def apply(v:Vec2) = new Vec2(v.x,v.y)
+  def apply(v:Vec) = new Vec2(v.x,v.y)
   def apply(s:String) = { val v = new Vec2(0,0); v := s; v }
   
   /**
@@ -61,13 +61,13 @@ class Vec2(var x:Float, var y:Float) extends Vec {
    * Sets this Vectors components to the given Vec2
    * @return itself
    */
-  final def :=(v:Vec2) = {this.x=v.x; this.y=v.y; this}
+  final def :=(v:Vec) = {this.x=v.x; this.y=v.y; this}
   
   /** 
    * Sets this Vectors components to the given Vec2
    * @return itself
    */
-  final def set(v:Vec2) = :=(v)
+  final def set(v:Vec) = :=(v)
   
   /**
    * Sets this Vectors components to the given Floats
@@ -179,25 +179,25 @@ class Vec2(var x:Float, var y:Float) extends Vec {
     * Subtracts the given <code>Vec2</code> from this <code>Vec2</code> and returns the result
     * @return result
     */
-   final def -(v:Vec2) = new Vec2(this.x - v.x, this.y - v.y)
+   final def -(v:Vec) = new Vec2(this.x - v.x, this.y - v.y)
 
    /** 
     * Adds the given <code>Vec2</code> to this <code>Vec2</code> and returns the result 
     * @return result
     */
-   final def +(v:Vec2) = new Vec2(this.x + v.x, this.y + v.y)
+   final def +(v:Vec) = new Vec2(this.x + v.x, this.y + v.y)
 
    /** 
     * Multiplies the given <code>Vec2</code> with this <code>Vec2</code> and returns the result
     * @return result
     */
-   final def *(v:Vec2) = new Vec2(this.x * v.x, this.y * v.y)
+   final def *(v:Vec) = new Vec2(this.x * v.x, this.y * v.y)
 
    /** 
     * Divides this <code>Vec2</code> through the given <code>Vec2</code> and returns the result
     * @return result
     */
-   final def /(v:Vec2) = new Vec2(this.x / v.x, this.y / v.y)
+   final def /(v:Vec) = new Vec2(this.x / v.x, this.y / v.y)
 
    // -- Mutable Operations ----------------------------------------------------
    final def +=(s:Float) = { x+=s; y+=s; this }
@@ -205,15 +205,15 @@ class Vec2(var x:Float, var y:Float) extends Vec {
    final def *=(s:Float) = { x*=s; y*=s; this }
    final def /=(s:Float) = { x/=s; y/=s; this }
 
-   final def +=(v:Vec2) = { x+=v.x; y+=v.y; this }
-   final def -=(v:Vec2) = { x-=v.x; y-=v.y; this }
-   final def *=(v:Vec2) = { x*=v.x; y*=v.y; this }
-   final def /=(v:Vec2) = { x/=v.x; y/=v.y; this }
+   final def +=(v:Vec) = { x+=v.x; y+=v.y; this }
+   final def -=(v:Vec) = { x-=v.x; y-=v.y; this }
+   final def *=(v:Vec) = { x*=v.x; y*=v.y; this }
+   final def /=(v:Vec) = { x/=v.x; y/=v.y; this }
   
   final def length = Math.sqrt(lengthSquared).toFloat
   final def lengthSquared = x * x + y * y
   
-  final def distance(v:Vec2) = Math.sqrt(distanceSquared(v.x, v.y)).toFloat
+  final def distance(v:Vec) = Math.sqrt(distanceSquared(v.x, v.y)).toFloat
   final def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).toFloat
   
   final def distanceSquared(v:Vec2):Float = distanceSquared(v.x, v.y)
@@ -227,13 +227,13 @@ class Vec2(var x:Float, var y:Float) extends Vec {
    * It is assumed that both this vector and the given vector are unit vectors (iow, normalized).
    * @return the angle (in radians) between two vectors.
    */
-  final def angleBetween(v:Vec2) = acos(dot(v))
+  final def angleBetween(v:Vec) = acos(dot(v))
   
   /**
    * Calculates the dot product of this vector with a provided vector.
    * @return the resultant dot product of this vector and a given vector.
    */
-  final def dot(v:Vec2) = x * v.x + y * v.y
+  final def dot(v:Vec) = x * v.x + y * v.y
   
   /**
    * Normalizes this vector.
@@ -275,7 +275,7 @@ class Vec2(var x:Float, var y:Float) extends Vec {
    * Interpolates towards the given target vector
    * @see <a href="http://en.wikipedia.org/wiki/Slerp">spherical linear interpolation</a>
    */
-  final def slerp(target:Vec2, delta:Float) = {
+  final def slerp(target:Vec, delta:Float) = {
     this.x = x * (1 - delta) + target.x * delta
     this.y = y * (1 - delta) + target.y * delta
     this

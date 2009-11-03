@@ -23,8 +23,7 @@ object Vec3 {
   // factory methods
   def apply() = new Vec3(0,0,0)
   def apply(s:Float) = new Vec3(s,s,s)
-  def apply(v:Vec2) = new Vec3(v.x, v.y, 0)
-  def apply(v:Vec3) = new Vec3(v.x, v.y, v.z)
+  def apply(v:Vec) = new Vec3(v.x, v.y, v.z)
   def apply(s:String) = { val v = new Vec3(0,0,0); v := s; v }
   
   /**
@@ -50,13 +49,13 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
    * Sets this Vectors components to the given Vec3
    * @return itself
    */
-  final def :=(v:Vec3) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
+  final def :=(v:Vec) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
   
   /** 
    * Sets this Vectors components to the given Vec3
    * @return itself
    */
-  final def set(v:Vec3) = :=(v)
+  final def set(v:Vec) = :=(v)
   
   /**
    * Sets all components of this Vector to the given Float
@@ -158,25 +157,25 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
    * Subtracts the given <code>Vec3</code> from this <code>Vec3</code> and returns the result
    * @return result
    */
-  final def -(v:Vec3) = new Vec3(this.x - v.x, this.y - v.y, this.z - v.z)
+  final def -(v:Vec) = new Vec3(this.x - v.x, this.y - v.y, this.z - v.z)
   
   /** 
    * Adds the given <code>Vec3</code> to this <code>Vec3</code> and returns the result 
    * @return result
    */
-  final def +(v:Vec3) = new Vec3(this.x + v.x, this.y + v.y, this.z + v.z)
+  final def +(v:Vec) = new Vec3(this.x + v.x, this.y + v.y, this.z + v.z)
   
   /** 
    * Multiplies the given <code>Vec3</code> with this <code>Vec3</code> and returns the result
    * @return result
    */
-  final def *(v:Vec3) = new Vec3(this.x * v.x, this.y * v.y, this.z * v.z)
+  final def *(v:Vec) = new Vec3(this.x * v.x, this.y * v.y, this.z * v.z)
   
   /** 
    * Divides this <code>Vec3</code> through the given <code>Vec3</code> and returns the result
    * @return result
    */
-  final def /(v:Vec3) = new Vec3(this.x / v.x, this.y / v.y, this.z / v.z)
+  final def /(v:Vec) = new Vec3(this.x / v.x, this.y / v.y, this.z / v.z)
   
   
   // -- Mutable Operations -----------------------------------------------------
@@ -185,10 +184,10 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
   final def *=(s:Float) = { x*=s; y*=s; z*=s; this }
   final def /=(s:Float) = { x/=s; y/=s; z/=s; this }
   
-  final def +=(v:Vec3) = { x+=v.x; y+=v.y; z+=v.z; this }
-  final def -=(v:Vec3) = { x-=v.x; y-=v.y; z-=v.z; this }
-  final def *=(v:Vec3) = { x*=v.x; y*=v.y; z*=v.z; this }
-  final def /=(v:Vec3) = { x/=v.x; y/=v.y; z/=v.z; this }
+  final def +=(v:Vec) = { x+=v.x; y+=v.y; z+=v.z; this }
+  final def -=(v:Vec) = { x-=v.x; y-=v.y; z-=v.z; this }
+  final def *=(v:Vec) = { x*=v.x; y*=v.y; z*=v.z; this }
+  final def /=(v:Vec) = { x/=v.x; y/=v.y; z/=v.z; this }
   
   
   // -- Other Operations -------------------------------------------------------
@@ -199,7 +198,7 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
    * Calculates the dot product of this vector with a provided vector.
    * @return the resultant dot product of this vector and a given vector.
    */
-  final def dot(v:Vec3) = x * v.x + y * v.y + z * v.z
+  final def dot(v:Vec) = x * v.x + y * v.y + z * v.z
   
   /**
    * Calculates the cross product of this vector with a parameter vector v.

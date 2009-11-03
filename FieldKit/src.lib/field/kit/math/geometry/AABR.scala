@@ -13,8 +13,8 @@ package field.kit.math.geometry
 object AABR {
   // factory methods
   def apply() = new AABR(Vec2(), Vec2())
-  def apply(extent:Vec2) = new AABR(Vec2(), extent)
-  def apply(position:Vec2, extent:Float) = new AABR(position, Vec2(extent))
+  def apply(extent:Vec) = new AABR(Vec2(), Vec2(extent))
+  def apply(position:Vec, extent:Float) = new AABR(Vec2(position), Vec2(extent))
 }
 
 /**

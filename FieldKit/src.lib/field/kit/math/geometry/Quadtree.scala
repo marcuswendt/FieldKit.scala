@@ -7,24 +7,23 @@
 /* created November 03, 2009 */
 package field.kit.math.geometry
 
-/**
- * Companion update to class <code>Quadtree</code>
- */
-object Quadtree {
-  // factory methods
-  def apply(offset:Vec2, size:Float) = new Quadtree(null, offset, Vec2(size/2f))
-}
-
 
 /**
- * Implements a spatial subdivision tree to work efficiently with large numbers 
- * of 2D particles.
+ * Implements a spatial subdivision tree to work efficiently with large numbers of 2D particles.
  * 
  * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointQuadree.java
  */
-class Quadtree(val parent:Quadtree, val offset:Vec2, val halfSize:Vec2) 
-extends AABR(offset + halfSize, halfSize) {
-  import kit.util.datatype.collection.ArrayBuffer
+class Quadtree(val parent:Quadtree, val offset:Vec2, val halfSize:Float) 
+extends AABR(offset + halfSize, Vec2(halfSize)) {
+  //import kit.util.datatype.collection.ArrayBuffer
+  import scala.collection.mutable.ArrayBuffer
+
+  /**
+  * Constructs a new Quadtree root node
+  */
+  def this(offset:Vec2, size:Float) {
+    this(null, offset, size/2f)
+  }
   
   /**
    * Alternative tree recursion limit, number of world units when cells are
@@ -36,7 +35,7 @@ extends AABR(offset + halfSize, halfSize) {
   
   val depth:Int = if(parent == null) 0 else parent.depth + 1
   
-  protected var data:ArrayBuffer[Vec2] = null
+  protected var data:ArrayBuffer[Vec] = null
   
   /**
    * Stores the child nodes of this node
@@ -44,7 +43,7 @@ extends AABR(offset + halfSize, halfSize) {
   var children:Array[Quadtree] = null
   
   /**
-   * the number of child nodes (max. 8)
+   * the number of child nodes (max. 4)
    */
   var numChildren = 0
   
@@ -60,27 +59,26 @@ extends AABR(offset + halfSize, halfSize) {
    * @param p
    * @return true, if point has been added successfully
    */
-  def insert(p:Vec2):Boolean = {
+  def insert(p:Vec):Boolean = {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now
-      if(halfSize.x <= minSize || halfSize.y <= minSize) {
+      if(halfSize <= minSize || halfSize <= minSize) {
         if(data == null)
-          data = new ArrayBuffer[Vec2]
+          data = new ArrayBuffer[Vec]
         
         data += p
         true
       } else {
         if(children == null)
-          children = new Array[Quadtree](8)
+          children = new Array[Quadtree](4)
         
-        val plocal = p - offset
-        val quadrant = quadrantID(plocal)
+        val quadrant = quadrantID(p.x - offset.x, p.y - offset.y)
         
         if(children(quadrant) == null) {
           val o = Vec2(offset)
-          if((quadrant & 1) != 0) o.x += halfSize.x
-          if((quadrant & 2) != 0) o.y += halfSize.y
+          if((quadrant & 1) != 0) o.x += halfSize
+          if((quadrant & 2) != 0) o.y += halfSize
           
           children(quadrant) = new Quadtree(this, o, halfSize * 0.5f);
           numChildren += 1
@@ -121,7 +119,7 @@ extends AABR(offset + halfSize, halfSize) {
       data = null
     
     if(numChildren > 0) {
-      for(i <- 0 until 8) {
+      for(i <- 0 until 4) {
         val child = children(i)
         if(child != null && child.data == null)
           children(i) = null
@@ -138,11 +136,11 @@ extends AABR(offset + halfSize, halfSize) {
    * @param p point to check
    * @return leaf node or null if point is outside the tree dimensions
    */
-  def apply(p:Vec2):Quadtree = {
+  def apply(p:Vec):Quadtree = {
     // if not a leaf node...
     if (this contains p) {
       if(numChildren > 0) {
-        val quadrant = quadrantID(p - offset)
+        val quadrant = quadrantID(p.x - offset.x, p.y - offset.y)
         if(children(quadrant) != null)
           return children(quadrant)(p)
         
@@ -160,8 +158,8 @@ extends AABR(offset + halfSize, halfSize) {
    * @param result the ArrayBuffer
    * @return all points with the box volume
    */
-  def apply(box:AABR, result:ArrayBuffer[Vec2]):ArrayBuffer[Vec2] = {
-    val r = if(result == null) new ArrayBuffer[Vec2] else result
+  def apply(box:AABR, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
+    val r = if(result == null) new ArrayBuffer[Vec] else result
     
     if (this intersects box) {
       if(data != null) {
@@ -170,7 +168,7 @@ extends AABR(offset + halfSize, halfSize) {
             r += p
         }                       
       } else if(numChildren > 0) {
-        for(i <- 0 until 8) {
+        for(i <- 0 until 4) {
           val child = children(i)
           if(child != null)
             child(box, result)
@@ -183,8 +181,8 @@ extends AABR(offset + halfSize, halfSize) {
   /**
    * Selects all stored points within the given sphere volume
    */
-  def apply(circle:Circle, result:ArrayBuffer[Vec2]):ArrayBuffer[Vec2] = {
-    val r = if(result == null) new ArrayBuffer[Vec2] else result
+  def apply(circle:Circle, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
+    val r = if(result == null) new ArrayBuffer[Vec] else result
     
     if (this intersects circle) {
       if(data != null) {
@@ -193,7 +191,7 @@ extends AABR(offset + halfSize, halfSize) {
             r += p
         }                       
       } else if(numChildren > 0) {
-        for(i <- 0 until 8) {
+        for(i <- 0 until 4) {
           val child = children(i)
           if(child != null)
             child(circle, result)
@@ -209,14 +207,14 @@ extends AABR(offset + halfSize, halfSize) {
   def leafForPoint(p:Vec2) = apply(p)
   
   /**
-   * Alias for apply(rect:AABR, result:ArrayBuffer[Vec2])
+   * Alias for apply(rect:AABR, result:ArrayBuffer[Vec])
    */
-  def pointsWithinBox(rect:AABR, result:ArrayBuffer[Vec2]) = apply(rect, result)
+  def pointsWithinBox(rect:AABR, result:ArrayBuffer[Vec]) = apply(rect, result)
   
   /**
-   * Alias for apply(circle:Circle, result:ArrayBuffer[Vec2])
+   * Alias for apply(circle:Circle, result:ArrayBuffer[Vec])
    */
-  def pointsWithinCircle(circle:Circle, result:ArrayBuffer[Vec2]) = apply(circle, result)
+  def pointsWithinCircle(circle:Circle, result:ArrayBuffer[Vec]) = apply(circle, result)
   
   /**
    * Clears all children and data of this node
@@ -233,10 +231,10 @@ extends AABR(offset + halfSize, halfSize) {
    * @param plocal point in the node-local coordinate system
    * @return quadrant index
    */
-  protected final def quadrantID(plocal:Vec2):Int = {
+  protected final def quadrantID(x:Float, y:Float):Int = {
     var id = 0
-    if(plocal.x >= halfSize.x) id += 1
-    if(plocal.y >= halfSize.y) id += 2
+    if(x >= halfSize) id += 1
+    if(y >= halfSize) id += 2
     id
    }
   
