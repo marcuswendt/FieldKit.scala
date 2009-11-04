@@ -12,7 +12,10 @@ package field.kit.particle.behaviour
  * Applies an repulsion force, that moves a particle away from its neighbours
  * @author Marcus Wendt
  */
-class Repel extends RangedBehaviour {    
+class Repel extends RangedBehaviour {
+  
+  var isSameFlock = true
+  
   def apply(p:Particle, dt:Float) {
     ps.space(p, rangeAbs, neighbours)
 
@@ -21,8 +24,11 @@ class Repel extends RangedBehaviour {
     
     var i = 0
 	while(i < numNeighbours) {
-	  val n = neighbours(i)
-      if(n != p) {
+	  val n = neighbours(i).asInstanceOf[Particle]
+      if(n != p && 
+         ((isSameFlock && p.flock == n.flock) ||
+          (!isSameFlock && p.flock != n.flock))
+      ) {
         tmp := n -= p
         val dist = tmp.length
         if(dist - p.size < rangeAbs) {

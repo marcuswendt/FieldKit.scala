@@ -72,9 +72,10 @@ object Vision extends Logger {
   protected[vision] val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
   
   protected var cameraType = 0
-  protected var width:Int = 0
-  protected var height:Int = 0
-  protected var fps = 0
+  
+  var width:Int = 0
+  var height:Int = 0
+  var fps = 0
   
   val blobs = new Array[Blob](native.fvGetBlobCount)
 

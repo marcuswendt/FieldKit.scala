@@ -40,7 +40,7 @@ object Image extends field.kit.Logger {
   
   /** Loads the image from the given URL */
   def apply(file:URL, useCache:Boolean) = load(file, useCache)
-    
+  
   // -- Loading & Creating -----------------------------------------------------
   /** Resolves the given string as URL and returns an Image */
   def load(file:String, useCache:Boolean):Image = {
@@ -168,6 +168,11 @@ object Image extends field.kit.Logger {
     image
   }
   
+  def load(width:Int, height:Int, alpha:Boolean, data:ByteBuffer) = {
+    val image = create(width, height, Format.GREY, data)
+    image
+  }
+  
   /** Creates a new Image with the given dimensions and alpha */
   def create(width:Int, height:Int, alpha:Boolean):Image = 
     create(width, height, if(alpha) Format.RGBA else Format.RGB, null)
@@ -182,6 +187,9 @@ object Image extends field.kit.Logger {
     var texHeight = 2
     while(texHeight < height)
       texHeight *= 2
+    
+    texWidth = width
+    texHeight = height
     
     val image = new Image
     image.format = format
@@ -211,7 +219,7 @@ object Image extends field.kit.Logger {
       case Image.Format.RGB => 3
       case Image.Format.BGRA => 4
       case Image.Format.BGR => 3
-      case Image.Format.GREY => 1 
+      case Image.Format.GREY => 1
     }
   
   def hasAlpha(format:Image.Format.Value) = 

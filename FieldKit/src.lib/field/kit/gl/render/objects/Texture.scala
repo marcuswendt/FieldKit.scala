@@ -24,6 +24,8 @@ object Texture {
   /** Creates a new <code>Texture</code> with a blank <code>Image</code> of the given dimensions */
   def apply(width:Int, height:Int, alpha:Boolean) = create(width, height, alpha)
   
+  def apply(image:Image) = new Texture(image)
+  
   // -- Loading & Creating -----------------------------------------------------
   /** Creates a new <code>Texture</code> with an <code>Image</code> loaded from the given path */
   def load(file:String) = new Texture(Image(file))
@@ -169,5 +171,18 @@ class Texture extends GLObject {
       gl.glDisable(GL.GL_TEXTURE_2D)
       gl.glBindTexture(GL.GL_TEXTURE_2D, 0)
     }
+  }
+  
+  import java.nio.Buffer
+  
+  def data(format:Int, width:Int, height:Int, data:Buffer) {
+    if(isValid) {
+      gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 
+                      format, width, height, 0, format, GL.GL_UNSIGNED_BYTE, data)
+    }
+    //glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, 
+//    		imageWidth, imageHeight, 0, GL_RGB,
+//      GL_UNSIGNED_BYTE, imageData);
+    
   }
 }

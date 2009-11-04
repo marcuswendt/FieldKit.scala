@@ -23,6 +23,9 @@ object TextureState {
   /** Creates a new <code>TextureState</code> with a single Texture and a blank Image with the given properties */
   def apply(width:Int, height:Int, alpha:Boolean) = create(width, height, alpha)
   
+  def apply(texture:Texture) = 
+    new TextureState(texture)
+  
   // -- Loading & Creating -----------------------------------------------------
   /** Creates a new <code>TextureState</code> with a single Texture loaded from the give path */
   def load(file:String) = new TextureState(Texture(file))
@@ -40,7 +43,7 @@ class TextureState extends RenderState {
   import javax.media.opengl.GL
   import field.kit.util.datatype.collection.ArrayBuffer
 
-  protected var textures = new ArrayBuffer[Texture]
+  var textures = new ArrayBuffer[Texture]
   
   def this(texture:Texture) = {
     this()

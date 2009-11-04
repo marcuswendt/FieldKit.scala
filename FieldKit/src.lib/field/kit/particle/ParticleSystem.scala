@@ -14,9 +14,9 @@ import field.kit.Logger
  * @author Marcus Wendt
  */
 class ParticleSystem extends Logger {
-  import field.kit.util.datatype.collection.ArrayBuffer
-  fine("init")
-  
+  import util.datatype.collection.ArrayBuffer
+  import math.Vec
+
   var friction = 0.97f
   var timeStep = 60f
   var useSpatialOptimisation = true
@@ -32,7 +32,6 @@ class ParticleSystem extends Logger {
     flocks.foreach(_.update(dt))
     
     if(useSpatialOptimisation) {
-      import math.Vec
       space.clear
           
       flocks foreach { f =>

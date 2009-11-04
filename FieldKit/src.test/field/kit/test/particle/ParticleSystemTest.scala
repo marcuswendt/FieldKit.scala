@@ -55,19 +55,20 @@ object ParticleSystemTest extends test.Sketch {
 //  }
   
   val repel = new Repel
+  repel.isSameFlock = true
   repel.range = 0.01f
   repel.weight = 1f
   f += repel
   
-  val attract = new Attract
-  attract.range = 0.025f
-  attract.weight = 0.1f
-  f += attract
-  
-  val align = new Align
-  align.range = 0.05f
-  align.weight = 0.01f
-  f += align
+//  val attract = new Attract
+//  attract.range = 0.025f
+//  attract.weight = 0.1f
+//  f += attract
+//  
+//  val align = new Align
+//  align.range = 0.05f
+//  align.weight = 0.01f
+//  f += align
   
   val timer = new Timer
   
@@ -79,6 +80,7 @@ object ParticleSystemTest extends test.Sketch {
   var zrot = 0.1f
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
+  //init(1024, 768, DEFAULT_FULLSCREEN, DEFAULT_AA, {
 //    ps.space = new OctreeSpace(width, height, height)
     ps.space = new QuadtreeSpace(width, height, height)
     f.emitter := ps.space

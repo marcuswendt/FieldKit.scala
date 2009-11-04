@@ -18,8 +18,15 @@ object VisionTest extends test.Sketch {
   import javax.media.opengl._
   import controlP5._
   
+  import kit.math.Vec3
+  import kit.math.Common._
+  
+  import kit.gl.scene.shape.Quad
+  
   var index = 0
   var showStage = true
+  
+  var preview:Quad = _
   
   // ui components
   var ui:ControlP5 = _
@@ -29,7 +36,11 @@ object VisionTest extends test.Sketch {
   Logger.level = Logger.FINE
   Vision.start
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
+  //init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
+  init(1024, 768, DEFAULT_FULLSCREEN, 0, {
+    info(width, height)
+    
+    // init ui
     ui = new ControlP5(this)
 //    ui.setAutoDraw(false)
     
@@ -81,30 +92,51 @@ object VisionTest extends test.Sketch {
     
     if(showStage)
       drawStage
-    else
-      drawBlobs
+    
+    drawBlobs
   }
   
+  
   def drawStage {
+    import kit.gl.render.objects.Texture
+    import kit.gl.render.Image
+    import kit.gl.scene.state.TextureState
+    
     val s = Vision.stage(index)
-    val format = if(s.depth == 8) GL.GL_LUMINANCE else GL.GL_BGR
+    if(s.image == null) return
+      
+    val image = Image.create(s.width, s.height, Image.Format.GREY, s.image)
+    
+    if(preview == null) {
+      preview = Quad()
+      preview.translation := (width/2f, height/2f, 0)
+      preview.scale := (width, -height, 1) 
+      preview.states += TextureState(Texture(image))
+      
+    } else {      
+      val ts = preview.state(classOf[TextureState])
+      ts.textures(0).image = image 
+    }
+    
     beginGL
-    gl.glPixelZoom(width / s.width.toFloat, height / s.height.toFloat)
-    gl.glDrawPixels(s.width, s.height, format, GL.GL_UNSIGNED_BYTE, s.image)
+    preview.render
     endGL
   }
   
   def drawBlobs {
-    rectMode(PConstants.CENTER)
+    rectMode(PConstants.CORNER)
     pushMatrix
     scale(width / 320f, height / 240f, 1f)
     Vision.blobs filter (_.active == true) foreach { b =>
       val c = 128 + 128 * (b.id / Vision.blobs.size.toFloat)
-      stroke(c)
+      stroke(255, c, c)
+      strokeWeight(4)
       noFill
-      rect(b.bounds.min.x, b.bounds.min.y, b.bounds.width, b.bounds.height)
+      rect(b.bounds.min.x, b.bounds.min.y, 
+           b.bounds.width, b.bounds.height)
       
-      fill(c)
+      noStroke
+      fill(255, c, c)
       rect(b.x, b.y, 10, 10)
     }
     popMatrix
