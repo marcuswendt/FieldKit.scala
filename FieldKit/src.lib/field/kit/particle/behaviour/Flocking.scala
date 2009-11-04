@@ -9,52 +9,92 @@ package field.kit.particle.behaviour
 
 
 /**
- * reflects a particle at the edges of a defined plane
+ * Applies an repulsion force, that moves a particle away from its neighbours
  * @author Marcus Wendt
  */
-class Repel extends RangedBehaviour {
-  import math.Common._
-  import math.Vec3
-    
+class Repel extends RangedBehaviour {    
   def apply(p:Particle, dt:Float) {
-    ps.space(p, range, neighbours)
+    ps.space(p, rangeAbs, neighbours)
 
-	neighbours foreach { _n =>
-	  val n = _n.asInstanceOf[Particle]
+    val numNeighbours = neighbours.size
+    if(numNeighbours <= 1) return
+    
+    var i = 0
+	while(i < numNeighbours) {
+	  val n = neighbours(i)
       if(n != p) {
         tmp := n -= p
-        //val dist = tmp.length
-        val dist = n.distance(p)
-        if(dist < range*2f) {
+        val dist = tmp.length
+        if(dist - p.size < rangeAbs) {
+          tmp /= dist
           tmp *= -weight
           p.steer += tmp
         }
+        // simpler but not much faster
+//		tmp *= -weight
+//		p.steer += tmp
       }
-    }
- 
-//    if(neighbours.size)
-    info("neighbours", neighbours.size, p.steer)
+      i += 1
+    } 
   }
 }
 
 /**
- * reflects a particle at the edges of a defined plane
+ * Applies an attraction force, that moves a particle towards its neighbours
  * @author Marcus Wendt
  */
-class Attract extends Behaviour {
+class Attract extends RangedBehaviour {
+ def apply(p:Particle, dt:Float) {
+    ps.space(p, rangeAbs, neighbours)
+
+    val numNeighbours = neighbours.size
+    if(numNeighbours <= 1) return
     
-  def apply(p:Particle, dt:Float) {
-    
+    var i = 0
+	while(i < numNeighbours) {
+	  val n = neighbours(i)
+      if(n != p) {
+        tmp := n -= p
+        val dist = tmp.length
+        if(dist - p.size < rangeAbs) {
+          tmp /= dist
+          tmp *= weight
+          p.steer += tmp
+        }
+      }
+      i += 1
+    } 
   }
 }
 
 /**
- * reflects a particle at the edges of a defined plane
+ * Applies an attraction force, that moves a particle towards its neighbours
  * @author Marcus Wendt
  */
-class Align extends Behaviour {
+class Align extends RangedBehaviour {
+ def apply(p:Particle, dt:Float) {
+    ps.space(p, rangeAbs, neighbours)
+
+    val numNeighbours = neighbours.size
+    if(numNeighbours <= 1) return
     
-  def apply(p:Particle, dt:Float) {
-    
+    var i = 0
+	while(i < numNeighbours) {
+	  val n = neighbours(i)
+      if(n != p) {
+        tmp := n.asInstanceOf[Particle].velocity
+        tmp.normalize
+        tmp *= weight
+        p.steer += tmp
+//        tmp := n -= p
+//        val dist = tmp.length - p.size
+//        if(dist < rangeAbs) {
+//          tmp /= dist
+//          tmp *= weight
+//          p.steer += tmp
+//        }
+      }
+      i += 1
+    } 
   }
 }

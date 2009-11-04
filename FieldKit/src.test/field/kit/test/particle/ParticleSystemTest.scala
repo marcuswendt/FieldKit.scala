@@ -19,15 +19,25 @@ object ParticleSystemTest extends test.Sketch {
   
   val ps = new ParticleSystem
   val f = new Flock[Particle]
-  f.emitter.rate = 1
-  f.emitter.interval = 10
-  f.emitter.max = 20
-  
   ps += f
-//  f += new Wind
-  f += new Wrap2D
+  f.emitter.rate = 10
+  f.emitter.interval = 1
+  f.emitter.max = 1000
   
+  val initialiser = new Initialiser
+  initialiser.isPerpetual = true
+  initialiser.acceleration = 1f
+  initialiser.velocity = 10f
+  
+  f.emitter += initialiser
   f.emitter += new Randomize
+  
+  val wind = new Wind
+  wind.weight = 0.25f
+  f += wind
+  
+  f += new Wrap2D
+//  f += new Wrap3D
   
 //  f += new Behaviour {
 //    logName = "perlin"
@@ -44,33 +54,32 @@ object ParticleSystemTest extends test.Sketch {
 //    }
 //  }
   
-  f.emitter += new Behaviour {
-    logName = "perlin"
-    var time = 0f
-    var tmp = 0f
-    
-    override def prepare(dt:Float) = time += dt
-    
-    def apply(p:Particle, dt:Float) {
-      val weight = 100f
-      p.steer.x += (noise(tmp, p.age) * 2f - 1f) * weight
-      p.steer.y += (noise(time, p.age) * 2f - 1f) * weight
-      tmp += dt
-    }
-  } 
-  
   val repel = new Repel
-  repel.range = 200f
+  repel.range = 0.01f
+  repel.weight = 1f
   f += repel
   
+  val attract = new Attract
+  attract.range = 0.025f
+  attract.weight = 0.1f
+  f += attract
+  
+  val align = new Align
+  align.range = 0.05f
+  align.weight = 0.01f
+  f += align
+  
   val timer = new Timer
+  
+  // toggles
+  var showParticles = true
   
   // view rotation
   var xrot = Common.THIRD_PI
   var zrot = 0.1f
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
-//    ps.space = new OctreeSpace(width, height, 500)
+//    ps.space = new OctreeSpace(width, height, height)
     ps.space = new QuadtreeSpace(width, height, height)
     f.emitter := ps.space
     info("space width", ps.space.width, "height", ps.space.height, "depth", ps.space.depth)
@@ -82,6 +91,8 @@ object ParticleSystemTest extends test.Sketch {
     import processing.core.PConstants._
     
     // update
+    frameInfo
+    
     if (mousePressed) {
       xrot += (mouseY*0.01f-xrot)*0.1f
       zrot += (mouseX*0.01f-zrot)*0.1f
@@ -103,20 +114,27 @@ object ParticleSystemTest extends test.Sketch {
     rotateZ(zrot)
     translate(-width/2, -height/2,0)
     
-    f.particles foreach {p => 
-      noFill
-      stroke(255)
-      ellipse(p.x, p.y, repel.range, repel.range)
-      
-      fill(255)
-      noStroke
-      rect(p.x, p.y, 3, 3)
-    }
+    if(showParticles)
+      drawParticles
     
     if(showDebug)
       drawDebug
     
     popMatrix
+  }
+  
+  def drawParticles {
+    f.particles foreach {p => 
+      if(showDebug) {
+        noFill
+        stroke(255)
+        ellipse(p.x, p.y, repel.rangeAbs, repel.rangeAbs)
+      }
+      
+      fill(255)
+      noStroke
+      rect(p.x, p.y, 3, 3)
+    }
   }
   
   def drawDebug {
@@ -134,10 +152,6 @@ object ParticleSystemTest extends test.Sketch {
       noFill
       stroke(255 - n.depth, 128)
       rect(n.x, n.y, n.size.x, n.size.y)
-//      pushMatrix
-//      translate(n.x, n.y, n.z)
-//      box(n.size.x, n.size.y, n.size.z)
-//      popMatrix
       
       for(i <- 0 until 4) {
         val child = n.children(i)
@@ -164,8 +178,19 @@ object ParticleSystemTest extends test.Sketch {
     }
   }
   
+  val timerInfo = new kit.util.Timer
+  def frameInfo {
+    val dt = timerInfo.update
+    if(frameCount % 100 == 0) {
+      val used = Common.round(Runtime.getRuntime.totalMemory / 1048576, 2)
+      val free = Common.round(Runtime.getRuntime().freeMemory / 1048576, 2)
+      info("frame", frameCount, "fps", 1000f/ dt ,"used", used, "free", free)
+    }
+  }
+  
   override def keyPressed {
     key match {
+      case 'p' => showParticles = !showParticles
       case 'd' => showDebug = !showDebug
       case ' ' => xrot = 0; zrot = 0
       case _ =>

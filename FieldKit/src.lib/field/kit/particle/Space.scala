@@ -35,6 +35,9 @@ extends AABB(Vec3(0, 0, -depth/2f), Vec3(width, height, depth)) {
   /** removes all registered particles from this space */
   def clear {}
   
+  /** converts a positive normalized float [0, 1] to an absolute length in the particle space */
+  def toAbsolute(normalized:Float) = width * normalized
+  
   // helpers
   override def toString = "Space("+ width +" "+ height +" "+ depth +")"
 }

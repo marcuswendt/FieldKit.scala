@@ -40,6 +40,9 @@ class Wrap2D extends Behaviour {
       p.y = max.y
     else if(p.y > max.y)
       p.y = min.y
+    
+    // constrain to plane
+    p.z = 0
   }  
 }
 

@@ -53,7 +53,7 @@ object QuadtreeTest extends test.Sketch {
   val CONTINOUS_COUNT = 10000
   
   // setup empty octree so that it's centered around the world origin
-  val quadtree = new VisibleQuadtree(Vec2(-DIM/2f), Vec2(DIM))
+  val quadtree = new VisibleQuadtree(Vec2(-DIM), Vec2(DIM))
   
   // add an initial particle at the origin
   quadtree insert new Vec3    
@@ -96,25 +96,28 @@ object QuadtreeTest extends test.Sketch {
       
     // or move cursor
     } else {
-      pointer.x = -(width*0.5f-mouseX)/(width/2)*DIM2
-      pointer.y = -(height*0.5f-mouseY)/(height/2)*DIM2
+      pointer.x = -(width*0.5f-mouseX)/(width/2)*DIM
+      pointer.y = -(height*0.5f-mouseY)/(height/2)*DIM
     }
     
     // stress test
     if(continous) {
       quadtree.clear 
-      for(i <- 0 until CONTINOUS_COUNT)
-        quadtree insert (Vec3.random *= random(DIM2))
+      for(i <- 0 until CONTINOUS_COUNT) {
+        val p = Vec3.random *= random(DIM)
+        p.z *= 0.1f
+        quadtree insert p
+      }
     }
   
     // -- render ---------------------------------------------------------------
     background(255)
     
     pushMatrix
-    lights
+//    lights
     translate(width/2,height/2,0)
-    rotateX(xrot)
-    rotateZ(zrot)
+//    rotateX(xrot)
+//    rotateZ(zrot)
     scale(4)
   
     // show debug view of tree
@@ -139,10 +142,10 @@ object QuadtreeTest extends test.Sketch {
     stroke(255,0,0)
     noFill
     beginShape(LINES)
-    vertex(pointer.x,-DIM2,0)
-    vertex(pointer.x,DIM2,0)
-    vertex(-DIM2,pointer.y,0)
-    vertex(DIM2,pointer.y,0)
+    vertex(pointer.x, -DIM,0)
+    vertex(pointer.x, DIM,0)
+    vertex(-DIM,pointer.y,0)
+    vertex(DIM,pointer.y,0)
     endShape
     noStroke
   }
@@ -182,21 +185,25 @@ object QuadtreeTest extends test.Sketch {
   
   override def keyPressed {
     key match {
-      case ' ' =>
-        // add NUM new particles within a sphere of radius DIM2
-        val v = Vec3.random *= random(DIM2)
+      case 'a' =>
+        // add NUM new particles within a sphere of radius DIM
+        val p = Vec3.random *= random(DIM)
+        p.z *= 0.1f
         val insertNum = random(NUM).asInstanceOf[Int]
         for(i <- 0 until insertNum)
-           quadtree insert v
+           quadtree insert p
         
         numParticles += insertNum
         
         info("added", insertNum, "particles => total:", numParticles)
+        
       case 't' =>
         var v = new Vec3(-75f, -25f, 55f)
         quadtree insert v
         numParticles += 1
         
+      case ' ' => quadtree.clear
+      
       case 'o' => showQuadtree = !showQuadtree
       case 'p' => showPoints = !showPoints
       case 's' => useCircle = !useCircle

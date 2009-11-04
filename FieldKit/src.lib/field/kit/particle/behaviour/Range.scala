@@ -16,9 +16,14 @@ abstract class RangedBehaviour extends Behaviour {
   import math._
   import scala.collection.mutable.ArrayBuffer
   
-  var range = 10f  
-  var weight = 1f
+  var range = 0.01f // [0,1]
+  var weight = 1f // [0, 1]
   
+  var rangeAbs = 0f  
   protected val tmp = Vec3()
-  protected val neighbours = new ArrayBuffer[Vec] 
+  protected val neighbours = new ArrayBuffer[Vec]
+  
+  override def prepare(dt:Float) {
+    rangeAbs = ps.space.toAbsolute(range)
+  }
 }
