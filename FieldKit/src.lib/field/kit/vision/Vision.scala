@@ -55,6 +55,7 @@ object Vision extends Logger {
     def fvSetFramerate(fps:Int):Int
     def fvSet(property:Int, value:Float)
     def fvSetStageEnabled(stage:Int, enabled:Boolean)
+    def fvSetWarp(x1:Float, y1:Float, x2:Float, y2:Float, x3:Float, y3:Float, x4:Float, y4:Float)
     
     def fvGetBlobCount:Int
     def fvGetBlobData:Pointer
@@ -312,4 +313,26 @@ object Vision extends Logger {
 	  }
     }
   }
+  
+  // -- Warp -------------------------------------------------------------------
+  /** sets the image warp factor */
+  def setWarp(_x1:Float, _y1:Float, _x2:Float, _y2:Float, _x3:Float, _y3:Float, _x4:Float, _y4:Float) {
+    // convert from normalized [0,1] values to absolute pixels
+    val x1 = _x1 * width
+    val y1 = _y1 * height
+    
+    val x2 = _x2 * width
+    val y2 = _y2 * height
+    
+    val x3 = _x3 * width
+    val y3 = _y3 * height
+    
+    val x4 = _x4 * width
+    val y4 = _y4 * height
+    
+    native.fvSetWarp(x1,y1, x2,y2, x3,y3, x4,y4)
+  }
+  
+  /** resets the warp to its original values */
+  def resetWarp = setWarp(0f,0f, 1f,0f, 1f,1f, 0f,1f)
 }

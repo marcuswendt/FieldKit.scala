@@ -786,7 +786,7 @@
 					"\\\\\\\"$(SRCROOT)/../../../../../../../Library/Frameworks\\\\\\\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				INFOPLIST_FILE = "Info copy 2.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",

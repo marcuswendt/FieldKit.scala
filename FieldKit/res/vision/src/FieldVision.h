@@ -45,11 +45,12 @@ int fvStop();
 int fvUpdate();
 	
 // setters
-void fvSet(int property, float value);
+int fvSet(int property, float value);
 int fvSetCamera(int name);
 int fvSetSize(int width, int height);
 int fvSetFramerate(int fps);
-void fvSetStageEnabled(int stage, bool enabled);
+int fvSetStageEnabled(int stage, bool enabled);
+int fvSetWarp(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 	
 // getters
 float fvGet(int property);

@@ -62,6 +62,9 @@ namespace field
 		CVProperty* getProperty(int key);
 		void set(int key, float value);
 		float get(int key);
+
+		// warp
+		virtual void setWarp(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {};
 		
 	protected:
 		CvSize size;

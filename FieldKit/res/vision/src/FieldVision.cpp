@@ -113,9 +113,10 @@ int fvUpdate() {
 
 	
 // -- Setters ------------------------------------------------------------------
-void fvSet(int property, float value) {
-	if(!vision) fvError(ERR_NOT_CREATED);
+int fvSet(int property, float value) {
+	if(!vision) return fvError(ERR_NOT_CREATED);
 	vision->getProcessor()->set(property, value);
+	return SUCCESS;
 }
 	
 int fvSetCamera(int name) {
@@ -169,8 +170,16 @@ int fvSetFramerate(int fps) {
 	return SUCCESS;
 }
 
-void fvSetStageEnabled(int stage, bool enabled) {
+int fvSetStageEnabled(int stage, bool enabled) {
+	if(!vision) return fvError(ERR_NOT_CREATED);	
 	vision->getProcessor()->setStageEnabled(enabled, stage);
+	return SUCCESS;
+}
+
+int fvSetWarp(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
+	if(!vision) return fvError(ERR_NOT_CREATED);	
+	vision->getProcessor()->setWarp(x1, y1, x2, y2, x3, y3, x4, y4);
+	return SUCCESS;
 }
 	
 // -- Getters ------------------------------------------------------------------

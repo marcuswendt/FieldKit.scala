@@ -33,7 +33,7 @@ object VisionTest extends test.Sketch {
     ui = new ControlP5(this)
 //    ui.setAutoDraw(false)
     
-    uiWindow = ui.addControlWindow("UI",100,100,400,200)
+    uiWindow = ui.addControlWindow("UI",0,25,300,400)
     uiWindow.setUpdateMode(ControlWindow.NORMAL)
 
     val offset = 15
@@ -58,6 +58,18 @@ object VisionTest extends test.Sketch {
     slider("contourMax", Vision.contourMax)
     slider("contourReduce", Vision.contourReduce)
     slider("trackRange", Vision.trackRange)
+    
+    slider("warpX1", 0)
+    slider("warpY1", 0)
+    
+    slider("warpX2", 1)
+    slider("warpY2", 0)
+    
+    slider("warpX3", 1)
+    slider("warpY3", 1)
+    
+    slider("warpX4", 0)
+    slider("warpY4", 1)
   })
   
   def render {
@@ -109,7 +121,13 @@ object VisionTest extends test.Sketch {
       case "contourMax" => Vision.contourMax = value
       case "contourReduce" => Vision.contourReduce = value
       case "trackRange" => Vision.trackRange = value
-      case _ =>
+      case _ => 
+        def ctrl(name:String) = ui.controller(name).value
+        Vision.setWarp(ctrl("warpX1"), ctrl("warpY1"),
+        			   ctrl("warpX2"), ctrl("warpY2"),
+        			   ctrl("warpX3"), ctrl("warpY3"),
+        			   ctrl("warpX4"), ctrl("warpY4"))
+//        info("event", event.label, "x1", ui.controller("warpX1").value)
     }
   } 
   
