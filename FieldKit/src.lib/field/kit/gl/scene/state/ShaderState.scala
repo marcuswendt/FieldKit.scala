@@ -35,17 +35,17 @@ object ShaderState extends field.kit.Logger {
     var fs = FragmentShader.DEFAULT
     
     if(url.toString.endsWith(VertexShader.SUFFIX))
-      vs = vertexShader(Loader.readFile(url))
+      vs = vertexShader(Loader.read(url))
     else
-      fs = fragmentShader(Loader.readFile(url))
+      fs = fragmentShader(Loader.read(url))
       
     new ShaderState(vs, fs)
   }
   
   /** Creates a <code>ShaderState</code> by compiling the contents from the two given URLs */
   def apply(vsURL:URL, fsURL:URL) = {
-    val vs = vertexShader(Loader.readFile(vsURL))
-    val fs = fragmentShader(Loader.readFile(fsURL))
+    val vs = vertexShader(Loader.read(vsURL))
+    val fs = fragmentShader(Loader.read(fsURL))
     new ShaderState(vs, fs)
   }
   
@@ -56,8 +56,14 @@ object ShaderState extends field.kit.Logger {
    */
   protected def getSource(sourceOrURL:String) = {
     URLTest findFirstIn sourceOrURL match {
-      case Some(url:String) => Loader.readFile(new URL(url))
-      case None => sourceOrURL
+      case Some(url:String) => Loader.read(new URL(url))
+      case None =>
+        import java.io.File
+        val file = new File(sourceOrURL)
+        if(file.exists)
+          Loader.read(file)
+        else
+          sourceOrURL
     }
   }
 

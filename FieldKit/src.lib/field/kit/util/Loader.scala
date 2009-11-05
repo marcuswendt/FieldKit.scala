@@ -48,7 +48,7 @@ object Loader extends field.kit.Logger {
    * Tries to read the file from the given <code>URL</code> into a <code>String</code>
    * @return 
    */
-  def readFile(url:URL) = {
+  def read(url:URL) = {
     import java.io.BufferedReader
     import java.io.InputStreamReader
 
@@ -58,7 +58,31 @@ object Loader extends field.kit.Logger {
       var line = ""
       while (line != null) {
         line = reader.readLine
-        buffer += line + "\n"
+        if(line != null)
+          buffer += line + "\n"
+      }
+      buffer
+    } catch {
+      case(e:Exception) =>
+        warn(e)
+        null
+    }
+  }
+  
+  def read(file:File) = {
+    import java.io.FileReader
+    import java.io.BufferedReader
+
+    info("reading", file)
+    
+    try {
+      var buffer = ""
+      val reader = new BufferedReader(new FileReader(file))
+      var line = ""
+      while (line != null) {
+        line = reader.readLine
+        if(line != null)
+          buffer += line + "\n"
       }
       buffer
     } catch {

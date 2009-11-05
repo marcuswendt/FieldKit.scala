@@ -12,10 +12,11 @@ package field.kit.test.gl.render
  * TODO needs finishing
  */
 object PassTest extends field.kit.test.Sketch {
-  import field.kit.gl.render._
-  import field.kit.gl.scene._
-  import field.kit.gl.scene.shape._
-  import field.kit.gl.scene.state._
+  import kit.gl.render._
+  import kit.gl.scene._
+  import kit.gl.scene.shape._
+  import kit.gl.scene.state._
+  import kit.util._
   
   var pass:Pass = null
   var scene:Spatial = null
@@ -23,14 +24,22 @@ object PassTest extends field.kit.test.Sketch {
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA,  {
     info("initializing scene")
     scene = new TestParticleSystemScene
+    
+    info("initializing render pass")
+    val ss = ShaderState(
+    		"res/test/shader/default.vs", 
+    		"res/test/shader/default.fs")
+    pass = new Pass("blurPass", ss, scene, width, height, false, false)
   })
   
   def render {
     background(0)
+    
+    pass.render
 //    beginGL
 //    scene.render
 //    endGL
-  	scene.render
+//  	scene.render
   }
   
   

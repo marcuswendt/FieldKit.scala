@@ -155,10 +155,92 @@ abstract class BasicSketch extends PAppletProxy with Logger {
   /** always use the OpenGL renderer */
   override def getSketchRenderer = classOf[FGraphicsOpenGL].getCanonicalName
   
-  override def run {
-    this.initializer()
-    super.run
+  override def handleDraw {
+     if (g != null && (looping || redraw)) {
+      if (!g.canDraw()) {
+        // Don't draw if the renderer is not yet ready.
+        // (e.g. OpenGL has to wait for a peer to be on screen)
+        return
+      }
+
+      //System.out.println("handleDraw() " + frameCount)
+
+      g.beginDraw()
+
+      val now = System.nanoTime()
+
+      if (frameCount == 0) {
+        import processing.core.PApplet._
+        try {
+          //println("Calling setup()")
+          //setup()
+          this.initializer()
+          //println("Done with setup()")
+
+        } catch {
+          case e:RendererChangeException =>
+            // Give up, instead set the new renderer and re-attempt setup()
+            return
+        }
+        this.defaultSize = false
+
+      } else {  // frameCount > 0, meaning an actual draw()
+        // update the current frameRate
+        val rate = 1000000.0 / ((now - frameRateLastNanos) / 1000000.0)
+        val instantaneousRate = (rate / 1000.0f).toFloat
+        frameRate = (frameRate * 0.9f) + (instantaneousRate * 0.1f)
+
+        preMethods.handle()
+
+        // use dmouseX/Y as previous mouse pos, since this is the
+        // last position the mouse was in during the previous draw.
+        pmouseX = dmouseX
+        pmouseY = dmouseY
+
+        draw()
+
+        // dmouseX/Y is updated only once per frame (unlike emouseX/Y)
+        dmouseX = mouseX
+        dmouseY = mouseY
+
+        // these are called *after* loop so that valid
+        // drawing commands can be run inside them. it can't
+        // be before, since a call to background() would wipe
+        // out anything that had been drawn so far.
+        dequeueMouseEvents()
+        dequeueKeyEvents()
+
+        drawMethods.handle()
+
+        redraw = false  // unset 'redraw' flag in case it was set
+        // (only do this once draw() has run, not just setup())
+
+      }
+
+      g.endDraw()
+
+      frameRateLastNanos = now
+      frameCount += 1
+
+      // Actively render the screen
+      paint()
+
+      postMethods.handle()
+    }
   }
+  
+//  override def run {
+//    var waitingForInitializer = true
+//    while(waitingForInitializer) {
+//      if(g.canDraw) {
+//        this.initializer()
+//        waitingForInitializer = false
+//      }
+//      Thread.sleep(10)
+//    }
+//    
+//    super.run
+//  }
   
   override def draw = render
   
