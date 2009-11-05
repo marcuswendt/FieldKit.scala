@@ -47,7 +47,7 @@ class Repel extends RangedBehaviour {
   }
 }
 
-class HardRepelAll extends RangedBehaviour {
+class HardRepel extends RangedBehaviour {
   def apply(p:Particle, dt:Float) {
     ps.space(p, rangeAbs, neighbours)
 
