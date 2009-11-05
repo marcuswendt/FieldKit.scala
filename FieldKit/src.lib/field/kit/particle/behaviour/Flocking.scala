@@ -20,7 +20,7 @@ class Repel extends RangedBehaviour {
     ps.space(p, rangeAbs, neighbours)
 
     val numNeighbours = neighbours.size
-    if(numNeighbours <= 1) return
+    if(numNeighbours < 1) return
     
     var i = 0
 	while(i < numNeighbours) {
@@ -31,11 +31,13 @@ class Repel extends RangedBehaviour {
       ) {
         tmp := n -= p
         val dist = tmp.length
+        
         if(dist - p.size < rangeAbs) {
           tmp /= dist
           tmp *= -weight
           p.steer += tmp
         }
+        
         // simpler but not much faster
 //		tmp *= -weight
 //		p.steer += tmp
@@ -45,12 +47,41 @@ class Repel extends RangedBehaviour {
   }
 }
 
+class HardRepelAll extends RangedBehaviour {
+  def apply(p:Particle, dt:Float) {
+    ps.space(p, rangeAbs, neighbours)
+
+    val numNeighbours = neighbours.size
+    if(numNeighbours < 1) return
+    
+    var i = 0
+	while(i < numNeighbours) {
+	  val n = neighbours(i).asInstanceOf[Particle]
+//      if(n != p && 
+//         ((isSameFlock && p.flock == n.flock) ||
+//          (!isSameFlock && p.flock != n.flock))
+//      ) {
+        tmp := n -= p
+        tmp *= -(1f + weight * 10f)
+		p.steer += tmp
+//      }
+      i += 1
+    } 
+  }
+}
+
+
+
+
 /**
  * Applies an attraction force, that moves a particle towards its neighbours
  * @author Marcus Wendt
  */
 class Attract extends RangedBehaviour {
- def apply(p:Particle, dt:Float) {
+  
+  var isSameFlock = true
+  
+  def apply(p:Particle, dt:Float) {
     ps.space(p, rangeAbs, neighbours)
 
     val numNeighbours = neighbours.size
@@ -78,7 +109,10 @@ class Attract extends RangedBehaviour {
  * @author Marcus Wendt
  */
 class Align extends RangedBehaviour {
- def apply(p:Particle, dt:Float) {
+  
+  var isSameFlock = true
+  
+  def apply(p:Particle, dt:Float) {
     ps.space(p, rangeAbs, neighbours)
 
     val numNeighbours = neighbours.size
