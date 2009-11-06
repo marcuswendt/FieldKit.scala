@@ -163,8 +163,6 @@ abstract class BasicSketch extends PAppletProxy with Logger {
         return
       }
 
-      //System.out.println("handleDraw() " + frameCount)
-
       g.beginDraw()
 
       val now = System.nanoTime()

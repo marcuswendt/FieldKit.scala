@@ -34,12 +34,18 @@ object Pass {
  */
 class Pass(name:String, var shader:ShaderState, var scene:Renderable, 
            width:Int, height:Int, alpha:Boolean, depth:Boolean)
-           extends Quad(name+"Pass", Vec3(), 1f, 1f) {
+           extends Quad(name+"Pass") {
              
-  import field.kit.gl.scene.state.TextureState
+  import kit.gl.scene.state.TextureState
+  import kit.gl.render.objects.Texture
+  import kit.math.Common._
+  
+  scale := (width, height, 1f)
+  translation := (width/2f, height/2f, 0f)
   
   var capture = new Capture(width, height, alpha, depth)
   states += new TextureState(capture.texture)
+//  states += new TextureState(Texture.load("res/test/test.jpg"))
   states += shader
   
   override def draw {

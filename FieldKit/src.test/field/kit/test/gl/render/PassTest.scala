@@ -35,11 +35,10 @@ object PassTest extends field.kit.test.Sketch {
   def render {
     background(0)
     
+    beginGL
     pass.render
-//    beginGL
 //    scene.render
-//    endGL
-//  	scene.render
+    endGL
   }
   
   

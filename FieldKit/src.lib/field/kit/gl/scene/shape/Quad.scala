@@ -23,42 +23,44 @@ object Quad extends Enumeration {
   
   /** Creates a new default <code>Quad</code> */
   def apply() = 
-    new Quad("Quad", Vec3(), 1f, 1f)
+    new Quad("Quad", CENTER, 1f, 1f)
   
   def apply(width:Float, height:Float) = 
-    new Quad("Quad", Vec3(), width, height)
+    new Quad("Quad", CENTER, width, height)
   
-  def apply(center:Vec3, width:Float, height:Float) = 
-    new Quad("Quad", center, width, height)
+  def apply(mode:Quad.Value, width:Float, height:Float) = 
+    new Quad("Quad", mode, width, height)
   
   def apply(name:String, width:Float, height:Float) = 
-    new Quad(name, Vec3(), width, height)
+    new Quad(name, CENTER, width, height)
 }
 
 
 /** 
  * A quadliteral mesh, often used for billboards, shaders, etc
  */
-class Quad(name:String, 
-           protected var _center:Vec3,
-           protected var _width:Float, protected var _height:Float) 
-           extends Mesh(name) {
-  
+class Quad(name:String) extends Mesh(name) {
   import javax.media.opengl.GL
   import field.kit.util.Buffer
   
   // TODO could make a more convenient method for that
   var useQuads = Quad.DEFAULT_USE_QUADS
-  var mode = Quad.CENTER
-  init(_width, _height)
-
-  def this(name:String) =
-    this("Quad", Vec3(), 1f, 1f)
+  
+  protected var _width = 0f
+  protected var _height = 0f
+  
+  // default size
+  init(Quad.CENTER, 1f, 1f)
+  
+  def this(name:String, mode:Quad.Value, width:Float, height:Float) = {
+    this("Quad")
+    init(mode, width, height)
+  }
   
   /**
    * initializes the geometry data of this Quad
    */
-  def init(width:Float, height:Float) {
+  def init(mode:Quad.Value, width:Float, height:Float) {
     this._width = width
     this._height = height
     
@@ -71,8 +73,8 @@ class Quad(name:String,
       case Quad.TOP_LEFT =>
         vertices put 0 put height put 0
         vertices put width put height put 0
-        vertices put width put height put 0
-        vertices put 0 put height put 0
+        vertices put width put 0 put 0
+        vertices put 0 put 0 put 0
       
       case Quad.CENTER => 
         vertices put -hw put hh put 0
