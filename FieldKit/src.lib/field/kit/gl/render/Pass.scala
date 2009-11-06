@@ -21,8 +21,8 @@ object Pass {
   val alpha = true
   val depth = false
   
-  def apply(name:String, shader:ShaderState, scene:Renderable) =
-    new Pass(name,shader,scene,width,height,alpha,depth)
+  def apply(name:String, shader:ShaderState) =
+    new Pass(name,shader,width,height,alpha,depth)
 }
 
 /** 
@@ -32,8 +32,7 @@ object Pass {
  * 
  * @author Marcus Wendt
  */
-class Pass(name:String, var shader:ShaderState, var scene:Renderable, 
-           width:Int, height:Int, alpha:Boolean, depth:Boolean)
+class Pass(name:String, var shader:ShaderState, width:Int, height:Int, alpha:Boolean, depth:Boolean)
            extends Quad(name+"Pass") {
              
   import kit.gl.scene.state.TextureState
@@ -45,15 +44,11 @@ class Pass(name:String, var shader:ShaderState, var scene:Renderable,
   
   var capture = new Capture(width, height, alpha, depth)
   states += new TextureState(capture.texture)
-//  states += new TextureState(Texture.load("res/test/test.jpg"))
   states += shader
   
-  override def draw {
-    capture.render
-    scene.render
-    capture.done
-    
-    super.draw
-  }
+  /** call this before rendering the contents that should go into the buffer */
+  def pre = capture.render
   
+  /** call this after rendering the contents that should go into the buffer */
+  def post = capture.done
 }

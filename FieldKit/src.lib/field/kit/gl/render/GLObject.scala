@@ -18,10 +18,12 @@ object GLObject {
  * @author Marcus Wendt
  */
 abstract class GLObject extends Renderable with Logger {
-  final def render {}
   var id:Int = GLObject.UNDEFINED
+  
   def create
   def destroy
   def bind
   def unbind
+  
+  final def render {}
 }

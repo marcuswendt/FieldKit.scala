@@ -7,7 +7,17 @@
 /* created April 23, 2009 */
 package field.kit.gl.render.objects
 
-import javax.media.opengl.GL
+
+object FrameBuffer {
+  import javax.media.opengl.GL
+
+  object Format extends Enumeration {
+    val RGB = Value(GL.GL_RGB)
+    val RGBA = Value(GL.GL_RGBA)
+    val DEPTH = Value(GL.GL_DEPTH_COMPONENT)
+    val STENCIL = Value(GL.GL_STENCIL_INDEX)
+  }
+}
 
 /**
  * The frame buffer object architecture (FBO) is an extension to OpenGL for doing 
@@ -19,6 +29,7 @@ import javax.media.opengl.GL
  * @author Marcus Wendt
  */
 class FrameBuffer extends GLObject {
+  import javax.media.opengl.GL
 
   // automatically create a framebuffer when this class is instantiated
   create
@@ -37,13 +48,31 @@ class FrameBuffer extends GLObject {
   
   def status = gl.glCheckFramebufferStatusEXT(GL.GL_FRAMEBUFFER_EXT)
   
+  /** initialize storage capacity for this fbo */
+  def init(format:FrameBuffer.Format.Value, width:Int, height:Int) {
+    gl.glRenderbufferStorageEXT(GL.GL_RENDERBUFFER_EXT, format.id, width, height)
+  }
+  
   // TODO should use a real texture object, and respect its texture unit -> GL_COLOR_ATTACHMENT0_EXT
-  def +=(buffer:GLObject) = 
-    gl.glFramebufferTexture2DEXT(GL.GL_FRAMEBUFFER_EXT, GL.GL_COLOR_ATTACHMENT0_EXT, GL.GL_TEXTURE_2D, buffer.id, 0)
+  def +=(buffer:GLObject) {
+    buffer match {
+      case texture:Texture =>
+        gl.glFramebufferTexture2DEXT(GL.GL_FRAMEBUFFER_EXT, 
+                                     GL.GL_COLOR_ATTACHMENT0_EXT, 
+                                     GL.GL_TEXTURE_2D, texture.id, 0)
+        
+      case depth:DepthBuffer =>
+        gl.glFramebufferRenderbufferEXT(GL.GL_FRAMEBUFFER_EXT, GL.GL_DEPTH_ATTACHMENT_EXT,
+                                        GL.GL_RENDERBUFFER_EXT, depth.id)
+    }
+  }
   
   def isComplete = {
     status match {
-      case GL.GL_FRAMEBUFFER_COMPLETE_EXT => true
+      case GL.GL_FRAMEBUFFER_COMPLETE_EXT => 
+        info("fbo complete")
+        true
+        
       case GL.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT =>
         warn("GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT")
         false

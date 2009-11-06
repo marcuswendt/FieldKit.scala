@@ -22,7 +22,8 @@ object Texture {
   def apply(file:URL) = load(file)
   
   /** Creates a new <code>Texture</code> with a blank <code>Image</code> of the given dimensions */
-  def apply(width:Int, height:Int, alpha:Boolean) = create(width, height, alpha)
+  def apply(width:Int, height:Int, alpha:Boolean) = 
+    create(width, height, alpha)
   
   def apply(image:Image) = new Texture(image)
   
@@ -72,7 +73,7 @@ class Texture extends GLObject {
   id = Texture.UNDEFINED
   
   // automatically create a texture when this class is instantiated
-  create
+  // create
 
   // -- Methods ----------------------------------------------------------------
   def this(image:Image) = {
@@ -176,13 +177,8 @@ class Texture extends GLObject {
   import java.nio.Buffer
   
   def data(format:Int, width:Int, height:Int, data:Buffer) {
-    if(isValid) {
-      gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 
-                      format, width, height, 0, format, GL.GL_UNSIGNED_BYTE, data)
-    }
-    //glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, 
-//    		imageWidth, imageHeight, 0, GL_RGB,
-//      GL_UNSIGNED_BYTE, imageData);
-    
+    if(!isValid) return
+    gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 
+                    format, width, height, 0, format, GL.GL_UNSIGNED_BYTE, data)
   }
 }

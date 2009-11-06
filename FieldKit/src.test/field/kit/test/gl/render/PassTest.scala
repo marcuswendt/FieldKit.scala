@@ -29,15 +29,18 @@ object PassTest extends field.kit.test.Sketch {
     val ss = ShaderState(
     		"res/test/shader/default.vs", 
     		"res/test/shader/default.fs")
-    pass = new Pass("blurPass", ss, scene, width, height, false, false)
+    pass = new Pass("blurPass", ss, width, height, true, false)
   })
   
   def render {
     background(0)
     
     beginGL
+    pass.pre
+    scene.render
+    pass.post
+    
     pass.render
-//    scene.render
     endGL
   }
   
@@ -57,8 +60,13 @@ object PassTest extends field.kit.test.Sketch {
     ps.space = new Space(width, height, 100)
     
     val f = new Flock[Particle]
+    ps += f
+    
     f.emitter.rate = 1
     f.emitter.interval = 100
+    
+    f.emitter:= ps.space.dimension * 0.5f
+    
     f.emitter += new Behaviour {
       logName = "initializer"
       def apply(p:Particle, dt:Float) {
@@ -66,8 +74,7 @@ object PassTest extends field.kit.test.Sketch {
         p.steerMax = 25f
       }
     }
-    
-    ps += f
+
     f += new Wind
     f += new Wrap2D
     f += new Behaviour {
@@ -89,19 +96,28 @@ object PassTest extends field.kit.test.Sketch {
     val timer = new Timer
     
     // initialize particle geometry
-  
-    def draw {
-//      // set scene to the center of the screen
-//      translation set (width/2f, height/2f, 0)
-//      scale set 2
+    def draw {}
+    
+    override def render {
+      import kit.math.Common._
+      import javax.media.opengl._
     
       // update
       ps.update(timer.update)
       
       // draw
-      fill(255)
-      noStroke
-      f.particles foreach(p => rect(p.x, p.y, 6, 6))
+//      fill(255)
+//      noStroke
+      //f.particles foreach(p => rect(p.x, p.y, 6, 6))
+        
+//	  gl.glColor4f(1f,1f,0f,1f)
+      gl.glPointSize(6f)
+      gl.glEnable(GL.GL_POINT_SMOOTH)
+      gl.glBegin(GL.GL_POINTS)
+      f.particles foreach { p =>
+        gl.glVertex2f(p.x, p.y)
+      }
+      gl.glEnd
     }
   }
 }

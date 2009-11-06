@@ -25,17 +25,22 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Rende
   import field.kit.gl.render.objects._
   
   var clearBuffer = true
-  var clearColour = new Colour()
+  var clearColour = new Colour(0.25f,0f,0f,1f)
   
-  var fbo = new FrameBuffer
+  var fbo:FrameBuffer = _
+  var depthBuffer:DepthBuffer = _
+
+  // -- Initialise -------------------------------------------------------------
+  fbo = new FrameBuffer
   fbo.bind
-  
-  var depthBuffer:DepthBuffer = null
+//  fbo.init( if(alpha) FrameBuffer.Format.RGBA else FrameBuffer.Format.RGB, 
+//            width, height)
   
   // create depth buffer
   if(depth) {
     depthBuffer = new DepthBuffer(width, height)
     depthBuffer.bind
+    fbo.init(FrameBuffer.Format.DEPTH, width, height)
     fbo += depthBuffer
   }
   
@@ -46,7 +51,9 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Rende
   texture.filter = Texture.Filter.LINEAR
   texture.bind
   fbo += texture
-  
+
+  println("texture isvalid", texture.isValid)
+    
   // check if everything went well
   fbo.isComplete
   
@@ -60,7 +67,8 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Rende
    */
   def render {
     fbo.bind
-    gl.glDrawBuffer(GL.GL_COLOR_ATTACHMENT0_EXT + textureUnit)
+//    gl.glDrawBuffer(GL.GL_COLOR_ATTACHMENT0_EXT + textureUnit)
+    
     if(clearBuffer) {
      gl.glClearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a)
      gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
