@@ -51,7 +51,7 @@ extends Space(width, height, depth) {
   import math.geometry._
   import math.Common._
   
-  val tree = new Quadtree(null, (x,y), (width/2f, height/2f))
+  var tree = new Quadtree(null, (x,y), (width/2f, height/2f))
   
   override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
     result.clear

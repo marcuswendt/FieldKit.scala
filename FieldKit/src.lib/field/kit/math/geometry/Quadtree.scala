@@ -63,7 +63,7 @@ extends AABR(offset + halfSize, halfSize) {
    * @param p
    * @return true, if point has been added successfully
    */
-  final def insert(p:Vec):Boolean = {
+  def insert(p:Vec):Boolean = {
     // check if point is inside cube
     if(this contains p) {
       // only add data to leaves for now

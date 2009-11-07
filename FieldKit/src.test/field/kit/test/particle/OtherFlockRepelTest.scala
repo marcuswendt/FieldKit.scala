@@ -41,18 +41,13 @@ object OtherFlockRepelTest extends test.Sketch {
   
   f += new Wind
   f += new Wrap2D
-  val repel = new Repel {
-    
-  }
+  val repel = new FlockRepel
   
   // makes particles bounce of all other flocks particles
-  val repelMouse = new Repel {
-    isSameFlock = false
+  val repelMouse = new FlockRepel {
+    applyToSelf = false
     range = 0.05f
     weight = 20
-    override def apply(p:Particle, dt:Float) {
-      super.apply(p, dt)
-    }
   }
   f += repelMouse
   
