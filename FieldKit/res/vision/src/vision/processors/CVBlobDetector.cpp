@@ -91,8 +91,22 @@ namespace field
 		
 		// input ---------------------------------------------------------------
 		IplImage* sourceImage = camera->getImage(cameraSource);
-		IplImage* inputImage = cache->getTmp(IMAGE_INPUT, cvSize(camera->getWidth(), camera->getHeight()));
-		cvCvtColor(sourceImage, inputImage, CV_BGR2GRAY);
+		IplImage* inputImage;
+
+		// check if we need to convert the source image into greyscale
+		if(sourceImage->nChannels == 1) {
+			inputImage = sourceImage;
+//			inputImage = cache->getTmp(IMAGE_INPUT, cvSize(camera->getWidth(), camera->getHeight()));
+			//cvCvtColor(sourceImage, inputImage, CV_BGR2GRAY);
+//			cvCvtColor(sourceImage, inputImage, CV_GR);
+			
+//			inputImage = cache->getTmp(IMAGE_INPUT, cvSize(camera->getWidth(), camera->getHeight()));
+//			cvConvert(sourceImage, inputImage);
+
+		} else {
+			inputImage = cache->getTmp(IMAGE_INPUT, cvSize(camera->getWidth(), camera->getHeight()));
+			cvCvtColor(sourceImage, inputImage, CV_BGR2GRAY);
+		}
 		
 		// resize inputImage if necessary
 		IplImage* inputImageResized = cache->getTmp(IMAGE_INPUT_RESIZED, size);
@@ -260,7 +274,7 @@ namespace field
 			float area = fabs(cvContourArea(approxContour));
 			
 			if (area > minArea && area < maxArea) {
-				if(foundBlobCount == VISION_BLOB_COUNT) {
+				if(foundBlobCount >= VISION_BLOB_COUNT) {
 					LOG("Too many contours");
 					return;
 				}

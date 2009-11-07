@@ -29,14 +29,16 @@ int main(int argc, char* argv[])
 	
 	LOG("** init vision **");
 	fvCreate();
-	fvSetCamera(CAMERA_OPENCV);
-	fvSetSize(400, 300);
+//	fvSetCamera(CAMERA_OPENCV);
+	fvSetCamera(CAMERA_PORT_VIDEO);
+	fvSetSize(320, 240);
 	fvSetFramerate(20);
 	fvStart();
 	
 	LOG("** init blob detector **");
 	CVBlobDetector* proc = (CVBlobDetector*) fvGetVision()->getProcessor();
 	proc->setStageEnabled(true);
+	//proc->setStageEnabled(false);
 	
 //	fvSet(PROC_BACKGROUND, 0.15f);
 //	fvSet(PROC_THRESHOLD, 0.1f);

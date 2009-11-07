@@ -15,6 +15,7 @@ namespace field {
 	Camera::Camera() {
 		isInitialized = false;
 		isStarted = false;
+		color = false;
 		width = VISION_DEFAULT_WIDTH;
 		height = VISION_DEFAULT_HEIGHT;
 		fps = VISION_DEFAULT_FPS;

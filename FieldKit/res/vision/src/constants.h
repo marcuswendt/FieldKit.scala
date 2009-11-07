@@ -28,7 +28,8 @@ namespace field {
 	consti CAMERA_OPENCV_THIRD =		3;
 	consti CAMERA_OPENCV_FOURTH	=		4;
 	consti CAMERA_PTGREY_BUMBLEBEE =	10;
-		
+	consti CAMERA_PORT_VIDEO =			11;
+	
 	// frame processor properties
 	consti PROC_BACKGROUND =			0;
 	consti PROC_THRESHOLD =				1;
@@ -43,7 +44,7 @@ namespace field {
 	consti VISION_DEFAULT_WIDTH = 320;
 	consti VISION_DEFAULT_HEIGHT = 240;
 	consti VISION_DEFAULT_FPS = 30;
-	consti VISION_BLOB_COUNT = 20;
+	consti VISION_BLOB_COUNT = 30;
 	
 	//
 	// INLINE FUNCTIONS

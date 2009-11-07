@@ -11,6 +11,7 @@
 #include "CVBlobDetector.h"
 #include "OpenCVCamera.h"
 #include "PTGreyBumblebee2.h"
+#include "PortVideoCamera.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,7 +20,8 @@ extern "C" {
 // -- Globals ------------------------------------------------------------------
 struct VisionData blobdata;
 VisionData* visionData = &blobdata;
-
+bool useContours = true;
+	
 // global vision pointer
 Vision* vision;
 	
@@ -93,6 +95,8 @@ int fvUpdate() {
 			fvPushData(blob->bounds.height);
 
 			// contour points
+			if(!useContours) continue;
+			
 			fvPushData(VISION_DATA_BLOB_CONTOURS);
 			int contourPoints = blob->contour->total;
 			fvPushData(contourPoints);			
@@ -149,6 +153,10 @@ int fvSetCamera(int name) {
 			camera = new PTGreyBumblebee2();
 			break;
 			
+		case CAMERA_PORT_VIDEO:
+			camera = new PortVideoCamera();
+			break;
+			
 		default:
 			return fvError(ERR_INVALID_ARGUMENT);
 	}
@@ -179,6 +187,11 @@ int fvSetStageEnabled(int stage, bool enabled) {
 int fvSetWarp(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
 	if(!vision) return fvError(ERR_NOT_CREATED);	
 	vision->getProcessor()->setWarp(x1, y1, x2, y2, x3, y3, x4, y4);
+	return SUCCESS;
+}
+	
+int fvSetUseContours(bool isEnabled) {
+	useContours = isEnabled;
 	return SUCCESS;
 }
 	

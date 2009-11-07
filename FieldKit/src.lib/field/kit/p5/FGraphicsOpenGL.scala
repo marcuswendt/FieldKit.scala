@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 24, 2009 */
 package field.kit.p5
@@ -54,11 +54,12 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
   
   override def beginDraw {
     super.beginDraw()
-     
+    
     // Cannot render camera directly, 
     // instead we need to override processings default matrices
-//    activeCamera.feed(parent)
-      
+    //activeCamera.feed(parent)
+    activeCamera.render
+    
 //    modelview.m00 = activeCamera.modelView.m00
 //    modelview.m01 = activeCamera.modelView.m01
 //    modelview.m02 = activeCamera.modelView.m02

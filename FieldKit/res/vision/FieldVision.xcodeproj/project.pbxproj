@@ -56,6 +56,15 @@
 		2C528C580E0DAC5F00F68F4F /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058340E0964C2009094FB /* OpenCV.framework */; };
 		2C528C590E0DAC5F00F68F4F /* dc1394.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7058350E0964C2009094FB /* dc1394.framework */; };
 		2C528C5C0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C528C5B0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp */; };
+		2C7D565710A5D5900034EC6A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7D565610A5D5900034EC6A /* QuickTime.framework */; };
+		2C7D566010A5D5B90034EC6A /* PortVideoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D565F10A5D5B90034EC6A /* PortVideoCamera.cpp */; };
+		2C7D56FB10A5DCB00034EC6A /* macsgCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D56F910A5DCB00034EC6A /* macsgCamera.cpp */; };
+		2C7D573310A5DF460034EC6A /* macsgCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D56F910A5DCB00034EC6A /* macsgCamera.cpp */; };
+		2C7D573410A5DF460034EC6A /* PortVideoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D565F10A5D5B90034EC6A /* PortVideoCamera.cpp */; };
+		2C7D574610A5DF7B0034EC6A /* vdigGrab.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D574410A5DF7B0034EC6A /* vdigGrab.cpp */; };
+		2C7D574710A5DF7B0034EC6A /* vdigGrab.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D574410A5DF7B0034EC6A /* vdigGrab.cpp */; };
+		2C7D574810A5DF7B0034EC6A /* vdigGrab.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7D574510A5DF7B0034EC6A /* vdigGrab.h */; };
+		2C7D577010A5DF9E0034EC6A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7D565610A5D5900034EC6A /* QuickTime.framework */; };
 		2C82E00D0E23F591002B2C24 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
 		2C82E00E0E23F591002B2C24 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
 		2C82E0100E23F591002B2C24 /* CVImageCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */; };
@@ -193,6 +202,14 @@
 		2C528C5B0E0DAC7C00F68F4F /* TestGaussStatBgModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestGaussStatBgModel.cpp; sourceTree = "<group>"; };
 		2C7058340E0964C2009094FB /* OpenCV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCV.framework; path = ../../../../../../Library/Frameworks/OpenCV.framework; sourceTree = SOURCE_ROOT; };
 		2C7058350E0964C2009094FB /* dc1394.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = dc1394.framework; path = ../../../../../../Library/Frameworks/dc1394.framework; sourceTree = SOURCE_ROOT; };
+		2C7D560E10A5D3420034EC6A /* cameraEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cameraEngine.h; sourceTree = "<group>"; };
+		2C7D565610A5D5900034EC6A /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		2C7D565E10A5D5B90034EC6A /* PortVideoCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortVideoCamera.h; sourceTree = "<group>"; };
+		2C7D565F10A5D5B90034EC6A /* PortVideoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PortVideoCamera.cpp; sourceTree = "<group>"; };
+		2C7D56F910A5DCB00034EC6A /* macsgCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macsgCamera.cpp; sourceTree = "<group>"; };
+		2C7D56FA10A5DCB00034EC6A /* macsgCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macsgCamera.h; sourceTree = "<group>"; };
+		2C7D574410A5DF7B0034EC6A /* vdigGrab.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vdigGrab.cpp; sourceTree = "<group>"; };
+		2C7D574510A5DF7B0034EC6A /* vdigGrab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vdigGrab.h; sourceTree = "<group>"; };
 		2C82E00A0E23F591002B2C24 /* CVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVImageCache.h; sourceTree = "<group>"; };
 		2C82E00B0E23F591002B2C24 /* CVImageCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVImageCache.cpp; sourceTree = "<group>"; };
 		2CA9DA1D1095F82A00F64E39 /* TestCanopusADVC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCanopusADVC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +232,7 @@
 				2C1007B90E23953500A7472A /* dc1394.framework in Frameworks */,
 				2C1007B00E23951200A7472A /* JavaVM.framework in Frameworks */,
 				2C1007B20E23952700A7472A /* Carbon.framework in Frameworks */,
+				2C7D577010A5DF9E0034EC6A /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +272,7 @@
 				2C3E9D961098907D00CFD048 /* dc1394.framework in Frameworks */,
 				2CD960A01095BD6C00D42F64 /* OpenCV.framework in Frameworks */,
 				2CD960A21095BD6C00D42F64 /* Carbon.framework in Frameworks */,
+				2C7D565710A5D5900034EC6A /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +333,7 @@
 				2C1007B10E23952700A7472A /* Carbon.framework */,
 				2C7058340E0964C2009094FB /* OpenCV.framework */,
 				2C7058350E0964C2009094FB /* dc1394.framework */,
+				2C7D565610A5D5900034EC6A /* QuickTime.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -321,10 +341,13 @@
 		2C39D0550E0A723500867C99 /* implementations */ = {
 			isa = PBXGroup;
 			children = (
+				2C7D55EB10A5D2EF0034EC6A /* portvideo */,
 				2C39D0560E0A724F00867C99 /* PTGreyBumblebee2.h */,
 				2C39D0570E0A724F00867C99 /* PTGreyBumblebee2.cpp */,
 				2CD960911095BD5E00D42F64 /* OpenCVCamera.h */,
 				2CD960921095BD5E00D42F64 /* OpenCVCamera.cpp */,
+				2C7D565E10A5D5B90034EC6A /* PortVideoCamera.h */,
+				2C7D565F10A5D5B90034EC6A /* PortVideoCamera.cpp */,
 			);
 			path = implementations;
 			sourceTree = "<group>";
@@ -377,6 +400,18 @@
 			path = test;
 			sourceTree = "<group>";
 		};
+		2C7D55EB10A5D2EF0034EC6A /* portvideo */ = {
+			isa = PBXGroup;
+			children = (
+				2C7D56F910A5DCB00034EC6A /* macsgCamera.cpp */,
+				2C7D56FA10A5DCB00034EC6A /* macsgCamera.h */,
+				2C7D560E10A5D3420034EC6A /* cameraEngine.h */,
+				2C7D574410A5DF7B0034EC6A /* vdigGrab.cpp */,
+				2C7D574510A5DF7B0034EC6A /* vdigGrab.h */,
+			);
+			path = portvideo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -384,6 +419,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C7D574810A5DF7B0034EC6A /* vdigGrab.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,15 +573,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C524E8510979311006A85F6 /* FieldVision.cpp in Sources */,
 				2C1007CE0E23999300A7472A /* Vision.cpp in Sources */,
 				2C1007CF0E23999300A7472A /* Camera.cpp in Sources */,
 				2C5250781097C372006A85F6 /* OpenCVCamera.cpp in Sources */,
 				2C1007D00E23999300A7472A /* PTGreyBumblebee2.cpp in Sources */,
+				2C7D573310A5DF460034EC6A /* macsgCamera.cpp in Sources */,
+				2C7D573410A5DF460034EC6A /* PortVideoCamera.cpp in Sources */,
 				2C1007D10E23999300A7472A /* CVStereoBlobDetector.cpp in Sources */,
 				2C1007D20E23999300A7472A /* CVBlobDetector.cpp in Sources */,
 				2C1007D30E23999300A7472A /* CVFrameProcessor.cpp in Sources */,
 				2C82E00D0E23F591002B2C24 /* CVImageCache.cpp in Sources */,
-				2C524E8510979311006A85F6 /* FieldVision.cpp in Sources */,
+				2C7D574710A5DF7B0034EC6A /* vdigGrab.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,6 +641,9 @@
 				2CD9609B1095BD6C00D42F64 /* CVBlobDetector.cpp in Sources */,
 				2CD9609C1095BD6C00D42F64 /* CVFrameProcessor.cpp in Sources */,
 				2CD9609E1095BD6C00D42F64 /* CVImageCache.cpp in Sources */,
+				2C7D566010A5D5B90034EC6A /* PortVideoCamera.cpp in Sources */,
+				2C7D56FB10A5DCB00034EC6A /* macsgCamera.cpp in Sources */,
+				2C7D574610A5DF7B0034EC6A /* vdigGrab.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,7 +711,11 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_SSE41_EXTENSIONS = YES;
+				GCC_FAST_MATH = YES;
+				GCC_MODEL_PPC64 = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_UNROLL_LOOPS = YES;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = FieldVision;

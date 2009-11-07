@@ -39,6 +39,7 @@ namespace field {
 	protected:
 		bool isInitialized;
 		bool isStarted;
+		bool color;
 		int width, height, fps;
 		
 	private:

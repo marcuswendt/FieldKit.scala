@@ -16,7 +16,7 @@ namespace field
 {
 	//
 	// integrates the capture components from opencv
-	// opencv.sf.net
+	// http://opencv.sourceforge.net
 	//
 	class OpenCVCamera : public Camera
 	{

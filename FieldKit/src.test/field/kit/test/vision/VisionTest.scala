@@ -34,7 +34,10 @@ object VisionTest extends test.Sketch {
   
   // -- Init -------------------------------------------------------------------
   Logger.level = Logger.FINE
+  //Vision.camera = Vision.Camera.OPENCV
+  Vision.camera = Vision.Camera.PORT_VIDEO
   Vision.start
+  Vision.useContours = false
   
   //init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
   init(1024, 768, DEFAULT_FULLSCREEN, 0, {
@@ -124,7 +127,6 @@ object VisionTest extends test.Sketch {
   }
   
   def drawBlobs {
-    rectMode(PConstants.CORNER)
     pushMatrix
     scale(width / 320f, height / 240f, 1f)
     Vision.blobs filter (_.active == true) foreach { b =>
@@ -132,12 +134,14 @@ object VisionTest extends test.Sketch {
       stroke(255, c, c)
       strokeWeight(4)
       noFill
+      rectMode(CORNER)
       rect(b.bounds.min.x, b.bounds.min.y, 
            b.bounds.width, b.bounds.height)
       
       noStroke
       fill(255, c, c)
-      rect(b.x, b.y, 10, 10)
+      rectMode(CENTER)
+      rect(b.x, b.y, 5, 5)
     }
     popMatrix
   }

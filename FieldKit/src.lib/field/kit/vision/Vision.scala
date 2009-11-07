@@ -15,11 +15,16 @@ object Vision extends Logger {
 
   // external constants
   /** Camera selection */
-  val CAMERA_OPENCV = 0
-  val CAMERA_OPENCV_FIRST = 1
-  val CAMERA_OPENCV_SECOND = 2
-  val CAMERA_OPENCV_THIRD = 3
-  val CAMERA_PTGREY_BUMBLEBEE = 10
+  object Camera extends Enumeration {
+    val OPENCV = Value(0)
+    val OPENCV_FIRST = Value(1)
+    val OPENCV_SECOND = Value(2)
+    val OPENCV_THIRD = Value(3)
+    val OPENCV_FOURTH = Value(4)
+    
+    val PTGREY_BUMBLEBEE = Value(10)
+    val PORT_VIDEO = Value(11)
+  }
 
   // internal constants
   /** C function return values */
@@ -56,6 +61,7 @@ object Vision extends Logger {
     def fvSet(property:Int, value:Float)
     def fvSetStageEnabled(stage:Int, enabled:Boolean)
     def fvSetWarp(x1:Float, y1:Float, x2:Float, y2:Float, x3:Float, y3:Float, x4:Float, y4:Float)
+    def fvSetUseContours(isEnabled:Boolean)
     
     def fvGetBlobCount:Int
     def fvGetBlobData:Pointer
@@ -71,7 +77,8 @@ object Vision extends Logger {
 
   protected[vision] val native = Native.loadLibrary("FieldVision", classOf[CVision]).asInstanceOf[CVision]
   
-  protected var cameraType = 0
+  protected var cameraType:Camera.Value = _
+  protected var isUsingContours = true
   
   var width:Int = 0
   var height:Int = 0
@@ -88,7 +95,7 @@ object Vision extends Logger {
   create
   
   // set defaults
-  camera = Vision.CAMERA_OPENCV
+  camera = Vision.Camera.PORT_VIDEO
   setSize(320, 240)
   framerate = 30
   
@@ -170,21 +177,23 @@ object Vision extends Logger {
       blob.bounds.width = next
       blob.bounds.height = next
       
-      next // read contour header
-      blob.contourPoints = next
+      if(isUsingContours) {
+        next // read contour header
+        blob.contourPoints = next
       
-      blob.contour.clear
-      for(j <- 0 until blob.contourPoints) {
-        blob.contour.put(next).put(next)
+        blob.contour.clear
+        for(j <- 0 until blob.contourPoints) {
+          blob.contour.put(next).put(next)
+        }
+        blob.contour.rewind
       }
-      blob.contour.rewind
     }
   }
 
   /** sets the type of camera to use */
-  def camera_=(cameraType:Int) {
+  def camera_=(cameraType:Camera.Value) {
     fine("Setting camera to", cameraType)
-    if(native.fvSetCamera(cameraType) == ERROR) {
+    if(native.fvSetCamera(cameraType.id) == ERROR) {
       warn("Couldnt set camera to:", cameraType)
     } else {
       this.cameraType = cameraType
@@ -336,4 +345,12 @@ object Vision extends Logger {
   
   /** resets the warp to its original values */
   def resetWarp = setWarp(0f,0f, 1f,0f, 1f,1f, 0f,1f)
+  
+  // -- Misc -------------------------------------------------------------------
+  def useContours = isUsingContours
+  
+  def useContours_=(isEnabled:Boolean) {
+    isUsingContours = isEnabled
+    native.fvSetUseContours(isEnabled)
+  }
 }

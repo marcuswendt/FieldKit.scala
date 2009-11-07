@@ -51,6 +51,7 @@ int fvSetSize(int width, int height);
 int fvSetFramerate(int fps);
 int fvSetStageEnabled(int stage, bool enabled);
 int fvSetWarp(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+int fvSetUseContours(bool isEnabled);
 	
 // getters
 float fvGet(int property);
