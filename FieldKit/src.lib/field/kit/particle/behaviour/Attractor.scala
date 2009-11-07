@@ -8,9 +8,9 @@
 package field.kit.particle.behaviour
 
 /**
- * A static
+ * A static attractor towards a point
  */
-class PointAttractor extends Behaviour {
+class AttractorPoint extends Behaviour {
   import math.Vec3
   var position = Vec3()
   var range = 0.1f
@@ -36,7 +36,7 @@ class PointAttractor extends Behaviour {
 /**
  * An attactor that jumps to a random position from time to time
  */
-class RandomPointAttractor extends PointAttractor {
+class AttractorRandomPoint extends AttractorPoint {
   import kit.math.Common._
   import math.Vec3
   
@@ -56,8 +56,4 @@ class RandomPointAttractor extends PointAttractor {
       super.prepare(dt)
     }
   }
-  
-//  override def apply(p:Particle, dt:Float) {
-//    
-//  }
 }
