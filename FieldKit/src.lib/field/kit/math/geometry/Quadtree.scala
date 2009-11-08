@@ -35,6 +35,8 @@ extends AABR(offset + halfSize, halfSize) {
    */
   var minSize = 4f
   
+  var maxNeighbours = 100
+  
   val size = halfSize * 2f
   
   val depth:Int = if(parent == null) 0 else parent.depth + 1
@@ -55,6 +57,12 @@ extends AABR(offset + halfSize, halfSize) {
    * Defines wether this node automatically removes branches when a point was removed
    */
   protected val isAutoReducing = false
+  
+  def this(parent:Quadtree, offset:Vec2, halfSize:Vec2, minSize:Float, maxNeighbours:Int) = {
+	  this(parent, offset, halfSize)
+	  this.minSize = minSize
+	  this.maxNeighbours = maxNeighbours
+  }
   
   /**
    * Adds a new point/particle to the tree structure. All points are stored
@@ -86,7 +94,7 @@ extends AABR(offset + halfSize, halfSize) {
           if((quadrant & 1) != 0) o.x += halfSize.x
           if((quadrant & 2) != 0) o.y += halfSize.y
           
-          children(quadrant) = new Quadtree(this, o, halfSize * 0.5f);
+          children(quadrant) = createSubtree(o, halfSize * 0.5f);
           numChildren += 1
         }
         children(quadrant) insert p  
@@ -95,6 +103,9 @@ extends AABR(offset + halfSize, halfSize) {
       false
     }
   }
+  
+  protected def createSubtree(offset:Vec2, halfSize:Vec2) =
+    new Quadtree(this, offset, halfSize, minSize, maxNeighbours)
   
   /**
    * Removes a point from the tree and (optionally) tries to release memory by 
@@ -165,13 +176,11 @@ extends AABR(offset + halfSize, halfSize) {
    * @return all points with the box volume
    */
   def apply(box:AABR, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
-    val r = if(result == null) new ArrayBuffer[Vec] else result
-    
     if (this intersects box) {
       if(data != null) {
         data foreach { p => 
           if(box contains p)
-            r += p
+            result += p
         }                       
       } else if(numChildren > 0) {
         for(i <- 0 until 4) {
@@ -181,30 +190,34 @@ extends AABR(offset + halfSize, halfSize) {
         }
       }
     }
-    r
+    result
   }
   
   /**
    * Selects all stored points within the given sphere volume
    */
-  def apply(circle:Circle, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
-    val r = if(result == null) new ArrayBuffer[Vec] else result
+   def apply(circle:Circle, result:ArrayBuffer[Vec]):ArrayBuffer[Vec] = {
+    if(!(this intersects circle)) return result
     
-    if (this intersects circle) {
-      if(data != null) {
-        data foreach { p => 
-          if(circle contains p)
-            r += p
-        }                       
-      } else if(numChildren > 0) {
-        for(i <- 0 until 4) {
-          val child = children(i)
-          if(child != null)
-            child(circle, result)
-        }
+    if(data != null) {
+      var i = 0
+      while(i < data.size) {
+        result += data(i)
+        i += 1
+        if(i == maxNeighbours)
+          return result
+      }
+      
+    } else if(numChildren > 0) {
+      var i = 0
+      while(i < 4) {
+        val child = children(i)
+        if(child != null)
+          child(circle, result)
+        i += 1
       }
     }
-    r
+    result
   }
   
   /**

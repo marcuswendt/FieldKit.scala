@@ -28,17 +28,30 @@ class ParticleSystem extends Logger {
    * Prepare particle space and update all flocks
    */
   def update(dt:Float) = {
-    // prepare space
-    if(useSpatialOptimisation) {
-      space.clear
-          
-      flocks foreach { f =>
-        f.particles foreach { p => space.insert(p.asInstanceOf[Vec]) }
+    if(useSpatialOptimisation)
+      updateSpace
+    
+    var i = 0
+    while(i < flocks.size) {
+      flocks(i).update(dt)
+      i += 1
+    }
+  }
+  
+  def updateSpace {
+    space.clear
+    var i = 0
+    var j = 0
+    while(i < flocks.size) {
+      val flock = flocks(i)
+      i += 1
+      
+      j = 0
+      while(j < flock.size) {
+        space.insert(flock(j).asInstanceOf[Vec])
+        j += 1
       }
     }
-    
-    // update flocks & particles
-    flocks.foreach(_.update(dt))
   }
   
   def +=(f:Flock[_]) {

@@ -17,14 +17,24 @@ object OtherFlockRepelTest extends test.Sketch {
   import kit.math.Common
   import kit.math.geometry._
   
-  val ps = new ParticleSystem
+  val PARALLEL = true
+  
+  var ps:ParticleSystem = _
+  
+  if(!PARALLEL) {
+    ps = new ParticleSystem
+    
+  } else {
+    ps = new ParallelParticleSystem(2) 
+  }
   
   // -- basic flock ------------------------------------------------------------
   val f = new Flock[Particle]
   ps += f
   f.emitter.rate = 100
   f.emitter.interval = 1
-  f.emitter.max = 1000
+  f.emitter.max = 2000
+  
   
   val initialiser = new Initialiser
   initialiser.lifeTime = 4000
@@ -60,10 +70,10 @@ object OtherFlockRepelTest extends test.Sketch {
     def apply(p:Particle, dt:Float) {
       p.x = mouseX
       p.y = mouseY
+      p.z = 0
       p.size = repelMouse.rangeAbs
     }
   }
-  
   
   // -- misc -------------------------------------------------------------------
   val timer = new Timer
@@ -93,8 +103,10 @@ object OtherFlockRepelTest extends test.Sketch {
       zrot += (mouseX*0.01f-zrot)*0.1f
     }
     
-    val dt = timer.update 
-    ps.update(dt)
+//    if(!PARALLEL) {
+	if(frameCount > 10) {
+	  ps.update(timer.update)
+	}
     
     // render
     background(64)
@@ -120,17 +132,28 @@ object OtherFlockRepelTest extends test.Sketch {
   
   def drawParticles {
     // draw small particles
+//    f.particles foreach {p => 
+//      if(showDebug) {
+//        noFill
+//        stroke(255)
+//        ellipse(p.x, p.y, repel.rangeAbs, repel.rangeAbs)
+//      }
+//      
+//      fill(255)
+//      noStroke
+//      rect(p.x, p.y, 3, 3)
+//    }
+    
+    import javax.media.opengl.GL 
+    beginGL
+    gl.glPointSize(3f)
+    gl.glColor4f(1f,1f,1f,1f)
+    gl.glBegin(GL.GL_POINTS)
     f.particles foreach {p => 
-      if(showDebug) {
-        noFill
-        stroke(255)
-        ellipse(p.x, p.y, repel.rangeAbs, repel.rangeAbs)
-      }
-      
-      fill(255)
-      noStroke
-      rect(p.x, p.y, 3, 3)
+      gl.glVertex2f(p.x, p.y)
     }
+    gl.glEnd
+    endGL
     
     // draw mouse particle
     val mp = mf.particles(0)

@@ -17,26 +17,24 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
   // use a stateful emitter instead of the default
   emitter = new StatefulEmitter[P](this)
 
-  override def update(dt:Float) {
-    // update emitter / creates new particles
-    emitter.update(dt)
+  /** multi-threaded update */
+  override def update(dt:Float, worker:Int, teamSize:Int) {
+	var i = 0
+    var limit = particles.size
     
-    // prepare behaviours
-    var i = 0
-    while(i < behaviours.size) {
-      val b = behaviours(i)
-      if(b.isEnabled) b.prepare(dt)
-      i += 1
+    val jobSize = particles.size/teamSize
+    if(jobSize > 0) {
+      i = jobSize*worker
+      limit = jobSize*(worker+1)
     }
     
-    i = 0
-    var j = 0
-    while(i < particles.size) {
+    while(i < limit) {
       val p = particles(i)
+      i += 1
       
       if(p.isActive) {
         // apply behaviours
-        j = 0
+        var j = 0
         while(j < behaviours.size) {
           val b = behaviours(j)
           if(b.isEnabled) b.apply(p,dt)
@@ -46,7 +44,6 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
         // update particle
         p.update(dt)
       }
-      i += 1
     }
   }
   

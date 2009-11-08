@@ -32,10 +32,17 @@ extends Logger {
     emitter := ps.space
   }
   
+  /** simple, single threaded update */
   def update(dt:Float) {
-    // update emitter / creates new particles
+    prepare(dt)
+    update(dt, 0, 1)
+  }
+  
+  /** prepare needs to be called once per flock per update */
+  def prepare(dt:Float) {
+	// update emitter / creates new particles
     emitter.update(dt)
-      
+    
     // prepare behaviours
     var i = 0
     while(i < behaviours.size) {
@@ -43,45 +50,37 @@ extends Logger {
       if(b.isEnabled) b.prepare(dt)
       i += 1
     }
-
-    i = 0
-    while(i < particles.size) {
+  }
+  
+  /** multi-threaded update */
+  def update(dt:Float, worker:Int, teamSize:Int) {
+    var i = 0
+    var limit = particles.size
+    
+    val jobSize = particles.size/teamSize
+    if(jobSize > 0) {
+      i = jobSize*worker
+      limit = jobSize*(worker+1)
+    }
+    
+    while(i < limit) {
       val p = particles(i)
+      i += 1
       
       // apply behaviours
       var j = 0
       while(j < behaviours.size) {
         val b = behaviours(j)
-        if(b.isEnabled) b.apply(p,dt)
         j += 1
-      }
-      
-      // update particles
-      p.update(dt)
-      
-      // remove dead particles
-      if(p.age > p.lifeTime && p.lifeTime != Particle.UNDEFINED) this -= p
-    
-      i += 1
-    }
-    /*
-    behaviours foreach { b => 
-      if(b.isEnabled) b.prepare(dt)
-    }
-    
-    particles foreach { p =>
-      // apply behaviours      
-      behaviours foreach { b =>
         if(b.isEnabled) b.apply(p,dt)
       }
-
+      
       // update particles
       p.update(dt)
       
       // remove dead particles
       if(p.age > p.lifeTime && p.lifeTime != Particle.UNDEFINED) this -= p
     }
-    */
   }
   
   // ---------------------------------------------------------------------------

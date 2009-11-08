@@ -21,7 +21,7 @@ abstract class BaseFlockingBehaviour extends Behaviour {
   
   var rangeAbs = 0f  
   protected val tmp = Vec3()
-  protected val neighbours = new ArrayBuffer[Vec]
+  //protected val neighbours = new ArrayBuffer[Vec]
   
   override def prepare(dt:Float) {
     rangeAbs = ps.space.toAbsolute(range)
@@ -43,7 +43,8 @@ abstract class BaseFlockingBehaviour extends Behaviour {
  */
 class FlockRepel extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
-    ps.space(p, rangeAbs, neighbours)
+    //ps.space(p, rangeAbs, neighbours)
+    val neighbours = ps.space(p, rangeAbs, null)
     
     var i = 0
 	while(i < neighbours.size) {
@@ -63,7 +64,8 @@ class FlockRepel extends BaseFlockingBehaviour {
 /** A hard repulsion force that applies to all particles from all flocks */
 class FlockRepelHard extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
-    ps.space(p, rangeAbs, neighbours)
+    //ps.space(p, rangeAbs, neighbours)
+    val neighbours = ps.space(p, rangeAbs, null)
     
     var i = 0
 	while(i < neighbours.size) {
@@ -87,8 +89,9 @@ class FlockRepelHard extends BaseFlockingBehaviour {
  */
 class FlockAttract extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
-    ps.space(p, rangeAbs, neighbours)
-
+    //ps.space(p, rangeAbs, neighbours)
+    val neighbours = ps.space(p, rangeAbs, null)
+    
     var i = 0
 	while(i < neighbours.size) {
 	  val n = neighbours(i).asInstanceOf[Particle]
@@ -112,8 +115,9 @@ class FlockAttract extends BaseFlockingBehaviour {
  */
 class FlockAlign extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
-    ps.space(p, rangeAbs, neighbours)
-
+    //ps.space(p, rangeAbs, neighbours)
+    val neighbours = ps.space(p, rangeAbs, null)
+    
     var i = 0
 	while(i < neighbours.size) {
 	  val n = neighbours(i).asInstanceOf[Particle]

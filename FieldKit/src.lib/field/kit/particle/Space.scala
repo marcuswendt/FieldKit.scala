@@ -58,8 +58,19 @@ extends Space(width, height, depth) {
   var tree = new Quadtree(null, (x,y), (width/2f, height/2f))
   
   override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
-    result.clear
-    tree(new Circle(point, radius), result)
+    val r = if(result == null) {
+      new ArrayBuffer[Vec] 
+    } else {
+      result.clear
+      result
+    }
+    
+    try {
+      tree(new Circle(point, radius), r)
+    } catch {
+      case e:NullPointerException =>
+    }
+    r
   }
 
   override def insert(particle:Vec) = tree.insert(particle)
