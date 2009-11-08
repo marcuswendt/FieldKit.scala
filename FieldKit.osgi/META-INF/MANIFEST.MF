@@ -7,9 +7,14 @@ Bundle-ClassPath: FieldKit.jar,
  core.jar,
  opengl.jar,
  gluegen-rt.jar,
- jogl.jar
+ jogl.jar,
+ controlP5.jar,
+ jna.jar
 Export-Package: 
  com.sun.gluegen.runtime,
+ com.sun.jna,
+ com.sun.jna.ptr,
+ com.sun.jna.win32,
  com.sun.opengl.cg,
  com.sun.opengl.impl,
  com.sun.opengl.impl.error,

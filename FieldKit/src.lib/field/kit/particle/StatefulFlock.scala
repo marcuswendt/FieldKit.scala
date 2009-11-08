@@ -43,31 +43,11 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
           j += 1
         }
         
-        // update particles
+        // update particle
         p.update(dt)
       }
       i += 1
     }
-    
-    /*
-    // prepare behaviours
-    behaviours foreach { b => 
-      if(b.isEnabled) b.prepare(dt)
-    }
-
-    particles foreach { p =>
-      // only update alive particels
-      if(p.isAlive) {
-        // apply behaviours      
-        behaviours foreach { b =>
-          if(b.isEnabled) b.apply(p,dt)
-        }
-        
-        // update particles
-        p.update(dt)
-      }
-    }
-    */
   }
   
   /**

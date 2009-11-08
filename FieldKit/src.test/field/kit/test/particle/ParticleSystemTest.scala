@@ -54,8 +54,8 @@ object ParticleSystemTest extends test.Sketch {
 //    }
 //  }
   
-  val repel = new Repel
-  repel.isSameFlock = true
+  val repel = new FlockRepel
+  repel.isAppliedToOwnFlock = true
   repel.range = 0.01f
   repel.weight = 1f
   f += repel

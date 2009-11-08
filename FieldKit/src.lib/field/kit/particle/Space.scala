@@ -12,6 +12,10 @@ import math.geometry.AABB
 
 import scala.collection.mutable.ArrayBuffer
 
+object Space {
+  val DEFAULT = new Vec3(1000f, 1000f, 1000f)
+}
+
 /** 
  * Represents a cubic space and also provides an interface (through subclassing) 
  * for various spatial optimisation techniques (Octree, Quadtree, ...)

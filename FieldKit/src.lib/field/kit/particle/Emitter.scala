@@ -35,9 +35,6 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
       time = 0
       
       // prepare behaviours
-//      behaviours foreach { b => 
-//      	if(b.isEnabled) b.prepare(dt)
-//      }
       var i = 0
       while(i < behaviours.size) {
         val b = behaviours(i)
@@ -64,9 +61,6 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
     flock += p
     
     // apply behaviours      
-//    behaviours foreach { b =>
-//      if(b.isEnabled) b.apply(p,0)
-//    }
     var i = 0
     while(i < behaviours.size) {
       val b = behaviours(i)

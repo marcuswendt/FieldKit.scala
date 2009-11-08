@@ -17,7 +17,7 @@ abstract class BaseFlockingBehaviour extends Behaviour {
   
   var range = 0.01f // [0,1]
   var weight = 1f // [0, 1]
-  var applyToSelf = true
+  var isAppliedToOwnFlock = true
   
   var rangeAbs = 0f  
   protected val tmp = Vec3()
@@ -32,7 +32,7 @@ abstract class BaseFlockingBehaviour extends Behaviour {
    * 2. apply only from particles in the same flock
    */ 
   final def doesApply(p:Particle, n:Particle) =
-    p != n && ((p.flock == n.flock) == applyToSelf)
+    p != n && ((p.flock == n.flock) == isAppliedToOwnFlock)
 }
 
 // -----------------------------------------------------------------------------
@@ -64,17 +64,17 @@ class FlockRepel extends BaseFlockingBehaviour {
 class FlockRepelHard extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
     ps.space(p, rangeAbs, neighbours)
-
-    val numNeighbours = neighbours.size
-    if(numNeighbours < 1) return
     
     var i = 0
-	while(i < numNeighbours) {
+	while(i < neighbours.size) {
 	  val n = neighbours(i).asInstanceOf[Particle]
-      tmp := n -= p
-      tmp *= -weight * 10f
-      p.steer += tmp
       i += 1
+      
+      if(doesApply(p, n)) {
+        tmp := n -= p
+        tmp *= -weight
+        p.steer += tmp
+      }
     } 
   }
 }

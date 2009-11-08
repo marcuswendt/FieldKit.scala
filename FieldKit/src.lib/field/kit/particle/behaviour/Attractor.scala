@@ -12,6 +12,7 @@ package field.kit.particle.behaviour
  */
 class AttractorPoint extends Behaviour {
   import math.Vec3
+  
   var position = Vec3()
   var range = 0.1f
   var weight = 0.1f
@@ -44,10 +45,9 @@ class AttractorRandomPoint extends AttractorPoint {
   var max = Vec3(1f,1f,1f)
   var interval = 1000
   
-  protected var timer = 0f
+  protected var timer = 100000000f
     
   override def prepare(dt:Float) {
-    timer += dt
     if(timer > interval) {
       timer = 0
       position.x = random(min.x, max.x)
@@ -55,5 +55,6 @@ class AttractorRandomPoint extends AttractorPoint {
       position.z = random(min.z, max.z)
       super.prepare(dt)
     }
+    timer += dt
   }
 }

@@ -45,7 +45,7 @@ object OtherFlockRepelTest extends test.Sketch {
   
   // makes particles bounce of all other flocks particles
   val repelMouse = new FlockRepel {
-    applyToSelf = false
+    isAppliedToOwnFlock = false
     range = 0.05f
     weight = 20
   }

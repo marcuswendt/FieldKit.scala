@@ -38,7 +38,7 @@
 			<string>true</string>
 		</dict>
 		<key>VMOptions</key>
-      	<string>-server -d64</string>
+      	<string>-server</string>
 	</dict>
 </dict>
 </plist>
