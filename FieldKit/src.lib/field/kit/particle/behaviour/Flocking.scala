@@ -107,6 +107,26 @@ class FlockAttract extends BaseFlockingBehaviour {
   }
 }
 
+/** A hard repulsion force that applies to all particles from all flocks */
+class FlockAttractHard extends BaseFlockingBehaviour {
+  def apply(p:Particle, dt:Float) {
+    //ps.space(p, rangeAbs, neighbours)
+    val neighbours = ps.space(p, rangeAbs, null)
+    
+    var i = 0
+	while(i < neighbours.size) {
+	  val n = neighbours(i).asInstanceOf[Particle]
+      i += 1
+      
+      if(doesApply(p, n)) {
+        tmp := n -= p
+        tmp *= weight
+        p.steer += tmp
+      }
+    } 
+  }
+}
+
 // -----------------------------------------------------------------------------
 
 /**

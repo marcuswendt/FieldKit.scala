@@ -16,19 +16,20 @@ import kit.math.Common._
  * @author Marcus Wendt
  */
 class DirectionalForce extends Behaviour {
-  protected var _weight = 1f
+  var weight = 1f
   protected var _direction = Vec3()
   protected val tmp = Vec3()
   
-  override def prepare(dt:Float) = tmp := _direction *= _weight
+  override def prepare(dt:Float) = tmp := _direction *= weight
   
   def apply(p:Particle, dt:Float) = p.steer += tmp
   
-  def weight_=(v:Float) = _weight = clamp(v, 0, 1)
-  def weight = _weight
-  
   def direction_=(v:Vec3) = _direction := v normalize
   def direction = _direction
+}
+
+class DirectionalVelocity extends DirectionalForce {
+  override def apply(p:Particle, dt:Float) = p.velocity += tmp
 }
 
 class Wind extends DirectionalForce {
