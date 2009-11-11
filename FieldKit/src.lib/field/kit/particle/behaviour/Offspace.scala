@@ -1,18 +1,19 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created November 3, 2009 */
 package field.kit.particle.behaviour
 
 
 /**
- * reflects a particle at the edges of a defined plane
+ * 2D Behaviour
+ * Sets a particles position to be on one of the simulation space edges
  * @author Marcus Wendt
  */
-class Offspace extends Behaviour {
+class Offspace2D extends Behaviour {
   import math.Common._
   import math.Vec3
   
@@ -31,6 +32,29 @@ class Offspace extends Behaviour {
   }
     
   def apply(p:Particle, dt:Float) {
+    val edge = random(0, 3).toInt
+    val position = random(0f, 1f)
     
+    edge match {
+      // left 
+      case 0 =>
+        p.x = 0
+        p.y = position * ps.space.height
+        
+      // top
+      case 1 =>
+        p.x = position * ps.space.width
+        p.y = ps.space.height
+         
+      // right
+      case 2 =>
+        p.x = ps.space.width
+        p.y = position * ps.space.height
+          
+      // bottom
+      case 3 =>
+        p.x = position * ps.space.width
+        p.y = 0
+    }
   }
 }

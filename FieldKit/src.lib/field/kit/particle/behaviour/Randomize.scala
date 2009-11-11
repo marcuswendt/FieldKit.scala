@@ -12,7 +12,7 @@ package field.kit.particle.behaviour
  * note: min and max should be given as positive normalized vectors [0, 1]
  * @author Marcus Wendt
  */
-class Randomize extends Behaviour {
+class EmitterRandomize extends Behaviour {
   import math.Vec3
   
   val min = Vec3(0f)

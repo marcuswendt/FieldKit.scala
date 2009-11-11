@@ -98,6 +98,7 @@ extends Logger {
     fine("adding", p)
     p.flock = this
     p.ps = ps
+    p.id = this.size
     p.init
     particles += p
   }

@@ -50,7 +50,7 @@ object OtherFlockRepelTest extends test.Sketch {
   }
   
   f += new Wind
-  f += new Wrap2D
+  f += new BorderWrap2D
   val repel = new FlockRepel
   
   // makes particles bounce of all other flocks particles

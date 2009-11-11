@@ -15,6 +15,7 @@ object ParticleSystemTest extends test.Sketch {
   import kit.particle.behaviour._
   import kit.util.Timer
   import kit.math.Common
+  import kit.math.Common._
   import kit.math.geometry._
   
   val ps = new ParticleSystem
@@ -26,17 +27,17 @@ object ParticleSystemTest extends test.Sketch {
   
   val initialiser = new Initialiser
   initialiser.isPerpetual = true
-  initialiser.acceleration = 1f
-  initialiser.velocity = 10f
+  initialiser.acceleration = 2f
+  initialiser.velocity = 25f
   
   f.emitter += initialiser
   f.emitter += new Randomize
   
   val wind = new Wind
   wind.weight = 0.25f
-  f += wind
-  
-  f += new Wrap2D
+//  f += wind
+//  
+//  f += new BorderWrap2D
 //  f += new Wrap3D
   
 //  f += new Behaviour {
@@ -58,7 +59,7 @@ object ParticleSystemTest extends test.Sketch {
   repel.isAppliedToOwnFlock = true
   repel.range = 0.01f
   repel.weight = 1f
-  f += repel
+//  f += repel
   
 //  val attract = new Attract
 //  attract.range = 0.025f
@@ -69,6 +70,11 @@ object ParticleSystemTest extends test.Sketch {
 //  align.range = 0.05f
 //  align.weight = 0.01f
 //  f += align
+  
+  val circular = new AttractorCircular
+  f += circular
+  circular.position := (0.5f, 0.5f, 0f)
+  circular.weight = 1f
   
   val timer = new Timer
   

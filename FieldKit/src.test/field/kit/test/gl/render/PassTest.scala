@@ -76,7 +76,7 @@ object PassTest extends field.kit.test.Sketch {
     }
 
     f += new Wind
-    f += new Wrap2D
+    f += new BorderWrap2D
     f += new Behaviour {
       logName = "perlin"
       

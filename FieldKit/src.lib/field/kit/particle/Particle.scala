@@ -26,6 +26,7 @@ class Particle extends Vec3 with Logger {
   // set when particle is being added to a flock
   var flock:Flock[_] = null
   var ps:ParticleSystem = null
+  var id = 0
   
   var age = 0f
   var lifeTime = 10 * 1000f
