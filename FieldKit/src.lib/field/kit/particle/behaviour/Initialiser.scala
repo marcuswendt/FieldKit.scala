@@ -11,7 +11,7 @@ package field.kit.particle.behaviour
  * Sets a particles life time, maximum velocity and maximum steer
  * @author Marcus Wendt
  */
-class EmitterInitialiser extends Behaviour {
+class Initialiser extends Behaviour {
   var acceleration = 1f
   var accelerationVariation = 0f // [0,1]
   
