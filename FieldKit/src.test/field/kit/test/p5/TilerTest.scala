@@ -7,9 +7,11 @@
 /* created August 31, 2009 */
 package field.kit.test.p5
 
-object TilerTest extends test.Sketch {
-  import kit.math.Common
-  import kit.math.Common._
+import field.kit.test.Sketch
+
+object TilerTest extends Sketch {
+  import field.kit.math.Common
+  import field.kit.math.Common._
   
   var gridX = 2f
   var gridY = 2f

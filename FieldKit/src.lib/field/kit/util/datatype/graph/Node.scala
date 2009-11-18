@@ -7,6 +7,8 @@
 /* created April 15, 2009 */
 package field.kit.util.datatype.graph
 
+import field.kit.Logger
+
 /** 
  * Atomic building block of an acyclic connected graph structure 
  * @see http://en.wikipedia.org/wiki/Tree_data_structure

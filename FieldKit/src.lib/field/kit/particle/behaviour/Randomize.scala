@@ -7,14 +7,16 @@
 /* created October 24, 2009 */
 package field.kit.particle.behaviour
 
+import field.kit.particle._
+import field.kit.math.Vec3
+import field.kit.math.Common._  
+
 /**
  * randomly place the particle within a defined cube
  * note: min and max should be given as positive normalized vectors [0, 1]
  * @author Marcus Wendt
  */
 class Randomise extends Behaviour {
-  import math.Vec3
-  
   val min = Vec3(0f)
   val max = Vec3(1f)
   var weight = 1f
@@ -28,7 +30,6 @@ class Randomise extends Behaviour {
   }
   
   def apply(p:Particle, dt:Float) {
-    import kit.math.Common._
     p.x = minAbs.x + maxAbs.x * random
     p.y = minAbs.y + maxAbs.y * random
     p.z = minAbs.z + maxAbs.z * random

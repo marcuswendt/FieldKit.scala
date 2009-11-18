@@ -7,9 +7,10 @@
 /* created March 17, 2009 */
 package field.kit.test.gl.scene.shape
 
-import field.kit._
+import field.kit.test.Sketch
+import field.kit.Colour
 
-abstract class ShapeTest extends test.Sketch {
+abstract class ShapeTest extends Sketch {
   import field.kit.gl.scene.Mesh
   
   var s:Mesh = _

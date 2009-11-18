@@ -7,6 +7,10 @@
 /* created October 25, 2009 */
 package field.kit.particle.behaviour
 
+import field.kit.particle._
+import field.kit.math.Common._
+import field.kit.math.Vec3
+
 /**
  * Sets a particles life time, maximum velocity and maximum steer
  * @author Marcus Wendt
@@ -33,7 +37,6 @@ class Initialiser extends Behaviour {
    * calculates a value based on a base value and a variant part
    */
   private def value(value:Float, variation:Float) = {
-    import kit.math.Common._
     val invariant = value * (1f - variation)
     val variant = value * variation * random
     invariant + variant
@@ -47,8 +50,6 @@ class Initialiser extends Behaviour {
  * @author Marcus Wendt
  */
 class EmitterRandomize extends Behaviour {
-  import math.Vec3
-  
   val min = Vec3(0f)
   val max = Vec3(1f)
   var weight = 1f
@@ -62,7 +63,6 @@ class EmitterRandomize extends Behaviour {
   }
   
   def apply(p:Particle, dt:Float) {
-    import kit.math.Common._
     p.x = minAbs.x + maxAbs.x * random
     p.y = minAbs.y + maxAbs.y * random
     p.z = minAbs.z + maxAbs.z * random

@@ -8,6 +8,7 @@
 package field.kit.p5
 
 import processing.core.PAppletProxy
+import field.kit.Logger
 
 /**
  * base class for all Scala-Processing based applets

@@ -7,12 +7,13 @@
 /* created August 03, 2009 */
 package field.kit.math.geometry
 
+import field.kit.math._
+import field.kit.math.Common._
+
 /**
  * Axis-aligned bounding box used for Octrees and other optimisation techniques
  */
 class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
-  import kit.math.Common._
-  
   var min = Vec3()
   var max = Vec3()
   

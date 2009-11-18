@@ -7,7 +7,8 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import transform._
+import field.kit.gl.scene.transform.RenderStateable
+import field.kit.gl.scene.transform.Triangulator
 
 /** 
  * Base class for all sorts of polygon mesh geometry
@@ -19,8 +20,10 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   import javax.media.opengl.GL
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
-  import math.Common._
-
+  
+  import field.kit.math.Common._
+  import field.kit.Colour
+  
   /** Stores the actual data buffers */
   var data = new MeshData
   
@@ -119,8 +122,8 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Creates a VBO and accompanying buffer
    */
   protected def initInterleavedDataVBO {
-    import kit.gl.render.GLObject
-    import kit.gl.render.objects.VertexBuffer
+    import field.kit.gl.render.GLObject
+    import field.kit.gl.render.objects.VertexBuffer
     
     // make sure we have a valid vbo
     if(data.vbo == null) 
@@ -137,7 +140,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
     if(data.normals != null) bufferSize += data.normals.limit
     if(data.colours != null) bufferSize += data.colours.limit
     if(data.textureCoords != null) {
-      for(buffer <- data.textureCoords)
+      for(buffer:FloatBuffer <- data.textureCoords)
         bufferSize += buffer.limit
     }
     if(data.vertices != null) bufferSize += data.vertices.limit

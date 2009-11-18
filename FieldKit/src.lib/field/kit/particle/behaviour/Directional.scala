@@ -7,8 +7,9 @@
 /* created April 02, 2009 */
 package field.kit.particle.behaviour
 
-import kit.math._
-import kit.math.Common._
+import field.kit.particle._
+import field.kit.math.Common._
+import field.kit.math.Vec3
 
 /**
  * a simple force that is applied to the steering vector of a particle

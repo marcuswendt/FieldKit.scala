@@ -7,19 +7,23 @@
 /* created May 08, 2009 */
 package field.kit.test.gl.scene.state
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the fullscreen mode switch
  */
-object AlphaStateTest extends field.kit.test.Sketch {
-  import kit.math.Common._
-  import kit.gl.scene._
-  import kit.gl.scene.shape._
-  import kit.gl.scene.state._
+object AlphaStateTest extends Sketch {
+	import processing.core.PConstants
+	
+	import field.kit.Colour
+	import field.kit.math.Common._
+	import field.kit.gl.scene._
+	import field.kit.gl.scene.shape._
+	import field.kit.gl.scene.state._
   
-  init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
-    import processing.core.PConstants
-    hint(PConstants.ENABLE_DEPTH_SORT)
-  })
+	init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
+		hint(PConstants.ENABLE_DEPTH_SORT)
+	})
   
   val w = 550f
   val h = 550f

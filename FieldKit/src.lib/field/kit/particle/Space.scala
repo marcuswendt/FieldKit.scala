@@ -7,8 +7,10 @@
 /* created April 02, 2009 */
 package field.kit.particle
 
-import math._
-import math.geometry.AABB
+import field.kit.math._
+import field.kit.math.Common._
+import field.kit.math.geometry._
+import field.kit.math.geometry.AABB
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -52,9 +54,6 @@ extends AABB(Vec3(0, 0, -depth/2f), Vec3(width, height, depth)) {
  */
 class QuadtreeSpace(width:Float, height:Float, depth:Float) 
 extends Space(width, height, depth) {
-  import math.geometry._
-  import math.Common._
-  
   var tree = new Quadtree(null, (x,y), (width/2f, height/2f))
   
   override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
@@ -84,9 +83,6 @@ extends Space(width, height, depth) {
  */
 class OctreeSpace(width:Float, height:Float, depth:Float) 
 extends Space(width, height, depth) {
-  import math.geometry._
-  import math.Common._
-  
   val tree = new Octree(null, this, (width/2f, height/2f, depth/2f))
   
   override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {

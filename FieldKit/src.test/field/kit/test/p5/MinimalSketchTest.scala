@@ -7,11 +7,13 @@
 /* created May 08, 2009 */
 package field.kit.test.p5
 
+import field.kit.test.Sketch
+
 /** 
  * simplistic sketch test, just to make sure there are no memory leaks in Sketch
  * needs to be started with: -Dcom.sun.management.jmxremote=true
  */
-object MinimalSketchTest extends test.Sketch {
+object MinimalSketchTest extends Sketch {
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   

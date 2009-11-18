@@ -7,13 +7,15 @@
 /* created November 3, 2009 */
 package field.kit.particle.behaviour
 
+import field.kit.particle._
+
 /**
  * Base class for all flocking behaviours
  */
 abstract class BaseFlockingBehaviour extends Behaviour {
-  import math.Common._
-  import math._
-  import collection.mutable.ArrayBuffer
+  import field.kit.math.Common._
+  import field.kit.math._
+  import scala.collection.mutable.ArrayBuffer
   
   var range = 0.01f // [0,1]
   var weight = 1f // [0, 1]

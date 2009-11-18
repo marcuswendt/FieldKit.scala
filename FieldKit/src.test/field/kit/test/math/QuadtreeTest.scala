@@ -7,16 +7,21 @@
 /* created November 03, 2009 */
 package field.kit.test.math
 
+import field.kit.test.Sketch
+
 /**
  * Test for the Quadtree geometry class
  */
-object QuadtreeTest extends test.Sketch {
+object QuadtreeTest extends Sketch {
   import processing.core.PConstants._
-  import kit.math.geometry._
-  import kit.math._
-  import kit.math.Common._
-  import kit.util.datatype.collection.ArrayBuffer
-
+  
+  import field.kit.math.geometry._
+  import field.kit.math._
+  import field.kit.math.Common._
+  
+  import field.kit.util.datatype.collection.ArrayBuffer
+  import field.kit.util.Timer
+  
   class VisibleQuadtree(offset:Vec2, size:Vec2) extends Quadtree(null, offset, size) {
     def draw = {
       rectMode(processing.core.PConstants.CENTER)
@@ -173,7 +178,7 @@ object QuadtreeTest extends test.Sketch {
     ellipse(pointer.x,pointer.y, RADIUS*2, RADIUS*2)
   }
   
-  val timer = new kit.util.Timer
+  val timer = new Timer
   def frameInfo {
     val dt = timer.update
     if(frameCount % 100 == 0) {

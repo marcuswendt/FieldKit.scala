@@ -7,9 +7,9 @@
 /* created March 17, 2009 */
 package field.kit.test.gl.scene.shape
 
-import field.kit._
+import field.kit.test.Sketch
 
-object CubeTest extends test.Sketch {
+object CubeTest extends Sketch {
   import field.kit.gl.scene.Mesh
   import field.kit.math.Common._
   

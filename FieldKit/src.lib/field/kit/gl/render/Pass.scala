@@ -7,9 +7,9 @@
 /* created June 04, 2009 */
 package field.kit.gl.render
 
-import scene.state.ShaderState
-import scene.shape.Quad
-import math.Vec3
+import field.kit.gl.scene.state.ShaderState
+import field.kit.gl.scene.shape.Quad
+import field.kit.math.Vec3
 
 /** Companion object to class <code>Pass</code> */
 object Pass {
@@ -35,11 +35,11 @@ object Pass {
 class Pass(name:String, var shader:ShaderState, width:Int, height:Int, alpha:Boolean, depth:Boolean)
            extends Quad(name+"Pass") {
              
-  import kit.gl.scene.state.TextureState
-  import kit.gl.render.objects.Texture
-  import kit.math.Common._
+  import field.kit.gl.scene.state.TextureState
+  import field.kit.gl.render.objects.Texture
+  import field.kit.math.Common._
   
-  scale := (width, height, 1f)
+  scale := (width.toFloat, height.toFloat, 1f)
   translation := (width/2f, height/2f, 0f)
   
   var capture = new Capture(width, height, alpha, depth)

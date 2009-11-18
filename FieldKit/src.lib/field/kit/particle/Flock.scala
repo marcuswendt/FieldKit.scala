@@ -16,21 +16,17 @@ import scala.reflect.Manifest
  */
 class Flock[P <: Particle](implicit m:Manifest[P]) 
 extends Logger { 
-  // with Collection[P] - DO NOT inherit from Collection because this circumvents
-  // the optimized field ArrayBuffer and creates memory leaks
+	import scala.collection.mutable.ArrayBuffer
   
-  import field.kit.util.datatype.collection.ArrayBuffer
-  fine("init")
-  
-  var ps:ParticleSystem = null
-  var emitter = new Emitter[P](this)
-  var particles = new ArrayBuffer[P]
-  var behaviours = new ArrayBuffer[Behaviour]
-
-  /** called automatically when the flock is added to the particle system */
-  def init {
-    emitter := ps.space
-  }
+	var ps:ParticleSystem = null
+	var emitter = new Emitter[P](this)
+	var particles = new ArrayBuffer[P]
+	var behaviours = new ArrayBuffer[Behaviour]
+	
+	/** called automatically when the flock is added to the particle system */
+	def init {
+		emitter := ps.space
+	}
   
   /** simple, single threaded update */
   def update(dt:Float) {

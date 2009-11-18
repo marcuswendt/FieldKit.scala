@@ -7,15 +7,17 @@
 /* created November 05, 2009 */
 package field.kit.test.particle
 
+import field.kit.test.Sketch
+
 /** 
  * tests two flocks repelling from each other
  */
-object OtherFlockRepelTest extends test.Sketch {
-  import kit.particle._
-  import kit.particle.behaviour._
-  import kit.util.Timer
-  import kit.math.Common
-  import kit.math.geometry._
+object OtherFlockRepelTest extends Sketch {
+  import field.kit.particle._
+  import field.kit.particle.behaviour._
+  import field.kit.util.Timer
+  import field.kit.math.Common
+  import field.kit.math.geometry._
   
   val PARALLEL = true
   
@@ -204,7 +206,7 @@ object OtherFlockRepelTest extends test.Sketch {
     }
   }
   
-  val timerInfo = new kit.util.Timer
+  val timerInfo = new Timer
   def frameInfo {
     val dt = timerInfo.update
     if(frameCount % 100 == 0) {

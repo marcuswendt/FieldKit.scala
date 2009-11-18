@@ -7,10 +7,11 @@
 /* created August 26, 2009 */
 package field.kit.gl.scene.shape
 
-import gl.scene._
-import math.Common._
-import math._
-  
+import field.kit.gl.scene._
+import field.kit.math.Common._
+import field.kit.math._
+import field.kit.util.Buffer
+
 /**
  * Companion object to class <code>Box</code>
  */
@@ -50,7 +51,6 @@ class Box(name:String,
     this.extentZ = extentZ
     
     // -- Vertices -------------------------------------------------------------
-    import util.Buffer
     val vertices = data.allocVertices(24)
     val vd = computeVertices
     

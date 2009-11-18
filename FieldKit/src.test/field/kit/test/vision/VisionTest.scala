@@ -7,21 +7,23 @@
 /* created October 28, 2009 */
 package field.kit.test.vision
 
+import field.kit.test.Sketch
+
 /**
  * VM Args: -Djna.library.path=lib/vision
  * Until OpenCV.framework can be compiled as 64bit also use -d32
  */
-object VisionTest extends test.Sketch {
-  import kit.vision._
+object VisionTest extends Sketch {
   import processing.core._
   import processing.core.PConstants._
   import javax.media.opengl._
   import controlP5._
   
-  import kit.math.Vec3
-  import kit.math.Common._
+  import field.kit.vision._
+  import field.kit.math.Vec3
+  import field.kit.math.Common._
   
-  import kit.gl.scene.shape.Quad
+  import field.kit.gl.scene.shape.Quad
   
   var index = 0
   var showStage = true
@@ -40,7 +42,8 @@ object VisionTest extends test.Sketch {
   Vision.useContours = false
   
   //init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
-  init(1024, 768, DEFAULT_FULLSCREEN, 0, {
+  //init(1024, 768, DEFAULT_FULLSCREEN, 0, {
+   init(950, 712, DEFAULT_FULLSCREEN, 0, {
     info(width, height)
     
     // init ui

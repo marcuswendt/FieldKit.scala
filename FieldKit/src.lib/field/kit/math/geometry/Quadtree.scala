@@ -7,6 +7,8 @@
 /* created November 03, 2009 */
 package field.kit.math.geometry
 
+import field.kit.math._
+
 ///** Companion object to class <code>Quadtree</code> */
 //object Quadtree {
 //  def apply(offset:Vec2, size:Float) = 

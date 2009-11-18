@@ -7,6 +7,8 @@
 /* created August 03, 2009 */
 package field.kit.math.geometry
 
+import field.kit.math._
+
 /**
  * 
  * Direct port of Karsten Schmidts PointOctree.java to Scala/ FieldKit

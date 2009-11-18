@@ -7,11 +7,13 @@
 /* created May 18, 2009 */
 package field.kit.test.misc
 
+import field.kit._
+
 /**
  * test, trying to solve <code>ArrayBuffer</code>s memory leak problems by finding
  * a way to not use iterators
  */
-object OptimizedArrayBufferTest extends field.kit.Logger {
+object OptimizedArrayBufferTest extends Logger {
   logName = ""
   
   val dt = 0.1f

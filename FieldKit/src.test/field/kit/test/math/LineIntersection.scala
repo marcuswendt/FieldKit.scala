@@ -7,9 +7,9 @@
 /* created April 18, 2009 */
 package field.kit.test.math
 
-import field.kit._
+import field.kit.test.Sketch
 
-object LineIntersectionTest extends test.Sketch {
+object LineIntersectionTest extends Sketch {
   import field.kit.math._
   
   val l1 = new LineDebug

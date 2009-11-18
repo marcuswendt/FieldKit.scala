@@ -7,12 +7,14 @@
 /* created November 3, 2009 */
 package field.kit.particle.behaviour
 
+import field.kit.particle._
+import field.kit.math.Common._
+import field.kit.math.Vec3
+
 /**
  * A static attractor towards a point
  */
 class AttractorPoint extends Behaviour {
-  import math.Vec3
-  
   /** normalized value [0,1] */
   var position = Vec3()
   
@@ -42,9 +44,6 @@ class AttractorPoint extends Behaviour {
  * An attactor that jumps to a random position from time to time
  */
 class AttractorRandomPoint extends AttractorPoint {
-  import kit.math.Common._
-  import math.Vec3
-  
   var min = Vec3(0f,0f,0f)
   var max = Vec3(1f,1f,1f)
   var interval = 1000
@@ -69,8 +68,6 @@ class AttractorRandomPoint extends AttractorPoint {
  * It is essentially a 2D behaviour that operates on a plane (z=0)
  */
 class AttractorCircular extends AttractorPoint {
-  import math.Vec3
-  
   /** weight of the homing force */
   var homing = 0.5f
   

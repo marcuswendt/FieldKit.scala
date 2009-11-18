@@ -11,9 +11,9 @@ package field.kit.vision
  * Represents a single tracked object in the Vision library
  * @author Marcus Wendt
  */
-class Blob(val id:Int) extends math.Vec3 {
-  import math.geometry.AABR
-  import util.Buffer
+class Blob(val id:Int) extends field.kit.math.Vec3 {
+  import field.kit.math.geometry.AABR
+  import field.kit.util.Buffer
   
   var active = false
   val bounds = AABR()

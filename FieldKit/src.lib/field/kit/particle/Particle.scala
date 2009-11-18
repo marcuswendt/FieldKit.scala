@@ -7,7 +7,8 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import math.Vec3
+import field.kit.math.Vec3
+import field.kit.Logger
 
 object Particle {
   val UNDEFINED = -1

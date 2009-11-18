@@ -7,6 +7,9 @@
 /* created October 27, 2009 */
 package field.kit.vision
 
+import field.kit.Logger
+import field.kit.util.Timer
+  
 /**
  * VM Args: -Djna.library.path=res/vision/build/Release -d32
  */
@@ -86,7 +89,6 @@ object Vision extends Logger {
   
   val blobs = new Array[Blob](native.fvGetBlobCount)
 
-  import util.Timer
   val timer = new Timer
   
   // -- Initialisation ---------------------------------------------------------

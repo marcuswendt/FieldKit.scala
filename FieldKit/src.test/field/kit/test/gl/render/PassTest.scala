@@ -7,16 +7,19 @@
 /* created June 04, 2009 */
 package field.kit.test.gl.render
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the glsl shader state feature
  * TODO needs finishing
  */
-object PassTest extends field.kit.test.Sketch {
-  import kit.gl.render._
-  import kit.gl.scene._
-  import kit.gl.scene.shape._
-  import kit.gl.scene.state._
-  import kit.util._
+object PassTest extends Sketch {
+  import field.kit.gl.render._
+  import field.kit.gl.scene._
+  import field.kit.gl.scene.shape._
+  import field.kit.gl.scene.state._
+  import field.kit.util._
+  import field.kit.math.Common._
   
   var pass:Pass = null
   var scene:Spatial = null
@@ -99,7 +102,6 @@ object PassTest extends field.kit.test.Sketch {
     def draw {}
     
     override def render {
-      import kit.math.Common._
       import javax.media.opengl._
     
       // update

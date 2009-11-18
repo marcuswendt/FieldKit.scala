@@ -15,9 +15,10 @@ package field.kit.util.datatype.graph
  * @author Marcus Wendt
  */
 trait Branch[T <: Node] extends Collection[T] {
-  import field.kit.util.datatype.collection.ArrayBuffer
+  //import field.kit.util.datatype.collection.ArrayBuffer
+	import scala.collection.mutable.ArrayBuffer
   
-  protected var children:ArrayBuffer[T] = null
+	protected var children:ArrayBuffer[T] = null
  
   /**
    * @return returns the first child which matches the given name

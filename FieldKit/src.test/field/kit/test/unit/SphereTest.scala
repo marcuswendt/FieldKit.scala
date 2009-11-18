@@ -12,8 +12,8 @@ import org.junit.Assert._
 
 /** unit tests for the <code>SphereTest</code> class */
 class SphereTest extends TestCase {
-  import kit.math.Vec3
-  import kit.math.geometry.Sphere
+  import field.kit.math.Vec3
+  import field.kit.math.geometry.Sphere
   
   def testContainsOrigin { 
     var s = new Sphere(100f)

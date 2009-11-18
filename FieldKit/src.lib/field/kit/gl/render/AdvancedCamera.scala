@@ -11,8 +11,8 @@ package field.kit.gl.render
  * Implements more intuitive camera manipulation methods
  */
 class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
-  import math.Vec3
-  import math.Common._
+  import field.kit.math.Vec3
+  import field.kit.math.Common._
   
   protected var azimuth = 0f
   protected var elevation = 0f

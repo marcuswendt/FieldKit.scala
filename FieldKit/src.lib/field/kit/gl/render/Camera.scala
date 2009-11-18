@@ -7,6 +7,8 @@
 /* created August 25, 2009 */
 package field.kit.gl.render
 
+import field.kit.Logger
+
 /**
  * Construct a new Camera with the given frame width and height.
  * 
@@ -27,9 +29,9 @@ package field.kit.gl.render
  * @see http://www.gdsstudios.com/processing/libraries/ocd/
  */
 class Camera(var width:Int, var height:Int) extends Renderable with Logger {
-  import math._
-  import math.Common._
-  import util.Buffer
+  import field.kit.math._
+  import field.kit.math.Common._
+  import field.kit.util.Buffer
   import javax.media.opengl.GL
   import javax.media.opengl.glu.GLU
   

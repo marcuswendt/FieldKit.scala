@@ -17,7 +17,7 @@ object Buffer {
   import java.nio.FloatBuffer
   import java.nio.IntBuffer
 
-  import math.Vec3
+  import field.kit.math.Vec3
   
   def apply(size:Int) = 
     java.nio.ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder)

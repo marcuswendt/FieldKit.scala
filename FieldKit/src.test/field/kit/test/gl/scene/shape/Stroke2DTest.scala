@@ -7,10 +7,10 @@
 /* created March 24, 2009 */
 package field.kit.test.gl
 
-import field.kit._
+import field.kit.test.Sketch
 
 /** test to make sure the DynamicStroke2D is working properly */
-object Stroke2DTest extends test.Sketch {
+object Stroke2DTest extends Sketch {
   import field.kit.gl.scene.shape._
   
   var stroke = new Stroke2D("test", 1000)

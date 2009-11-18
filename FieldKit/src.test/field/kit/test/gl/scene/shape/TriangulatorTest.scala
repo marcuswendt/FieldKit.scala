@@ -7,9 +7,9 @@
 /* created March 17, 2009 */
 package field.kit.test.gl.scene.shape
 
-import field.kit._
+import field.kit.test.Sketch
 
-abstract class TriangulatorTest extends test.Sketch {
+abstract class TriangulatorTest extends Sketch {
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
 }
 

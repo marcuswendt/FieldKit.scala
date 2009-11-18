@@ -7,14 +7,16 @@
 /* created June 03, 2009 */
 package field.kit.test.gl.scene.state
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the glsl shader state feature
  */
-object ShaderStateTest extends test.Sketch {
-  import kit.math.Common._
-  import kit.gl.scene._
-  import kit.gl.scene.shape._
-  import kit.gl.scene.state._
+object ShaderStateTest extends Sketch {
+  import field.kit.math.Common._
+  import field.kit.gl.scene._
+  import field.kit.gl.scene.shape._
+  import field.kit.gl.scene.state._
   
   var scene:Group = null
   

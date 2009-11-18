@@ -11,7 +11,9 @@ package field.kit.gl.scene.transform
  * Gives the ability to apply RenderStates during the rendering of an object
  */
 trait RenderStateable {
-  import util.datatype.collection.ArrayBuffer
+  //import field.kit.util.datatype.collection.ArrayBuffer
+  import field.kit.gl.scene.RenderState  
+  import scala.collection.mutable.ArrayBuffer
   
   var states = new ArrayBuffer[RenderState]
   

@@ -7,24 +7,26 @@
 /* created August 26, 2009 */
 package field.kit.test.gl.render
 
+import field.kit.test.Sketch
+
 /**
  * Tests the Camera system built into every Sketch
  */
-object CameraTest extends test.Sketch {
-  import kit.gl.scene._
-  import kit.util.Timer
-  import kit.math._
-  import kit.math.Common._
+object CameraTest extends Sketch {
+	import processing.core.PConstants
+	
+	import field.kit.gl.scene._
+	import field.kit.util.Timer
+	import field.kit.math._
+	import field.kit.math.Common._
+	import field.kit.gl.scene.shape._
   
-  var scene:Group = _
-  val timer = new Timer
-  val camVelocity = new Vec3
-  var useLights = false
+	var scene:Group = _
+	val timer = new Timer
+	val camVelocity = new Vec3
+	var useLights = false
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
-    import kit.gl.scene.shape._
-    
-    import processing.core.PConstants
     hint(PConstants.ENABLE_DEPTH_SORT)
     
     scene = new Group("main scene")

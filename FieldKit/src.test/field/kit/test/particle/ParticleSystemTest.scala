@@ -7,16 +7,18 @@
 /* created May 08, 2009 */
 package field.kit.test.particle
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the particle system
  */
-object ParticleSystemTest extends test.Sketch {
-  import kit.particle._
-  import kit.particle.behaviour._
-  import kit.util.Timer
-  import kit.math.Common
-  import kit.math.Common._
-  import kit.math.geometry._
+object ParticleSystemTest extends Sketch {
+  import field.kit.particle._
+  import field.kit.particle.behaviour._
+  import field.kit.util.Timer
+  import field.kit.math.Common
+  import field.kit.math.Common._
+  import field.kit.math.geometry._
   
   val ps = new ParticleSystem
   val f = new Flock[Particle]
@@ -186,7 +188,7 @@ object ParticleSystemTest extends test.Sketch {
     }
   }
   
-  val timerInfo = new kit.util.Timer
+  val timerInfo = new Timer
   def frameInfo {
     val dt = timerInfo.update
     if(frameCount % 100 == 0) {

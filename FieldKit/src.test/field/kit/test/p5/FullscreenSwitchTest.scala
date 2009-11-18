@@ -7,10 +7,12 @@
 /* created May 08, 2009 */
 package field.kit.test.p5
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the fullscreen mode switch
  */
-object FullscreenSwitchTest extends test.Sketch {
+object FullscreenSwitchTest extends Sketch {
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {})
   

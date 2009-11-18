@@ -52,12 +52,11 @@ object MeshData {
 class MeshData {
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
+  import scala.collection.mutable.ArrayBuffer
+  
+  import field.kit.util.Buffer
+  import field.kit.gl.render.objects.VertexBuffer
 
-  import util.datatype.collection.ArrayBuffer
-  import util.Buffer
-  
-  import render.objects.VertexBuffer
-  
   /** Number of vertices represented by this data. */
   var vertexCount = 0
   

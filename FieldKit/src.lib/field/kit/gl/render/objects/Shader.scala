@@ -7,6 +7,8 @@
 /* created June 01, 2009 */
 package field.kit.gl.render.objects
 
+import field.kit.gl.render._
+
 /** Thrown when a GLSL <code>Shader</code> couldn't be compiled. */
 class ShaderCompileException(info:String) 
 extends Exception(info) {}

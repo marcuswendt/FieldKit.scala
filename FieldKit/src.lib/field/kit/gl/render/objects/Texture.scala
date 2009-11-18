@@ -7,6 +7,8 @@
 /* created May 11, 2009 */
 package field.kit.gl.render.objects
 
+import field.kit.gl.render._
+
 /** 
  * Companion object to <code>Texture</code>
  * @author Marcus Wendt

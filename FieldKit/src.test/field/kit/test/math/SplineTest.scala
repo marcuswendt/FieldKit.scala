@@ -7,10 +7,12 @@
 /* created April 16, 2009 */
 package field.kit.test.math
 
+import field.kit.test.Sketch
+
 /** test for the spline math class */
-object SplineTest extends test.Sketch {
-  import kit.math.geometry._
-  import kit.math._
+object SplineTest extends Sketch {
+  import field.kit.math.geometry._
+  import field.kit.math._
   
   var s = new Spline 
   

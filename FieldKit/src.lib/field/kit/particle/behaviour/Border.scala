@@ -7,15 +7,15 @@
 /* created November 8, 2009 */
 package field.kit.particle.behaviour
 
-import math.Common._  
+import field.kit.particle._
+import field.kit.math.Common._
+import field.kit.math.Vec3
   
 /**
  * Base class for all 2D/ 3D border behaviours
  * @author Marcus Wendt
  */
 abstract class BorderBehaviour extends Behaviour {
-  import math.Vec3
-  
   var margin = 0f
   
   /** the absolute minimum coord */

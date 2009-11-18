@@ -171,7 +171,14 @@ class Colour(
     (((b * 255).asInstanceOf[Int] & 0xFF) << 8) | 
     (((a * 255).asInstanceOf[Int] & 0xFF))
   }
- 
+
+  /** @return this colour as rgb packed integer */ 
+  def toRGB = {
+    (((r * 255).asInstanceOf[Int] & 0xFF) << 16) | 
+    (((g * 255).asInstanceOf[Int] & 0xFF) << 8) | 
+    (((b * 255).asInstanceOf[Int] & 0xFF))
+  }
+
   def fromRGB(i:Int) {
     r = (i >> 16 & 0xFF) / 255f
     g = (i >> 8 & 0xFF) / 255f

@@ -8,6 +8,7 @@
 package field.kit.gl.render.objects
 
 import javax.media.opengl.GL
+import field.kit.gl.render._
 
 /**
  * Provides usage constants for the <code>VertexBuffer</code> class

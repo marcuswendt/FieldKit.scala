@@ -7,6 +7,8 @@
 /* created April 22, 2009 */
 package field.kit.p5
 
+import field.kit.Logger
+
 /**
  * Companion object to class <code>Recorder</code>
  */
@@ -39,8 +41,8 @@ class Recorder(val sketch:BasicSketch) extends Logger {
   import javax.media.opengl.GLException
   import com.sun.opengl.util.TGAWriter
   
-  import util.Compressor
-  import math.{Dim2}
+  import field.kit.util.Compressor
+  import field.kit.math.Dim2
   
   // -- Configuration ----------------------------------------------------------
   var name = "screenshot"

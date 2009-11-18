@@ -7,10 +7,12 @@
 /* created May 08, 2009 */
 package field.kit.test.particle
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the particle system
  */
-object StatefulParticleSystemTest extends test.Sketch {
+object StatefulParticleSystemTest extends Sketch {
   import field.kit.particle._
   import field.kit.particle.behaviour._
   import field.kit.util.Timer

@@ -7,6 +7,8 @@
 /* created August 27, 2009 */
 package field.kit.p5
 
+import field.kit.Logger
+
 /**
  * Utility used by <code>Recorder</code> to render a high-res image from a smaller OpenGL view.
  * 
@@ -18,9 +20,9 @@ class Tiler(rec:Recorder) extends Logger {
   import java.nio.ByteBuffer
   import javax.media.opengl.GL
   
-  import kit.gl.render._
-  import kit.math.Common._
-  import kit.math._
+  import field.kit.gl.render._
+  import field.kit.math.Common._
+  import field.kit.math._
   
     
   /** the current tile */

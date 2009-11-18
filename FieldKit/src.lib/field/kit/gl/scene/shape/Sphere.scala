@@ -7,7 +7,10 @@
 /* created August 07, 2009 */
 package field.kit.gl.scene.shape
 
-import math.Vec3
+import field.kit.math._
+import field.kit.math.Common._
+import field.kit.gl.scene.Mesh
+import field.kit.util.Buffer._
 
 /**
  * Companion object to class <code>Sphere</code>
@@ -57,8 +60,6 @@ class Sphere(name:String,
              var center:Vec3,
              var radius:Float, var zSamples:Int, var radialSamples:Int)
              extends Mesh(name) {
-  import math._
-  
   var textureMode = Sphere.TextureMode.LINEAR
   protected var viewInside = false
 
@@ -80,9 +81,6 @@ class Sphere(name:String,
    * init vertices, texture coords and normals
    */
   protected def initGeometry {
-    import math.Common._
-    import util.Buffer._
-    
     val verts = (zSamples - 2) * (radialSamples + 1) + 2
     val vertices = data.allocVertices(verts)
     val normals = data.allocNormals(verts)
@@ -234,7 +232,7 @@ class Sphere(name:String,
    * setup connections between vertices
    */
   protected def initIndices {
-    import util.Buffer
+    import field.kit.util.Buffer
     
     val tris = 2 * (zSamples - 2) * radialSamples
     val indices = data.allocIndices(3 * tris)

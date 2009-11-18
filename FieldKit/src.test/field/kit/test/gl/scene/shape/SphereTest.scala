@@ -7,7 +7,9 @@
 /* created August 07, 2009 */
 package field.kit.test.gl.scene.shape
 
-object SphereTest extends test.Sketch {
+import field.kit.test.Sketch
+
+object SphereTest extends Sketch {
   import kit.math.Common._
   import kit.gl.scene._
   import kit.gl.scene.shape._

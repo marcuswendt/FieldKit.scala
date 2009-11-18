@@ -7,14 +7,16 @@
 /* created May 11, 2009 */
 package field.kit.test.gl.scene.state
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the texture state feature
  */
-object TextureStateTest extends test.Sketch {
-  import kit.math.Common._
-  import kit.gl.scene._
-  import kit.gl.scene.shape._
-  import kit.gl.scene.state._
+object TextureStateTest extends Sketch {
+	import field.kit.Colour
+	import field.kit.gl.scene._
+	import field.kit.gl.scene.shape._
+	import field.kit.gl.scene.state._
 
   val w = 350f
   val h = 350f

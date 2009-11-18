@@ -7,19 +7,23 @@
 /* created August 03, 2009 */
 package field.kit.test.math
 
+import field.kit.test.Sketch
+
 /**
  * Test for the Octree geometry class 
  * 
  * This is a direct port of Karsten Schmidts OctreeDemo
  * @see http://www.toxiclibs.org
  */
-object OctreeTest extends test.Sketch {
+object OctreeTest extends Sketch {
   import processing.core.PConstants._
-  import kit.math.geometry._
-  import kit.math._
-  import kit.math.Common._
-  import kit.util.datatype.collection.ArrayBuffer
-
+  
+  import field.kit.math.geometry._
+  import field.kit.math._
+  import field.kit.math.Common._
+  import field.kit.util.datatype.collection.ArrayBuffer
+  import field.kit.util.Timer
+  
   class VisibleOctree(offset:Vec3, size:Float)
   extends Octree(offset, size) {
     def draw = drawNode(this)
@@ -173,7 +177,7 @@ object OctreeTest extends test.Sketch {
     popMatrix
   }
   
-  val timer = new kit.util.Timer
+  val timer = new Timer
   def frameInfo {
     val dt = timer.update
     if(frameCount % 100 == 0) {

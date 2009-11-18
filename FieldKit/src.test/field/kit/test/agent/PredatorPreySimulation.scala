@@ -7,8 +7,10 @@
 /* created June 13, 2009 */
 package field.kit.test.agent
 
+import field.kit.test.Sketch
+
 /*
-object PredatorPreySimulation extends field.kit.test.Sketch {
+object PredatorPreySimulation extends field.kit.Sketch {
   import field.kit.agent._
   import field.kit.math._
   

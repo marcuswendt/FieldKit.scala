@@ -7,7 +7,9 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import kit.math.Vec3
+import field.kit.Logger
+import field.kit.math.Vec3
+
 import scala.reflect.Manifest
 
 /** 
@@ -15,8 +17,7 @@ import scala.reflect.Manifest
  * @author Marcus Wendt
  */
 class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends Vec3 with Logger {
-  import field.kit.math.Vec3
-  import field.kit.util.datatype.collection.ArrayBuffer
+  import scala.collection.mutable.ArrayBuffer
   fine("init")
   
   var rate = 1

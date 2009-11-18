@@ -7,6 +7,9 @@
 /* created November 3, 2009 */
 package field.kit.particle.behaviour
 
+import field.kit.particle._
+import field.kit.math.Common._
+import field.kit.math.Vec3
 
 /**
  * 2D Behaviour
@@ -14,9 +17,6 @@ package field.kit.particle.behaviour
  * @author Marcus Wendt
  */
 class Offspace2D extends Behaviour {
-  import math.Common._
-  import math.Vec3
-  
   var margin = 0f
   
   /** the absolute minimum coord */

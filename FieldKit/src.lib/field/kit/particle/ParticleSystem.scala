@@ -14,15 +14,15 @@ import field.kit.Logger
  * @author Marcus Wendt
  */
 class ParticleSystem extends Logger {
-  import util.datatype.collection.ArrayBuffer
-  import math.Vec
-
-  var friction = 0.97f
-  var timeStep = 60f
-  var useSpatialOptimisation = true
+	import field.kit.math.Vec
+	import scala.collection.mutable.ArrayBuffer
+	
+	var friction = 0.97f
+	var timeStep = 60f
+	var useSpatialOptimisation = true
   
-  var space:Space = new OctreeSpace(1000f, 1000f, 1000f)
-  var flocks = new ArrayBuffer[Flock[_]]
+	var space:Space = new OctreeSpace(1000f, 1000f, 1000f)
+	var flocks = new ArrayBuffer[Flock[_]]
   
   /**
    * Prepare particle space and update all flocks

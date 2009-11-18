@@ -15,10 +15,10 @@ import processing.opengl.PGraphicsOpenGL
 class FGraphicsOpenGL extends PGraphicsOpenGL {
   import processing.core.PConstants._
   import javax.media.opengl._
-  import math.Common._
+  import field.kit.math.Common._
 
   // -- Camera -----------------------------------------------------------------
-  import kit.gl.render.AdvancedCamera
+  import field.kit.gl.render.AdvancedCamera
   var activeCamera:AdvancedCamera = null
 
   /**

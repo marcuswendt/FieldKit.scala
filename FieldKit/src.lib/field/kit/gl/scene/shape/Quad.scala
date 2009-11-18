@@ -7,8 +7,8 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene.shape
 
-import gl.scene._
-import math._
+import field.kit.gl.scene._
+import field.kit.math._
 
 /** 
  * Companion object to class <code>Quad</code>

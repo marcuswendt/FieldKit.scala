@@ -7,6 +7,8 @@
 /* created November 03, 2009 */
 package field.kit.math.geometry
 
+import field.kit.math._
+
 /**
  * Companion update to class <code>AABR</code>
  */
@@ -25,7 +27,7 @@ object AABR {
  * Axis-aligned bounding rect used for Quadtrees and other optimisation techniques
  */
 class AABR(var extent:Vec2) extends Vec2(0,0) {
-  import math.Common._
+  import field.kit.math.Common._
   
   var min = Vec2()
   var max = Vec2()

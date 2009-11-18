@@ -7,7 +7,8 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import util.Nameable
+import field.kit.util.Nameable
+import field.kit.Logger
 
 /** 
  * a block of code that is applied to all particles, makes them do something
