@@ -57,8 +57,8 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
     
     // Cannot render camera directly, 
     // instead we need to override processings default matrices
-    //activeCamera.feed(parent)
-    activeCamera.render
+    activeCamera.feed(parent)
+    //activeCamera.render
     
 //    modelview.m00 = activeCamera.modelView.m00
 //    modelview.m01 = activeCamera.modelView.m01

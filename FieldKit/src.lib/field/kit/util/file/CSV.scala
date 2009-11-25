@@ -109,7 +109,7 @@ class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[Stri
   def write(file:File) {}
   
   def columns = headers.length
-  def size = rows.size
+  override def size = rows.size
   private var current = headers
   
   def elements = new Iterator[ArrayBuffer[String]] {

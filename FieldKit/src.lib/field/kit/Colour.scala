@@ -199,6 +199,9 @@ class Colour(
     b = (i & 0xFF) / 255f
   }
   
+  def luminance = r * 0.299f + g * 0.587f + b * 0.114f
+  
+  // -- operations -------------------------------------------------------------  
   def randomize = {
     r = random
     g = random
@@ -207,7 +210,6 @@ class Colour(
     this
   }
   
-  // -- operations -------------------------------------------------------------
   def inverse {
     this.r = 1f - r
     this.g = 1f - g

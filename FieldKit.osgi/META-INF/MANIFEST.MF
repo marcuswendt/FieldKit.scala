@@ -44,7 +44,6 @@ Export-Package:
  field.kit.particle,
  field.kit.particle.behaviour,
  field.kit.util,
- field.kit.util.datatype.collection,
  field.kit.util.datatype.graph,
  field.kit.util.file,
  field.kit.vision,

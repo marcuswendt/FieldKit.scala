@@ -154,7 +154,8 @@ class MeshData {
     if(textureCoords == null)
       textureCoords = new ArrayBuffer[FloatBuffer]
     
-    val buffer = Buffer.float(textureCoords(textureUnit), capacity * 2)
+    val tcBuffer = if(textureUnit < textureCoords.size) textureCoords(textureUnit) else null 
+    val buffer = Buffer.float(tcBuffer, capacity * 2)
     if(textureUnit >= textureCoords.size)
       textureCoords += buffer
     else

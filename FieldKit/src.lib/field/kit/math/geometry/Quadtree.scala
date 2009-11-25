@@ -79,7 +79,6 @@ extends AABR(offset + halfSize, halfSize) {
       // only add data to leaves for now
       if(halfSize.x <= minSize || halfSize.y <= minSize) {
         if(data == null) {
-          // import kit.util.datatype.collection.ArrayBuffer
           data = new ArrayBuffer[Vec]
         }
         

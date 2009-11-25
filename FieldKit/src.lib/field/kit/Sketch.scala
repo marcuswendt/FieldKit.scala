@@ -156,8 +156,8 @@ abstract class Sketch extends BasicSketch {
     import java.awt.event.KeyEvent
     
     file add SwingUtil.menuItem("Present", KeyEvent.VK_0, false, this.toggleFullscreen)
-    file add SwingUtil.menuItem("Record Screenshot", KeyEvent.VK_R, false, rec.screenshot)
-    file add SwingUtil.menuItem("Record Sequence", KeyEvent.VK_R, true, rec.sequence)
+    file add SwingUtil.menuItem("Record Screenshot", KeyEvent.VK_R, false, recordScreenshot)
+    file add SwingUtil.menuItem("Record Sequence", KeyEvent.VK_R, true, recordSequence)
     file add SwingUtil.menuItem("Recording Settings", {
       import javax.swing.JOptionPane
       
@@ -211,4 +211,8 @@ abstract class Sketch extends BasicSketch {
     render
     rec.post
   }
+  
+  protected def recordScreenshot = rec.screenshot
+  
+  protected def recordSequence = rec.sequence
 }

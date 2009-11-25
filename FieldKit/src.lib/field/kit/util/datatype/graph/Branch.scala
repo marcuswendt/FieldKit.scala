@@ -34,10 +34,10 @@ trait Branch[T <: Node] extends Collection[T] {
     return null.asInstanceOf[T]
   }
   
-  def size = 
+  override def size = 
     if(children==null) 0 else children.size
   
-  def elements = 
+  override def elements = 
     if(children==null) null else children.elements
   
   def +=(child:T):T = {
