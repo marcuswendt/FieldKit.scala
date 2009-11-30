@@ -124,8 +124,6 @@ object Image extends field.kit.Logger {
     val image = create(width, height, alpha)
        
     // fill pixel data
-    // flip image so it sits correctly in the OpenGL view 
-    ImageUtil.flipImageVertically(sourceImage)
     sourceImage.getRGB(0, 0, width, height, image.pixels, 0, width)
     
     image

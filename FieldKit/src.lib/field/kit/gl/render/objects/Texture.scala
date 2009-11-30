@@ -129,10 +129,10 @@ class Texture extends GLObject {
       // select modulate to mix texture with color for shading
       // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
       unbind
-    } catch {
-      case e:java.lang.IndexOutOfBoundsException => 
-        warn("update: Couldnt upload image", e)
-        id = Texture.UNDEFINED
+//    } catch {
+//      case e:java.lang.IndexOutOfBoundsException => 
+//        warn("update: Couldnt upload image", e)
+//        id = Texture.UNDEFINED
     }
     
     needsUpdate = false
@@ -165,7 +165,10 @@ class Texture extends GLObject {
       case Image.Format.GREY =>
         for(y <- 0 until image.height) {
           for(x <- 0 until image.width) {
-            pixels(t) = (image.pixels(p) << 24) | 0x00FFFFFF
+            // flip the image upside down
+            val pixel = image.pixels((image.height - y - 1) * image.width + x)
+            
+            pixels(t) = (pixel << 24) | 0x00FFFFFF
             t += 1
             p += 1
           }
@@ -175,7 +178,10 @@ class Texture extends GLObject {
       case Image.Format.RGB =>
         for(y <- 0 until image.height) {
           for(x <- 0 until image.width) {
-            val pixel = image.pixels(p)
+            //val pixel = image.pixels(p)
+            
+            // flip the image upside down
+            val pixel = image.pixels((image.height - y - 1) * image.width + x)
             
             // needs to be ABGR, stored in memory xRGB
             // so R and B must be swapped, and the x just made FF
@@ -192,7 +198,10 @@ class Texture extends GLObject {
       case Image.Format.ARGB =>
         for(y <- 0 until image.height) {
           for(x <- 0 until image.width) {
-            val pixel = image.pixels(p)
+            //val pixel = image.pixels(p)
+            
+            // flip the image upside down
+            val pixel = image.pixels((image.height - y - 1) * image.width + x)
             
             // needs to be ABGR stored in memory ARGB
             // so R and B must be swapped, A and G just brought back in
