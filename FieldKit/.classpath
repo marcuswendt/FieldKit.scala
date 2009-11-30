@@ -5,6 +5,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FieldKit/lib/jogl"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="src.test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Development/Ressources/processing/core/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/p5/opengl.jar" sourcepath="/Users/marcus/Documents/Ressources/processing/opengl/src"/>

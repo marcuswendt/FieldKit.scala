@@ -62,20 +62,20 @@ object Texture {
  */
 class Texture extends GLObject {
   import javax.media.opengl.GL
+  import java.nio.IntBuffer
   
-  // -- Variables --------------------------------------------------------------
-  protected var needsUpdate = false
+  var needsUpdate = true
+  
   protected var _image:Image = null
-
-  // -- OpenGL Data Descriptors ------------------------------------------------
   protected var _wrap = Texture.Wrap.CLAMP
   protected var _filter = Texture.Filter.NEAREST
-    
-  // init
-  id = Texture.UNDEFINED
   
-  // automatically create a texture when this class is instantiated
-  // create
+  protected var width = 0
+  protected var height = 0
+  protected var pixels:Array[Int] = null
+  protected var buffer:IntBuffer = null
+  
+  id = Texture.UNDEFINED
 
   // -- Methods ----------------------------------------------------------------
   def this(image:Image) = {
@@ -102,42 +102,115 @@ class Texture extends GLObject {
   }
   
   protected def update {
-    if(image != null) {
-      if(id == Texture.UNDEFINED) create
-      
-      // upload image data to texture
-      try {
-        //info("updating texture", this.id, "width", image.width, "height", image.height, "data", image.data)
+    if(image == null) 
+      return
         
-        gl.glEnable(GL.GL_TEXTURE_2D)
-        gl.glBindTexture(GL.GL_TEXTURE_2D, this.id)
+    if(id == Texture.UNDEFINED) create
+    
+    // upload image data to texture
+    try {
+      //info("updating texture", this.id, "width", image.width, "height", image.height)
         
-        // make sure the data buffer is ready
-        image.data.rewind
+      // make sure the data buffer is ready
+      updateBuffer
         
-        // upload data
-        gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, image.glFormat, image.texWidth, image.texHeight, 
-                        0, image.glDataFormat, image.glDataType, image.data)
+      // upload data
+      gl.glEnable(GL.GL_TEXTURE_2D)
+      gl.glBindTexture(GL.GL_TEXTURE_2D, this.id)
+      gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 4, width, height, 
+                        0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buffer)
         
-        // set filter parameters
-        gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, filter.id)
-        gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, filter.id)
-        gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)
-        gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, wrap.id)
+      // set filter parameters
+      gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, filter.id)
+      gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, filter.id)
+      gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)
+      gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, wrap.id)
         
-        // select modulate to mix texture with color for shading
-        // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-          
-        unbind
-      } catch {
-        case e:java.lang.IndexOutOfBoundsException => { 
-          warn("update: Couldnt upload image", e)
-          id = Texture.UNDEFINED
-          image = null
-        }
-      }
-      needsUpdate = false
+      // select modulate to mix texture with color for shading
+      // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+      unbind
+    } catch {
+      case e:java.lang.IndexOutOfBoundsException => 
+        warn("update: Couldnt upload image", e)
+        id = Texture.UNDEFINED
     }
+    
+    needsUpdate = false
+  }
+  
+  /** based on code ported from Processings PGraphcisOpenGL */
+  protected def updateBuffer {
+    import field.kit.util.Buffer
+    
+    // make sure width & height are a power of 2
+    width = 2
+    height = 2
+    
+    while(width < image.width)
+      width *= 2
+    
+    while(height < image.height)
+      height *= 2
+      
+    // create pixels storage
+    if(pixels == null) {
+      pixels = new Array[Int](width * height)
+      buffer = Buffer.int(width * height)
+    }
+    
+    // copy data into the texture
+    var t = 0
+    var p = 0
+    image.format match {
+      case Image.Format.GREY =>
+        for(y <- 0 until image.height) {
+          for(x <- 0 until image.width) {
+            pixels(t) = (image.pixels(p) << 24) | 0x00FFFFFF
+            t += 1
+            p += 1
+          }
+          t += width - image.width
+        }
+        
+      case Image.Format.RGB =>
+        for(y <- 0 until image.height) {
+          for(x <- 0 until image.width) {
+            val pixel = image.pixels(p)
+            
+            // needs to be ABGR, stored in memory xRGB
+            // so R and B must be swapped, and the x just made FF
+            pixels(t) = 0xff000000 |  // force opacity for good measure
+                		((pixel & 0xFF) << 16) |
+                		((pixel & 0xFF0000) >> 16) |
+                		(pixel & 0x0000FF00)
+            t += 1
+            p += 1
+          }
+          t += width - image.width
+        }
+        
+      case Image.Format.ARGB =>
+        for(y <- 0 until image.height) {
+          for(x <- 0 until image.width) {
+            val pixel = image.pixels(p)
+            
+            // needs to be ABGR stored in memory ARGB
+            // so R and B must be swapped, A and G just brought back in
+            pixels(t) = ((pixel & 0xFF) << 16) |
+                		((pixel & 0xFF0000) >> 16) |
+                		(pixel & 0xFF00FF00)
+            
+            t += 1
+            p += 1
+          }
+          t += width - image.width
+        }
+
+    }
+    
+    // put pixels into buffer and rewind
+    buffer.put(pixels)
+    buffer.rewind
   }
   
   /** checks if the associated texture is still valid */
@@ -149,9 +222,10 @@ class Texture extends GLObject {
     this.id = ids(0)
   }
   
-  def destroy = 
+  def destroy { 
     if(isValid)
       gl.glDeleteTextures(1, Array(id), 0)
+  }
   
   def bind {
     // check if texture is still valid
@@ -176,11 +250,11 @@ class Texture extends GLObject {
     }
   }
   
-  import java.nio.Buffer
-  
-  def data(format:Int, width:Int, height:Int, data:Buffer) {
-    if(!isValid) return
-    gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 
-                    format, width, height, 0, format, GL.GL_UNSIGNED_BYTE, data)
-  }
+//  import java.nio.Buffer
+//  
+//  def data(format:Int, width:Int, height:Int, data:Buffer) {
+//    if(!isValid) return
+//    gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 
+//                    format, width, height, 0, format, GL.GL_UNSIGNED_BYTE, data)
+//  }
 }

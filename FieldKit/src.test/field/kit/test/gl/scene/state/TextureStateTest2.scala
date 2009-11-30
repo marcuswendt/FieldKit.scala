@@ -29,14 +29,14 @@ object TextureStateTest2 extends test.Sketch {
   qr.states += TextureState("res/test/mm.jpg")
   
   
-//  var qg = new Quad("alpha texture", w, h)
-//  qg.states += new AlphaState
-//  qg.states += TextureState("res/test/pattern_rgb.png")
+  var qg = Quad("alpha texture", w, h)
+  qg.states += new AlphaState
+  qg.states += TextureState("res/test/test_nwse.png")
   
   
   val scene = new Group("scene")
   scene += qr
-//  scene += qg
+  scene += qg
   
   var mode = AlphaState.BlendMode.OFF
   var onBlack = false
@@ -45,12 +45,6 @@ object TextureStateTest2 extends test.Sketch {
   
   def render {
     background(if(onBlack) 0 else 255)
-    
-//    scene.children foreach (s => {
-//      val q = s.asInstanceOf[Geometry]
-//      val as = q.state(classOf[AlphaState])
-//      as.set(mode)
-//    })
     
     scene.translation := (width/2f, height/2f, 0)
     

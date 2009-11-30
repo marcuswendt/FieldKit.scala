@@ -56,7 +56,6 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Rende
   // clean up
   texture.unbind
   fbo.unbind
-  texture.image.destroy
   
   /**
    * Call this method to begin rendering into the custom <code>FrameBuffer</code>

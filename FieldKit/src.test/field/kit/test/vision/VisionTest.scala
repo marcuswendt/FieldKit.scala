@@ -110,7 +110,8 @@ object VisionTest extends Sketch {
     
     val s = Vision.stage(index)
     if(s.image == null) return
-      
+    
+      /*
     val image = Image.create(s.width, s.height, Image.Format.GREY, s.image)
     
     if(preview == null) {
@@ -123,6 +124,7 @@ object VisionTest extends Sketch {
       val ts = preview.state(classOf[TextureState])
       ts.textures(0).image = image 
     }
+    */
     
     beginGL
     preview.render

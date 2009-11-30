@@ -14,6 +14,7 @@ import field.kit.test.Sketch
  */
 object TextureStateTest extends Sketch {
 	import field.kit.Colour
+	import field.kit.math.Common._
 	import field.kit.gl.scene._
 	import field.kit.gl.scene.shape._
 	import field.kit.gl.scene.state._
@@ -45,7 +46,7 @@ object TextureStateTest extends Sketch {
   qc.states += new AlphaState
   qc.translation.x = offset + w
   qc.translation.y = offset
-//  qc.solidColour(new Colour(1f, 0.75f))
+  qc.solidColour(new Colour(1f, 0.75f))
   qc.states += TextureState("res/test/test.tga")
   
   var qd = Quad("gif", w, h)
@@ -75,7 +76,7 @@ object TextureStateTest extends Sketch {
 //      as.set(mode)
 //    })
     
-    scene.translation := (width/2f, height/2f, 0)
+    scene.translation := (width/2f, height/2f, 0f)
     
     beginGL
     scene.render
