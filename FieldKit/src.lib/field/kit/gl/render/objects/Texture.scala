@@ -70,8 +70,9 @@ class Texture extends GLObject {
   protected var _wrap = Texture.Wrap.CLAMP
   protected var _filter = Texture.Filter.NEAREST
   
-  protected var width = 0
-  protected var height = 0
+  var width = 0
+  var height = 0
+  
   protected var pixels:Array[Int] = null
   protected var buffer:IntBuffer = null
   
@@ -86,6 +87,7 @@ class Texture extends GLObject {
   def image = _image
   def image_=(image:Image) = {
     this._image = image
+    updateImage
     needsUpdate = true
   }
   
@@ -110,9 +112,6 @@ class Texture extends GLObject {
     // upload image data to texture
     try {
       //info("updating texture", this.id, "width", image.width, "height", image.height)
-        
-      // make sure the data buffer is ready
-      updateBuffer
         
       // upload data
       gl.glEnable(GL.GL_TEXTURE_2D)
@@ -139,7 +138,7 @@ class Texture extends GLObject {
   }
   
   /** based on code ported from Processings PGraphcisOpenGL */
-  protected def updateBuffer {
+  protected def updateImage {
     import field.kit.util.Buffer
     
     // make sure width & height are a power of 2
