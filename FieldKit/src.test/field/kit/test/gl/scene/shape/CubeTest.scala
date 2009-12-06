@@ -40,7 +40,7 @@ object CubeTest extends Sketch {
   
   def initMesh(r:Int, c:Int, l:Int) {
     import field.kit.gl.scene.shape._
-    //s = new Cube("test", r,c,l, geoWidth,geoHeight,geoDepth)
+//    s = new Cube("test", r,c,l, geoWidth,geoHeight,geoDepth)
     //s.solidColour(Colour.BLACK)
     s.randomizeColours
   }

@@ -113,7 +113,7 @@ object FastIncrementalTriangulatorTest extends TriangulatorTest {
 object FastDegeneratePolygonTriangulatorTest extends TriangulatorTest {
   import field.kit.gl.scene._
   import field.kit.math._
-  import kit.math.Common._
+  import field.kit.math.Common._
   
   var p = new Polygon(100)
   

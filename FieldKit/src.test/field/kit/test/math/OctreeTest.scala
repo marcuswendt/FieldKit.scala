@@ -160,7 +160,7 @@ object OctreeTest extends Sketch {
     else
       octree(new AABB(pointer, RADIUS), points)
     
-    points foreach { p =>
+    points foreach { p:Vec =>
       pushMatrix
       translate(p.x,p.y,p.z)
       fill(abs(p.x)*8, abs(p.y)*8, abs(p.z)*8)

@@ -14,6 +14,7 @@ import field.kit.test.Sketch
  */
 object ShaderStateTest extends Sketch {
   import field.kit.math.Common._
+  import field.kit.math._
   import field.kit.gl.scene._
   import field.kit.gl.scene.shape._
   import field.kit.gl.scene.state._
@@ -27,7 +28,7 @@ object ShaderStateTest extends Sketch {
     scene = new Group("scene")
     
     val q1 = Quad("test", width/2f, height/2f)
-    q1.translation := (width/2f, height/2f, 0)
+    q1.translation := Vec3(width/2f, height/2f, 0)
     q1.states += ShaderState("""
 	void main()
 	{

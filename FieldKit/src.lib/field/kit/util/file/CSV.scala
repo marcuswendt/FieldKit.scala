@@ -112,7 +112,7 @@ class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[Stri
   override def size = rows.size
   private var current = headers
   
-  def elements = new Iterator[ArrayBuffer[String]] {
+  def iterator = new Iterator[ArrayBuffer[String]] {
     var i = 0
     def next = {
       current = rows(i)
@@ -121,6 +121,8 @@ class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[Stri
     }
     def hasNext = i+1 < rows.length
   }
+  
+  //def elements = null
   
   def +=(line:String) = rows += CSVFile.parse(line)
   

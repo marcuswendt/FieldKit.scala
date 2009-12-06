@@ -7,14 +7,17 @@
 /* created May 11, 2009 */
 package field.kit.test.gl.scene.state
 
+import field.kit.test.Sketch
+
 /** 
  * quick test for the texture state feature
  */
-object TextureStateTest2 extends test.Sketch {
-  import kit.math.Common._
-  import kit.gl.scene._
-  import kit.gl.scene.shape._
-  import kit.gl.scene.state._
+object TextureStateTest2 extends Sketch {
+	import field.kit.math._
+  import field.kit.math.Common._
+  import field.kit.gl.scene._
+  import field.kit.gl.scene.shape._
+  import field.kit.gl.scene.state._
 
   val w = 350f
   val h = 350f
@@ -46,7 +49,7 @@ object TextureStateTest2 extends test.Sketch {
   def render {
     background(if(onBlack) 0 else 255)
     
-    scene.translation := (width/2f, height/2f, 0)
+    scene.translation := Vec3(width/2f, height/2f, 0)
     
     beginGL
     scene.render

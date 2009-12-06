@@ -8,6 +8,7 @@
 package field.kit.test.vision
 
 import field.kit.test.Sketch
+import field.kit.Logger
 
 /**
  * VM Args: -Djna.library.path=lib/vision
@@ -104,9 +105,9 @@ object VisionTest extends Sketch {
   
   
   def drawStage {
-    import kit.gl.render.objects.Texture
-    import kit.gl.render.Image
-    import kit.gl.scene.state.TextureState
+    import field.kit.gl.render.objects.Texture
+    import field.kit.gl.render.Image
+    import field.kit.gl.scene.state.TextureState
     
     val s = Vision.stage(index)
     if(s.image == null) return

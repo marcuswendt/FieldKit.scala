@@ -22,6 +22,10 @@ object Colour {
   val RED = new Colour(1f, 0f, 0f)
   val GREEN = new Colour(0f, 1f, 0f)
   val BLUE = new Colour(0f, 0f, 1f)
+  
+  val YELLOW = new Colour(1f, 1f, 0f)
+  val CYAN = new Colour(0f, 1f, 1f)
+  val MAGENTA = new Colour(1f, 0f, 1f)
 }
 
 

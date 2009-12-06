@@ -15,6 +15,7 @@ import field.kit.test.Sketch
 object CameraTest extends Sketch {
 	import processing.core.PConstants
 	
+	import field.kit._
 	import field.kit.gl.scene._
 	import field.kit.util.Timer
 	import field.kit.math._
@@ -30,13 +31,13 @@ object CameraTest extends Sketch {
     hint(PConstants.ENABLE_DEPTH_SORT)
     
     scene = new Group("main scene")
-    scene.translation := (hwidth, hheight, 0)
+    scene.translation := Vec3(hwidth, hheight, 0)
     
     // floating red box
     val red = Box("Red", 64f)
     red.colour := Colour.RED
-    red.translation := (0,0,128)
-    red.rotation := (QUARTER_PI, QUARTER_PI, 0)
+    red.translation := Vec3(0,0,128)
+    red.rotation := Vec3(QUARTER_PI, QUARTER_PI, 0)
     scene += red
     
     // floating blue sphere
@@ -57,8 +58,8 @@ object CameraTest extends Sketch {
     
     val rotX = dt * 0.01f
     val rotY = dt * 0.01f
-    scene("Red").rotation += (rotX, rotY, 0)
-    scene("Blue").rotation += (0, 0, rotX * 3f)
+    scene("Red").rotation += Vec3(rotX, rotY, 0)
+    scene("Blue").rotation += Vec3(0, 0, rotX * 3f)
     
 //    scene.rotation.x = (mouseY)/ height.toFloat * TWO_PI * 25f
 //    scene.rotation.z = (mouseX -hwidth)/ width.toFloat * TWO_PI * 25f

@@ -10,9 +10,11 @@ package field.kit.test.gl.scene.shape
 import field.kit.test.Sketch
 
 object SphereTest extends Sketch {
-  import kit.math.Common._
-  import kit.gl.scene._
-  import kit.gl.scene.shape._
+	import field.kit._
+  import field.kit.math.Common._
+  import field.kit.math._
+  import field.kit.gl.scene._
+  import field.kit.gl.scene.shape._
   
   var scene:Group = _
   var s1:Sphere = _
@@ -24,15 +26,15 @@ object SphereTest extends Sketch {
     hint(PConstants.ENABLE_DEPTH_SORT)
     
     scene = new Group("main scene")
-    scene.translation := (hwidth, hheight, 0)
+    scene.translation := Vec3(hwidth, hheight, 0)
     
     s1 = Sphere("Red", 264f, 64)
-    s1.translation := (-hwidth/2f, 0, 0)
+    s1.translation := Vec3(-hwidth/2f, 0, 0)
     s1.colour := new Colour(1f, 0f, 0f, 0.5f)
     scene += s1
     
     s2 = Sphere("Green", 64f, 64)
-    s2.translation := (hwidth/2f, 0, 0)
+    s2.translation := Vec3(hwidth/2f, 0, 0)
     s2.colour := new Colour(0f, 1f, 0f, 0.5f)
     scene += s2
   })

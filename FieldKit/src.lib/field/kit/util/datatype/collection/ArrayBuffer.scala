@@ -18,13 +18,13 @@ class ArrayBuffer[A] extends scala.collection.mutable.ArrayBuffer[A] {
   
   override def apply(i:Int) = array(i).asInstanceOf[A]
   
-  override def foreach(func: A => Unit) {
-    var i=0
-    while(i < size0) {
-      func( array(i).asInstanceOf[A] )
-      i += 1
-    }
-  }
+//  override def foreach(func: A => Unit) {
+//    var i=0
+//    while(i < size0) {
+//      func( array(i).asInstanceOf[A] )
+//      i += 1
+//    }
+//  }
   
   /**
    * scala's own indexOf as defined in Seq leaks

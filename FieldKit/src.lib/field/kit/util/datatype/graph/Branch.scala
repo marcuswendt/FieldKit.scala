@@ -33,6 +33,17 @@ trait Branch[T <: Node] extends Collection[T] {
     }
     return null.asInstanceOf[T]
   }
+	
+	def iterator = new Iterator[T] {
+		var i = 0
+		def next = {
+			val current = children(i)
+			i += 1
+			current
+		}
+		
+		def hasNext = i+1 < children.length
+  	}
   
   override def size = 
     if(children==null) 0 else children.size
