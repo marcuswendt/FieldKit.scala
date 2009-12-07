@@ -11,7 +11,7 @@ package field.kit.math
  * Various interpolation related methods for math.Common
  */
 trait Interpolation {
-  import Common._
+	import Common._
   
   // --------------------------------------------------------------------------
   // implements various interpolation and easing functions

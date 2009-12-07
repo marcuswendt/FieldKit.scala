@@ -30,7 +30,8 @@ object Image extends field.kit.Logger {
   val cache = new HashMap[URL, Image]
   
   /** Creates a new Image with the given dimensions and alpha */
-  def apply(width:Int, height:Int, alpha:Boolean) = create(width, height, alpha)
+  def apply(width:Int, height:Int, alpha:Boolean) = 
+	  new Image(width, height, if(alpha) Format.ARGB else Format.RGB)
 
   /** Resolves the given string as URL and returns an Image */
   def apply(file:String) = load(file, DEFAULT_USE_CACHE)
@@ -92,7 +93,7 @@ object Image extends field.kit.Logger {
     val tga = TGAImage.read(url.openStream)
     
     val format = if(tga.getGLFormat == GL.GL_BGR) Format.RGB else Format.ARGB
-    val image = create(tga.getWidth, tga.getHeight, format)
+    val image = new Image(tga.getWidth, tga.getHeight, format)
     
     warn("Currently not implemented!")
     
@@ -121,25 +122,11 @@ object Image extends field.kit.Logger {
     val alpha = hasAlpha(sourceImage)
     
     // create image
-    val image = create(width, height, alpha)
+    val image = new Image(width, height, if(alpha) Format.ARGB else Format.RGB)
        
     // fill pixel data
     sourceImage.getRGB(0, 0, width, height, image.pixels, 0, width)
     
-    image
-  }
-  
-  /** Creates a new Image with the given dimensions and alpha */
-  def create(width:Int, height:Int, alpha:Boolean):Image = 
-    create(width, height, if(alpha) Format.ARGB else Format.RGB)
-  
-  /** Creates a new Image with the given dimensions and format */
-  def create(width:Int, height:Int, format:Format.Value) = {
-    val image = new Image
-    image.format = format
-    image.width = width
-    image.height = height
-    image.pixels = new Array[Int](width * height)
     image
   }
   
@@ -186,20 +173,12 @@ object Image extends field.kit.Logger {
  * Lightweight store for raw image data and format description
  * @author Marcus Wendt
  */
-class Image extends field.kit.Logger {
+class Image(val width:Int, val height:Int, val format:Image.Format.Value) {
   import java.nio.Buffer
   import javax.media.opengl.GL
   
-  /** the original image width */
-  var width = 0
-  
-  /** the original image height */
-  var height = 0
-  
   /** the image's pixel data */
-  var pixels:Array[Int] = null
-  
-  var format:Image.Format.Value = _
+  var pixels:Array[Int] = new Array[Int](width * height)
   
   override def toString = "Image("+ format +" "+ width +"x"+ height +")"
 }
