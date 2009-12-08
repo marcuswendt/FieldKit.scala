@@ -32,8 +32,10 @@ extends AABB(Vec3(0, 0, -depth/2f), Vec3(width, height, depth)) {
   /** inserts another particle into this space */
   def insert(particle:Vec) {}
   
+  protected val result = new ArrayBuffer[Vec]
+  
   /** @return a list of particles at the given position */
-  def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
+  def apply(point:Vec, radius:Float) = {
     result.clear
     result
   }
@@ -56,20 +58,9 @@ class QuadtreeSpace(width:Float, height:Float, depth:Float)
 extends Space(width, height, depth) {
   var tree = new Quadtree(null, (x,y), (width/2f, height/2f))
   
-  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
-    val r = if(result == null) {
-      new ArrayBuffer[Vec] 
-    } else {
-      result.clear
-      result
-    }
-    
-    try {
-      tree(new Circle(point, radius), r)
-    } catch {
-      case e:NullPointerException =>
-    }
-    r
+  override def apply(point:Vec, radius:Float) = {
+    result.clear
+    tree(new Circle(point, radius), result)
   }
 
   override def insert(particle:Vec) = tree.insert(particle)
@@ -85,7 +76,7 @@ class OctreeSpace(width:Float, height:Float, depth:Float)
 extends Space(width, height, depth) {
   val tree = new Octree(null, this, (width/2f, height/2f, depth/2f))
   
-  override def apply(point:Vec, radius:Float, result:ArrayBuffer[Vec]) = {
+  override def apply(point:Vec, radius:Float) = {
     result.clear
     tree(new Sphere(point, radius), result)
   }

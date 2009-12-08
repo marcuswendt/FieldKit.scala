@@ -46,7 +46,7 @@ abstract class BaseFlockingBehaviour extends Behaviour {
 class FlockRepel extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
     //ps.space(p, rangeAbs, neighbours)
-    val neighbours = ps.space(p, rangeAbs, null)
+    val neighbours = ps.space(p, rangeAbs)
     
     var i = 0
 	while(i < neighbours.size) {
@@ -67,7 +67,7 @@ class FlockRepel extends BaseFlockingBehaviour {
 class FlockRepelHard extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
     //ps.space(p, rangeAbs, neighbours)
-    val neighbours = ps.space(p, rangeAbs, null)
+    val neighbours = ps.space(p, rangeAbs)
     
     var i = 0
 	while(i < neighbours.size) {
@@ -92,7 +92,7 @@ class FlockRepelHard extends BaseFlockingBehaviour {
 class FlockAttract extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
     //ps.space(p, rangeAbs, neighbours)
-    val neighbours = ps.space(p, rangeAbs, null)
+    val neighbours = ps.space(p, rangeAbs)
     
     var i = 0
 	while(i < neighbours.size) {
@@ -113,7 +113,7 @@ class FlockAttract extends BaseFlockingBehaviour {
 class FlockAttractHard extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
     //ps.space(p, rangeAbs, neighbours)
-    val neighbours = ps.space(p, rangeAbs, null)
+    val neighbours = ps.space(p, rangeAbs)
     
     var i = 0
 	while(i < neighbours.size) {
@@ -138,7 +138,7 @@ class FlockAttractHard extends BaseFlockingBehaviour {
 class FlockAlign extends BaseFlockingBehaviour {
   def apply(p:Particle, dt:Float) {
     //ps.space(p, rangeAbs, neighbours)
-    val neighbours = ps.space(p, rangeAbs, null)
+    val neighbours = ps.space(p, rangeAbs)
     
     var i = 0
 	while(i < neighbours.size) {

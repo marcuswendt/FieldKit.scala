@@ -20,19 +20,18 @@ class Randomise extends Behaviour {
   val min = Vec3(0f)
   val max = Vec3(1f)
   var weight = 1f
-
-  protected val minAbs = Vec3()
-  protected val maxAbs = Vec3()
+ 
+  protected val range = Vec3()
   
   override def prepare(dt:Float) {
-    minAbs := min *= ps.space.dimension
-    maxAbs := max -= min *= ps.space.dimension
+    range := max -= min *= 0.5f
+    range *= ps.space.dimension
   }
   
   def apply(p:Particle, dt:Float) {
-    p.x = minAbs.x + maxAbs.x * random
-    p.y = minAbs.y + maxAbs.y * random
-    p.z = minAbs.z + maxAbs.z * random
+    p.x += range.x * randomNormal * weight
+    p.y += range.y * randomNormal * weight
+    p.z += range.z * randomNormal * weight
   }
 }
 
