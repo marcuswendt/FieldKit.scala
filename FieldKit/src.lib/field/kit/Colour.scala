@@ -5,17 +5,19 @@
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 18, 2009 */
-package field.kit // note NOT .colour
+package field.kit
+
+import field.kit.math._
 
 /**
  * Companion object to class <code>Colour</code>
  */
 object Colour {
-//  def apply() = new Colour(0f,0f,0f,1f)
-//  def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
-//  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
-//  def apply(grey:Float, a:Float) = new Colour(grey,grey,grey,a)
-//  
+  def apply() = new Colour(1f,1f,1f,1f)
+  def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
+  def apply(grey:Float) = new Colour(grey,grey,grey,1f)
+  def apply(grey:Float, alpha:Float) = new Colour(grey,grey,grey,alpha)
+  
   val BLACK = new Colour(0f)
   val WHITE = new Colour(1f)
   
@@ -33,12 +35,7 @@ object Colour {
  * A versatile RGBA Colour utility, used as datatype and for conversion 
  * @author Marcus Wendt
  */
-class Colour(
-  var r:Float,
-  var g:Float,
-  var b:Float,
-  var a:Float
-) extends Logger {  
+class Colour(_r:Float, _g:Float, _b:Float, _a:Float) extends Vec4(_r,_g,_b,_a) with Logger {  
   import math._
   import math.Common._
   
@@ -52,6 +49,19 @@ class Colour(
   def this(s:String) = { this(); :=(s) }
   def this(grey:Float) = this(grey,grey,grey,1f)
   def this(grey:Float, a:Float) = this(grey,grey,grey,a)
+  
+  // -- RGBA Accessors ---------------------------------------------------------
+  def r = x
+  def r_=(s:Float) = x = s
+  
+  def g = y
+  def g_=(s:Float) = y = s
+  
+  def b = z
+  def b_=(s:Float) = z = s
+  
+  def a = w
+  def a_=(s:Float) = w = s
   
   // -- Setters ----------------------------------------------------------------
   /**
@@ -67,12 +77,6 @@ class Colour(
     }
     this
   }
-  
-  /**
-   * Sets all components of this Colour to the given Float
-   * @return itself
-   */
-  final def :=(grey:Float) = {this.r=grey; this.g=grey; this.b=grey; this}
   
   /**
    * Sets the r,g,b components of this Colour to the given Float and the alpha seperately
@@ -205,7 +209,7 @@ class Colour(
   
   def luminance = r * 0.299f + g * 0.587f + b * 0.114f
   
-  // -- operations -------------------------------------------------------------  
+  // -- Colour Operations ------------------------------------------------------  
   def randomize = {
     r = random
     g = random
@@ -220,15 +224,14 @@ class Colour(
     this.b = 1f - b
   }
   
-  def inverseAll {
+  def inverseWithAlpha {
     this.r = 1f - r
     this.g = 1f - g
     this.b = 1f - b
     this.a = 1f - a
   }
   
-  
-  // -- helpers ----------------------------------------------------------------
+  // -- Helpers ----------------------------------------------------------------
   def toInt = toARGB
   override def toString = "Colour("+ toLabel +")"
   def toLabel = "R"+ r +" G"+ g +" B"+ b +" A"+ a

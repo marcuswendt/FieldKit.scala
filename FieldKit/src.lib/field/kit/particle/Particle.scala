@@ -8,7 +8,7 @@
 package field.kit.particle
 
 import field.kit.math.Vec3
-import field.kit.Logger
+import field.kit._
 
 object Particle {
   val UNDEFINED = -1
@@ -29,6 +29,7 @@ class Particle extends Vec3 with Logger {
   var ps:ParticleSystem = null
   var id = 0
   
+  // basic properties
   var age = 0f
   var lifeTime = 10 * 1000f
   var size = 1f
@@ -38,6 +39,14 @@ class Particle extends Vec3 with Logger {
   var steerMax = 1f
   var velocityMax = 10f
   
+  // extended properties
+  var colour = Colour()
+  var colourSteer = Colour()
+  var colourVelocity = Colour()
+  var colourSteerMax = 1f
+  var colourVelocityMax = 10f
+  
+  // internal
   protected val absVelocity = Vec3()
   
   /** called automatically when the particle is added to the flock */
@@ -46,8 +55,8 @@ class Particle extends Vec3 with Logger {
   // perform euler integration
   def update(dt:Float) {
     age += dt
-        
-    // update driving force
+   
+    // integrate velocity -> position 
     steer.clamp(steerMax)
     velocity += steer
     velocity.clamp(velocityMax)
@@ -55,11 +64,15 @@ class Particle extends Vec3 with Logger {
     // make velocity time invariant
     absVelocity := velocity *= (dt / ps.timeStep)
     this += absVelocity
-
-    // clean up
+    
     velocity *= ps.friction
     steer.zero
+    
+    // integrate colour
+//    colourSteer.clamp(colourSteerMax)
+//    colourVelocity += colourSteer
+//    colourVelocity.clamp(colourVelocityMax)
   }
   
-   override def toString = "Particle["+ toLabel +"]"
+  override def toString = "Particle["+ toLabel +"]"
 }
