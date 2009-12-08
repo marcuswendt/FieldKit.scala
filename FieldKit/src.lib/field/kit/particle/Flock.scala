@@ -16,17 +16,17 @@ import scala.reflect.Manifest
  */
 class Flock[P <: Particle](implicit m:Manifest[P]) 
 extends Logger { 
-	import scala.collection.mutable.ArrayBuffer
+  import scala.collection.mutable.ArrayBuffer
   
-	var ps:ParticleSystem = null
-	var emitter = new Emitter[P](this)
-	var particles = new ArrayBuffer[P]
-	var behaviours = new ArrayBuffer[Behaviour]
-	
-	/** called automatically when the flock is added to the particle system */
-	def init {
-		emitter := ps.space
-	}
+  var ps:ParticleSystem = null
+  var emitter = new Emitter[P](this)
+  var particles = new ArrayBuffer[P]
+  var behaviours = new ArrayBuffer[Behaviour]
+  
+  /** called automatically when the flock is added to the particle system */
+  def init {
+    emitter := ps.space
+  }
   
   /** simple, single threaded update */
   def update(dt:Float) {
@@ -59,7 +59,7 @@ extends Logger {
       limit = jobSize*(worker+1)
     }
     
-    while(i < limit) {
+    while(i < limit && i < particles.size) {
       val p = particles(i)
       i += 1
       
@@ -83,7 +83,7 @@ extends Logger {
   // HELPERS
   // ---------------------------------------------------------------------------
   def +=(b:Behaviour) {
-    fine("adding", b)
+    //fine("adding", b)
     b.flock = this
     b.ps = ps
     b.init
@@ -91,7 +91,7 @@ extends Logger {
   }
    
   def +=(p:P) {
-    fine("adding", p)
+    //fine("adding", p)
     p.flock = this
     p.ps = ps
     p.id = this.size
@@ -100,9 +100,12 @@ extends Logger {
   }
   
   def -=(p:P) {
-    fine("removing", p)    
+    //fine("removing", p)    
     particles -= p 
   }
+  
+  /** starts the particle animation again */
+  def reset = particles.clear
   
   // -- Collection Helpers -----------------------------------------------------
   def size = particles.size

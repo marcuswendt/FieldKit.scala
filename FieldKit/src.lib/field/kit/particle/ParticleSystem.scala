@@ -54,6 +54,9 @@ class ParticleSystem extends Logger {
     }
   }
   
+  /** resets all flocks */
+  def reset = flocks foreach (_.reset)
+  
   def +=(f:Flock[_]) {
     f.ps = this
     f.init

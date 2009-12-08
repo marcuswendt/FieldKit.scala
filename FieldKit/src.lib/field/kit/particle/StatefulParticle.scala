@@ -66,6 +66,8 @@ class StatefulParticle extends Particle {
     
     // check wether particle is dead
     if(age > lifeTime && lifeTime != Particle.UNDEFINED) 
-      switch(Particle.DEAD, 0)
+      die
   }
+  
+  def die = switch(Particle.DEAD, 0)
 }

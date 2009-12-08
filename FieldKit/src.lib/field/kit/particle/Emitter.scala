@@ -74,7 +74,7 @@ class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends
   
   /** instantiates a new object from the parameterized type */
   def create = {
-    fine("creating new "+ m)
+    //fine("creating new "+ m)
     val clazz = Class.forName(m.toString)
     val p = clazz.newInstance.asInstanceOf[P]
     p

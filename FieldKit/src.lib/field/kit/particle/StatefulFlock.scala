@@ -17,6 +17,11 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
   // use a stateful emitter instead of the default
   emitter = new StatefulEmitter[P](this)
 
+  override def reset {
+   for(p <- particles)
+     p.die
+  }
+  
   /** multi-threaded update */
   override def update(dt:Float, worker:Int, teamSize:Int) {
 	var i = 0
