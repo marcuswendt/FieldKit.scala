@@ -69,9 +69,9 @@ class BorderWrap3D extends BorderWrap2D {
     else if(p.y > max.y)
       p.y = min.y
 
-    if (p.z < min.z)
+    if(p.z < min.z)
       p.z = max.z
-    else if (p.z > max.z)
+    else if(p.z > max.z)
       p.z = min.z
   }  
 }

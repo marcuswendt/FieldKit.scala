@@ -17,15 +17,14 @@ import field.kit.math.Common._
  * @author Marcus Wendt
  */
 class Randomise extends Behaviour {
-  val min = Vec3(0f)
-  val max = Vec3(1f)
+
+  val size = Vec3(1f)
   var weight = 1f
  
   protected val range = Vec3()
   
   override def prepare(dt:Float) {
-    range := max -= min *= 0.5f
-    range *= ps.space.dimension
+    range := size *= 0.5f *= ps.space.dimension
   }
   
   def apply(p:Particle, dt:Float) {
@@ -34,6 +33,3 @@ class Randomise extends Behaviour {
     p.z += range.z * randomNormal * weight
   }
 }
-
-// deprecated, alias for randomise
-class Randomize extends Randomise

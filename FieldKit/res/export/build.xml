@@ -176,10 +176,12 @@
 	</target>
 
 	<target name="fieldkit" description="compiles the fieldkit library and copies it to the tmp.lib dir">
+		<!--
 		<echo>compiling fieldkit...</echo>
 		<ant dir="../../">
 			<property name="project.name" value="FieldKit" />
 		</ant>
+		-->
 		<echo>copying fieldkit...</echo>
 		<copy todir="${tmp.lib}" flatten="true" includeemptydirs="false">
 			<fileset dir="../../build/FieldKit/" />
