@@ -10,7 +10,7 @@ package field.kit.test.gl.scene.shape
 import field.kit.test.Sketch
 
 object SphereTest extends Sketch {
-	import field.kit._
+  import field.kit.colour._
   import field.kit.math.Common._
   import field.kit.math._
   import field.kit.gl.scene._

@@ -33,31 +33,31 @@ class Vec4(var x:Float, var y:Float, var z:Float, var w:Float) extends Vec {
    * Adds the given Float to this vector
    * @return result as new vector 
    */
-  final def +(s:Float) = new Colour(x+s, y+s, z+s, w+s)
+  final def +(s:Float) = new Vec4(x+s, y+s, z+s, w+s)
   
   /**
    * Subtracts the given float from this vector
    * @return result as new vector 
    */
-  final def -(s:Float) = new Colour(x-s, y-s, z-s, w-s)
+  final def -(s:Float) = new Vec4(x-s, y-s, z-s, w-s)
   
   /** 
    * Multiplies the given float with this vector
    * @return result as new vector 
    */
-  final def *(s:Float) = new Colour(x*s, y*s, z*s, w*s)
+  final def *(s:Float) = new Vec4(x*s, y*s, z*s, w*s)
   
   /** 
    * Divides this vector through the given float
    * @return result as new vector 
    */
-  final def /(s:Float) = new Colour(x/s, y/s, z/s, w/s)
+  final def /(s:Float) = new Vec4(x/s, y/s, z/s, w/s)
   
   // -- Mutable Operations -----------------------------------------------------
   final def +=(s:Float) = { x+=s; y+=s; z+=s; w+=s; this }
-  final def -=(s:Float) = { x-=s; y-=s; z-=s; w+=s; this }
-  final def *=(s:Float) = { x*=s; y*=s; z*=s; w+=s; this }
-  final def /=(s:Float) = { x/=s; y/=s; z/=s; w+=s; this }
+  final def -=(s:Float) = { x-=s; y-=s; z-=s; w-=s; this }
+  final def *=(s:Float) = { x*=s; y*=s; z*=s; w*=s; this }
+  final def /=(s:Float) = { x/=s; y/=s; z/=s; w/=s; this }
   
   final def +=(v:Vec4) = { x+=v.x; y+=v.y; z+=v.z; w+=v.w; this }
   final def -=(v:Vec4) = { x-=v.x; y-=v.y; z-=v.z; w-=v.w; this }

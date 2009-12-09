@@ -15,7 +15,7 @@ import field.kit.test.Sketch
 object CameraTest extends Sketch {
 	import processing.core.PConstants
 	
-	import field.kit._
+	import field.kit.colour._
 	import field.kit.gl.scene._
 	import field.kit.util.Timer
 	import field.kit.math._

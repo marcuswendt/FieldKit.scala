@@ -8,7 +8,7 @@
 package field.kit.test.gl.scene.shape
 
 import field.kit.test.Sketch
-import field.kit.Colour
+import field.kit.colour.Colour
 
 abstract class ShapeTest extends Sketch {
   import field.kit.gl.scene.Mesh

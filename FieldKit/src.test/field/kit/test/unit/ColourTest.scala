@@ -9,7 +9,7 @@ package field.kit.test.unit
 
 import junit.framework._
 import org.junit.Assert._
-import field.kit.Colour
+import field.kit.colour.Colour
 
 /** unit tests for the <code>Colour</code> class */
 class ColourTest extends TestCase {

@@ -1,6 +1,6 @@
 package field.kit.test.colour
 
-import field.kit.Colour
+import field.kit.colour.Colour
 import field.kit.test.Sketch
 
 object ColourTest extends Sketch {

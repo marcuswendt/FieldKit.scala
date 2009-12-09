@@ -53,6 +53,7 @@ class Initialiser extends Behaviour {
  * @author Marcus Wendt
  */
 class ColourInitialiser extends Behaviour {
+  import field.kit.colour._
   
   var colour = Colour()
   

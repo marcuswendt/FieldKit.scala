@@ -38,11 +38,11 @@ object ParticleSystemTest extends Sketch {
   f.emitter += new ColourInitialiser {
     this.colour := (1f, 0f, 0f, 1f)
     this.hueVariation = 0.5f
-    
-    override def apply(p:Particle, dt:Float) {
-      super.apply(p, dt)
-      //info("apply", p.colour, "this", this.colour)
-    }
+  }
+  
+  f += new ColourDirectionalForce {
+    direction.h += 0.1f
+    weight = 0.01f
   }
   
   val wind = new Wind

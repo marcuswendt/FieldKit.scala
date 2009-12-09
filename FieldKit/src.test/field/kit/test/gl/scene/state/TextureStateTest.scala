@@ -13,7 +13,7 @@ import field.kit.test.Sketch
  * quick test for the texture state feature
  */
 object TextureStateTest extends Sketch {
-	import field.kit.Colour
+	import field.kit.colour.Colour
 	import field.kit.math.Common._
 	import field.kit.gl.scene._
 	import field.kit.gl.scene.shape._

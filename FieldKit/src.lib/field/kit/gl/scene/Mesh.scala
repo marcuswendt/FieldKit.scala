@@ -22,7 +22,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   import java.nio.FloatBuffer
   
   import field.kit.math.Common._
-  import field.kit.Colour
+  import field.kit.colour.Colour
   
   /** Stores the actual data buffers */
   var data = new MeshData

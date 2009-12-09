@@ -21,7 +21,7 @@ package field.kit.gl.render
 class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Renderable {
   import javax.media.opengl.GL
   
-  import field.kit.Colour
+  import field.kit.colour.Colour
   import field.kit.gl.render.objects._
   
   var clearBuffer = true

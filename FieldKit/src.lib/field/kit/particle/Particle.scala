@@ -8,7 +8,7 @@
 package field.kit.particle
 
 import field.kit.math._
-import field.kit._
+import field.kit.colour._
 
 object Particle {
   val UNDEFINED = -1
@@ -41,14 +41,14 @@ class Particle extends Vec3 with Logger {
   
   // extended properties
   var colour = Colour()
-  var colourSteer = Vec4()
-  var colourVelocity = Vec4()
+  var colourSteer = HSVA()
+  var colourVelocity = HSVA()
   var colourSteerMax = 0.1f
   var colourVelocityMax = 0.5f
   
   // internal
   protected val absVelocity = Vec3()
-  protected val absColourVelocity = Vec4()
+  protected val absColourVelocity = HSVA()
   
   /** called automatically when the particle is added to the flock */
   def init {}
@@ -81,7 +81,15 @@ class Particle extends Vec3 with Logger {
     colourVelocity.clamp(colourVelocityMax)
     
     absColourVelocity := colourVelocity *= (dt / ps.timeStep)
-    this.colour += (absColourVelocity.x, absColourVelocity.y, absColourVelocity.z, absColourVelocity.w)
+    
+    // travel through HSV space
+    this.colour.hue = colour.hue + absColourVelocity.h
+    this.colour.saturation = colour.saturation + absColourVelocity.s
+    this.colour.value = colour.value + absColourVelocity.v
+    this.colour.alpha = colour.alpha + absColourVelocity.a
+    
+    // travel through RGB space
+    //this.colour += (absColourVelocity.x, absColourVelocity.y, absColourVelocity.z, absColourVelocity.w)
     
     colourVelocity *= ps.friction
     colourSteer.zero

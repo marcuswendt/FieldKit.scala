@@ -5,9 +5,8 @@
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 18, 2009 */
-package field.kit
+package field.kit.colour
 
-import field.kit.math._
 import field.kit.math.Common._
 
 /**
@@ -124,7 +123,7 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
   final def blue_=(s:Float) = setRGB(r,g,s)
   
   final def alpha = a
-  final def alpha_=(s:Float) = this.a = s
+  final def alpha_=(s:Float) = this.a = clamp(s, 0, 1)
   
   final def hue = h
   final def hue_=(theta:Float) = setHSV(theta,s,v)
@@ -325,6 +324,8 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
     (((g * 255).asInstanceOf[Int] & 0xFF) << 8) | 
     (((b * 255).asInstanceOf[Int] & 0xFF))
   }
+  
+  final def toHSVA = new HSVA(h,s,v,a)
 
   final def fromRGB(i:Int) = {
     r = (i >> 16 & 0xFF) / 255f
