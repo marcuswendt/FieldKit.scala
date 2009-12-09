@@ -47,8 +47,8 @@ object OtherFlockRepelTest extends Sketch {
   initialiser.velocityVariation = 0.25f
   
   f.emitter += initialiser
-  f.emitter += new Randomize {
-    max.x = 0.25f
+  f.emitter += new Randomise {
+    size.x = 0.25f
   }
   
   f += new Wind

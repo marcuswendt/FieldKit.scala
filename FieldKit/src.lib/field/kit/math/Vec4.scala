@@ -26,7 +26,7 @@ class Vec4(var x:Float, var y:Float, var z:Float, var w:Float) extends Vec {
   // -- Setters ----------------------------------------------------------------
   final def :=(v:Vec4) = { this.x=v.x; this.y=v.y; this.z=v.z; this.w=v.z; this }
 
-  final def :=(s:Float) = { this.x=s; this.y=s; this.z=s; this.w=s; this }
+  def :=(s:Float) = { this.x=s; this.y=s; this.z=s; this.w=s; this }
   
   // -- Immutable Operations ---------------------------------------------------
   /**

@@ -33,7 +33,7 @@ object ParticleSystemTest extends Sketch {
   initialiser.velocity = 25f
   
   f.emitter += initialiser
-  f.emitter += new Randomize
+  f.emitter += new Randomise
   
   val wind = new Wind
   wind.weight = 0.25f

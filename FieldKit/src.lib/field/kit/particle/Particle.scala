@@ -7,7 +7,7 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
-import field.kit.math.Vec3
+import field.kit.math._
 import field.kit._
 
 object Particle {
@@ -41,8 +41,8 @@ class Particle extends Vec3 with Logger {
   
   // extended properties
   var colour = Colour()
-  var colourSteer = Colour()
-  var colourVelocity = Colour()
+  var colourSteer = Vec4()
+  var colourVelocity = Vec4()
   var colourSteerMax = 1f
   var colourVelocityMax = 10f
   
@@ -55,7 +55,11 @@ class Particle extends Vec3 with Logger {
   // perform euler integration
   def update(dt:Float) {
     age += dt
-   
+    updatePosition(dt)
+    updateColour(dt)
+  }
+  
+  def updatePosition(dt:Float) {
     // integrate velocity -> position 
     steer.clamp(steerMax)
     velocity += steer
@@ -67,8 +71,10 @@ class Particle extends Vec3 with Logger {
     
     velocity *= ps.friction
     steer.zero
-    
-    // integrate colour
+  }
+
+  /** integrates colour steering*/
+  def updateColour(dt:Float) {
 //    colourSteer.clamp(colourSteerMax)
 //    colourVelocity += colourSteer
 //    colourVelocity.clamp(colourVelocityMax)

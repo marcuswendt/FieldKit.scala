@@ -39,14 +39,14 @@ object TextureStateTest extends Sketch {
   qb.states += new AlphaState
   qb.translation.x = offset
   qb.translation.y = offset
-  qb.solidColour(new Colour(1f, 0.75f))
+  qb.solidColour(Colour(1f, 0.75f))
   qb.states += TextureState("res/test/test.png")
   
   var qc = Quad("tga", w, h)
   qc.states += new AlphaState
   qc.translation.x = offset + w
   qc.translation.y = offset
-  qc.solidColour(new Colour(1f, 0.75f))
+  qc.solidColour(Colour(1f, 0.75f))
   qc.states += TextureState("res/test/test.tga")
   
   var qd = Quad("gif", w, h)

@@ -25,12 +25,26 @@ class Initialiser extends Behaviour {
   var lifeTime = 1000f
   var lifeTimeVariation = 0f // [0,1]
   
+  var size = 10f
+  var sizeVariation = 0f // [0,1]
+  
+  var colour = Colour()
+  var hueVariation = 0f // [0,1]
+  var saturationVariation = 0f // [0,1]
+  var valueVariation = 0f // [0,1]
+  
   var isPerpetual = false
   
   def apply(p:Particle, dt:Float) {
     p.steerMax = value(acceleration, accelerationVariation)
     p.velocityMax = value(velocity, velocityVariation)
     p.lifeTime = if(isPerpetual) Particle.UNDEFINED else value(lifeTime, lifeTimeVariation)
+    p.size = value(size, sizeVariation)
+    
+    p.colour := colour
+    p.colour.shiftHue(randomNormal * hueVariation)
+    p.colour.shiftSaturation(randomNormal * saturationVariation)
+    p.colour.shiftValue(randomNormal * valueVariation)
   }
   
   /**

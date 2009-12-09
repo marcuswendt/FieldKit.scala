@@ -37,8 +37,11 @@ object Common extends Trigonometry with Interpolation with Intersection {
   
   final def max(a:Int, b:Int) = if(a > b) a else b
   final def max(a:Float, b:Float) = if(a > b) a else b
+  final def max(a:Float, b:Float, c:Float) = if(a > b) if(a > c) a else c else if(b > c) b else c 
+  
   final def min(a:Int, b:Int) = if(a > b) b else a
   final def min(a:Float, b:Float) = if(a > b) b else a
+  final def min(a:Float, b:Float, c:Float) = if(a < b) if(a < c) a else c else if(b < c) b else c
 
   final def floor(n:Float) = Math.floor(n).toFloat
   final def ceil(n:Float) = Math.ceil(n).toFloat

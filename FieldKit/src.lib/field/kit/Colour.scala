@@ -8,26 +8,94 @@
 package field.kit
 
 import field.kit.math._
+import field.kit.math.Common._
 
 /**
  * Companion object to class <code>Colour</code>
+ * 
+ * Colour conversion code ported from toxiclibs 
+ * <a href="http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.color/toxi/color/TColor.java">TColour</a> class
+ * 
+ * @see http://code.google.com/p/toxiclibs
  */
 object Colour {
+  val BLACK = Colour(0f)
+  val WHITE = Colour(1f)
+  
+  val RED = Colour(1f, 0f, 0f)
+  val GREEN = Colour(0f, 1f, 0f)
+  val BLUE = Colour(0f, 0f, 1f)
+  
+  val YELLOW = Colour(1f, 1f, 0f)
+  val CYAN = Colour(0f, 1f, 1f)
+  val MAGENTA = Colour(1f, 0f, 1f)
+  
+  val INV60DEGREES = 60.0f / 360f
+  
   def apply() = new Colour(1f,1f,1f,1f)
   def apply(r:Float,g:Float,b:Float) = new Colour(r,g,b,1f)
   def apply(grey:Float) = new Colour(grey,grey,grey,1f)
   def apply(grey:Float, alpha:Float) = new Colour(grey,grey,grey,alpha)
   
-  val BLACK = new Colour(0f)
-  val WHITE = new Colour(1f)
+  def apply(r:Int,g:Int,b:Int) = new Colour(r/255f,g/255f,b/255f,1f)
+  def apply(r:Int,g:Int,b:Int,a:Int) = new Colour(r/255f,g/255f,b/255f,a/255f)
   
-  val RED = new Colour(1f, 0f, 0f)
-  val GREEN = new Colour(0f, 1f, 0f)
-  val BLUE = new Colour(0f, 0f, 1f)
+  def apply(i:Int) = { val c = new Colour(); c := i }
+  def apply(s:String) = { val c = new Colour(); c := s }
+  def apply(c:Colour) = { val c = new Colour(); c := c }
   
-  val YELLOW = new Colour(1f, 1f, 0f)
-  val CYAN = new Colour(0f, 1f, 1f)
-  val MAGENTA = new Colour(1f, 0f, 1f)
+  // -- Conversion -------------------------------------------------------------
+  /** Converts a RGB colour to a HSV triplet */
+  final def rgbToHSV(r:Float, g:Float, b:Float) = {
+    var h=0f
+    var s=0f
+    var v = max(r, g, b)
+    var d = v - min(r, g, b)
+    
+    if(v != 0.0) {
+      s = d / v
+    }
+    
+    if(s != 0.0) {
+      if(java.lang.Float.compare(r, v) == 0) {
+        h = (g - b) / d
+      } else if(java.lang.Float.compare(g, v) == 0) {
+        h = 2 + (b - r) / d
+      } else {
+        h = 4 + (r - g) / d
+      }
+    }
+    
+    h *= INV60DEGREES
+    
+    if (h < 0)
+      h += 1.0f
+    
+    (h,s,v)
+  }
+  
+  /** Converts a HSV colour to a RGB triplet */
+  final def hsvToRGB(_h:Float, s:Float, v:Float) = {
+    if(java.lang.Float.compare(s, 0.0f) == 0) {
+      (v,v,v)
+      
+    } else {
+      val h = _h / INV60DEGREES
+      val i = h.toInt
+      val f = h - i
+      val p = v * (1 - s)
+      val q = v * (1 - s * f)
+      val t = v * (1 - s * (1 - f))
+
+      i match {
+        case 0 => (v, t, p)
+        case 1 => (q, v, p)
+        case 2 => (p, v, t)
+        case 3 => (t, p, v)
+        case _ => (v, p, q)
+      }
+    }
+  }
 }
 
 
@@ -35,46 +103,82 @@ object Colour {
  * A versatile RGBA Colour utility, used as datatype and for conversion 
  * @author Marcus Wendt
  */
-class Colour(_r:Float, _g:Float, _b:Float, _a:Float) extends Vec4(_r,_g,_b,_a) with Logger {  
+class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger {  
   import math._
   import math.Common._
   
+  protected var h = 0f
+  protected var s = 0f
+  protected var v = 0f
+  
+  // make sure HSV values are up to date
+  setRGB(r,g,b)
+  
+  final def red = r
+  final def red_=(s:Float) = setRGB(s,g,b) 
+  
+  final def green = g
+  final def green_=(s:Float) = setRGB(r,s,b)
+  
+  final def blue = b
+  final def blue_=(s:Float) = setRGB(r,g,s)
+  
+  final def alpha = a
+  final def alpha_=(s:Float) = this.a = s
+  
+  final def hue = h
+  final def hue_=(theta:Float) = setHSV(theta,s,v)
+  
+  final def saturation = s
+  final def saturation_=(theta:Float) = setHSV(h,theta,v)
+  
+  final def value = v
+  final def value_=(theta:Float) = setHSV(h,s,theta)
+  
+  final def luminance = r * 0.299f + g * 0.587f + b * 0.114f
+  
+  // -- Auxilliary Constructors ------------------------------------------------
   def this() = this(0f,0f,0f,1f)
-  def this(r:Float,g:Float,b:Float) = this(r,g,b,1f)
-  def this(r:Int,g:Int,b:Int) = this(r/255f,g/255f,b/255f,1f)
-  def this(r:Int,g:Int,b:Int,a:Int) = this(r/255f,g/255f,b/255f,a/255f)
-  
-  def this(i:Int) = { this(); :=(i) }
-  def this(c:Colour) = { this(); :=(c) }
-  def this(s:String) = { this(); :=(s) }
-  def this(grey:Float) = this(grey,grey,grey,1f)
-  def this(grey:Float, a:Float) = this(grey,grey,grey,a)
-  
-  // -- RGBA Accessors ---------------------------------------------------------
-  def r = x
-  def r_=(s:Float) = x = s
-  
-  def g = y
-  def g_=(s:Float) = y = s
-  
-  def b = z
-  def b_=(s:Float) = z = s
-  
-  def a = w
-  def a_=(s:Float) = w = s
   
   // -- Setters ----------------------------------------------------------------
+  final def setHSV(h:Float, s:Float, v:Float) = {
+    this.h = h
+    this.s = s
+    this.v = v
+    
+    this
+  }
+  
+  /** Sets the rgb values and internally updates the hsv as well */
+  final def setRGB(r:Float, g:Float, b:Float) = {
+    this.r = r
+    this.g = g
+    this.b = b
+    
+    val hsv = Colour.rgbToHSV(r,g,b)
+    this.h = hsv._1
+    this.s = hsv._2
+    this.v = hsv._3
+    
+    this
+  }
+  
   /**
    * Sets this Colour components to the given Colour
    * @return itself
    */
-  final def :=(c:Colour) = {
-    if(c != null) {
-      this.r = c.r
-      this.g = c.g
-      this.b = c.b
-      this.a = c.a
-    }
+  final def :=(c:Colour):Colour = {
+    if(c == null) return c
+    
+    this.r = c.r
+    this.g = c.g
+    this.b = c.b
+    this.a = c.a
+    
+    this.h = c.h
+    this.s = c.s
+    this.v = c.v
+    
     this
   }
   
@@ -82,19 +186,37 @@ class Colour(_r:Float, _g:Float, _b:Float, _a:Float) extends Vec4(_r,_g,_b,_a) w
    * Sets the r,g,b components of this Colour to the given Float and the alpha seperately
    * @return itself
    */
-  final def :=(grey:Float,a:Float) = {this.r=grey; this.g=grey; this.b=grey; this.a=a; this}
+  final def :=(grey:Float) = {
+    setRGB(grey, grey, grey)
+    this.a = 1f
+    this
+  }
+  
+  /**
+   * Sets the r,g,b components of this Colour to the given Float and the alpha seperately
+   * @return itself
+   */
+  final def :=(grey:Float,a:Float) = {
+    setRGB(grey, grey, grey) 
+    this.a=a
+    this
+  }
   
   /**
    * Sets only the rgb components of this Colour
    * @return itself
    */
-  final def :=(r:Float,g:Float,b:Float) = { this.r = r; this.g=g; this.b=b; this }
+  final def :=(r:Float,g:Float,b:Float) = setRGB(r,g,b)
   
   /**
    * Sets all components of this Colour individually
    * @return itself
    */
-  final def :=(r:Float,g:Float,b:Float,a:Float) = { this.r = r; this.g=g; this.b=b; this.a=a; this }
+  final def :=(r:Float,g:Float,b:Float,a:Float) = { 
+    setRGB(r,g,b)
+    this.a=a
+    this
+  }
   
   /**
    * Sets this Colour using an Integer which is interpreted as:
@@ -159,13 +281,15 @@ class Colour(_r:Float, _g:Float, _b:Float, _a:Float) extends Vec4(_r,_g,_b,_a) w
           this.a = next
         case _ => throw new Exception("Couldnt parse String '"+ s +"' (matches:"+ list.size +")")
       }
+      
+      setRGB(r,g,b)
     }
     this
   }
   
   // -- to and from packed integer conversion ----------------------------------
   /** @return this colour as argb packed integer */
-  def toARGB = {
+  final def toARGB = {
     (((a * 255).asInstanceOf[Int] & 0xFF) << 24) | 
     (((r * 255).asInstanceOf[Int] & 0xFF) << 16) | 
     (((g * 255).asInstanceOf[Int] & 0xFF) << 8) | 
@@ -173,7 +297,7 @@ class Colour(_r:Float, _g:Float, _b:Float, _a:Float) extends Vec4(_r,_g,_b,_a) w
   }
   
   /** @return this colour as rgba packed integer */
-  def toRGBA = {
+  final def toRGBA = {
     (((r * 255).asInstanceOf[Int] & 0xFF) << 24) | 
     (((g * 255).asInstanceOf[Int] & 0xFF) << 16) | 
     (((b * 255).asInstanceOf[Int] & 0xFF) << 8) | 
@@ -181,58 +305,65 @@ class Colour(_r:Float, _g:Float, _b:Float, _a:Float) extends Vec4(_r,_g,_b,_a) w
   }
 
   /** @return this colour as rgb packed integer */ 
-  def toRGB = {
+  final def toRGB = {
     (((r * 255).asInstanceOf[Int] & 0xFF) << 16) | 
     (((g * 255).asInstanceOf[Int] & 0xFF) << 8) | 
     (((b * 255).asInstanceOf[Int] & 0xFF))
   }
 
-  def fromRGB(i:Int) {
+  final def fromRGB(i:Int) = {
     r = (i >> 16 & 0xFF) / 255f
     g = (i >> 8 & 0xFF) / 255f
     b = (i & 0xFF) / 255f
+    setRGB(r,g,b)
   }
   
-  def fromRGBA(i:Int) {
+  final def fromRGBA(i:Int) = {
     r = (i >> 24 & 0xFF) / 255f
     g = (i >> 16 & 0xFF) / 255f
     b = (i >> 8 & 0xFF) / 255f
     a = (i & 0xFF) / 255f
+    setRGB(r,g,b)
   }
   
-  def fromARGB(i:Int) {
+  final def fromARGB(i:Int) = {
     a = (i >> 24 & 0xFF) / 255f
     r = (i >> 16 & 0xFF) / 255f
     g = (i >> 8 & 0xFF) / 255f
     b = (i & 0xFF) / 255f
+    setRGB(r,g,b)
   }
   
-  def luminance = r * 0.299f + g * 0.587f + b * 0.114f
-  
   // -- Colour Operations ------------------------------------------------------  
-  def randomize = {
-    r = random
-    g = random
-    b = random
+  final def randomise = {
+    setRGB(random, random, random)
     a = random
     this
   }
   
-  def inverse {
-    this.r = 1f - r
-    this.g = 1f - g
-    this.b = 1f - b
-  }
+  final  def invert = setRGB(1 - r, 1 - g, 1 - b)
+    
   
-  def inverseWithAlpha {
-    this.r = 1f - r
-    this.g = 1f - g
-    this.b = 1f - b
-    this.a = 1f - a
-  }
+  // -- HSV Operations ---------------------------------------------------------
+  final def darken(amount:Float) = setHSV(h, s, v - clamp(amount, 0, 1))
+  
+  final def brighten(amount:Float) = setHSV(h, s, v + clamp(amount, 0, 1))
+  
+  final def desaturate(amount:Float) = setHSV(h, clamp(s - amount, 0, 1), v)
+  
+  final def saturate(amount:Float) = setHSV(h, clamp(s + amount, 0, 1), v)
+  
+  final def shiftHue(amount:Float) = setHSV((h + amount) % 1, s, v)
+  
+  final def shiftSaturation(amount:Float) = setHSV(h, (s + amount) % 1, v)
+  
+  final def shiftValue(amount:Float) = setHSV(h, s, (v + amount) % 1)
+
   
   // -- Helpers ----------------------------------------------------------------
-  def toInt = toARGB
+  final def toInt = toARGB
+  
   override def toString = "Colour("+ toLabel +")"
+  
   def toLabel = "R"+ r +" G"+ g +" B"+ b +" A"+ a
 }

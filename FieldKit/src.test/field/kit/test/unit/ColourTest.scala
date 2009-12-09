@@ -16,32 +16,32 @@ class ColourTest extends TestCase {
  
  def testStringConstructor() = {
    var c:Colour = null
-   c = new Colour("25")
+   c = Colour("25")
    val n = 25/ 255f
    assertEquals(n, c.r)
    assertEquals(n, c.g)
    assertEquals(n, c.b)
    assertEquals(n, c.a)
     
-   c = new Colour("0.9 0.1")    
+   c = Colour("0.9 0.1")    
    assertEquals(c.r, 0.9f)
    assertEquals(c.g, 0.9f)
    assertEquals(c.b, 0.9f)
    assertEquals(c.a, 0.1f)
    
-   c = new Colour("0.1 0.2 0.3")    
+   c = Colour("0.1 0.2 0.3")    
    assertEquals(c.r, 0.1f)
    assertEquals(c.g, 0.2f)
    assertEquals(c.b, 0.3f)
    assertEquals(c.a, 1.0f)
    
-   c = new Colour("0.1 0.2 0.3 0.4")    
+   c = Colour("0.1 0.2 0.3 0.4")    
    assertEquals(c.r, 0.1f)
    assertEquals(c.g, 0.2f)
    assertEquals(c.b, 0.3f)
    assertEquals(c.a, 0.4f)
    
-   c = new Colour("R1.0 G0.1254902 B0.96862745 A1.0")
+   c = Colour("R1.0 G0.1254902 B0.96862745 A1.0")
    assertEquals(1.0f, c.r)
    assertEquals(0.1254902f, c.g)
    assertEquals(0.96862745f, c.b)

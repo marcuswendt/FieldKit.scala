@@ -28,7 +28,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   var data = new MeshData
   
   /** This objects default colour */
-  var colour = new Colour(Colour.WHITE)
+  var colour = Colour(Colour.WHITE)
   
   /**
    * Draws this Mesh
