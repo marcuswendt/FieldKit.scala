@@ -40,9 +40,9 @@ object Colour {
   def apply(r:Int,g:Int,b:Int) = new Colour(r/255f,g/255f,b/255f,1f)
   def apply(r:Int,g:Int,b:Int,a:Int) = new Colour(r/255f,g/255f,b/255f,a/255f)
   
-  def apply(i:Int) = { val c = new Colour(); c := i }
-  def apply(s:String) = { val c = new Colour(); c := s }
-  def apply(c:Colour) = { val c = new Colour(); c := c }
+  def apply(i:Int) = { val c = new Colour(); c := i; c }
+  def apply(s:String) = { val c = new Colour(); c := s; c }
+  def apply(c:Colour) = { val cNew = new Colour(); cNew := c; cNew }
   
   // -- Conversion -------------------------------------------------------------
   /** Converts a RGB colour to a HSV triplet */
@@ -145,6 +145,21 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
     this.h = h
     this.s = s
     this.v = v
+    
+    if(this.h < 0f) this.h *= -1f
+    if(this.h > 1f) this.h %= 1f
+    
+    if(this.s < 0f) this.s *= -1f
+    if(this.s > 1f) this.s %= 1f
+
+    if(this.v < 0f) this.v *= -1
+    if(this.v > 1f) this.v %= 1f
+    
+    
+    val rgb = Colour.hsvToRGB(h,s,v)
+    this.r = rgb._1
+    this.g = rgb._2
+    this.b = rgb._3
     
     this
   }
@@ -343,6 +358,30 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
   
   final  def invert = setRGB(1 - r, 1 - g, 1 - b)
     
+  // -- Arithmetic Operations --------------------------------------------------
+  def +=(r:Float, g:Float, b:Float, a:Float) = {
+    setRGB(this.r + r, this.g + g, this.b + b)
+    this.a += a
+    this
+  }
+  
+  def -=(r:Float, g:Float, b:Float, a:Float) = {
+    setRGB(this.r - r, this.g - g, this.b - b)
+    this.a -= a
+    this
+  }
+  
+  def *=(r:Float, g:Float, b:Float, a:Float) = {
+    setRGB(this.r * r, this.g * g, this.b * b)
+    this.a *= a
+    this
+  }
+  
+  def /=(r:Float, g:Float, b:Float, a:Float) = {
+    setRGB(this.r / r, this.g / g, this.b / b)
+    this.a /= a
+    this
+  }
   
   // -- HSV Operations ---------------------------------------------------------
   final def darken(amount:Float) = setHSV(h, s, v - clamp(amount, 0, 1))
@@ -353,11 +392,11 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
   
   final def saturate(amount:Float) = setHSV(h, clamp(s + amount, 0, 1), v)
   
-  final def shiftHue(amount:Float) = setHSV((h + amount) % 1, s, v)
+  final def shiftHue(amount:Float) = setHSV(h + amount, s, v)
   
-  final def shiftSaturation(amount:Float) = setHSV(h, (s + amount) % 1, v)
+  final def shiftSaturation(amount:Float) = setHSV(h, s + amount, v)
   
-  final def shiftValue(amount:Float) = setHSV(h, s, (v + amount) % 1)
+  final def shiftValue(amount:Float) = setHSV(h, s, v + amount)
 
   
   // -- Helpers ----------------------------------------------------------------

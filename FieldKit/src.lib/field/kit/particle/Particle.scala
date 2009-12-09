@@ -43,11 +43,12 @@ class Particle extends Vec3 with Logger {
   var colour = Colour()
   var colourSteer = Vec4()
   var colourVelocity = Vec4()
-  var colourSteerMax = 1f
-  var colourVelocityMax = 10f
+  var colourSteerMax = 0.1f
+  var colourVelocityMax = 0.5f
   
   // internal
   protected val absVelocity = Vec3()
+  protected val absColourVelocity = Vec4()
   
   /** called automatically when the particle is added to the flock */
   def init {}
@@ -75,9 +76,15 @@ class Particle extends Vec3 with Logger {
 
   /** integrates colour steering*/
   def updateColour(dt:Float) {
-//    colourSteer.clamp(colourSteerMax)
-//    colourVelocity += colourSteer
-//    colourVelocity.clamp(colourVelocityMax)
+    colourSteer.clamp(colourSteerMax)
+    colourVelocity += colourSteer
+    colourVelocity.clamp(colourVelocityMax)
+    
+    absColourVelocity := colourVelocity *= (dt / ps.timeStep)
+    this.colour += (absColourVelocity.x, absColourVelocity.y, absColourVelocity.z, absColourVelocity.w)
+    
+    colourVelocity *= ps.friction
+    colourSteer.zero
   }
   
   override def toString = "Particle["+ toLabel +"]"

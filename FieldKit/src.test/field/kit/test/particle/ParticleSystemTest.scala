@@ -35,6 +35,16 @@ object ParticleSystemTest extends Sketch {
   f.emitter += initialiser
   f.emitter += new Randomise
   
+  f.emitter += new ColourInitialiser {
+    this.colour := (1f, 0f, 0f, 1f)
+    this.hueVariation = 0.5f
+    
+    override def apply(p:Particle, dt:Float) {
+      super.apply(p, dt)
+      //info("apply", p.colour, "this", this.colour)
+    }
+  }
+  
   val wind = new Wind
   wind.weight = 0.25f
 //  f += wind
@@ -141,8 +151,9 @@ object ParticleSystemTest extends Sketch {
         ellipse(p.x, p.y, repel.rangeAbs, repel.rangeAbs)
       }
       
-      fill(255)
       noStroke
+      //fill(p.colour.toInt)
+      fill(p.colour.r * 255, p.colour.g * 255, p.colour.b * 255)
       rect(p.x, p.y, 3, 3)
     }
   }

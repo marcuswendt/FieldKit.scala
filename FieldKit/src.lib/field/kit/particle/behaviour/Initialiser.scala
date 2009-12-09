@@ -28,11 +28,6 @@ class Initialiser extends Behaviour {
   var size = 10f
   var sizeVariation = 0f // [0,1]
   
-  var colour = Colour()
-  var hueVariation = 0f // [0,1]
-  var saturationVariation = 0f // [0,1]
-  var valueVariation = 0f // [0,1]
-  
   var isPerpetual = false
   
   def apply(p:Particle, dt:Float) {
@@ -40,11 +35,6 @@ class Initialiser extends Behaviour {
     p.velocityMax = value(velocity, velocityVariation)
     p.lifeTime = if(isPerpetual) Particle.UNDEFINED else value(lifeTime, lifeTimeVariation)
     p.size = value(size, sizeVariation)
-    
-    p.colour := colour
-    p.colour.shiftHue(randomNormal * hueVariation)
-    p.colour.shiftSaturation(randomNormal * saturationVariation)
-    p.colour.shiftValue(randomNormal * valueVariation)
   }
   
   /**
@@ -59,26 +49,41 @@ class Initialiser extends Behaviour {
 
 
 /**
- * randomly place the particle within a defined cube
- * note: min and max should be given as positive normalized vectors [0, 1]
+ * Sets a particles colour attributes
  * @author Marcus Wendt
  */
-class EmitterRandomize extends Behaviour {
-  val min = Vec3(0f)
-  val max = Vec3(1f)
-  var weight = 1f
-
-  protected val minAbs = Vec3()
-  protected val maxAbs = Vec3()
+class ColourInitialiser extends Behaviour {
   
-  override def prepare(dt:Float) {
-    minAbs := min *= ps.space.dimension
-    maxAbs := max -= min *= ps.space.dimension
-  }
+  var colour = Colour()
+  
+  var acceleration = 0.1f
+  var accelerationVariation = 0f // [0,1]
+  
+  var velocity = 0.5f
+  var velocityVariation = 0f // [0,1]
+  
+  var hueVariation = 0f // [0,1]
+  var saturationVariation = 0f // [0,1]
+  var valueVariation = 0f // [0,1]
   
   def apply(p:Particle, dt:Float) {
-    p.x = minAbs.x + maxAbs.x * random
-    p.y = minAbs.y + maxAbs.y * random
-    p.z = minAbs.z + maxAbs.z * random
+    p.colour := colour
+    
+    // shift initial base colour using variations
+    p.colour.shiftHue(randomNormal * hueVariation)
+    p.colour.shiftSaturation(randomNormal * saturationVariation)
+    p.colour.shiftValue(randomNormal * valueVariation)
+    
+    p.colourSteerMax = value(acceleration, accelerationVariation)
+    p.colourVelocityMax = value(velocity, velocityVariation)
+  }
+
+  /**
+   * calculates a value based on a base value and a variant part
+   */
+  private def value(value:Float, variation:Float) = {
+    val invariant = value * (1f - variation)
+    val variant = value * variation * random
+    invariant + variant
   }
 }
