@@ -13,14 +13,20 @@ import field.kit.math.Common._
 /**
  * Axis-aligned bounding box used for Octrees and other optimisation techniques
  */
-class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
+class AABB(position:Vec3, _extent:Vec3) extends Vec3(position.x,position.y,position.z) {
+  
+  def extent = _extent
+  def extent_=(v:Vec3) = {
+    _extent := v
+    updateBounds
+  }
+  
   var min = Vec3()
   var max = Vec3()
-  
-  this := position
   updateBounds
   
-  // -- Constructors -----------------------------------------------------------  
+  // -- Constructors -----------------------------------------------------------
+  def this() = this(Vec3(), Vec3())
   def this(extent:Vec3) = this(Vec3(), extent)
   def this(position:Vec3, extent:Float) = this(position, Vec3(extent))
   
@@ -31,7 +37,7 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
   }
   
   /**
-   * @return true, when the given AABB intersects with itself
+   * @return true, when this and the given AABB intersect with each other
    */
   def intersects(box:AABB) = {
   	val t = box - this
@@ -41,12 +47,12 @@ class AABB(position:Vec3, var extent:Vec3) extends Vec3(0,0,0) {
   }
 
   /**
-   * @return true, when the given Sphere intersects with itself
+   * @return true, when the given Sphere intersects with this AABB
    */
   def intersects(sphere:Sphere):Boolean = intersects(sphere, sphere.radius)
   
   /**
-   * @return true, when the given Sphere intersects with itself
+   * @return true, when the given Sphere intersects with this AABB
    */
   def intersects(center:Vec, radius:Float) = {
     var s = 0f
