@@ -13,7 +13,10 @@ package field.kit.math.geometry
  */
 class Rect(var x1:Float, var y1:Float, var width:Float, var height:Float) {
   def x2 = x1 + width
+  def x2_=(f:Float) = width = f - x1
+  
   def y2 = y1 + height
+  def y2_=(f:Float) = height = f - y1
   
   def this() = this(0f,0f,0f,0f)
   
