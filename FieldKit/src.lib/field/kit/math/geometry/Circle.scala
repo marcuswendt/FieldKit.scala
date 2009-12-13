@@ -19,10 +19,18 @@ class Circle(var radius:Float) extends Vec2 {
     this := position
   }
   
+  /** @return true if this circle contains the given point, false otherwise */
   def contains(p:Vec) = {
     val dx = this.x - p.x
     val dy = this.y - p.y
     val d = dx*dx + dy*dy
     (d <= radius * radius)
+  }
+  
+  /** @return true if this circle intersects with the given circle, false otherwise */
+  def intersects(circle:Circle) = {
+    (x - circle.x) * (x - circle.x) +
+    (y - circle.y) * (y - circle.y) < 
+    (radius - circle.radius) * (radius - circle.radius)
   }
 }
