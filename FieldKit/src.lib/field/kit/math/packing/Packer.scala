@@ -7,13 +7,18 @@
 /* created December 12, 2009 */
 package field.kit.math.packing
 
+import field.kit.Logger
+
 /**
  * Base class for all shape packers
  */
-abstract class Packer[T](val shapes:Seq[T]) {
+abstract class Packer[T](val shapes:Seq[T]) extends Logger {
   
-  var margin = 1
+  var margin = 1f
   
+  /** subclasses have to set this */
+  var packingStrategy:(() => Boolean) = null  
+    
   protected var index = 0
   protected var shapeFilled = false
   protected var current:T = _
@@ -55,6 +60,6 @@ abstract class Packer[T](val shapes:Seq[T]) {
   /**
    * @return true if the current element could be placed in the map, false otherwise
    */
-  protected def next:Boolean
+  protected def next = packingStrategy()
   
 }

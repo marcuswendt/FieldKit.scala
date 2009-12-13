@@ -7,27 +7,38 @@ object PackingTest extends Sketch {
   import field.kit.math.packing._
   import scala.collection.mutable.ArrayBuffer
   
-  var map = new Rect 
+  var area = new Rect(100, 100, 300, 300)
   var shapes = new ArrayBuffer[Rect]
   var packed = 0
   var packer:RectanglePacking = _
   
-  var packContinously = false
+  // used as pack map
+  import java.awt.image.BufferedImage
+  val image = loadImage("res/test/flow.png")
+  val bi = image.getImage.asInstanceOf[BufferedImage]
+    
+  protected var packContinously = true
   
   def initShapes {
-    val count = random(packed, 1000).toInt
+    val count = random(packed, 2000).toInt
     shapes.clear
     for(i <- 0 until count) {
       shapes += new Rect(random(0, width), random(0, height), 
-                         random(0, width) / 20f, random(0, height) / 20f)
+                         random(height/4f, height) / 40f, random(width/4f, width) / 40f)
     }
     
-    packer = new RectanglePacking(map, shapes.asInstanceOf[Seq[Rect]])
+    packer = new RectanglePacking(area, shapes.asInstanceOf[Seq[Rect]])
+    
+    packer.map = new RectanglePacking.BufferedImageMap(bi, 0.5f)
+    packer.mode = RectanglePacking.Mode.VerticalUpUsingMap
     
     resetPacking
   }
   
   def resetPacking {
+    packer.map.x1 = area.x1
+    packer.map.y1 = area.y1
+    
     if(packContinously)
       packer.reset
     else
@@ -46,31 +57,30 @@ object PackingTest extends Sketch {
       packed = packer.update
     
     background(0)
-  
-    noFill
-    stroke(255)
-    strokeWeight(3)
-    rect(map.x1, map.y1, map.width, map.height)
     
-    stroke(128)
+    stroke(0)
     strokeWeight(1)
-    noStroke
-    fill(128)
+    fill(255, 128)
     for(i <- 0 until packed) {
       val r = shapes(i)
       rect(r.x1, r.y1, r.width, r.height)
     }
+  
+    noFill
+    stroke(255)
+    strokeWeight(3)
+    rect(area.x1, area.y1, area.width, area.height)
   }
   
   override def mousePressed {
-    map.x1 = mouseX
-    map.y1 = mouseY
+    area.x1 = mouseX
+    area.y1 = mouseY
     resetPacking
   }
 
   override def mouseDragged {
-    map.x2 = mouseX
-    map.y2 = mouseY
+    area.x2 = mouseX
+    area.y2 = mouseY
     resetPacking
   }
   

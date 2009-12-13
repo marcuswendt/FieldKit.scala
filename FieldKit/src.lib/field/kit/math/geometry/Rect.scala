@@ -18,6 +18,9 @@ class Rect(var x1:Float, var y1:Float, var width:Float, var height:Float) {
   def y2 = y1 + height
   def y2_=(f:Float) = height = f - y1
   
+  def centerX = x1 + width * .5f
+  def centerY = y1 + height * .5f
+  
   def this() = this(0f,0f,0f,0f)
   
   def intersects(r:Rect):Boolean = {
