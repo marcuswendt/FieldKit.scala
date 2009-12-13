@@ -8,8 +8,9 @@
 package field.kit.math.packing
 
 import field.kit.math.geometry.Rect
+import field.kit.math.Vec2
 
-object RectanglePacking {
+object RectanglePacker {
   object Mode extends Enumeration {
     val HorizontalDown = Value
     val VerticalDown = Value
@@ -58,55 +59,74 @@ object RectanglePacking {
 /**
  * Packs a set of smaller rectangles into a larger rectangle
  */
-class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
+class RectanglePacker(var rect:Rect) extends Packer[Rect] {
   
-  var map:RectanglePacking.Map = _ 
-      
-  protected var _mode:RectanglePacking.Mode.Value = _ 
-  protected var origin:RectanglePacking.Origin.Value = _
+  def this() = this(new Rect())
+  
+  var map:RectanglePacker.Map = _ 
 
+  /** Setting this to an appropriate size can significantly improve performance */
+  var minArea = 10f
+  
+  protected var _mode:RectanglePacker.Mode.Value = _ 
+  protected var originMode:RectanglePacker.Origin.Value = _
+  protected var origin = Vec2()
+  
   // init
-  mode = RectanglePacking.Mode.HorizontalDown
+  mode = RectanglePacker.Mode.HorizontalDown
   
   def mode = _mode
-  def mode_=(mode:RectanglePacking.Mode.Value) {
+  def mode_=(mode:RectanglePacker.Mode.Value) {
     this._mode = mode
     
     mode match {
-      case RectanglePacking.Mode.HorizontalDown => 
+      case RectanglePacker.Mode.HorizontalDown => 
         packingStrategy = packHorizontalDown
-        origin = RectanglePacking.Origin.TopLeft
+        originMode = RectanglePacker.Origin.TopLeft
         
-      case RectanglePacking.Mode.VerticalDown => 
+      case RectanglePacker.Mode.VerticalDown => 
         packingStrategy = packVerticalDown
-        origin = RectanglePacking.Origin.TopLeft
+        originMode = RectanglePacker.Origin.TopLeft
         
-      case RectanglePacking.Mode.VerticalUp => 
+      case RectanglePacker.Mode.VerticalUp => 
         packingStrategy = packVerticalUp
-        origin = RectanglePacking.Origin.BottomLeft
+        originMode = RectanglePacker.Origin.BottomLeft
         
-      case RectanglePacking.Mode.VerticalUpUsingMap => 
+      case RectanglePacker.Mode.VerticalUpUsingMap => 
         if(map == null) {
-          warn("This packing mode requires a RectanglePacking.ShapeMap to be set!")
-          return this.mode_=(RectanglePacking.Mode.VerticalUp)
+          warn("This packing mode requires a RectanglePacker.ShapeMap to be set!")
+          return this.mode_=(RectanglePacker.Mode.VerticalUp)
         }
         packingStrategy = packVerticalUpUsingShapeMap
-        origin = RectanglePacking.Origin.BottomLeft
+        originMode = RectanglePacker.Origin.BottomLeft
+    }
+  }
+  
+  protected def resetOrigin {
+     originMode match {
+      case RectanglePacker.Origin.TopLeft =>
+        origin.x = rect.x1
+        origin.y = rect.y1
+        
+      case RectanglePacker.Origin.BottomLeft =>
+        origin.x = rect.x1
+        origin.y = rect.y2 - current.height
     }
   }
   
   /** place current rect at origin, then try to find a place in the packing */
-  override def next = {
-    origin match {
-      case RectanglePacking.Origin.TopLeft =>
-        current.x1 = parent.x1
-        current.y1 = parent.y1
-        
-      case RectanglePacking.Origin.BottomLeft =>
-        current.x1 = parent.x1
-        current.y1 = parent.y2 - current.height
+  override def placeCurrent = {
+    if(index == 0) resetOrigin
+    
+    current.x1 = origin.x
+    current.y1 = origin.y
+    
+    val isPlaced = packingStrategy() 
+    if(isPlaced && current.area <= minArea) {
+      origin.x = current.x1
+      origin.y = current.y1
     }
-    super.next
+    isPlaced
   }
   
   /** A left-right top-down packing algorithm */
@@ -114,21 +134,21 @@ class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
     while(true) {
       var intersects = false
       for(j <- 0 until index) {
-        val packed = shapes(j)
+        val packed = elements(j)
       
         if(current.intersects(packed)) {
           intersects = true
           current.x1 = packed.x2 + margin
         
-          if(current.x2 > parent.x2) {
-            current.x1 = parent.x1
+          if(current.x2 > rect.x2) {
+            current.x1 = rect.x1
             current.y1 += margin
           } 
         }
       }
     
       if(!intersects) return true
-      if(!parent.contains(current)) return false
+      if(!rect.contains(current)) return false
     }
     true
   }
@@ -138,21 +158,21 @@ class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
     while(true) {
       var intersects = false
       for(j <- 0 until index) {
-        val packed = shapes(j)
+        val packed = elements(j)
       
         if(current.intersects(packed)) {
           intersects = true
           current.y1 = packed.y2 + margin
           
-          if(current.y2 > parent.y2) {
-            current.y1 = parent.y1
+          if(current.y2 > rect.y2) {
+            current.y1 = rect.y1
             current.x1 += margin
           } 
         }
       }
     
+      if(!rect.contains(current)) return false
       if(!intersects) return true
-      if(!parent.contains(current)) return false
     }
     true
   }
@@ -162,21 +182,21 @@ class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
     while(true) {
       var intersects = false
       for(j <- 0 until index) {
-        val packed = shapes(j)
+        val packed = elements(j)
       
         if(current.intersects(packed)) {
           intersects = true
           current.y1 = packed.y1 - current.height - margin
-        
-          if(current.y1 < parent.y1) {
-            current.y1 = parent.y2 - current.height
+          
+          if(current.y1 <= rect.y1) {
+            current.y1 = rect.y2 - current.height
             current.x1 += margin
           } 
         }
       }
       
+      if(!rect.contains(current)) return false
       if(!intersects) return true
-      if(!parent.contains(current)) return false
     }
     true
   }
@@ -190,14 +210,14 @@ class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
       var intersects = false
       // try to find a place where the rect doesnt intersect any other rects
       for(j <- 0 until index) {
-        val packed = shapes(j)
+        val packed = elements(j)
       
         if(current.intersects(packed)) {
           intersects = true
           current.y1 = packed.y1 - current.height - margin
         
-          if(current.y1 < parent.y1) {
-            current.y1 = parent.y2 - current.height
+          if(current.y1 < rect.y1) {
+            current.y1 = rect.y2 - current.height
             current.x1 += margin
           } 
         }
@@ -208,8 +228,8 @@ class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
         if(!map.isInside(current.centerX, current.centerY)) {
           current.y1 -= margin
       
-          if(current.y1 < parent.y1) {
-            current.y1 = parent.y2 - current.height
+          if(current.y1 < rect.y1) {
+            current.y1 = rect.y2 - current.height
             current.x1 += margin
           }
         } else {
@@ -218,7 +238,7 @@ class RectanglePacking(parent:Rect, shapes:Seq[Rect]) extends Packer(shapes) {
         }  
       }
     
-      if(!parent.contains(current)) return false
+      if(!rect.contains(current)) return false
     }
     true
   }

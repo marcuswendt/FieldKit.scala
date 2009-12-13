@@ -66,4 +66,6 @@ class StatefulFlock[P <: StatefulParticle](implicit m:Manifest[P]) extends Flock
     }
     count
   }
+  
+  override def nextId = particles.size
 }

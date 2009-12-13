@@ -39,6 +39,8 @@ class Rect(var x1:Float, var y1:Float, var width:Float, var height:Float) {
     r.y2 <= y2
   }
   
+  def area = width * height
+  
   override def toString = 
     "Rect[x1: "+ x1 +" y1: "+ y1 +" w: "+ width +" h: "+ height +"]"
 }

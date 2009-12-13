@@ -83,7 +83,6 @@ extends Logger {
   // HELPERS
   // ---------------------------------------------------------------------------
   def +=(b:Behaviour) {
-    //fine("adding", b)
     b.flock = this
     b.ps = ps
     b.init
@@ -91,21 +90,23 @@ extends Logger {
   }
    
   def +=(p:P) {
-    //fine("adding", p)
     p.flock = this
     p.ps = ps
-    p.id = this.size
+    p.id = nextId
     p.init
     particles += p
   }
   
   def -=(p:P) {
-    //fine("removing", p)    
     particles -= p 
   }
   
   /** starts the particle animation again */
   def reset = particles.clear
+  
+  /** @return the next free unique id */
+  protected def nextId = { _nextId += 1; _nextId }
+  private var _nextId = -1
   
   // -- Collection Helpers -----------------------------------------------------
   def size = particles.size

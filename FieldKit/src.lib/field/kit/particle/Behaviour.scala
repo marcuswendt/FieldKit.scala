@@ -22,7 +22,8 @@ abstract class Behaviour extends Logger with Nameable {
   }
   
   var ps:ParticleSystem = null
-  var flock:Flock[_] = null
+  var flock:Flock[_ <: Particle] = null
+  
   var isEnabled = true
   def toggle = isEnabled = !isEnabled
   def init {}
