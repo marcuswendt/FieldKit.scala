@@ -16,6 +16,9 @@ import field.kit.math.geometry._
 
 import scala.collection.mutable.HashMap
 
+/**
+ * Base class for all packing behaviours
+ */
 abstract class PackingBehaviour[T] extends Behaviour {
   var weight = 0.1f
   
@@ -23,12 +26,17 @@ abstract class PackingBehaviour[T] extends Behaviour {
   protected var tmp = Vec3()
 }
 
-class ImageMapPacking extends PackingBehaviour[Rect] {
+/**
+ * Packs particles using a black and white image map
+ */
+class PackingImageMap extends PackingBehaviour[Rect] {
 
-  var minDist = 3f 
+  var minDist = 5f 
   var minArea = 25f
   
   val position = Vec3()
+  
+  protected var positionAbs = Vec3()
   
   protected var _image:String = null
   
@@ -42,8 +50,21 @@ class ImageMapPacking extends PackingBehaviour[Rect] {
     this._image = value
     
     val url = Loader.resolveToURL(value)
+    
+    info("loading", url)    
+    if(url == null) {
+      warn("Couldnt resolve path:", value)
+      return
+    }
+      
     val bi = ImageIO.read(url)
-    packer.map = new RectanglePacker.BufferedImageMap(bi, threshold)
+    
+    if(bi == null) {
+      warn("Couldnt load image:", url)
+      return
+    }
+    
+    packer.map = new RectanglePacker.BufferedImageMap(bi, _threshold)
     
     // set packer to use the map
     packer.mode = RectanglePacker.Mode.VerticalUpUsingMap
@@ -51,16 +72,16 @@ class ImageMapPacking extends PackingBehaviour[Rect] {
     reset
   }
   
-  protected var _threshold = 0.5f
+  protected var _threshold = 128
   
-  def threshold = _threshold
+  def threshold = _threshold/255f
   
   /** Sets the threshold to use in the shape map */
   def threshold_=(value:Float) {
-    this._threshold = value
+    this._threshold = (value * 255).toInt
     
     if(packer.map != null) { 
-      packer.map.asInstanceOf[RectanglePacker.BufferedImageMap].threshold = value
+      packer.map.asInstanceOf[RectanglePacker.BufferedImageMap].threshold = _threshold
       reset
     }
   }
@@ -75,9 +96,16 @@ class ImageMapPacking extends PackingBehaviour[Rect] {
   protected def doReset {
     info("setting up targets and packer")
         
+    positionAbs := position *= ps.space.dimension 
+    
     // set packing rect
-    packer.rect.x1 = ps.space.toAbsolute(position.x)
-    packer.rect.y1 = ps.space.toAbsolute(position.y)
+    packer.rect.x1 = positionAbs.x - packer.map.width/2f
+    packer.rect.y1 = positionAbs.y - packer.map.height/2f
+    
+    packer.rect.width = packer.map.width
+    packer.rect.height = packer.map.height
+    
+    info("packer", "rect", packer.rect)
     
     packer.minArea = minArea
     
@@ -107,7 +135,7 @@ class ImageMapPacking extends PackingBehaviour[Rect] {
     // add target
     for(p <- flock.particles) {
       if(!targets.contains(p.id)) {
-        val r = new Rect(100, 100, p.size, p.size)
+        val r = new Rect(0, 0, p.size, p.size)
         targets(p.id) = r
         packer += r
         packer.update
@@ -120,7 +148,8 @@ class ImageMapPacking extends PackingBehaviour[Rect] {
       case Some(r:Rect) =>
         tmp.x = r.centerX
         tmp.y = r.centerY
-
+        tmp.z = positionAbs.z
+        
       case None => return
     }
       

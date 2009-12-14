@@ -32,7 +32,7 @@ object PackedParticlesTest extends Sketch {
     lifeTimeVariation = 0.25f
     acceleration = 2f
     velocity = 25f
-    size = 10f
+    size = 12.5f
     sizeVariation = 1f
   }
   
@@ -66,13 +66,13 @@ object PackedParticlesTest extends Sketch {
   }
 
   // used as pack map  
-  f += new ImageMapPacking {
+  f += new PackingImageMap {
 
     weight = 1f
     
-    position.x = 0.25f
-    position.y = 0.15f
-    
+    position.x = 0.5f
+    position.y = 0.5f
+
     image = "res/test/flow.png"
     threshold = 0.5f
   }

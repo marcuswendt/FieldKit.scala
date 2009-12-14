@@ -41,7 +41,7 @@ object RectanglePacker {
    * NOTE: This class only considers the first / red-channel of an image
    * You might want to subclass it and override the valueAt method for more advanced thresholding
    */
-  class BufferedImageMap(image:BufferedImage, var threshold:Float) extends Map {
+  class BufferedImageMap(image:BufferedImage, var threshold:Int) extends Map {
     val raster = image.getRaster
     
     def width = image.getWidth.toFloat
@@ -123,7 +123,6 @@ class RectanglePacker(var rect:Rect) extends Packer[Rect] {
   /** place current rect at origin, then try to find a place in the packing */
   override def placeCurrent = {
     if(index == 0) resetOrigin
-    
     current.x1 = origin.x
     current.y1 = origin.y
     

@@ -35,7 +35,7 @@ object PackingTest extends Sketch {
     packer.rect.height = bi.getHeight
   
     // set pack map
-    packer.map = new RectanglePacker.BufferedImageMap(bi, 0.5f)
+    packer.map = new RectanglePacker.BufferedImageMap(bi, 128)
     
     packer.mode = RectanglePacker.Mode.VerticalUpUsingMap
 //    packer.mode = RectanglePacker.Mode.VerticalUp
