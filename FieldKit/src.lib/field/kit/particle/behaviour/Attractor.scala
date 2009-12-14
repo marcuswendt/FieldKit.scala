@@ -23,19 +23,24 @@ class AttractorPoint extends Behaviour {
   
   var weight = 0.1f
   
-  protected var rangeAbs = 0f
+  protected var rangeSq = 0f
   protected var positionAbs = Vec3()
   protected var tmp = Vec3()
   
   override def prepare(dt:Float) {
-    rangeAbs = ps.space.toAbsolute(range)
-    positionAbs := position *= ps.space.dimension
+    val rangeAbs = ps.space.toAbsolute(range)
+    rangeSq = rangeAbs * rangeAbs
+    positionAbs := position *= ps.space.dimension 
   }
   
   def apply(p:Particle, dt:Float) {
+    val distSq = p.distanceSquared(positionAbs)
+    if(distSq > rangeSq) return
+    
     tmp := positionAbs -= p
     tmp.normalize
     tmp *= weight
+    
     p.steer += tmp
   }
 }

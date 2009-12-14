@@ -4,15 +4,15 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created May 08, 2009 */
+/* created December 13, 2009 */
 package field.kit.test.particle
 
 import field.kit.test.Sketch
 
 /** 
- * quick test for the particle system
+ * testing the particle packing behaviour
  */
-object ParticleSystemTest extends Sketch {
+object PackedParticlesTest extends Sketch {
   import field.kit.particle._
   import field.kit.particle.behaviour._
   import field.kit.util.Timer
@@ -23,16 +23,19 @@ object ParticleSystemTest extends Sketch {
   val ps = new ParticleSystem
   val f = new Flock[Particle]
   ps += f
-  f.emitter.rate = 10
+  f.emitter.rate = 1
   f.emitter.interval = 1
   f.emitter.max = 1000
   
-  val initialiser = new Initialiser
-  initialiser.isPerpetual = true
-  initialiser.acceleration = 2f
-  initialiser.velocity = 25f
+  f.emitter += new Initialiser {
+    lifeTime = 30000
+    lifeTimeVariation = 0.25f
+    acceleration = 2f
+    velocity = 25f
+    size = 10f
+    sizeVariation = 1f
+  }
   
-  f.emitter += initialiser
   f.emitter += new Randomise
   
   f.emitter += new ColourInitialiser {
@@ -40,68 +43,56 @@ object ParticleSystemTest extends Sketch {
     this.hueVariation = 0.5f
   }
   
+  f += new BorderWrap2D()
+  
   f += new ColourDirectionalForce {
-    direction.h += 0.1f
-    weight = 0.01f
+    direction.h += 0.01f
+    weight = 0.001f
   }
   
-  val wind = new Wind
-  wind.weight = 0.25f
-  f += wind
-//  
-//  f += new BorderWrap2D
-//  f += new Wrap3D
+  f += new AttractorPoint {
+    weight = -2f
+    range = 0.1f
+    override def prepare(dt:Float) {
+      position.x = mouseX / width.toFloat
+      position.y = mouseY / height.toFloat
+      super.prepare(dt)
+    }
+  }
   
-//  f += new Behaviour {
-//    logName = "perlin"
-//    var time = 0f
-//    var tmp = 0f
-//    
-//    override def prepare(dt:Float) = time += dt
-//    
-//    def apply(p:Particle, dt:Float) {
-//      val weight = 10f
-//      p.steer.x += (noise(tmp, p.age) * 2f - 1f) * weight
-//      p.steer.y += (noise(time, p.age) * 2f - 1f) * weight
-//      tmp += dt
-//    }
-//  }
+  f += new AttractorRandomPoint {
+    weight = 0.1f
+    range = 0.25f
+  }
+
+  // used as pack map  
+  f += new ImageMapPacking {
+
+    weight = 1f
+    
+    position.x = 0.25f
+    position.y = 0.15f
+    
+    image = "res/test/flow.png"
+    threshold = 0.5f
+  }
   
-  val repel = new FlockRepel
-  repel.isAppliedToOwnFlock = true
-  repel.range = 0.01f
-  repel.weight = 1f
-//  f += repel
-  
-//  val attract = new Attract
-//  attract.range = 0.025f
-//  attract.weight = 0.1f
-//  f += attract
-//  
-//  val align = new Align
-//  align.range = 0.05f
-//  align.weight = 0.01f
-//  f += align
-  
-  val circular = new AttractorCircular
-  f += circular
-  circular.position := (0.5f, 0.5f, 0f)
-  circular.weight = 1f
-  
-  val timer = new Timer
+//  val wind = new Wind
+//  wind.weight = 0.25f
+//  f += wind
   
   // toggles
   var showParticles = true
-  
+  val timer = new Timer
+
   // view rotation
   var xrot = Common.THIRD_PI
   var zrot = 0.1f
   
   init(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FULLSCREEN, DEFAULT_AA, {
-  //init(1024, 768, DEFAULT_FULLSCREEN, DEFAULT_AA, {
-//    ps.space = new OctreeSpace(width, height, height)
-    ps.space = new QuadtreeSpace(width, height, height)
-    f.emitter := ps.space
+    ps.space = new QuadtreeSpace(width, height, 0)
+    f.emitter.x = width/2f
+    f.emitter.y = height/2f
     info("space width", ps.space.width, "height", ps.space.height, "depth", ps.space.depth)
   })
   
@@ -128,11 +119,11 @@ object ParticleSystemTest extends Sketch {
     fill(255)
     
     pushMatrix
-    lights
-    translate(width/2,height/2,0)
-    rotateX(xrot)
-    rotateZ(zrot)
-    translate(-width/2, -height/2,0)
+
+//    translate(width/2,height/2,0)
+//    rotateX(xrot)
+//    rotateZ(zrot)
+//    translate(-width/2, -height/2,0)
     
     if(showParticles)
       drawParticles
@@ -144,17 +135,10 @@ object ParticleSystemTest extends Sketch {
   }
   
   def drawParticles {
+    noStroke
     f.particles foreach {p => 
-      if(showDebug) {
-        noFill
-        stroke(255)
-        ellipse(p.x, p.y, repel.rangeAbs, repel.rangeAbs)
-      }
-      
-      noStroke
-      //fill(p.colour.toInt)
       fill(p.colour.r * 255, p.colour.g * 255, p.colour.b * 255)
-      rect(p.x, p.y, 3, 3)
+      rect(p.x, p.y, p.size, p.size)
     }
   }
   

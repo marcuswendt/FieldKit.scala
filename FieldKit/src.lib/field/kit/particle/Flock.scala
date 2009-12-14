@@ -21,6 +21,7 @@ extends Logger {
   var ps:ParticleSystem = null
   var emitter = new Emitter[P](this)
   var particles = new ArrayBuffer[P]
+  var removed = new ArrayBuffer[P]
   var behaviours = new ArrayBuffer[Behaviour]
   
   /** called automatically when the flock is added to the particle system */
@@ -46,6 +47,8 @@ extends Logger {
       if(b.isEnabled) b.prepare(dt)
       i += 1
     }
+    
+    removed.clear
   }
   
   /** multi-threaded update */
@@ -98,7 +101,8 @@ extends Logger {
   }
   
   def -=(p:P) {
-    particles -= p 
+    particles -= p
+    removed += p
   }
   
   /** starts the particle animation again */

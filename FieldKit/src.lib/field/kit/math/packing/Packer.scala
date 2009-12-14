@@ -30,9 +30,12 @@ abstract class Packer[T] extends Logger {
   /** the current element being packed - used by packingStrategy */
   protected var current:T = _
 
-  protected var _isFinished = false
+  protected var _isFinished = true
+  
+  def isFinished = _isFinished
   
   def +=(e:T) = elements += e
+  def -=(e:T) = elements -= e
   def apply(i:Int) = elements(i)
   def clear = elements.clear
   

@@ -26,8 +26,10 @@ object RectanglePacker {
   // ---------------------------------------------------------------------------
   
   /** Base class for all types of shape maps */
-  abstract class Map extends Rect {
-    def isInside(x:Float, y:Float):Boolean
+  abstract class Map {
+    def contains(x:Float, y:Float):Boolean
+    def width:Float
+    def height:Float
   }
     
   import java.awt.image.BufferedImage
@@ -41,13 +43,11 @@ object RectanglePacker {
    */
   class BufferedImageMap(image:BufferedImage, var threshold:Float) extends Map {
     val raster = image.getRaster
-    width = image.getWidth
-    height = image.getHeight
     
-    def isInside(_x:Float, _y:Float):Boolean = {
-      val x = _x - x1
-      val y = _y - y1
-      
+    def width = image.getWidth.toFloat
+    def height = image.getHeight.toFloat
+    
+    def contains(x:Float, y:Float):Boolean = {
       if(x < 0 || y < 0 || x > width || y > height) 
         return false
       
@@ -63,7 +63,13 @@ class RectanglePacker(var rect:Rect) extends Packer[Rect] {
   
   def this() = this(new Rect())
   
-  var map:RectanglePacker.Map = _ 
+  protected var _map:RectanglePacker.Map = _
+  def map = _map
+  def map_=(map:RectanglePacker.Map) {
+    this._map = map
+    rect.width = map.width
+    rect.height = map.height
+  }
 
   /** Setting this to an appropriate size can significantly improve performance */
   var minArea = 10f
@@ -102,7 +108,7 @@ class RectanglePacker(var rect:Rect) extends Packer[Rect] {
     }
   }
   
-  protected def resetOrigin {
+  def resetOrigin {
      originMode match {
       case RectanglePacker.Origin.TopLeft =>
         origin.x = rect.x1
@@ -225,7 +231,7 @@ class RectanglePacker(var rect:Rect) extends Packer[Rect] {
       
       if(!intersects) {
         // check if the found position is within the shape
-        if(!map.isInside(current.centerX, current.centerY)) {
+        if(!map.contains(current.centerX - rect.x1, current.centerY - rect.y1)) {
           current.y1 -= margin
       
           if(current.y1 < rect.y1) {
