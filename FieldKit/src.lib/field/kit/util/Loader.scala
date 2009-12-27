@@ -7,11 +7,13 @@
 /* created May 15, 2009 */
 package field.kit.util
 
+import field.kit.Logger
+
 /**
  * Helpers to resolve and load Files
  * @author Marcus Wendt
  */
-object Loader extends field.kit.Logger {
+object Loader extends Logger {
   import java.net.URL
   import java.io.File
   
@@ -38,7 +40,7 @@ object Loader extends field.kit.Logger {
       if(url == null) url = ClassLoader.getSystemResource(file)
       
       // 3. via local File path
-      if(url == null) url = new File(file).toURL
+      if(url == null) url = new File(file).toURI.toURL
     }
     
     url

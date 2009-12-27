@@ -7,8 +7,9 @@
 /* created March 09, 2009 */
 package field.kit.util.file
 
-import scala.collection.mutable.ArrayBuffer
 import field.kit.Logger
+import scala.collection.mutable.ArrayBuffer
+
 
 /**
  * @author Marcus Wendt
@@ -100,7 +101,10 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
   }
 }
 
-class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[String]] {
+import scala.collection.Iterable
+
+//class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[String]] {
+class CSVFile extends CSVFormat with FileWriter with Iterable[ArrayBuffer[String]] {
   import java.io.File
   
   var headers = new ArrayBuffer[String]
@@ -109,8 +113,24 @@ class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[Stri
   def write(file:File) {}
   
   def columns = headers.length
-  override def size = rows.size
   private var current = headers
+  
+  // Scala 2.8 Iterable
+  def iterator = new Iterator[ArrayBuffer[String]] {
+	  var i = 0
+	  
+	  def next = {
+	 	  current = rows(i)
+	 	  i += 1
+	 	  current
+	  }
+	   
+	  def hasNext = i+1 < rows.length 
+  }
+  
+  /* 
+  // Scala 2.7 Collection API
+  override def size = rows.size
   
   def elements = new Iterator[ArrayBuffer[String]] {
     var i = 0
@@ -121,6 +141,7 @@ class CSVFile extends CSVFormat with FileWriter with Collection[ArrayBuffer[Stri
     }
     def hasNext = i+1 < rows.length
   }
+  */
   
   def +=(line:String) = rows += CSVFile.parse(line)
   

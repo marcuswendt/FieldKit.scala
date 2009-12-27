@@ -20,17 +20,17 @@ class Mat3Test extends TestCase {
            3,4,5,
            6,7,8)
    
-    assertEquals(m1(0,0), 0f)
-    assertEquals(m1(0,1), 1f)
-    assertEquals(m1(0,2), 2f)
+    assertEquals(m1(0,0), 0f, 0)
+    assertEquals(m1(0,1), 1f, 0)
+    assertEquals(m1(0,2), 2f, 0)
    
-    assertEquals(m1(1,0), 3f)
-    assertEquals(m1(1,1), 4f)
-    assertEquals(m1(1,2), 5f)
+    assertEquals(m1(1,0), 3f, 0)
+    assertEquals(m1(1,1), 4f, 0)
+    assertEquals(m1(1,2), 5f, 0)
    
-    assertEquals(m1(2,0), 6f)
-    assertEquals(m1(2,1), 7f)
-    assertEquals(m1(2,2), 8f)
+    assertEquals(m1(2,0), 6f, 0)
+    assertEquals(m1(2,1), 7f, 0)
+    assertEquals(m1(2,2), 8f, 0)
   }
    
   def testSetFloats() = {
@@ -39,17 +39,17 @@ class Mat3Test extends TestCase {
            3,4,5,
            6,7,8)
     
-    assertEquals(m1.m00, 0f)
-    assertEquals(m1.m01, 1f)
-    assertEquals(m1.m02, 2f)
+    assertEquals(m1.m00, 0f, 0)
+    assertEquals(m1.m01, 1f, 0)
+    assertEquals(m1.m02, 2f, 0)
    
-    assertEquals(m1.m10, 3f)
-    assertEquals(m1.m11, 4f)
-    assertEquals(m1.m12, 5f)
+    assertEquals(m1.m10, 3f, 0)
+    assertEquals(m1.m11, 4f, 0)
+    assertEquals(m1.m12, 5f, 0)
    
-    assertEquals(m1.m20, 6f)
-    assertEquals(m1.m21, 7f)
-    assertEquals(m1.m22, 8f)
+    assertEquals(m1.m20, 6f, 0)
+    assertEquals(m1.m21, 7f, 0)
+    assertEquals(m1.m22, 8f, 0)
   }
   
   def testSetXY() = {
@@ -66,17 +66,17 @@ class Mat3Test extends TestCase {
     m1(2,1) = 9 
     m1(2,2) = 10 
    
-    assertEquals(m1(0,0), 0f)
-    assertEquals(m1(0,1), 1f)
-    assertEquals(m1(0,2), 2f)
+    assertEquals(m1(0,0), 0f, 0)
+    assertEquals(m1(0,1), 1f, 0)
+    assertEquals(m1(0,2), 2f, 0)
    
-    assertEquals(m1(1,0), 4f)
-    assertEquals(m1(1,1), 5f)
-    assertEquals(m1(1,2), 6f)
+    assertEquals(m1(1,0), 4f, 0)
+    assertEquals(m1(1,1), 5f, 0)
+    assertEquals(m1(1,2), 6f, 0)
    
-    assertEquals(m1(2,0), 8f)
-    assertEquals(m1(2,1), 9f)
-    assertEquals(m1(2,2), 10f)
+    assertEquals(m1(2,0), 8f, 0)
+    assertEquals(m1(2,1), 9f, 0)
+    assertEquals(m1(2,2), 10f, 0)
  }
   
  def testAddLocalMatrix() = {
@@ -92,17 +92,17 @@ class Mat3Test extends TestCase {
    
    m1 += m2
    
-    assertEquals(m1.m00, 0f)
-    assertEquals(m1.m01, 2f)
-    assertEquals(m1.m02, 4f)
+    assertEquals(m1.m00, 0f, 0)
+    assertEquals(m1.m01, 2f, 0)
+    assertEquals(m1.m02, 4f, 0)
    
-    assertEquals(m1.m10, 6f)
-    assertEquals(m1.m11, 8f)
-    assertEquals(m1.m12, 10f)
+    assertEquals(m1.m10, 6f, 0)
+    assertEquals(m1.m11, 8f, 0)
+    assertEquals(m1.m12, 10f, 0)
    
-    assertEquals(m1.m20, 12f)
-    assertEquals(m1.m21, 14f)
-    assertEquals(m1.m22, 16f)
+    assertEquals(m1.m20, 12f, 0)
+    assertEquals(m1.m21, 14f, 0)
+    assertEquals(m1.m22, 16f, 0)
  }
  
  def testAddMatrix() = {
@@ -118,17 +118,17 @@ class Mat3Test extends TestCase {
    
    val m3 = m1 + m2
    
-    assertEquals(m3.m00, 0f)
-    assertEquals(m3.m01, 2f)
-    assertEquals(m3.m02, 4f)
+    assertEquals(m3.m00, 0f, 0)
+    assertEquals(m3.m01, 2f, 0)
+    assertEquals(m3.m02, 4f, 0)
    
-    assertEquals(m3.m10, 6f)
-    assertEquals(m3.m11, 8f)
-    assertEquals(m3.m12, 10f)
+    assertEquals(m3.m10, 6f, 0)
+    assertEquals(m3.m11, 8f, 0)
+    assertEquals(m3.m12, 10f, 0)
    
-    assertEquals(m3.m20, 12f)
-    assertEquals(m3.m21, 14f)
-    assertEquals(m3.m22, 16f)
+    assertEquals(m3.m20, 12f, 0)
+    assertEquals(m3.m21, 14f, 0)
+    assertEquals(m3.m22, 16f, 0)
  }
  
   def testSubMatrix() = {
@@ -144,17 +144,17 @@ class Mat3Test extends TestCase {
    
    val m3 = m1 - m2
    
-    assertEquals(m3.m00, 0f)
-    assertEquals(m3.m01, 0f)
-    assertEquals(m3.m02, 0f)
+    assertEquals(m3.m00, 0f, 0)
+    assertEquals(m3.m01, 0f, 0)
+    assertEquals(m3.m02, 0f, 0)
    
-    assertEquals(m3.m10, 0f)
-    assertEquals(m3.m11, 0f)
-    assertEquals(m3.m12, 0f)
+    assertEquals(m3.m10, 0f, 0)
+    assertEquals(m3.m11, 0f, 0)
+    assertEquals(m3.m12, 0f, 0)
    
-    assertEquals(m3.m20, 0f)
-    assertEquals(m3.m21, 0f)
-    assertEquals(m3.m22, 0f)
+    assertEquals(m3.m20, 0f, 0)
+    assertEquals(m3.m21, 0f, 0)
+    assertEquals(m3.m22, 0f, 0)
  }
   
   def testMulMatrix() = {
@@ -168,17 +168,17 @@ class Mat3Test extends TestCase {
     
     val m3 = m1 * m2
    
-    assertEquals(m3.m00, 15f)
-    assertEquals(m3.m01, 18f)
-    assertEquals(m3.m02, 21f)
+    assertEquals(m3.m00, 15f, 0)
+    assertEquals(m3.m01, 18f, 0)
+    assertEquals(m3.m02, 21f, 0)
    
-    assertEquals(m3.m10, 42f)
-    assertEquals(m3.m11, 54f)
-    assertEquals(m3.m12, 66f)
+    assertEquals(m3.m10, 42f, 0)
+    assertEquals(m3.m11, 54f, 0)
+    assertEquals(m3.m12, 66f, 0)
    
-    assertEquals(m3.m20, 69f)
-    assertEquals(m3.m21, 90f)
-    assertEquals(m3.m22, 111f)
+    assertEquals(m3.m20, 69f, 0)
+    assertEquals(m3.m21, 90f, 0)
+    assertEquals(m3.m22, 111f, 0)
   }
   
   def testMulLocal() = {
@@ -192,16 +192,16 @@ class Mat3Test extends TestCase {
     
     m1 *= m2  
    
-    assertEquals(m1.m00, 15f)
-    assertEquals(m1.m01, 18f)
-    assertEquals(m1.m02, 21f)
+    assertEquals(m1.m00, 15f, 0)
+    assertEquals(m1.m01, 18f, 0)
+    assertEquals(m1.m02, 21f, 0)
    
-    assertEquals(m1.m10, 42f)
-    assertEquals(m1.m11, 54f)
-    assertEquals(m1.m12, 66f)
+    assertEquals(m1.m10, 42f, 0)
+    assertEquals(m1.m11, 54f, 0)
+    assertEquals(m1.m12, 66f, 0)
    
-    assertEquals(m1.m20, 69f)
-    assertEquals(m1.m21, 90f)
-    assertEquals(m1.m22, 111f)
+    assertEquals(m1.m20, 69f, 0)
+    assertEquals(m1.m21, 90f, 0)
+    assertEquals(m1.m22, 111f, 0)
  }
 }

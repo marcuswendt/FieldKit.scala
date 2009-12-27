@@ -7,6 +7,7 @@
 /* created March 31, 2009 */
 package field.kit.particle
 
+import field.kit.Logger
 import field.kit.math._
 import field.kit.colour._
 

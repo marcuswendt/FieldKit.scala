@@ -7,6 +7,7 @@
 /* created March 18, 2009 */
 package field.kit.colour
 
+import field.kit.Logger
 import field.kit.math.Common._
 
 /**
@@ -103,8 +104,8 @@ object Colour {
  * @author Marcus Wendt
  */
 class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger {  
-  import math._
-  import math.Common._
+  import field.kit.math._
+  import field.kit.math.Common._
   
   protected var h = 0f
   protected var s = 0f
