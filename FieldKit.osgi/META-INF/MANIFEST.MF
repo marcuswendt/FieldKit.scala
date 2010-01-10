@@ -31,7 +31,9 @@ Export-Package:
  com.sun.opengl.util.j2d,
  com.sun.opengl.util.texture,
  com.sun.opengl.util.texture.spi,
+ controlP5,
  field.kit,
+ field.kit.colour,
  field.kit.gl.render,
  field.kit.gl.render.objects,
  field.kit.gl.scene,
@@ -40,6 +42,7 @@ Export-Package:
  field.kit.gl.scene.transform,
  field.kit.math,
  field.kit.math.geometry,
+ field.kit.math.packing,
  field.kit.p5,
  field.kit.particle,
  field.kit.particle.behaviour,
@@ -53,7 +56,6 @@ Export-Package:
  processing.opengl,
  processing.xml
 Bundle-Vendor: FIELD.IO
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6,
- J2SE-1.5
-Require-Bundle: scala.library;bundle-version="2.7.5";visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: scala.library;visibility:=reexport
 Bundle-ActivationPolicy: lazy

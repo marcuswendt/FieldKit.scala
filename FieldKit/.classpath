@@ -6,7 +6,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/jogl/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="lib/jogl/jogl.jar"/>
+	<classpathentry kind="lib" path="lib/jogl/jogl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FieldKit/lib/jogl"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/p5/controlP5.jar"/>
 	<classpathentry kind="lib" path="lib/p5/core.jar"/>
 	<classpathentry kind="lib" path="lib/p5/opengl.jar"/>

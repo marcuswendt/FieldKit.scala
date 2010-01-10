@@ -40,10 +40,10 @@ object ParticleSystemTest extends Sketch {
     this.hueVariation = 0.5f
   }
   
-  f += new ColourDirectionalForce {
-    direction.h += 0.1f
-    weight = 0.01f
-  }
+//  f += new ColourDirectionalForce {
+//    direction.h += 0.1f
+//    weight = 0.01f
+//  }
   
   val wind = new Wind
   wind.weight = 0.25f
