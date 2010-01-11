@@ -32,7 +32,7 @@ object Recorder {
  * @see <a href="https://dev.field.io/hg/opensource/libAGL/raw-file/9d7bd472280f/src/field/lib/agl/util/recorder/Recorder.scala">libAGL Recorder</a>
  * @author Marcus Wendt
  */
-class Recorder(val sketch:BasicSketch) extends Logger {
+class Recorder(val sketch:Sketch) extends Logger {
   import java.io.File
   import java.nio.ByteBuffer
   import java.awt.image.BufferedImage
@@ -180,7 +180,11 @@ class Recorder(val sketch:BasicSketch) extends Logger {
           if(!useTiler) {
         	  // capture image into buffer
         	  val readbackType = if(alpha) GL.GL_ABGR_EXT else GL.GL_BGR
-        	  sketch.gl.glReadPixels(0, 0, awtImage.getWidth, awtImage.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
+        	  
+        	  import javax.media.opengl.GLContext
+        	  val gl = GLContext.getCurrent.getGL
+        	  
+        	  gl.glReadPixels(0, 0, awtImage.getWidth, awtImage.getHeight, readbackType, GL.GL_UNSIGNED_BYTE, buffer)
           }
           
           // compress buffer

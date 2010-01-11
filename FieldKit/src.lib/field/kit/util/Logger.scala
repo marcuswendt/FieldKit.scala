@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 07, 2009 */
-package field.kit
+package field.kit.util
 
 /**
  * Implements a flexible Logging System

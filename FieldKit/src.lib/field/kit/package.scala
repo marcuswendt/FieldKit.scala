@@ -4,16 +4,27 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created June 03, 2009 */
-package field.kit.test
+/* created Jan 11, 2010 */
+package field
 
 /**
- * Base class for all test sketches 
+ * Provides simplified access to the most frequently used classes and objects
  */
-abstract class Sketch extends field.kit.Sketch {
-  // standard size for all test sketches
-  val DEFAULT_WIDTH = 1280
-  val DEFAULT_HEIGHT = 720
-  val DEFAULT_FULLSCREEN = false
-  val DEFAULT_AA = 0
+package object kit {
+	// Utilities
+	type Logger = field.kit.util.Logger
+	val Logger = field.kit.util.Logger
+	
+	// Processing
+	type Sketch = field.kit.p5.Sketch
+	
+	// Math
+	type Vec2 = field.kit.math.Vec2
+	val Vec2 = field.kit.math.Vec2
+	
+	type Vec3 = field.kit.math.Vec3
+	val Vec3 = field.kit.math.Vec3
+	
+	type Vec4 = field.kit.math.Vec4
+	val Vec4 = field.kit.math.Vec4
 }

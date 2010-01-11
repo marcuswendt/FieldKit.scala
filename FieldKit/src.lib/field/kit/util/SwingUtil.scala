@@ -7,8 +7,6 @@
 /* created April 22, 2009 */
 package field.kit.util
 
-import field.kit.Logger
-
 /** 
  * utility methods for swing interfaces
  * @author Marcus Wendt
