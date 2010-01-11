@@ -36,10 +36,10 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
       }
       
       val factory = GLDrawableFactory.getFactory
-      drawable = factory.getGLDrawable(parent, capabilities, null);
-      context = drawable.createContext(null);
+      drawable = factory.getGLDrawable(parent, capabilities, null)
+      context = drawable.createContext(null)
 
-      // need to get proper opengl context since will be needed below
+      // need to get proper opengl context
       gl = context.getGL
       
       // init camera
@@ -57,48 +57,7 @@ class FGraphicsOpenGL extends PGraphicsOpenGL {
     
     // Cannot render camera directly, 
     // instead we need to override processings default matrices
-    activeCamera.feed(parent)
-    //activeCamera.render
-    
-//    modelview.m00 = activeCamera.modelView.m00
-//    modelview.m01 = activeCamera.modelView.m01
-//    modelview.m02 = activeCamera.modelView.m02
-//    modelview.m03 = activeCamera.modelView.m03
-//    
-//    modelview.m10 = activeCamera.modelView.m10
-//    modelview.m11 = activeCamera.modelView.m11
-//    modelview.m12 = activeCamera.modelView.m12
-//    modelview.m13 = activeCamera.modelView.m13
-//    
-//    modelview.m20 = activeCamera.modelView.m20
-//    modelview.m21 = activeCamera.modelView.m21
-//    modelview.m22 = activeCamera.modelView.m22
-//    modelview.m23 = activeCamera.modelView.m23
-//    
-//    modelview.m30 = activeCamera.modelView.m30
-//    modelview.m31 = activeCamera.modelView.m31
-//    modelview.m32 = activeCamera.modelView.m32
-//    modelview.m33 = activeCamera.modelView.m33
-//
-//    projection.m00 = activeCamera.projection.m00
-//    projection.m01 = activeCamera.projection.m01
-//    projection.m02 = activeCamera.projection.m02
-//    projection.m03 = activeCamera.projection.m03
-//    
-//    projection.m10 = activeCamera.projection.m10
-//    projection.m11 = activeCamera.projection.m11
-//    projection.m12 = activeCamera.projection.m12
-//    projection.m13 = activeCamera.projection.m13
-//    
-//    projection.m20 = activeCamera.projection.m20
-//    projection.m21 = activeCamera.projection.m21
-//    projection.m22 = activeCamera.projection.m22
-//    projection.m23 = activeCamera.projection.m23
-//    
-//    projection.m30 = activeCamera.projection.m30
-//    projection.m31 = activeCamera.projection.m31
-//    projection.m32 = activeCamera.projection.m32
-//    projection.m33 = activeCamera.projection.m33
-
+//    activeCamera.feed(parent)
+//    activeCamera.render
   }
 }

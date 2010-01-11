@@ -133,9 +133,6 @@ class Camera(var width:Int, var height:Int) extends Renderable with Logger {
     frame(x,y,z, 
     	  x,y,0,
     	  0,1,0)
-//  	frame(0,0,z, 
-//    	  0,0,0,
-//    	  0,1,0)
   }
   
   def resize(width:Int, height:Int) {
