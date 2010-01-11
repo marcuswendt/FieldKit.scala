@@ -17,6 +17,7 @@ package object kit {
 	
 	// Processing
 	type Sketch = field.kit.p5.Sketch
+	val Sketch = field.kit.p5.Sketch
 	
 	// Math
 	type Vec2 = field.kit.math.Vec2
