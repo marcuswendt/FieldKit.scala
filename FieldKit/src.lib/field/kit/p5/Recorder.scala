@@ -7,7 +7,7 @@
 /* created April 22, 2009 */
 package field.kit.p5
 
-import field.kit.Logger
+import field.kit._
 
 /**
  * Companion object to class <code>Recorder</code>
@@ -141,7 +141,6 @@ class Recorder(val sketch:Sketch) extends Logger {
   protected def save {
     import java.io.IOException
     import com.sun.opengl.util.Screenshot 
-    import field.kit.util.Timestamp
     
     var width = sketch.width
     var height = sketch.height
@@ -150,7 +149,7 @@ class Recorder(val sketch:Sketch) extends Logger {
     // prepare file & folders
     val file = state match {
       case Recorder.State.SCREENSHOT =>
-        val f = new File(baseDir +"/"+ name + "_" + Timestamp() + suffix)
+        val f = new File(baseDir +"/"+ name + "_" + Timer() + suffix)
         info("file "+ f)
         f.getParentFile.mkdirs
         f
@@ -159,7 +158,7 @@ class Recorder(val sketch:Sketch) extends Logger {
         // create parent folder for the
         if(sequenceFrame == 0) {
           val tmp = new File(name)
-          sequenceBasedir = baseDir + "/" + Timestamp()
+          sequenceBasedir = baseDir + "/" + Timer()
           new File(sequenceBasedir).mkdirs
           name = tmp.getName
         }

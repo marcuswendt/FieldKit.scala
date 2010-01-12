@@ -11,15 +11,21 @@ package field
  * Provides simplified access to the most frequently used classes and objects
  */
 package object kit {
-	// Utilities
+	
+	// -- Utilities ------------------------------------------------------------
 	type Logger = field.kit.util.Logger
 	val Logger = field.kit.util.Logger
 	
-	// Processing
+	type Timer = field.kit.util.Timer
+	val Timer = field.kit.util.Timer
+	
+	// -- Processing -----------------------------------------------------------
 	type Sketch = field.kit.p5.Sketch
 	val Sketch = field.kit.p5.Sketch
 	
-	// Math
+	val OPENGL = processing.core.PConstants.OPENGL
+	
+	// -- Math -----------------------------------------------------------------
 	type Vec2 = field.kit.math.Vec2
 	val Vec2 = field.kit.math.Vec2
 	

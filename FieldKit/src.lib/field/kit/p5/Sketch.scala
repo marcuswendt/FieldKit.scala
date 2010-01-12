@@ -159,6 +159,14 @@ abstract class Sketch extends PAppletProxy with Logger {
 
 	def title = logName
 
+	// -- OpenGL Tweaks --------------------------------------------------------
+	import processing.opengl.PGraphicsOpenGL
+  
+	def pgl = g.asInstanceOf[PGraphicsOpenGL]
+	def gl = pgl.gl
+	def beginGL = pgl.beginGL
+	def endGL = pgl.endGL
+	
 	// Use pre / post methods for recorder
 	// registerPre , registerPost
 	

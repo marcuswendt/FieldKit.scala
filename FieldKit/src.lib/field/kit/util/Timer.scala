@@ -11,6 +11,23 @@ package field.kit.util
  * a simple helper for making sketches time-invariant
  * @author Marcus Wendt
  */
+object Timer {
+  import java.text.SimpleDateFormat
+  import java.util.Date
+  
+  var timestampFormat = new SimpleDateFormat("yy.MM.dd-H.mm.ss")
+  
+  /** returns a simple timestamp **/
+  def apply() = {
+    timestampFormat.format(new Date)
+  }
+}
+
+
+/** 
+ * a simple helper for making sketches time-invariant
+ * @author Marcus Wendt
+ */
 class Timer {
   def time = System.nanoTime
   val resolution = 1000000000f
