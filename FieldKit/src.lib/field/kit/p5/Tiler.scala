@@ -7,7 +7,7 @@
 /* created August 27, 2009 */
 package field.kit.p5
 
-import field.kit.Logger
+import field.kit._
 
 /**
  * Utility used by <code>Recorder</code> to render a high-res image from a smaller OpenGL view.
@@ -24,7 +24,6 @@ class Tiler(rec:Recorder) extends Logger {
   import field.kit.math.Common._
   import field.kit.math._
   
-    
   /** the current tile */
   var index = new Dim2[Int]
   

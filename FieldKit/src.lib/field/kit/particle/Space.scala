@@ -7,8 +7,7 @@
 /* created April 02, 2009 */
 package field.kit.particle
 
-import field.kit.math._
-import field.kit.math.Common._
+import field.kit._
 import field.kit.math.geometry._
 import field.kit.math.geometry.AABB
 

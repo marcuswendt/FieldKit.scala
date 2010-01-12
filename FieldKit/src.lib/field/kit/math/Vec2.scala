@@ -7,13 +7,13 @@
 /* created July 05, 2009 */
 package field.kit.math
 
+import field.kit._
+
 /**
  * Companion object to <code>Vec2</code>
  * @author Marcus Wendt
  */
-object Vec2 {
-  import Common._
-  
+object Vec2 {  
   val ZERO = new Vec2(0, 0)
   val UNIT_X = new Vec2(1, 0)
   val UNIT_Y = new Vec2(0, 1)
