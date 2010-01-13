@@ -7,7 +7,7 @@
 /* created August 27, 2009 */
 package field.kit.p5
 
-import field.kit.Logger
+import field.kit._
 
 /**
  * Utility used by <code>Recorder</code> to render a high-res image from a smaller OpenGL view.
@@ -24,7 +24,6 @@ class Tiler(rec:Recorder) extends Logger {
   import field.kit.math.Common._
   import field.kit.math._
   
-    
   /** the current tile */
   var index = new Dim2[Int]
   
@@ -49,11 +48,15 @@ class Tiler(rec:Recorder) extends Logger {
   // the buffer itself, must be large enough to hold the final image
   protected var buffer:ByteBuffer = null 
   
-  /** stores the original */
-  protected var originalCamera = sketch.activeCamera.clone
-
-  /** shortcut to the currently active render camera */
-  protected def camera = sketch.activeCamera
+//  /** stores the original */
+//  protected var originalCamera = sketch.activeCamera.clone
+//
+//  /** shortcut to the currently active render camera */
+//  protected def camera = sketch.activeCamera
+  
+  // TODO temporarily disabled
+  protected var originalCamera = new AdvancedCamera(10,10)
+  protected def camera  = new AdvancedCamera(10,10)
   
   protected var isFinished = false
   
@@ -81,7 +84,7 @@ class Tiler(rec:Recorder) extends Logger {
     tile.width = sketch.width / tiles.columns.toFloat
     tile.height = sketch.height / tiles.rows.toFloat
     
-    originalCamera := sketch.activeCamera
+    //originalCamera := sketch.activeCamera
     
     isFinished = false
   }
@@ -92,8 +95,8 @@ class Tiler(rec:Recorder) extends Logger {
   def pre {
     if(isFinished) return
 
-    val offsetX = -sketch.hwidth + tile.width /2f
-    val offsetY = -sketch.hheight + tile.height /2f 
+    val offsetX = -sketch.width / 2f + tile.width /2f
+    val offsetY = -sketch.height / 2f + tile.height /2f 
     
     val x = offsetX + (tile.width * index.x) 
     val y = offsetY + (tile.height * index.y)
@@ -112,7 +115,8 @@ class Tiler(rec:Recorder) extends Logger {
   def post:Boolean = {
     if(isFinished) return true
       
-    val gl = sketch.gl
+    import javax.media.opengl.GLContext
+    val gl = GLContext.getCurrent.getGL
       
     // be sure OpenGL rendering is finished
     gl.glFlush

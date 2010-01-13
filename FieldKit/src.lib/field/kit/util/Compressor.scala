@@ -8,7 +8,6 @@
 package field.kit.util
 
 import scala.actors.Actor
-import field.kit.Logger
 
 /**
  * an actor based image compressor uses an actor per cpu core to parallize compression of BufferedImages via ImageIO

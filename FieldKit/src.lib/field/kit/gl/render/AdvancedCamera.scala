@@ -114,7 +114,7 @@ class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
   /** Update deltas and related information */
   protected def updateDelta {
     // Describe the new vector between the camera and the target
-    delta.set(location) -= target 
+    delta.set(location) -= target
     
     // Describe the new azimuth and elevation for the camera
     shotLength = delta.length

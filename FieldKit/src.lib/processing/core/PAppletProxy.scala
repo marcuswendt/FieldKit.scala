@@ -12,9 +12,9 @@ package processing.core
  * would be invisible due to package restrictions
  */
 class PAppletProxy extends PApplet {
-  def getThread = this.thread
-  
-  def setThread(t:Thread) = this.thread = t
-  
+//  def getThread = this.thread
+//  
+//  def setThread(t:Thread) = this.thread = t
+	
   override def exit2() = super.exit2
 }

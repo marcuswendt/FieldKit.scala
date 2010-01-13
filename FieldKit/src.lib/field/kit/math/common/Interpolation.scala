@@ -7,11 +7,12 @@
 /* created August 31, 2009 */
 package field.kit.math
 
+import field.kit._
+
 /**
  * Various interpolation related methods for math.Common
  */
 trait Interpolation {
-	import Common._
   
   // --------------------------------------------------------------------------
   // implements various interpolation and easing functions

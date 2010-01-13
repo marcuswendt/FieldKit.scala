@@ -11,33 +11,59 @@ package field.kit.util
  * a simple helper for making sketches time-invariant
  * @author Marcus Wendt
  */
+object Timer {
+  /** converts nanoseconds to milliseconds */
+  val NS2MS = 1.0/ 1000000000 * 1000.0
+  
+  // -- Timestamp --------------------------------------------------------------
+  import java.text.SimpleDateFormat
+  import java.util.Date
+
+  var timestampFormat = new SimpleDateFormat("yy.MM.dd-H.mm.ss")
+  
+  /** returns a simple timestamp **/
+  def apply() = {
+    timestampFormat.format(new Date)
+  }
+}
+
+
+/** 
+ * a simple helper for making sketches time-invariant
+ * @author Marcus Wendt
+ */
 class Timer {
-  def time = System.nanoTime
-  val resolution = 1000000000f
-  val time2millisec = 1f/ resolution * 1000f
-  
+	
   var elapsed = 0f
-  var last = time
+  var interval = 0f
   
-  private var dt = 0f
+  var start = time
+
+  /** 
+   * @return true if the set interval is up, otherwise false
+   */
+  def apply() = {
+	update
+	elapsed > interval
+  }
   
-  reset
+  def time = System.nanoTime
   
   /** @return the time since the last update in ms */
-  def sinceStart = (time - last) * time2millisec
+  def sinceStart = ((time - start) * Timer.NS2MS).toFloat
   
   /** update delta time since last update */
   def update = {
     val now = time
-    dt = (now - last) * time2millisec
+    val dt = ((now - start) * Timer.NS2MS).toFloat
     elapsed += dt
-    last = now
+    start = now
     dt
   }
   
   /** resets this timer*/
   def reset = {
     elapsed = 0
-    last = time
+    start = time
   }
 }

@@ -7,8 +7,6 @@
 /* created May 15, 2009 */
 package field.kit.util
 
-import field.kit.Logger
-
 /**
  * Helpers to resolve and load Files
  * @author Marcus Wendt
