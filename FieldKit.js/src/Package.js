@@ -113,7 +113,7 @@ fk = {
 	},
 	
 	// -- Packages ---------------------------------------------------------------
-	include: function(package) {
+	include:function(package) {
 		// TODO check if package is already defined
 		this.info('import', package)
 		this.load(this.baseURL() + package +'.js')

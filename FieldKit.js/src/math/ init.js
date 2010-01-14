@@ -1,0 +1,3 @@
+
+// MATH INIT
+fk.math = {}

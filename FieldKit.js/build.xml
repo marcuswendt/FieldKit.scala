@@ -20,17 +20,9 @@
 		<property name="file.min" location="${build}/${name}.min.js"/>
 		
 		<concat destfile="${file}" fixlastline="yes">
-			<filelist dir="src"
-			    files="fieldkit.js
-			           fk.colour.js
-			           fk.math.js
-					   fk.math.Vec2.js
-					   fk.math.Vec3.js
-					   fk.math.mat4.js
-			           fk.math.noise.js
-			           fk.particle.js
-			           fk.particle.behaviour.js
-					"/>
+			<sort> 
+				<fileset dir="src" includes="**/*.js"/>
+			</sort>
 		</concat>
 		
 		<!-- minify javascript -->
