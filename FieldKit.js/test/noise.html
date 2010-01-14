@@ -24,25 +24,25 @@
 		<input type="button" value="noise 3d" onclick="draw(noise3d)" />
 		<input type="button" value="noise 4d" onclick="draw(noise4d)" />
 	</div>
-	<script>
+	<script type="text/javascript">
 		// settings
-		var width = 320
-		var height = 240
+		var width = 320;
+		var height = 240;
 		
 		// init
-		var stage = document.getElementById('stage')
-		var canvas = document.createElement("canvas")
-	 	var context = canvas.getContext('2d')
-		canvas.width = width
-		canvas.height = height
-		stage.appendChild(canvas)
+		var stage = document.getElementById('stage');
+		var canvas = document.createElement("canvas");
+	 	var context = canvas.getContext('2d');
+		canvas.width = width;
+		canvas.height = height;
+		stage.appendChild(canvas);
 	
 		// draw methods
 		function draw(body) {
-			var canvasData = context.getImageData(0,0,canvas.width,canvas.height)			
-			body(canvasData)			
-			context.putImageData(canvasData,0,0)
-		}
+			var canvasData = context.getImageData(0,0,canvas.width,canvas.height);			
+			body(canvasData);
+			context.putImageData(canvasData,0,0);
+		};
 		
 		function gradient(canvasData) {
 			var data = canvasData.data
@@ -56,7 +56,7 @@
 					data[i + 3] = 255
 				}
 			}
-		}
+		};
 		
 		function noise2d(canvasData) {			
 			var data = canvasData.data
@@ -71,7 +71,7 @@
 					data[i + 3] = 255
 				}
 			}		
-		}
+		};
 		
 		function noise3d(canvasData) {
 			var data = canvasData.data
@@ -90,13 +90,12 @@
 			var data = canvasData.data
 			for(var x=0; x<canvasData.width; x++) {
 				for(var y=0; y<canvasData.height; y++) {
-					var i = (x + y * canvasData.width) * 4
-					var c = fk.math.noise4d(x,y) * 255
-					
-					data[i + 0] = fk.math.noise(x,y,1,0) * 255
-					data[i + 1] = c
-					data[i + 2] = c
-					data[i + 3] = 255
+					var i = (x + y * canvasData.width) * 4;
+
+					data[i + 0] = fk.math.noise(x,y,1,0) * 255;
+					data[i + 1] = fk.math.noise(x,y,2,1) * 255;
+					data[i + 2] = fk.math.noise(x,y,3,2) * 255;
+					data[i + 3] = fk.math.noise(x,y,4,3) * 255;
 				}
 			}		
 		}
