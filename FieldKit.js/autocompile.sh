@@ -2,6 +2,6 @@
 for (( ; ; ))
 do
 	echo "--"
-	ant -f build.xml
-	sleep 2
+	ant -q -f build.xml
+	sleep 1
 done

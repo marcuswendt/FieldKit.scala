@@ -19,7 +19,7 @@ fk = {
 	_baseURL: null,
 	_templateURL: null,
 	
-	// -- Inheritance Support ----------------------------------------------------
+	// -- Inheritance Support --------------------------------------------------
 	// this code was adapted from John Resig's Simple JavaScript inheritance article
 	// http://ejohn.org/blog/simple-javascript-inheritance
 	init: function() {
@@ -81,7 +81,7 @@ fk = {
 	  };
 	},
 	
-	// -- Logging ----------------------------------------------------------------
+	// -- Logging --------------------------------------------------------------
 	info: function() {
 		if(window.console) {
 			var s = ""
@@ -112,14 +112,14 @@ fk = {
 		}
 	},
 	
-	// -- Packages ---------------------------------------------------------------
+	// -- Packages -------------------------------------------------------------
 	include:function(package) {
 		// TODO check if package is already defined
 		this.info('import', package)
 		this.load(this.baseURL() + package +'.js')
 	},
 
-	// -- Helpers ----------------------------------------------------------------
+	// -- Helpers --------------------------------------------------------------
 	load: function(url) {
 		this.info('load', url)		
 		var suffix = url.substring(url.lastIndexOf('.') + 1)
@@ -171,6 +171,9 @@ fk = {
 		return this._templateURL
 	}
 }
+
+// define subpackages
+fk.particle = {}
 
 // initialize the kit
 fk.init()

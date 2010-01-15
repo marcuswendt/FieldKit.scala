@@ -12,166 +12,161 @@
 // =============================================================================
 // Vector 3D class
 // =============================================================================
-fk.math.Vec3 = function() {
-	this.x = 0
-	this.y = 0
-	this.z = 0
+fk.math.Vec3 = fk.Class.extend({
+	x: 0, y: 0, z: 0,
 	
 	// -- Setters --------------------------------------------------------------
-	this.set = function(x, y, z) {
-		this.x = x
-		this.y = y
-		this.z = z
-		return this
-	}
+	set: function(x, y, z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		return this;
+	},
 	
-	this.setV = function(v) {
-		this.x = v.x
-		this.y = v.y
-		this.z = v.z
-		return this
-	}
+	setV: function(v) {
+		this.x = v.x;
+		this.y = v.y;
+		this.z = v.z;
+		return this;
+	},
 
-	this.setS = function(s) {
-		this.x = s
-		this.y = s
-		this.z = s
-		return this
-	}
+	setS: function(s) {
+		this.x = s;
+		this.y = s;
+		this.z = s;
+		return this;
+	},
 
 	// -- Vector Operations ----------------------------------------------------
-	this.add = function(x, y, z) { 
-		this.x += x
-		this.y += y
-		this.z += z
-		return this
-	}
+	add: function(x, y, z) { 
+		this.x += x;
+		this.y += y;
+		this.z += z;
+		return this;
+	},
 
-	this.sub = function(x, y, z) { 
-		this.x -= x
-		this.y -= y
-		this.z -= z
-		return this
-	}
+	sub: function(x, y, z) { 
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+		return this;
+	},
 
-	this.mul = function(x, y, z) { 
-		this.x *= x
-		this.y *= y
-		this.z *= z
-		return this
-	}
+	mul: function(x, y, z) { 
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
+		return this;
+	},
 
-	this.div = function(x, y, z) { 
-		this.x /= x
-		this.y /= y
-		this.z /= z
-		return this
-	}
+	div: function(x, y, z) { 
+		this.x /= x;
+		this.y /= y;
+		this.z /= z;
+		return this;
+	},
 
 	// -- Vector Object Operations ---------------------------------------------
-	this.addV = function(v) { 
-		this.x += v.x
-		this.y += v.y
-		this.z += v.z
+	addV: function(v) { 
+		this.x += v.x;
+		this.y += v.y;
+		this.z += v.z;
+		return this;
+	},
+
+	subV: function(v) { 
+		this.x -= v.x;
+		this.y -= v.y;
+		this.z -= v.z;
+		return this;		
+	},
+
+	mulV: function(v) { 
+		this.x *= v.x;
+		this.y *= v.y;
+		this.z *= v.z;		
 		return this
-	}
+	},
 
-	this.subV = function(v) { 
-		this.x -= v.x
-		this.y -= v.y
-		this.z -= v.z
-		return this			
-	}
-
-	this.mulV = function(v) { 
-		this.x *= v.x
-		this.y *= v.y
-		this.z *= v.z		
-		return this
-	}
-
-	this.divV = function(v) { 
-		this.x /= v.x
-		this.y /= v.y
-		this.z /= v.z
-		return this			
-	}
+	divV: function(v) { 
+		this.x /= v.x;
+		this.y /= v.y;
+		this.z /= v.z;
+		return this;		
+	},
 
 	// -- Scalar Operations ----------------------------------------------------
-	this.addS = function(s) { 
-		this.x += s
-		this.y += s
-		this.z += s
-		return this
-	}
+	addS: function(s) { 
+		this.x += s;
+		this.y += s;
+		this.z += s;
+		return this;
+	},
 
-	this.subS = function(s) { 
-		this.x -= s
-		this.y -= s
-		this.z -= s
-		return this
-	}
+	subS: function(s) { 
+		this.x -= s;
+		this.y -= s;
+		this.z -= s;
+		return this;
+	},
 
-	this.mulS = function(s) { 
-		this.x *= s
-		this.y *= s
-		this.z *= s
-		return this
-	}
+	mulS: function(s) { 
+		this.x *= s;
+		this.y *= s;
+		this.z *= s;
+		return this;
+	},
 
-	this.divS = function(s) { 
-		this.x /= s
-		this.y /= s
-		this.z /= s
-		return this
-	}
+	divS: function(s) { 
+		this.x /= s;
+		this.y /= s;
+		this.z /= s;
+		return this;
+	},
 
 	// -- Helpers --------------------------------------------------------------
-	this.zero = function() { 
-		this.x = 0; this.y = 0; this.z = 0
-		return this
-	}
+	zero: function() { 
+		this.x = 0; this.y = 0; this.z = 0;
+		return this;
+	},
 
-	this.normalize = function() {
-		var l = this.length()
-		if(l != 0)
-			return this.divS(l)
-		else
-			return this
-	}
+	normalize: function() {
+		var l = this.length();
+		return (l != 0) ? this.divS(l) : this;
+	},
 
-	this.lengthSquared = function() {
-		return this.x * this.x + this.y * this.y + this.z * this.z
-	}
+	length: function() { return Math.sqrt(this.lengthSquared()); },
 
-	this.length = function() { return Math.sqrt(this.lengthSquared()) }
+	lengthSquared: function() {
+		return this.x * this.x + this.y * this.y + this.z * this.z;
+	},
 
-	this.clamp = function(max) {
-		var l = this.length()
+	clamp: function(max) {
+		var l = this.length();
 		if(l > max) {
-			this.divS(l)
-			this.mulS(max)
+			this.divS(l);
+			this.mulS(max);
 		}
-		return this
-	}
+		return this;
+	},
 	
-	// -- Distance Calculations --------------------------------------------------
-	this.distance = function(x,y,z) {
-		return Math.sqrt(this.distanceSquared(x,y,z))
-	}
+	// -- Distance Calculations ------------------------------------------------
+	distance: function(x,y,z) {
+		return Math.sqrt(this.distanceSquared(x,y,z));
+	},
 	
-	this.distanceV = function(v) {
-		return Math.sqrt(this.distanceSquared(v.x,v.y,v.z))
-	}
+	distanceV: function(v) {
+		return Math.sqrt(this.distanceSquared(v.x,v.y,v.z));
+	},
 	
-	this.distanceSquared = function(x, y, z) {
-		var dx = this.x - x
-    var dy = this.y - y
-    var dz = this.z - z
-		return dx * dx + dy * dy + dz * dz
-	}
+	distanceSquared: function(x, y, z) {
+		var dx = this.x - x;
+    	var dy = this.y - y;
+    	var dz = this.z - z;
+		return dx * dx + dy * dy + dz * dz;
+	},
 
-	this.toString = function() {
-		return "Vec3("+ this.x +","+ this.y +","+ this.z +")"
-	}
-}
+	toString: function() {
+		return "Vec3("+ this.x +","+ this.y +","+ this.z +")";
+	},
+});

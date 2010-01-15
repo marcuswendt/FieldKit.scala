@@ -1,3 +1,0 @@
-
-// MATH INIT
-fk.math = {}
