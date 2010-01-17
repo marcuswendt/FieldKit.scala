@@ -6,7 +6,7 @@
  * Licensed under the LGPL license.
  * http://www.gnu.org/licenses/lgpl.html
  *
- * Date: June 20, 2009
+ * Created: June 20, 2009
  */
 
 // =============================================================================

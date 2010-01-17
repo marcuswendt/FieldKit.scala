@@ -6,9 +6,8 @@
  * Licensed under the LGPL license.
  * http://www.gnu.org/licenses/lgpl.html
  *
- * Date: June 20, 2009
+ * Created: June 20, 2009
  * 
- * Requires the jQuery Library to be present!
  */
 
 // =============================================================================
@@ -113,15 +112,14 @@ fk = {
 	},
 	
 	// -- Packages -------------------------------------------------------------
-	include:function(package) {
-		// TODO check if package is already defined
-		this.info('import', package)
-		this.load(this.baseURL() + package +'.js')
+	include: function(package) {
+		this.info("import", package);
+		this.load(this.baseURL() + package +'.js');
 	},
 
 	// -- Helpers --------------------------------------------------------------
 	load: function(url) {
-		this.info('load', url)		
+		this.info('load', url);
 		var suffix = url.substring(url.lastIndexOf('.') + 1)
 		
 		// load javascript 

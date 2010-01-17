@@ -6,7 +6,7 @@
  * Licensed under the LGPL license.
  * http://www.gnu.org/licenses/lgpl.html
  *
- * Date: January 15, 2010
+ * Created: January 15, 2010
  */
 
 fk.particle.Flock = fk.Class.extend({

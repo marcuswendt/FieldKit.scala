@@ -28,7 +28,7 @@
 
 	<target name="dist">
 		<!-- minify javascript -->
-		<jsmin srcfile="${file}" suffix="true" copyright="(c) 2009 FIELD.IO"/>
+		<jsmin srcfile="${file}" suffix="true" copyright="(c) 2010 FIELD.IO"/>
 		
 		<!-- correct minified name -->
 		<!-- <move file="${file}.min.js" tofile="${file.min}" />
