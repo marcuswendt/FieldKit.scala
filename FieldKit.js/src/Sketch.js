@@ -26,13 +26,13 @@ fk.Sketch = fk.Class.extend({
 	init: function(container) {
 		this.container = document.getElementById(container);
 		
-		this.initCanvas();
+		this.initGraphics();
 		this.setup();
 		this.start();
 	},
 	
 	/** Create <canvas> and drawing context **/
-	initCanvas: function() {
+	initGraphics: function() {
 		this.canvas = document.createElement("canvas")	
 		this.canvas.width = this.width
 		this.canvas.height = this.height

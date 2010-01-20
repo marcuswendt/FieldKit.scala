@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="fieldkit" basedir="." default="compile">
+<project name="fieldkit" basedir="." default="dist">
 	<taskdef name="jsmin"
 	        classname="net.matthaynes.jsmin.JSMin_Task"
 	        classpath="res/ant/jsmin.0.2.3.jar"/>
 	
+	<property name="version" value="01" />
+	
 	<property name="build" location="build" />
+	<property name="dist" location="${build}/FieldKit.js-${version}" />
 	
 	<target name="init">
 		<mkdir dir="${build}" />
 		<delete file="${build}/*"/>
+		
+		<delete dir="${dist}" />
+		<mkdir dir="${dist}" />
 	</target>
 	
 	<target name="compile" depends="init">		
@@ -26,9 +32,15 @@
 		</concat>
 	</target>
 
-	<target name="dist">
+	<target name="dist" depends="compile">
+		
 		<!-- minify javascript -->
 		<jsmin srcfile="${file}" suffix="true" copyright="(c) 2010 FIELD.IO"/>
+		
+		<copy todir="${dist}">
+			<fileset dir="./" includes="*.txt" />
+			<fileset dir="${build}" includes="*.js" />	
+		</copy>
 		
 		<!-- correct minified name -->
 		<!-- <move file="${file}.min.js" tofile="${file.min}" />

@@ -13,6 +13,7 @@
 // MATH UTILITIES & HELPERS
 // =============================================================================
 fk.math = {
+	PI: Math.PI,
 	HALF_PI: Math.PI * 0.5,
 	TWO_PI: Math.PI * 2,
 	
@@ -46,6 +47,10 @@ fk.math = {
 	},
 	
 	// -- Utilities --------------------------------------------------------------
+	random: function(min, max) {
+		return Math.random() * (max - min) + min
+	},
+	
 	randomInt: function(min, max) { 
 		return parseInt(Math.random() * (max - min) + min)
 	}, 
