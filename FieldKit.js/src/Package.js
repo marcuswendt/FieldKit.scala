@@ -119,7 +119,7 @@ fk = {
 	},
 	 
 	// hex to decimal
-	hex2dec: function(h) { 
+	hex2dec: function(h) {
 		return parseInt(h,16);
 	},
 }

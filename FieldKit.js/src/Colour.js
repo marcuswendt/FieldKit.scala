@@ -20,6 +20,7 @@
 //
 // =============================================================================
 fk.Colour = fk.Class.extend({
+	
 	r:0, g:0, b: 0,
 
 	init: function() {
@@ -41,55 +42,55 @@ fk.Colour = fk.Class.extend({
 			
 			if(typeof(arg) == 'string') {
 				var parts = arg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
-				this.r( parts[1] )
-				this.g( parts[2] )
-				this.b( parts[3] )
+				this.red( parts[1] );
+				this.green( parts[2] );
+				this.blue( parts[3] );
 				
 			} else if(typeof(arg) == 'object') {
-				r = arg.r()
-				g = arg.g()
-				b = arg.b()
+				this.red(arg.r);
+				this.green(arg.g);
+				this.blue(arg.b)
 				
 			} else {
-				fk.warn("fk.Colour.set: Invalid argument ("+ arg +" <"+ typeof(arg) +">)")
+				fk.warn("fk.Colour.set: Invalid argument ("+ arg +" <"+ typeof(arg) +">)");
 			}
 		} else if(arguments.length == 3) {			
-			this.r( arguments[0] )
-			this.g( arguments[1] )
-			this.b( arguments[2] )
+			this.red( arguments[0] );
+			this.green( arguments[1] );
+			this.blue( arguments[2] );
 		}
 	},
 	
 	// sets/ gets the RED component
-	r: function() {
-		if(arguments.length == 1) r = parseComponent(arguments[0])
-		return r
+	red: function(r) {
+		if(arguments.length == 1) this.r = this.parseComponent(arguments[0]);
+		return this.r;
 	},
 
 	// sets/ gets the GREEN component	
-	g: function() {
-		if(arguments.length == 1) g = parseComponent(arguments[0])
-		return g
+	green: function(g) {
+		if(arguments.length == 1) this.g = this.parseComponent(arguments[0]);
+		return this.g;
 	},
 	
 	// sets/ gets the BLUE component
-	b: function() {
-		if(arguments.length == 1) b = parseComponent(arguments[0])
-		return b
+	blue: function(b) {
+		if(arguments.length == 1) this.b = this.parseComponent(arguments[0]);
+		return this.b;
 	},
 
 	// sets/ gets the HSL HUE value
-	h: function() {
-		var hsv = this.toHSV()
+	hue: function() {
+		var hsv = this.toHSV();
 		if(arguments.length == 1) {
-			hsv[0] = arguments[0]
-			this.fromHSV(hsv[0],hsv[1],hsv[2])
+			hsv[0] = arguments[0];
+			this.fromHSV(hsv[0],hsv[1],hsv[2]);
 		}
-		return hsv[0]
+		return hsv[0];
 	},
 	
 	// sets/ gets the HSL SATURATION value
-	s: function() {
+	saturation: function() {
 		var hsv = this.toHSV()
 		if(arguments.length == 1) {
 			hsv[1] = arguments[0]
@@ -99,7 +100,7 @@ fk.Colour = fk.Class.extend({
 	},
 	
 	// sets/ gets the hsv VALUE/ BRIGHTNESS value
-	v: function() {
+	value: function() {
 		var hsv = this.toHSV()
 		if(arguments.length == 1) {
 			hsv[2] = arguments[0]
@@ -111,9 +112,9 @@ fk.Colour = fk.Class.extend({
 	// -- Convert To ... Methods -------------------------------------------------
 	// Converts this Colour to HSL
 	toHSL: function() {
-		var _r = r / 255
-		var _g = g / 255
-		var _b = b / 255
+		var _r = this.r / 255
+		var _g = this.g / 255
+		var _b = this.b / 255
 		
 	    var max = Math.max(_r, _g, _b), min = Math.min(_r, _g, _b)
 	    var h, s, l = (max + min) / 2
@@ -136,9 +137,9 @@ fk.Colour = fk.Class.extend({
 	
 	// Converts this Colour to HSV
 	toHSV: function() {
-		var _r = r / 255
-		var _g = g / 255
-		var _b = b / 255
+		var _r = this.r / 255
+		var _g = this.g / 255
+		var _b = this.b / 255
 		
 		var max = Math.max(_r, _g, _b), min = Math.min(_r, _g, _b)
 		var h, s, v = max
@@ -160,9 +161,14 @@ fk.Colour = fk.Class.extend({
 		return [h, s, v]
 	},
 	
-	// returns this Colour as hexadecimal string
+	// returns this colour as a hexadecimal string
 	toHex: function() {
-		return '#'+numToHex(r)+numToHex(g)+numToHex(b)
+		return fk.dec2hex(this.toInt());
+	},
+	
+	// returns this colour as a single integer
+	toInt: function() {
+		return (this.r << 16) + (this.g << 8) + this.b;
 	},
 	
 	// -- Convert From ... Methods -----------------------------------------------
@@ -192,42 +198,46 @@ fk.Colour = fk.Class.extend({
 	// Sets this Colour to the colour defined with the given HSV values.
 	fromHSV: function(h,s,v) {
 		
-		var i = Math.floor(h * 6)
-	    var f = h * 6 - i
-	    var p = v * (1 - s)
-	    var q = v * (1 - f * s)
-	    var t = v * (1 - (1 - f) * s)
+		var i = Math.floor(h * 6);
+	    var f = h * 6 - i;
+	    var p = v * (1 - s);
+	    var q = v * (1 - f * s);
+	    var t = v * (1 - (1 - f) * s);
 	
 	    switch(i % 6){
-	        case 0: r = v, g = t, b = p; break
-	        case 1: r = q, g = v, b = p; break
-	        case 2: r = p, g = v, b = t; break
-	        case 3: r = p, g = q, b = v; break
-	        case 4: r = t, g = p, b = v; break
-	        case 5: r = v, g = p, b = q; break
-	    }
+	        case 0: this.r = v, this.g = t, this.b = p; break
+	        case 1: this.r = q, this.g = v, this.b = p; break
+	        case 2: this.r = p, this.g = v, this.b = t; break
+	        case 3: this.r = p, this.g = q, this.b = v; break
+	        case 4: this.r = t, this.g = p, this.b = v; break
+	        case 5: this.r = v, this.g = p, this.b = q; break
+	    };
 
-		r *= 255
-		g *= 255
-		b *= 255
+		this.r *= 255;
+		this.g *= 255;
+		this.b *= 255;
 		
-		return this
+		return this;
 	},
 	
-	// returns this Colour as hexadecimal string
-	toHex: function() {
-		return fk.dec2hex(this.toInt);
+	// Sets this Colour to the colour defined with the given hex-string
+	fromHex: function(hex) {
+		return this.fromInt(fk.hex2dec(hex));
 	},
 	
-	toInt: function() {
-		return this.r >> 16 & this.g >> 8 & this.b;
+	// Sets this Colour to the colour defined with the given integer
+	fromInt: function(i) {
+		this.r = (i >> 16) & 0xFF;
+		this.g = (i >> 8) & 0xFF;
+		this.b = i & 0xFF;
+		return this;
 	},
 	
-	// -- Misc Utilities ---------------------------------------------------------
+	// -- Misc Utilities -------------------------------------------------------
 	randomise: function() {
-		this.r(Math.random());
-		this.g(Math.random());
-		this.b(Math.random());
+		this.red(Math.random());
+		this.green(Math.random());
+		this.blue(Math.random());
 		return this;
 	},
 	
@@ -236,7 +246,7 @@ fk.Colour = fk.Class.extend({
 	},
 	
 	toString: function() {
-		return 'Colour['+ this.r +', '+ this.g +', '+ this.b + ']'
+		return 'Colour['+ this.r +', '+ this.g +', '+ this.b + ']';
 	},
 	
 	
@@ -253,23 +263,11 @@ fk.Colour = fk.Class.extend({
 			return n
 			
 		} else if(typeof(arg) == 'string') {
-			return parseComponent(parseFloat(arg))
+			return this.parseComponent(parseFloat(arg))
 			
 		} else {
 			fk.info("fk.Colour.parseComponent: unhandled type "+ typeof(arg) +" "+ arg)
 			return arg	
 		}
 	},
-
-	// converts a single number to a hex string
-	numToHex: function(n) {
-		if (n==null) return "00"
-		n=parseInt(n)
-		if (n==0 || isNaN(n)) return "00"
-		n=Math.max(0,n)
-		n=Math.min(n,255)
-		n=Math.round(n)
-		
-		return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
-	},
-}
+});

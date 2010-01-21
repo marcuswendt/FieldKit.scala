@@ -8,7 +8,7 @@
     <title>FieldKit.js: Colour Test</title>
 	
 	<script src="../../src/Package.js" type="text/javascript" charset="utf-8" ></script>
-	<script src="../../src/colour/Colour.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="../../src/Colour.js" type="text/javascript" charset="utf-8" ></script>
 	
 	<style type="text/css">
 		#stage canvas {
@@ -57,51 +57,54 @@
 		}
 		
 		function testBrightness(canvasData) {
-			var c = new fk.Colour(Math.random() +'test', Math.random(), Math.random())
+			var c = new fk.Colour();
+			c.randomise();
 			
 			var data = canvasData.data
 			for(var x=0; x<canvasData.width; x++) {
 				for(var y=0; y<canvasData.height; y++) {
 					var i = (x + y * canvasData.width) * 4
-					c.v( 1.0 - y/canvasData.height )
+					c.value( 1.0 - y/canvasData.height )
 					
-					data[i + 0] = c.r()
-					data[i + 1] = c.g()
-					data[i + 2] = c.b()
+					data[i + 0] = c.r
+					data[i + 1] = c.g
+					data[i + 2] = c.b
 					data[i + 3] = 255
 				}
 			}
 		}
 		
 		function testHue(canvasData) {
-			var c = new fk.Colour(Math.random() +'test', Math.random(), Math.random())
+			var c = new fk.Colour();
+			c.randomise();
 			
 			var data = canvasData.data
 			for(var x=0; x<canvasData.width; x++) {
 				for(var y=0; y<canvasData.height; y++) {
 					var i = (x + y * canvasData.width) * 4
-					c.h( 1.0 - x/canvasData.width )
+					c.hue( 1.0 - x/canvasData.width )
 					
-					data[i + 0] = c.r()
-					data[i + 1] = c.g()
-					data[i + 2] = c.b()
+					data[i + 0] = c.r
+					data[i + 1] = c.g
+					data[i + 2] = c.b
 					data[i + 3] = 255
 				}
 			}
 		}
 		
 		function testSaturation(canvasData) {
-			var c = new fk.Colour(Math.random() +'test', Math.random(), Math.random())
+			var c = new fk.Colour();
+			c.randomise();
 			
 			var data = canvasData.data
 			for(var x=0; x<canvasData.width; x++) {
 				for(var y=0; y<canvasData.height; y++) {
 					var i = (x + y * canvasData.width) * 4
-					c.s( x/canvasData.width + y/canvasData.height )
+					c.saturation( x/canvasData.width + y/canvasData.height )
 					
-					data[i + 0] = c.r()
-					data[i + 1] = c.g()
-					data[i + 2] = c.b()
+					data[i + 0] = c.r
+					data[i + 1] = c.g
+					data[i + 2] = c.b
 					data[i + 3] = 255
 				}
 			}
@@ -110,11 +113,16 @@
 		// test
 		var green = new fk.Colour(64,204,168)
 		var brightGreen = green.clone()
-		brightGreen.v(0.9)
+		brightGreen.value(0.9)
 		
-		fk.info("green "+ green.toString())
-		fk.info("brightGreen "+ brightGreen.toString())
+		fk.info("green "+ green.toString() +" hex "+ green.toHex());
+		fk.info("brightGreen "+ brightGreen.toString() +" hex "+ brightGreen.toHex())
 		
+		// test converting between the various formats
+		var green2 = new fk.Colour()
+		green2.fromHex(green.toHex())
+		
+		fk.info("green2 "+ green2.toString() +" hex "+ green2.toHex());
 		
 		// start
 		draw('testBrightness', testBrightness)
