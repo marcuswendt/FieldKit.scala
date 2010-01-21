@@ -19,13 +19,23 @@
 // http://www.mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
 //
 // =============================================================================
-fk.Colour = function() {
-	var r, g, b
+fk.Colour = fk.Class.extend({
+	r:0, g:0, b: 0,
 
+	init: function() {
+		// parse arguments
+		if(arguments.length == 3) {
+			this.set(arguments[0], arguments[1], arguments[2])
+			
+		} else if(arguments.length == 1) {
+			this.set(arguments[0])
+		}
+	},
+	
 	// -- Getters & Setters ------------------------------------------------------
 	// Sets the R,G,B values of this Colour object
 	// Can take either another Colour object, an RGB(r,g,b) String or three seperate R,G,B values as arguments
-	this.set = function() {
+	set: function() {
 		if(arguments.length == 1) {
 			var arg = arguments[0]
 			
@@ -48,84 +58,84 @@ fk.Colour = function() {
 			this.g( arguments[1] )
 			this.b( arguments[2] )
 		}
-	}
+	},
 	
 	// sets/ gets the RED component
-	this.r = function() {
+	r: function() {
 		if(arguments.length == 1) r = parseComponent(arguments[0])
 		return r
-	}
+	},
 
 	// sets/ gets the GREEN component	
-	this.g = function() {
+	g: function() {
 		if(arguments.length == 1) g = parseComponent(arguments[0])
 		return g
-	}
+	},
 	
 	// sets/ gets the BLUE component
-	this.b = function() {
+	b: function() {
 		if(arguments.length == 1) b = parseComponent(arguments[0])
 		return b
-	}
+	},
 
 	// sets/ gets the HSL HUE value
-	this.h = function() {
+	h: function() {
 		var hsv = this.toHSV()
 		if(arguments.length == 1) {
 			hsv[0] = arguments[0]
 			this.fromHSV(hsv[0],hsv[1],hsv[2])
 		}
 		return hsv[0]
-	}
+	},
 	
 	// sets/ gets the HSL SATURATION value
-	this.s = function() {
+	s: function() {
 		var hsv = this.toHSV()
 		if(arguments.length == 1) {
 			hsv[1] = arguments[0]
 			this.fromHSV(hsv[0],hsv[1],hsv[2])
 		}
 		return hsv[1]
-	}
+	},
 	
 	// sets/ gets the hsv VALUE/ BRIGHTNESS value
-	this.v = function() {
+	v: function() {
 		var hsv = this.toHSV()
 		if(arguments.length == 1) {
 			hsv[2] = arguments[0]
 			this.fromHSV(hsv[0],hsv[1],hsv[2])
 		}
 		return hsv[2]
-	}
+	},
 	
 	// -- Convert To ... Methods -------------------------------------------------
 	// Converts this Colour to HSL
-	this.toHSL = function() {
+	toHSL: function() {
 		var _r = r / 255
 		var _g = g / 255
 		var _b = b / 255
 		
-    var max = Math.max(_r, _g, _b), min = Math.min(_r, _g, _b)
-    var h, s, l = (max + min) / 2
-
-    if(max == min){
-        h = s = 0 // ach_romatic
-    }else{
-        var d = max - min
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
-        switch(max){
-            case _r: h = (_g - _b) / d + (_g < _b ? 6 : 0); break
-            case _g: h = (_b - _r) / d + 2; break
-            case _b: h = (_r - _g) / d + 4; break
-        }
-        h /= 6;
-    }
-
-    return [h, s, l];
-	}
+	    var max = Math.max(_r, _g, _b), min = Math.min(_r, _g, _b)
+	    var h, s, l = (max + min) / 2
+	
+	    if(max == min){
+	        h = s = 0 // ach_romatic
+	    }else{
+	        var d = max - min
+	        s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+	        switch(max){
+	            case _r: h = (_g - _b) / d + (_g < _b ? 6 : 0); break
+	            case _g: h = (_b - _r) / d + 2; break
+	            case _b: h = (_r - _g) / d + 4; break
+	        }
+	        h /= 6;
+	    }
+	
+	    return [h, s, l];
+	},
 	
 	// Converts this Colour to HSV
-	this.toHSV = function() {
+	toHSV: function() {
 		var _r = r / 255
 		var _g = g / 255
 		var _b = b / 255
@@ -148,84 +158,90 @@ fk.Colour = function() {
 		}
 
 		return [h, s, v]
-	}
+	},
 	
 	// returns this Colour as hexadecimal string
-	this.toHex = function() {
+	toHex: function() {
 		return '#'+numToHex(r)+numToHex(g)+numToHex(b)
-	}
+	},
 	
 	// -- Convert From ... Methods -----------------------------------------------
 	// Sets this Colour to the colour defined with the given HSL values.
-	this.fromHSL = function(h, s, l) {
-		
+	fromHSL: function(h, s, l) {
 		if(s == 0) {
-        r = g = b = l // achromatic
-    } else {
-        function hue2rgb(p, q, t){
-            if(t < 0) t += 1
-            if(t > 1) t -= 1
-            if(t < 1/6) return p + (q - p) * 6 * t
-            if(t < 1/2) return q
-            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6
-            return p;
-        }
-
-        var q = l < 0.5 ? l * (1 + s) : l + s - l * s
-        var p = 2 * l - q
-        r = hue2rgb(p, q, h + 1/3)
-        g = hue2rgb(p, q, h)
-        b = hue2rgb(p, q, h - 1/3)
-    }
-
+	        r = g = b = l // achromatic
+	    } else {
+	        function hue2rgb(p, q, t){
+	            if(t < 0) t += 1
+	            if(t > 1) t -= 1
+	            if(t < 1/6) return p + (q - p) * 6 * t
+	            if(t < 1/2) return q
+	            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6
+	            return p;
+	        }
+	
+	        var q = l < 0.5 ? l * (1 + s) : l + s - l * s
+	        var p = 2 * l - q
+	        r = hue2rgb(p, q, h + 1/3)
+	        g = hue2rgb(p, q, h)
+	        b = hue2rgb(p, q, h - 1/3)
+	    }
 		return this
-	}
+	},
 	
 	// Sets this Colour to the colour defined with the given HSV values.
-	this.fromHSV = function(h,s,v) {
+	fromHSV: function(h,s,v) {
 		
 		var i = Math.floor(h * 6)
-    var f = h * 6 - i
-    var p = v * (1 - s)
-    var q = v * (1 - f * s)
-    var t = v * (1 - (1 - f) * s)
-
-    switch(i % 6){
-        case 0: r = v, g = t, b = p; break
-        case 1: r = q, g = v, b = p; break
-        case 2: r = p, g = v, b = t; break
-        case 3: r = p, g = q, b = v; break
-        case 4: r = t, g = p, b = v; break
-        case 5: r = v, g = p, b = q; break
-    }
+	    var f = h * 6 - i
+	    var p = v * (1 - s)
+	    var q = v * (1 - f * s)
+	    var t = v * (1 - (1 - f) * s)
+	
+	    switch(i % 6){
+	        case 0: r = v, g = t, b = p; break
+	        case 1: r = q, g = v, b = p; break
+	        case 2: r = p, g = v, b = t; break
+	        case 3: r = p, g = q, b = v; break
+	        case 4: r = t, g = p, b = v; break
+	        case 5: r = v, g = p, b = q; break
+	    }
 
 		r *= 255
 		g *= 255
 		b *= 255
 		
 		return this
-	}
+	},
 	
+	// returns this Colour as hexadecimal string
+	toHex: function() {
+		return fk.dec2hex(this.toInt);
+	},
+	
+	toInt: function() {
+		return this.r >> 16 & this.g >> 8 & this.b;
+	},
 	
 	// -- Misc Utilities ---------------------------------------------------------
-	this.randomize = function() {
-		this.r(Math.random())
-		this.g(Math.random())
-		this.b(Math.random())
-		return this
-	}
+	randomise: function() {
+		this.r(Math.random());
+		this.g(Math.random());
+		this.b(Math.random());
+		return this;
+	},
 	
-	this.clone = function() {
-		return new fk.Colour(this)
-	}
+	clone: function() {
+		return new fk.Colour(this);
+	},
 	
-	this.toString = function() {
-		return 'Colour['+ r +', '+ g +', '+ b + ']'
-	}
+	toString: function() {
+		return 'Colour['+ this.r +', '+ this.g +', '+ this.b + ']'
+	},
 	
 	
 	// -- Private Utilities ------------------------------------------------------
-	var parseComponent = function(arg) {
+	parseComponent: function(arg) {
 		if(typeof(arg) == 'number') {
 			var n = arg
 			// make sure n is not negative
@@ -243,10 +259,10 @@ fk.Colour = function() {
 			fk.info("fk.Colour.parseComponent: unhandled type "+ typeof(arg) +" "+ arg)
 			return arg	
 		}
-	}
+	},
 
 	// converts a single number to a hex string
-	var numToHex = function(n) {
+	numToHex: function(n) {
 		if (n==null) return "00"
 		n=parseInt(n)
 		if (n==0 || isNaN(n)) return "00"
@@ -255,14 +271,5 @@ fk.Colour = function() {
 		n=Math.round(n)
 		
 		return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
-	}
-	
-	// -- Init -------------------------------------------------------------------
-	// parse arguments
-	if(arguments.length == 3) {
-		this.set(arguments[0], arguments[1], arguments[2])
-		
-	} else if(arguments.length == 1) {
-		this.set(arguments[0])
-	}
+	},
 }

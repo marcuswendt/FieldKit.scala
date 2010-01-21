@@ -25,8 +25,9 @@
 		
 		<concat destfile="${file}" fixlastline="yes">
 			<filelist dir="src" files="Package.js" />
+			<filelist dir="src" files="Colour.js "/>
+			
 			<filelist dir="src/math" files="Math.js Vec2.js Vec3.js Mat4.js Noise.js"/>						
-			<filelist dir="src/colour" files="Colour.js "/>
 			
 			<filelist dir="src/particle" files="System.js Flock.js Emitter.js Particle.js Behaviour.js"/>
 		</concat>

@@ -113,22 +113,14 @@ fk = {
 	
 	// -- Utilities ------------------------------------------------------------
 	
-	// converts a number to a hex string
-	numToHex: function(n) {
-		if (n==null) return "00";
-		n=parseInt(n);
-		if (n==0 || isNaN(n)) return "00";
-		n=Math.max(0,n);
-		n=Math.min(n,255);
-		n=Math.round(n);
-		
-		return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
+	// decimal to hex
+	dec2hex: function(d) {
+		return d.toString(16);
 	},
-	
-	// converts a hex string to number
-	hexToNum: function(hex) {
-		eval("var n=0X" + s_hex);
-		return n;
+	 
+	// hex to decimal
+	hex2dec: function(h) { 
+		return parseInt(h,16);
 	},
 }
 
