@@ -111,63 +111,25 @@ fk = {
 		}
 	},
 	
-	// -- Packages -------------------------------------------------------------
-	include: function(package) {
-		this.info("import", package);
-		this.load(this.baseURL() + package +'.js');
-	},
-
-	// -- Helpers --------------------------------------------------------------
-	load: function(url) {
-		this.info('load', url);
-		var suffix = url.substring(url.lastIndexOf('.') + 1)
+	// -- Utilities ------------------------------------------------------------
+	
+	// converts a number to a hex string
+	numToHex: function(n) {
+		if (n==null) return "00";
+		n=parseInt(n);
+		if (n==0 || isNaN(n)) return "00";
+		n=Math.max(0,n);
+		n=Math.min(n,255);
+		n=Math.round(n);
 		
-		// load javascript 
-		if(suffix == 'js') {
-			var head = document.getElementsByTagName('head')[0]; 
-			$(document.createElement('script')).attr({
-				type: 'text/javascript', 
-				src: url
-			}).appendTo(head);
-		
-		// load stylesheet	
-		} else if(suffix == 'css') {
-			var head = document.getElementsByTagName('head')[0]; 
-			$(document.createElement('link')).attr({
-				type: 'text/css', 
-				href: url, 
-				rel: 'stylesheet',
-				media: 'screen'
-			}).appendTo(head)
-		} else {
-			this.warn('load: unknown suffix', suffix)
-		}
-	},
-
-	baseURL: function() {
-		if(this._baseURL == null) {
-			var url = null
-			var script = $("head").children("script:last")
-			var src = script.attr('src')
-			this._baseURL = src.substring(0, src.lastIndexOf('/')+1)
-		}
-		return this._baseURL
+		return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
 	},
 	
-	templateURL: function() {
-		if(this._templateURL == null) {
-			var url = null
-			$("head").children("link").each(function(i) {
-				if($(this).attr('rel') == 'stylesheet' && url == null) {
-					var href = $(this).attr('href')
-					url = href.substring(0, href.lastIndexOf('/')+1)
-					return
-				}
-			})
-			this._templateURL = url
-		}
-		return this._templateURL
-	}
+	// converts a hex string to number
+	hexToNum: function(hex) {
+		eval("var n=0X" + s_hex);
+		return n;
+	},
 }
 
 // define subpackages
