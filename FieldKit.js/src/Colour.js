@@ -41,10 +41,17 @@ fk.Colour = fk.Class.extend({
 			var arg = arguments[0]
 			
 			if(typeof(arg) == 'string') {
-				var parts = arg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
-				this.red( parts[1] );
-				this.green( parts[2] );
-				this.blue( parts[3] );
+				// arg is a 6 character hex string
+				if (arg.length == 6) {
+					this.fromHex(arg);
+				}
+				// arg is in rgb(r,g,b) form
+				else {
+					var parts = arg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
+					this.red(parts[1]);
+					this.green(parts[2]);
+					this.blue(parts[3]);
+				}
 				
 			} else if(typeof(arg) == 'object') {
 				this.red(arg.r);
@@ -239,6 +246,20 @@ fk.Colour = fk.Class.extend({
 		this.green(Math.random());
 		this.blue(Math.random());
 		return this;
+	},
+	
+	slerp: function(target, delta) {
+		this.r = this.r * (1 - delta) + target.r * delta;
+		this.g = this.g * (1 - delta) + target.g * delta;
+		this.b = this.b * (1 - delta) + target.b * delta;
+		return this;
+	},
+	
+	interpolate: function(target, delta) {
+		this.r += (target.r - this.r) * delta;
+		this.g += (target.g - this.g) * delta;
+		this.b += (target.b - this.b) * delta;
+		return this;  
 	},
 	
 	clone: function() {

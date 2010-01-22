@@ -47,7 +47,7 @@ fk.particle.Emitter = fk.Class.extend({
 	},
 
 	emit: function() {
-		var p = new fk.particle.Particle(this.flock);
+		var p = this.createParticle();
 		p.position.setV(this.position);
 
 		// apply behaviours
@@ -57,6 +57,11 @@ fk.particle.Emitter = fk.Class.extend({
 		// add particle to flock			
 		this.flock.particles.push(p);
 	},
+	
+	createParticle: function() {
+		return new fk.particle.Particle(this.flock);
+	},
 
-	add: function(behaviour) { this.behaviours.push(behaviour) }
+	add: function(behaviour) { this.behaviours.push(behaviour) },
+	
 });
