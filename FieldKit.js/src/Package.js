@@ -126,6 +126,7 @@ fk = {
 
 // define subpackages
 fk.particle = {}
+fk.particle3d = {}
 
 // initialize the kit
 fk.init()

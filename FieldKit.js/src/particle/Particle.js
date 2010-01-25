@@ -9,6 +9,10 @@
  * Created: June 20, 2009
  */
 
+
+/**
+ * 2D Particle
+ */
 fk.particle.Particle = fk.Class.extend({
 	
 	init: function(flock) {
@@ -56,7 +60,6 @@ fk.particle.Particle = fk.Class.extend({
 	updateSimulation: function(dt) {
 		this.absVelocity.setV(this.velocity).mulS(dt / this.flock.ps.updateTicks);
 		this.position.addV(this.absVelocity);
-		// this.position.addV(this.velocity)
 		this.velocity.mulS(this.flock.ps.friction);
 		this.rotation = fk.math.slerpAngle(this.rotation, this.theta, this.turningSpeed);
 	},

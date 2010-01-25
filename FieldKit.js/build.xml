@@ -30,6 +30,8 @@
 			<filelist dir="src/math" files="Math.js Vec2.js Vec3.js Mat4.js Noise.js"/>						
 			
 			<filelist dir="src/particle" files="System.js Flock.js Emitter.js Particle.js Behaviour.js"/>
+			
+			<filelist dir="src/particle/3d" files="Flock.js Emitter.js Particle.js Behaviour.js"/>
 		</concat>
 	</target>
 

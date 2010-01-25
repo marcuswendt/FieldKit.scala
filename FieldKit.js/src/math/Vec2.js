@@ -15,6 +15,18 @@
 fk.math.Vec2 = fk.Class.extend({
 	x: 0, y: 0,
 
+	init: function() {
+		switch(arguments.length) {
+			case 1:
+				this.setS(arguments[0]);
+				break;
+			
+			case 2:
+				this.set(arguments[0], arguments[1]);
+				break;
+		};
+	},
+	
 	// -- Setters --------------------------------------------------------------
 	set: function(x, y) {
 		this.x = x;

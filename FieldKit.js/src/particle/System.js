@@ -20,7 +20,8 @@ fk.particle.System = fk.Class.extend({
 		this.friction = 0.97;
 		this.width = 640;
 		this.height = 480;
-
+		this.depth = 480;
+		
 		this.timerSim = new Date();
 		this.timerLogic = new Date();
 	},

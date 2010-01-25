@@ -17,6 +17,9 @@ fk.math = {
 	HALF_PI: Math.PI * 0.5,
 	TWO_PI: Math.PI * 2,
 	
+	DEG_TO_RAD: Math.PI / 180,
+	RAD_TO_DEG: 180 / Math.PI,
+	 
 	// -- Classes ----------------------------------------------------------------
 	Rect: function() {
 		this.x1 = 0
@@ -53,7 +56,11 @@ fk.math = {
 	
 	randomInt: function(min, max) { 
 		return parseInt(Math.random() * (max - min) + min)
-	}, 
+	},
+	
+	randomNormal: function() {
+		return Math.random() > 0.5 ? 1 : -1;
+	},
 
 	slerp: function(cur, to, delta) {
 		return cur * (1 - delta) + to * delta

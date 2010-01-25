@@ -10,19 +10,15 @@
  */
 
 // =============================================================================
-// PARTICLE BEHAVIOURS
+// 3D PARTICLE BEHAVIOURS
 // =============================================================================
-fk.particle.Behaviour = fk.Class.extend({
-	prepare: function(dt) {},
-	apply: function(particle, dt) {}
-});
 
 // -- Emitter Behaviours -------------------------------------------------------
 
 /**
  * 2D random area emitter
  */
-fk.particle.RandomEmit = fk.particle.Behaviour.extend({
+fk.particle3d.RandomEmit = fk.particle.Behaviour.extend({
 	
 	// reference to the particle system
 	ps: null,
@@ -33,11 +29,11 @@ fk.particle.RandomEmit = fk.particle.Behaviour.extend({
 	init: function(ps) {
 		this.ps = ps;
 		
-		this.min = new fk.math.Vec2(0,0);
-		this.max = new fk.math.Vec2(1,1);
+		this.min = new fk.math.Vec3(0,0,0);
+		this.max = new fk.math.Vec3(1,1,1);
 		
-		this.minAbs = new fk.math.Vec2();
-		this.rangeAbs = new fk.math.Vec2();
+		this.minAbs = new fk.math.Vec3();
+		this.rangeAbs = new fk.math.Vec3();
 	},
 	
 	prepare: function(dt) {
@@ -51,12 +47,17 @@ fk.particle.RandomEmit = fk.particle.Behaviour.extend({
 	},
 });
 
+
 // -- Steering Behaviours ------------------------------------------------------
-fk.particle.Gravity = fk.particle.Behaviour.extend({
+
+/**
+ * Simple 3D Gravity
+ */
+fk.particle3d.Gravity = fk.particle.Behaviour.extend({
 	force: null,
 	
 	init: function() {
-		this.force = new fk.math.Vec2(0,0.01);
+		this.force = new fk.math.Vec3(0,0.01,0);
 	},
 	
 	apply: function(p, dt) {
@@ -64,36 +65,31 @@ fk.particle.Gravity = fk.particle.Behaviour.extend({
 	},
 });
 
-fk.particle.RandomSteer = fk.particle.Behaviour.extend({
-	apply: function(p, dt) {
-		p.steer.x += (Math.random() * 2.0 - 1.0) * 0.2;
-		p.steer.y += (Math.random() * 2.0 - 1.0) * 0.2;
-	}
-});
-
-// -- Simulation Space Behaviours ----------------------------------------------
-
 /**
- * 2D Space Wrap
+ * 3D Space Wrap
  */
-fk.particle.Wrap = fk.particle.Behaviour.extend({
-	min: new fk.math.Vec2(),
-	max: new fk.math.Vec2(),
+fk.particle3d.Wrap = fk.particle.Behaviour.extend({
+	min: new fk.math.Vec3(),
+	max: new fk.math.Vec3(),
 	
 	init: function(ps) {
 		this.ps = ps;
 	},
 	
 	prepare: function(dt) {
-		this.min.set(0,0);
-		this.max.set(this.ps.width, this.ps.height);
+		this.min.set(0,0,0);
+		this.max.set(this.ps.width, this.ps.height, this.ps.depth);
 	},
 	
 	apply: function(p, dt) {
 		var pos = p.position;
 		if(pos.x < this.min.x) pos.x = this.max.x;
-		if(pos.y < this.min.y) pos.y = this.max.y;
 		if(pos.x > this.max.x) pos.x = this.min.x;
+		
+		if(pos.y < this.min.y) pos.y = this.max.y;
 		if(pos.y > this.max.y) pos.y = this.min.y;
+		
+		if(pos.z < this.min.z) pos.z = this.max.z;
+		if(pos.z > this.max.z) pos.z = this.min.z;
 	}
 });

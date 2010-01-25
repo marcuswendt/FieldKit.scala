@@ -15,6 +15,18 @@
 fk.math.Vec3 = fk.Class.extend({
 	x: 0, y: 0, z: 0,
 	
+	init: function() {
+		switch(arguments.length) {
+			case 1:
+				this.setS(arguments[0]);
+				break;
+			
+			case 3:
+				this.set(arguments[0], arguments[1], arguments[2]);
+				break;
+		};
+	},
+	
 	// -- Setters --------------------------------------------------------------
 	set: function(x, y, z) {
 		this.x = x;

@@ -9,6 +9,9 @@
  * Created: January 15, 2010
  */
 
+/**
+ * 2D Emitter
+ */
 fk.particle.Emitter = fk.Class.extend({
 
 	init: function(flock) {
@@ -63,5 +66,4 @@ fk.particle.Emitter = fk.Class.extend({
 	},
 
 	add: function(behaviour) { this.behaviours.push(behaviour) },
-	
 });

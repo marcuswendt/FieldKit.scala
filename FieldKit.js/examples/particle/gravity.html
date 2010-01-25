@@ -49,7 +49,7 @@
 		
 		flock.emitter.interval = 10
 		
-		flock.emitter.add(new fk.particle.RandomEmit())
+		flock.emitter.add(new fk.particle.RandomEmit(ps))
 
 		// flock.emitter.add(new fk.particle.Behaviour.extend({
 		// 	prepare: function() {},
@@ -60,7 +60,7 @@
 		
 		flock.add(new fk.particle.Gravity())
 		
-		flock.add(new fk.particle.Wrap(ps))
+		flock.add(new fk.particle.Wrap2D(ps))
 		
 		// draw methods
 		function draw() {
