@@ -41,7 +41,7 @@ class Recorder(val sketch:Sketch) extends Logger {
   import javax.media.opengl.GLException
   import com.sun.opengl.util.TGAWriter
   
-  import field.kit.util.Compressor
+  import field.kit.gl.util.Compressor
   import field.kit.math.Dim2
   
   // -- Configuration ----------------------------------------------------------

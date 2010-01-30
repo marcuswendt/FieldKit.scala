@@ -137,6 +137,7 @@ fk.math.Vec3 = fk.Class.extend({
 	},
 
 	// -- Helpers --------------------------------------------------------------
+	/** Resets this vectors components all to zero */
 	zero: function() { 
 		this.x = 0; this.y = 0; this.z = 0;
 		return this;
@@ -162,6 +163,25 @@ fk.math.Vec3 = fk.Class.extend({
 		return this;
 	},
 	
+	/** Calculates the dot product of this vector a provided vector. */
+	dot: function(v) {
+		return this.x * v.x + this.y * v.y + this.z * v.z;
+	},
+	
+	/** Calculates the cross product of this vector with a parameter vector v. */
+	cross: function(v, result) {
+    	var rx = (this.y * v.z) - (this.z * v.y);
+    	var ry = (this.z * v.x) - (this.x * v.z);
+    	var rz = (this.x * v.y) - (this.y * v.x);
+		
+		var r = (result==undefined) ? new fk.math.Vec3() : result;
+		//r.set(rx,ry,rz);
+		r.x = rx;
+		r.y = ry;
+		r.z = rz;
+    	return r;
+	},
+	
 	// -- Distance Calculations ------------------------------------------------
 	distance: function(x,y,z) {
 		return Math.sqrt(this.distanceSquared(x,y,z));
@@ -182,3 +202,9 @@ fk.math.Vec3 = fk.Class.extend({
 		return "Vec3("+ this.x +","+ this.y +","+ this.z +")";
 	},
 });
+
+// unit vectors 
+fk.math.Vec3.UNIT_X = new fk.math.Vec3(1,0,0);
+fk.math.Vec3.UNIT_Y = new fk.math.Vec3(0,1,0);
+fk.math.Vec3.UNIT_Z = new fk.math.Vec3(0,0,1);
+

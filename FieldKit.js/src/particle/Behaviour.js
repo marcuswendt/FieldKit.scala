@@ -19,8 +19,16 @@ fk.particle.Behaviour = fk.Class.extend({
 
 // -- Emitter Behaviours -------------------------------------------------------
 
+fk.particle.Initialiser = fk.particle.Behaviour.extend({
+	
+	apply: function(p, dt){
+	
+	}
+});
+	
+	
 /**
- * 2D random area emitter
+ * Sets the particles position to a random point within the area defined by min, max
  */
 fk.particle.RandomEmit = fk.particle.Behaviour.extend({
 	
@@ -51,7 +59,9 @@ fk.particle.RandomEmit = fk.particle.Behaviour.extend({
 	},
 });
 
+
 // -- Steering Behaviours ------------------------------------------------------
+
 fk.particle.Gravity = fk.particle.Behaviour.extend({
 	force: null,
 	
@@ -71,13 +81,16 @@ fk.particle.RandomSteer = fk.particle.Behaviour.extend({
 	}
 });
 
+
 // -- Simulation Space Behaviours ----------------------------------------------
 
 /**
- * 2D Space Wrap
+ * Makes sure the particle never leaves the area defined by min, max
  */
 fk.particle.Wrap = fk.particle.Behaviour.extend({
+	
 	min: new fk.math.Vec2(),
+	
 	max: new fk.math.Vec2(),
 	
 	init: function(ps) {

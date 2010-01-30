@@ -24,10 +24,8 @@ package object kit extends field.kit.math.Package {
 	val Colour = field.kit.colour.Colour
 	
 	// -- Processing -----------------------------------------------------------
-	type Sketch = field.kit.p5.Sketch
-	val Sketch = field.kit.p5.Sketch
-	
-	val OPENGL = processing.core.PConstants.OPENGL
+	//type Sketch = field.kit.p5.Sketch
+	//val Sketch = field.kit.p5.Sketch
 	
 	// -- Math -----------------------------------------------------------------
 	type Vec = field.kit.math.Vec

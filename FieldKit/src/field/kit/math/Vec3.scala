@@ -205,10 +205,12 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
    * @return the cross product vector
    */
   final def cross(v:Vec3, result:Vec3) = {
+    val rx = (y * v.z) - (z * v.y)
+    val ry = (z * v.x) - (x * v.z)
+    val rz = (x * v.y) - (y * v.x)
+
     val r = if(result==null) Vec3() else result
-    r.x = (y * v.z) - (z * v.y)
-    r.y = (z * v.x) - (x * v.z)
-    r.z = (x * v.y) - (y * v.x)
+	r.set(rx,ry,rz)
     r
   }
   

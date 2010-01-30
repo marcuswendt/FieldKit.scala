@@ -16,7 +16,7 @@
 // -- Emitter Behaviours -------------------------------------------------------
 
 /**
- * 2D random area emitter
+ * 3D random area emitter
  */
 fk.particle3d.RandomEmit = fk.particle.Behaviour.extend({
 	

@@ -7,7 +7,7 @@
 /* created Jan 11, 2010 */
 package field.kit.test
 
-import field.kit.Sketch
+import field.kit.p5.Sketch
 
 /**
  * Simplest possible Sketch
@@ -21,7 +21,8 @@ object SketchTest extends Sketch {
 	}
 	
 	override def draw {
-		background(0)
+		//background(128)
+		background(200)
 		
 		fill(255)
 		rect(mouseX, mouseY, 25, 25)

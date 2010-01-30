@@ -18,6 +18,7 @@ fk.particle.System = fk.Class.extend({
 		
 		this.flocks = new Array();
 		this.friction = 0.97;
+		
 		this.width = 640;
 		this.height = 480;
 		this.depth = 480;

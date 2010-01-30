@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     reuseable build script for the various sub-libraries                                             
+     ====================================================================== -->
+<project name="build" default="dist">
+
+	<!-- == CONFIGURATION ================================================== -->
+	<property name="base.dir" location="../../" />
+
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="project.version" value="01" />
+	<property name="project.src" value="${base.dir}/src.core" />
+
+	<fileset id="project.libraries.jar" dir="" includes="*.none" />
+
+	<property name="project.credits" value="Marcus Wendt (www.field.io)" />
+	<property name="javac.target" value="1.5" />
+	<property name="scalac.target" value="jvm-1.5" />
+
+	<!-- == PATHS & FILES ================================================== -->
+	<property name="build.dir" location="${base.dir}/build" />
+
+	<property name="tmp.dir" value="${build.dir}/tmp" />
+
+	<property name="dist.name" value="${project.name}-${project.version}" />
+	<property name="dist.dir" value="${build.dir}/${project.name}" />
+
+	<property name="project.jar" value="${project.name}.jar" />
+	<property name="project.examples" location="${base.dir}/examples/${project.name}" />
+
+
+	<!-- == OS SPECIFIC ==================================================== -->
+	<condition property="isMac">
+		<os family="mac" />
+	</condition>
+
+	<condition property="isWindows">
+		<os family="windows" />
+	</condition>
+
+	<condition property="isLinux">
+		<os family="unix" />
+	</condition>
+
+	<target name="initMac" if="isMac">
+		<!-- this assumes you installed scala using macports -->
+		<property name="scala.home" location="/opt/local/share/scala-2.8" />
+		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
+		<property name="scala-compiler.jar" location="${scala.home}/lib/scala-compiler.jar" />
+	</target>
+
+	<target name="initWindows" if="isWindows">
+		<!-- TODO need to set paths for windows -->
+		<property name="scala.home" location="/opt/local/share/scala" />
+		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
+		<property name="scala-compiler.jar" location="${scala.home}/scala-compiler.jar" />
+	</target>
+
+	<target name="initLinux" if="isLinux">
+		<!-- TODO need to set paths for linux -->
+		<property name="scala.home" location="/usr/share/java" />
+		<property name="scala-library.jar" location="${scala.home}/scala-library.jar" />
+		<property name="scala-compiler.jar" location="${scala.home}/scala-compiler.jar" />
+	</target>
+
+	<!-- == INIT =========================================================== -->
+	<target name="init" depends="initMac, initWindows, initLinux">
+		<echo>building ${dist.name}</echo>
+		<echo>using: ${scala.home}, ${scala-compiler.jar}, ${scala-library.jar}</echo>
+
+		<!-- paths -->
+		<path id="scala.classpath">
+			<pathelement location="${scala-library.jar}" />
+			<pathelement location="${build.dir}" />
+		</path>
+
+		<taskdef resource="scala/tools/ant/antlib.xml">
+			<classpath>
+				<pathelement location="${scala-compiler.jar}" />
+				<pathelement location="${scala-library.jar}" />
+			</classpath>
+		</taskdef>
+
+		<path id="cp">
+			<pathelement location="${scala-library.jar}" />
+			<fileset refid="project.libraries.jar" />
+		</path>
+
+		<!-- directories -->
+		<delete dir="${tmp.dir}" />
+
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${tmp.dir}" />
+	</target>
+
+	<!-- == COMPILE ======================================================== -->
+	<target name="compile" depends="init">
+		<!-- compile scala sources -->
+		<scalac target="${scalac.target}" srcdir="${project.src}" destdir="${tmp.dir}">
+			<classpath refid="cp" />
+		</scalac>
+
+		<!-- compile java sources -->
+		<javac target="${javac.target}" srcdir="${project.src}" destdir="${tmp.dir}">
+			<classpath>
+				<fileset refid="project.libraries.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- == JAR ============================================================ -->
+	<target name="jar" depends="compile">
+		<!-- <property name="jar.file" value="overrideMe.jar" /> -->
+
+		<tstamp>
+			<format property="now" pattern="yyyy_MM_dd-HH_mm" />
+		</tstamp>
+
+		<jar destfile="${jar.file}" index="true" filesetmanifest="skip">
+			<manifest>
+				<attribute name="Built-By" value="${project.credits}" />
+				<attribute name="Build-Date" value="${now}" />
+			</manifest>
+
+			<fileset dir="${tmp.dir}" />
+		</jar>
+	</target>
+
+	<!-- == DIST =========================================================== -->
+	<target name="dist" depends="init">
+		<!-- make directories -->
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+
+		<!-- run subtargets -->
+		<antcall target="library" />
+		<antcall target="examples" />
+		<antcall target="reference" />
+		<antcall target="source" />
+
+		<!-- add readme & license -->
+		<copy todir="${dist.dir}">
+			<fileset file="${base.dir}/LICENSE.txt" />
+		</copy>
+
+		<copy tofile="${dist.dir}/README.txt">
+			<fileset file="${base.dir}/res/readme/${project.name}.txt" />
+		</copy>
+	</target>
+
+	<!-- ** library ******************************************************** -->
+	<target name="library">
+		<property name="library.dir" location="${dist.dir}/library" />
+		<mkdir dir="${library.dir}" />
+
+		<property name="jar.file" value="${library.dir}/${project.jar}" />
+		<antcall target="jar" />
+	</target>
+
+	<!-- ** examples ******************************************************* -->
+	<target name="examples">
+		<property name="examples.dir" location="${dist.dir}/examples" />
+		<mkdir dir="${examples.dir}" />
+
+		<copy todir="${examples.dir}">
+			<fileset dir="${project.examples}" />
+		</copy>
+	</target>
+
+	<!-- ** reference ****************************************************** -->
+	<target name="reference">
+		<property name="reference.dir" location="${dist.dir}/reference" />
+		<mkdir dir="${reference.dir}" />
+
+		<property name="title" value="${dist.name} API Specification" />
+
+		<!-- 
+		Scaladoc is still a bit in a flux right now (pre 2.8) 
+		so ignore the warnings it creates. 
+		-->
+
+		<!--
+		<scaladoc srcdir="${project.src}" destdir="${reference.dir}" windowtitle="${title}" doctitle="${title}">
+			<classpath refid="cp" />
+		</scaladoc>
+		-->
+
+		<scaladoc srcdir="${project.src}" destdir="${reference.dir}" doctitle="${title}">
+			<classpath refid="cp" />
+		</scaladoc>
+	</target>
+
+	<!-- ** source ********************************************************* -->
+	<target name="source">
+		<property name="source.dir" location="${dist.dir}/source" />
+		<mkdir dir="${source.dir}" />
+
+		<copy todir="${source.dir}">
+			<fileset dir="${project.src}" />
+		</copy>
+	</target>
+</project>

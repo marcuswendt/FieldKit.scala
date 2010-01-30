@@ -5,8 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created May 19, 2009 */
-package field.kit.util
+package field.kit.gl.util
 
+import field.kit._
 import scala.actors.Actor
 
 /**
