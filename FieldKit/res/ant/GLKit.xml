@@ -7,6 +7,7 @@
 		<ant dir="./">
 			<property name="project.name" value="${ant.project.name}" />
 			<property name="project.version" value="01" />
+			<property name="project.src" value="../../src.gl" />
 		</ant>
 	</target>
 </project>

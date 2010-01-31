@@ -18,7 +18,7 @@ fk.math.Vec3 = fk.Class.extend({
 	init: function() {
 		switch(arguments.length) {
 			case 1:
-				this.setS(arguments[0]);
+				this.setV(arguments[0]);
 				break;
 			
 			case 3:
@@ -175,11 +175,8 @@ fk.math.Vec3 = fk.Class.extend({
     	var rz = (this.x * v.y) - (this.y * v.x);
 		
 		var r = (result==undefined) ? new fk.math.Vec3() : result;
-		//r.set(rx,ry,rz);
-		r.x = rx;
-		r.y = ry;
-		r.z = rz;
-    	return r;
+		r.set(rx, ry, rz);
+		return r;
 	},
 	
 	// -- Distance Calculations ------------------------------------------------
@@ -198,12 +195,17 @@ fk.math.Vec3 = fk.Class.extend({
 		return dx * dx + dy * dy + dz * dz;
 	},
 
+	equals: function(x,y,z) {
+		this.x == x && this.y == y && this.z == z;
+	},
+	
 	toString: function() {
 		return "Vec3("+ this.x +","+ this.y +","+ this.z +")";
 	},
 });
 
-// unit vectors 
+// unit vectors
+fk.math.Vec3.ZERO = new fk.math.Vec3(0,0,0); 
 fk.math.Vec3.UNIT_X = new fk.math.Vec3(1,0,0);
 fk.math.Vec3.UNIT_Y = new fk.math.Vec3(0,1,0);
 fk.math.Vec3.UNIT_Z = new fk.math.Vec3(0,0,1);
