@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ======================================================================
-FieldKit
-compiles the project as jar with sources
-====================================================================== -->
-<project name="FieldKit" default="dist">
-    <target name="libraries">
-        
-    </target>
+<!-- =======================================================================
+	 FieldKit
+	 compiles the project as jar with sources
+	 
+	 ANT_OPTS="-Xmx1G" ant p5libs
+	 ======================================================================= -->
+<project name="FieldKit">
+	
+	<property name="build.dir" location="build" />
+	
+	<!-- == TARGETS ======================================================== -->
+	<target name="p5libs" description="compiles the various sub-libraries into seperate processing libraries">
+		<property name="ant.dir" value="res/ant" />
+		
+		<ant antfile="BaseKit.xml" dir="${ant.dir}"/>
+		<ant antfile="GLKit.xml" dir="${ant.dir}"/>
+		<ant antfile="ParticleKit.xml" dir="${ant.dir}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+		
+	<target name="dist">
+	
+	</target>
 </project>

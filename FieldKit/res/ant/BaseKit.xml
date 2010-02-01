@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =======================================================================
-	build script for the FieldKit base library
-	ANT_OPTS="-Xmx1G" ant -f FieldKit.xml
+	build script for the BaseKit library
+	ANT_OPTS="-Xmx1G" ant -f BaseKit.xml
 	======================================================================== -->
-<project name="FieldKit" default="dist">
+<project name="BaseKit" default="dist">
 	<property name="base.dir" location="../.." />
 
 	<property name="version" value="01" />

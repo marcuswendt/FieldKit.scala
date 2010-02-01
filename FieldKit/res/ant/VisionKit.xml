@@ -10,7 +10,7 @@
 
 	<!-- build library -->
 	<path id="project.jars">
-		<pathelement location="${base.dir}/build/FieldKit/library/FieldKit.jar" />
+		<pathelement location="${base.dir}/build/BaseKit/library/BaseKit.jar" />
 		<pathelement location="${base.dir}/lib/vision/jna.jar" />
 	</path>
 
@@ -26,7 +26,7 @@
 
 	<target name="build">
 		<!-- build dependencies -->
-		<ant dir="./" antfile="FieldKit.xml" target="build" />
+		<ant dir="./" antfile="BaseKit.xml" target="build" />
 
 		<ant dir="./" target="build" inheritall="false">
 			<property name="project.name" value="${ant.project.name}" />

@@ -1,6 +1,6 @@
 
 
-	FieldKit
+	BaseKit
 	http://code.google.com/p/fieldkit
 	
 	see also: License.txt 
