@@ -9,7 +9,6 @@
 	<property name="version" value="01" />
 	<property name="src" value="${base.dir}/src.gl" />
 
-	<!-- build library -->
 	<path id="project.jars">
 		<pathelement location="${base.dir}/build/BaseKit/library/BaseKit.jar" />
 		<pathelement location="${base.dir}/lib/jogl/gluegen-rt.jar" />

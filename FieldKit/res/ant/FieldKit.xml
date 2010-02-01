@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ======================================================================
-	 reuseable build script for the various sub-libraries
-	 ====================================================================== -->
-<project name="build" default="dist">
+<!-- =======================================================================
+	build script for the FieldKit library distribution
+	ANT_OPTS="-Xmx1G" ant -f FieldKit.xml
+	======================================================================== -->
+<project name="FieldKit" default="dist">
 
 	<!-- == CONFIGURATION ================================================== -->
 	<property name="base.dir" location="../../" />
 
 	<property name="project.name" value="${ant.project.name}" />
 	<property name="project.version" value="01" />
-	<property name="project.src" value="${base.dir}/src.core" />
+
+	<fileset id="project.src" dir="${base.dir}">
+		<include name="src/**" />
+		<include name="src.p5/**" />
+		<include name="src.particle/**" />
+		<include name="src.gl/**" />
+		<include name="src.simulation/**" />
+		<include name="src.vision/**" />
+	</fileset>
 
 	<!-- library references -->
-	<property name="project.classpath" value="" />
+	<path id="project.classpath">
+		<fileset dir="${base.dir}/lib/" includes="**/*.jar" />
+	</path>
 
 	<property name="project.credits" value="Marcus Wendt (www.field.io)" />
 	<property name="javac.target" value="1.5" />
@@ -91,14 +102,10 @@
 		</taskdef>
 
 		<!-- paths -->
-		<path id="scala.classpath">
-			<pathelement location="${scala-library.jar}" />
-		</path>
-
 		<path id="classpath">
 			<pathelement location="${scala-library.jar}" />
 			<pathelement location="${build.dir}" />
-			<pathelement path="${project.classpath}" />
+			<path refid="project.classpath" />
 		</path>
 
 		<!-- directories -->
@@ -116,15 +123,27 @@
 
 	<!-- == COMPILE ======================================================== -->
 	<target name="compile" depends="init">
+
+		<!-- copy sources into one folder -->
+		<property name="src.tmp" value="${tmp.dir}/src" />
+		<mkdir dir="${src.tmp}" />
+
+		<copy todir="${src.tmp}">
+			<fileset refid="project.src" />
+		</copy>
+
 		<!-- compile scala sources -->
-		<scalac target="${scalac.target}" srcdir="${project.src}" destdir="${tmp.dir}">
+		<scalac target="${scalac.target}" srcdir="${src.tmp}" destdir="${tmp.dir}">
 			<classpath refid="classpath" />
+			<sourcepath refid="sourcepath" />
 		</scalac>
 
 		<!-- compile java sources -->
-		<javac target="${javac.target}" srcdir="${project.src}" destdir="${tmp.dir}">
+		<javac target="${javac.target}" srcdir="${src.tmp}" destdir="${tmp.dir}">
 			<classpath refid="classpath" />
 		</javac>
+		
+		<delete dir="${src.tmp}" />
 	</target>
 
 	<!-- == JAR ============================================================ -->
@@ -141,7 +160,7 @@
 				<attribute name="Build-Date" value="${now}" />
 			</manifest>
 
-			<fileset dir="${tmp.dir}" />
+			<fileset dir="${tmp.dir}" includes="**/*.class" />
 		</jar>
 	</target>
 
@@ -152,7 +171,6 @@
 
 	<target name="dist" depends="check-dist, init" unless="zip.file.present" description="adds examples, source and references to a library">
 		<!-- run subtargets -->
-		<antcall target="examples" />
 		<antcall target="reference" />
 		<antcall target="source" />
 
@@ -198,16 +216,6 @@
 		<antcall target="jar" />
 	</target>
 
-	<!-- ** examples ******************************************************* -->
-	<target name="examples">
-		<property name="examples.dir" location="${dist.dir}/examples" />
-		<mkdir dir="${examples.dir}" />
-
-		<copy todir="${examples.dir}">
-			<fileset dir="${project.examples}" />
-		</copy>
-	</target>
-
 	<!-- ** reference ****************************************************** -->
 	<target name="reference" depends="init">
 		<property name="reference.dir" location="${dist.dir}/reference" />
@@ -216,17 +224,28 @@
 		<property name="title" value="${dist.name} API Specification" />
 
 		<!--
-        Scaladoc is still a bit in a flux right now (pre 2.8)
-        so ignore the warnings it creates.
-        -->
+	        Scaladoc is still a bit in a flux right now (pre 2.8)
+	        so ignore the warnings it creates.
+	        -->
 
 		<!--
-        <scaladoc srcdir="${project.src}" destdir="${reference.dir}" windowtitle="${title}" doctitle="${title}">
-        <classpath refid="classpath" />
-        </scaladoc>
-        -->
+	        <scaladoc srcdir="${project.src}" destdir="${reference.dir}" windowtitle="${title}" doctitle="${title}">
+	        <classpath refid="classpath" />
+	        </scaladoc>
+	        -->
 
-		<scaladoc srcdir="${project.src}" destdir="${reference.dir}" doctitle="${title}">
+		<path id="sourcepath">
+			<fileset refid="project.src" />
+		</path>
+
+		<property name="src.tmp" value="${tmp.dir}/src" />
+		<mkdir dir="${src.tmp}" />
+
+		<copy todir="${src.tmp}">
+			<fileset refid="project.src" />
+		</copy>
+
+		<scaladoc srcdir="${src.tmp}" destdir="${reference.dir}" doctitle="${title}">
 			<classpath refid="classpath" />
 		</scaladoc>
 	</target>
@@ -236,8 +255,9 @@
 		<property name="source.dir" location="${dist.dir}/source" />
 		<mkdir dir="${source.dir}" />
 
+		<!-- TODO could merge this into one source folder -->
 		<copy todir="${source.dir}">
-			<fileset dir="${project.src}" />
+			<fileset refid="project.src" />
 		</copy>
 	</target>
 </project>

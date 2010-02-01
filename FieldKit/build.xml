@@ -4,25 +4,29 @@
 	 compiles the project as jar with sources
 	 
 	 ANT_OPTS="-Xmx1G" ant p5libs
+	 ANT_OPTS="-Xmx1G" ant dist
 	 ======================================================================= -->
 <project name="FieldKit">
-	
+
 	<property name="build.dir" location="build" />
-	
+	<property name="ant.dir" value="res/ant" />
+
 	<!-- == TARGETS ======================================================== -->
 	<target name="p5libs" description="compiles the various sub-libraries into seperate processing libraries">
-		<property name="ant.dir" value="res/ant" />
-		
-		<ant antfile="BaseKit.xml" dir="${ant.dir}"/>
-		<ant antfile="GLKit.xml" dir="${ant.dir}"/>
-		<ant antfile="ParticleKit.xml" dir="${ant.dir}"/>
+		<ant antfile="BaseKit.xml" dir="${ant.dir}" />
+		<ant antfile="GLKit.xml" dir="${ant.dir}" />
+		<ant antfile="ParticleKit.xml" dir="${ant.dir}" />
 	</target>
 
 	<target name="clean">
 		<delete dir="${build.dir}" />
 	</target>
-		
-	<target name="dist">
+
+	<target name="build">
+		<ant dir="${ant.dir}" antfile="FieldKit.xml" target="build" />
+	</target>
 	
+	<target name="dist" depends="build">
+		<ant dir="${ant.dir}" antfile="FieldKit.xml" target="dist" />
 	</target>
 </project>

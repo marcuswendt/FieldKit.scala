@@ -13,7 +13,7 @@
 	<target name="clean">
 		<ant dir="./" target="clean">
 			<property name="project.name" value="${ant.project.name}" />
-			<property name="project.version" value="${src}" />
+			<property name="project.version" value="${version}" />
 		</ant>
 	</target>
 
