@@ -1,0 +1,9 @@
+
+
+	GLKit
+	http://code.google.com/p/fieldkit
+	
+	requires FieldKit library to be present
+	
+	see also: License.txt 
+	

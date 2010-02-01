@@ -33,12 +33,15 @@ fk.particle3d.RandomEmit = fk.particle.Behaviour.extend({
 		this.max = new fk.math.Vec3(1,1,1);
 		
 		this.minAbs = new fk.math.Vec3();
+		
+		this.range = new fk.math.Vec3();
 		this.rangeAbs = new fk.math.Vec3();
 	},
 	
 	prepare: function(dt) {
-		this.minAbs.setV(this.min).mul(this.ps.width, this.ps.height, this.ps.depth)
-		this.rangeAbs.setV(this.max).subV(this.min).mul(this.ps.width, this.ps.height, this.ps.depth)
+		this.ps.toAbsolute(this.min, this.minAbs);
+		this.range.setV(this.max).subV(this.min);
+		this.ps.toAbsolute(this.range, this.rangeAbs);
 	},
 	
 	apply: function(p, dt) {
@@ -74,22 +77,29 @@ fk.particle3d.Wrap = fk.particle.Behaviour.extend({
 	
 	init: function(ps) {
 		this.ps = ps;
+		
+		this.minAbs = new fk.math.Vec3();
+		this.maxAbs = new fk.math.Vec3();
 	},
 	
 	prepare: function(dt) {
-		this.min.set(0,0,0);
-		this.max.set(this.ps.width, this.ps.height, this.ps.depth);
+		this.ps.toAbsolute(this.min, this.minAbs);
+		this.ps.toAbsolute(this.max, this.maxAbs);
 	},
 	
 	apply: function(p, dt) {
 		var pos = p.position;
-		if(pos.x < this.min.x) pos.x = this.max.x;
-		if(pos.x > this.max.x) pos.x = this.min.x;
 		
-		if(pos.y < this.min.y) pos.y = this.max.y;
-		if(pos.y > this.max.y) pos.y = this.min.y;
+		var min = this.minAbs;
+		var max = this.maxAbs;
+
+		if(pos.x < min.x) pos.x = max.x;
+		if(pos.x > max.x) pos.x = min.x;
 		
-		if(pos.z < this.min.z) pos.z = this.max.z;
-		if(pos.z > this.max.z) pos.z = this.min.z;
+		if(pos.y < min.y) pos.y = max.y;
+		if(pos.y > max.y) pos.y = min.y;
+		
+		if(pos.z < min.z) pos.z = max.z;
+		if(pos.z > max.z) pos.z = min.z;
 	}
 });

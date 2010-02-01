@@ -5,15 +5,15 @@
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created August 29, 2009 */
-package field.kit.gl.render
+package field.kit.p5
+
+import field.kit._
+import field.kit.gl.render.Camera
 
 /**
  * Implements more intuitive camera manipulation methods
  */
 class AdvancedCamera(width:Int, height:Int) extends Camera(width, height) {
-  import field.kit.math.Vec3
-  import field.kit.math.Common._
-  
   protected var azimuth = 0f
   protected var elevation = 0f
   protected var roll = 0f

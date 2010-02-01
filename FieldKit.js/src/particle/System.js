@@ -49,4 +49,10 @@ fk.particle.System = fk.Class.extend({
 		flock.ps = this;
 		this.flocks.push(flock) ;
 	},
+	
+	// -- HELPERS --------------------------------------------------------------
+	toAbsolute: function(normalized, result) {
+		result.setV(normalized).mul(this.width, this.height, this.depth);
+		return result;
+	}
 });

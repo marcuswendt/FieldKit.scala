@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ====================================================================== 
-     build script for the FieldKit base library
-     ANT_OPTS="-Xmx1G" ant -f FieldKit.xml                                             
-     ====================================================================== -->
+<!-- =======================================================================
+	build script for the FieldKit base library
+	ANT_OPTS="-Xmx1G" ant -f FieldKit.xml
+	======================================================================== -->
 <project name="FieldKit" default="dist">
-	<target name="dist">
-		<ant dir="./" >
+	<property name="base.dir" location="../.." />
+
+	<property name="version" value="01" />
+	<property name="src" value="${base.dir}/src" />
+
+	<!-- == TARGETS ======================================================== -->
+	<target name="clean">
+		<ant dir="./" target="clean">
 			<property name="project.name" value="${ant.project.name}" />
-			<property name="project.version" value="01" />
-			<property name="project.src" value="../../src" />
+			<property name="project.version" value="${src}" />
+		</ant>
+	</target>
+
+	<target name="build">
+		<ant dir="./" target="build">
+			<property name="project.name" value="${ant.project.name}" />
+			<property name="project.src" value="${src}" />
+		</ant>
+	</target>
+
+	<target name="dist" depends="build">
+		<ant dir="./" target="dist">
+			<property name="project.name" value="${ant.project.name}" />
+			<property name="project.version" value="${version}" />
+			<property name="project.src" value="${src}" />
 		</ant>
 	</target>
 </project>

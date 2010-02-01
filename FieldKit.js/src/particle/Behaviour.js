@@ -18,14 +18,14 @@ fk.particle.Behaviour = fk.Class.extend({
 });
 
 // -- Emitter Behaviours -------------------------------------------------------
-
+/*
 fk.particle.Initialiser = fk.particle.Behaviour.extend({
 	
 	apply: function(p, dt){
 	
 	}
 });
-	
+*/
 	
 /**
  * Sets the particles position to a random point within the area defined by min, max

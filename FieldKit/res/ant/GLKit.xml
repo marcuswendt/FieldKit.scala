@@ -1,13 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ====================================================================== 
-     build script for the GLKit library                                             
-     ====================================================================== -->
+<!-- ======================================================================= 
+     build script for the GLKit library
+     ANT_OPTS="-Xmx1G" ant -f GLKit.xml                                             
+     ======================================================================= -->
 <project name="GLKit" default="dist">
-	<target name="dist">
-		<ant dir="./">
+	<property name="base.dir" location="../.." />
+
+	<property name="version" value="01" />
+	<property name="src" value="${base.dir}/src.gl" />
+
+	<!-- build library -->
+	<path id="project.jars">
+		<pathelement location="${base.dir}/build/FieldKit/library/FieldKit.jar" />
+		<pathelement location="${base.dir}/lib/jogl/gluegen-rt.jar" />
+		<pathelement location="${base.dir}/lib/jogl/jogl.jar" />
+	</path>
+
+	<pathconvert property="project.classpath.string" refid="project.jars" />
+
+	<!-- == TARGETS ======================================================== -->
+	<target name="clean">
+		<ant dir="./" target="clean">
 			<property name="project.name" value="${ant.project.name}" />
-			<property name="project.version" value="01" />
-			<property name="project.src" value="../../src.gl" />
+			<property name="project.version" value="${version}" />
+		</ant>
+	</target>
+
+	<target name="build">
+		<!-- build dependencies -->
+		<ant dir="./" antfile="FieldKit.xml" target="build" />
+
+		<ant dir="./" target="build" inheritall="false">
+			<property name="project.name" value="${ant.project.name}" />
+			<property name="project.src" value="${src}" />
+			<property name="project.classpath" value="${project.classpath.string}" />
+		</ant>
+	</target>
+
+	<target name="dist" depends="build">
+		<ant dir="./" target="dist" inheritall="false">
+			<property name="project.name" value="${ant.project.name}" />
+			<property name="project.version" value="${version}" />
+			<property name="project.src" value="${src}" />
+			<property name="project.classpath" value="${project.classpath.string}" />
 		</ant>
 	</target>
 </project>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ====================================================================== 
-     reuseable build script for the various sub-libraries                                             
-     ====================================================================== -->
+<!-- ======================================================================
+reuseable build script for the various sub-libraries
+====================================================================== -->
 <project name="build" default="dist">
 
 	<!-- == CONFIGURATION ================================================== -->
@@ -11,7 +11,8 @@
 	<property name="project.version" value="01" />
 	<property name="project.src" value="${base.dir}/src.core" />
 
-	<fileset id="project.libraries.jar" dir="" includes="*.none" />
+	<!-- library references -->
+	<property name="project.classpath" value="" />
 
 	<property name="project.credits" value="Marcus Wendt (www.field.io)" />
 	<property name="javac.target" value="1.5" />
@@ -28,6 +29,9 @@
 	<property name="project.jar" value="${project.name}.jar" />
 	<property name="project.examples" location="${base.dir}/examples/${project.name}" />
 
+	<property name="library.dir" location="${dist.dir}/library" />
+	<property name="jar.file" value="${library.dir}/${project.jar}" />
+	<property name="zip.file" value="${build.dir}/${dist.name}.zip" />
 
 	<!-- == OS SPECIFIC ==================================================== -->
 	<condition property="isMac">
@@ -63,17 +67,22 @@
 		<property name="scala-compiler.jar" location="${scala.home}/scala-compiler.jar" />
 	</target>
 
+	<!-- == CLEAN ========================================================== -->
+	<target name="clean">
+		<delete dir="${tmp.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete file="${zip.file}" />
+	</target>
+
 	<!-- == INIT =========================================================== -->
-	<target name="init" depends="initMac, initWindows, initLinux">
-		<echo>building ${dist.name}</echo>
-		<echo>using: ${scala.home}, ${scala-compiler.jar}, ${scala-library.jar}</echo>
+	<target name="check-init">
+		<condition property="is.initialised">
+			<isset property="initialised" />
+		</condition>
+	</target>
 
-		<!-- paths -->
-		<path id="scala.classpath">
-			<pathelement location="${scala-library.jar}" />
-			<pathelement location="${build.dir}" />
-		</path>
-
+	<target name="init" depends="check-init, initMac, initWindows, initLinux" unless="is.initialised">
+		<!-- additional tasks -->
 		<taskdef resource="scala/tools/ant/antlib.xml">
 			<classpath>
 				<pathelement location="${scala-compiler.jar}" />
@@ -81,30 +90,40 @@
 			</classpath>
 		</taskdef>
 
-		<path id="cp">
+		<!-- paths -->
+		<path id="scala.classpath">
 			<pathelement location="${scala-library.jar}" />
-			<fileset refid="project.libraries.jar" />
+		</path>
+
+		<path id="classpath">
+			<pathelement location="${scala-library.jar}" />
+			<pathelement location="${build.dir}" />
+			<pathelement path="${project.classpath}" />
 		</path>
 
 		<!-- directories -->
 		<delete dir="${tmp.dir}" />
-
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${tmp.dir}" />
+
+		<!-- info -->
+		<echo>using: ${scala.home}, ${scala-compiler.jar}, ${scala-library.jar}</echo>
+		
+		<pathconvert property="classpath.string" refid="classpath" />
+		<echo>classpath: ${classpath.string}</echo>
+		<property name="initialised" value="true" />
 	</target>
 
 	<!-- == COMPILE ======================================================== -->
 	<target name="compile" depends="init">
 		<!-- compile scala sources -->
 		<scalac target="${scalac.target}" srcdir="${project.src}" destdir="${tmp.dir}">
-			<classpath refid="cp" />
+			<classpath refid="classpath" />
 		</scalac>
 
 		<!-- compile java sources -->
 		<javac target="${javac.target}" srcdir="${project.src}" destdir="${tmp.dir}">
-			<classpath>
-				<fileset refid="project.libraries.jar" />
-			</classpath>
+			<classpath refid="classpath" />
 		</javac>
 	</target>
 
@@ -127,13 +146,12 @@
 	</target>
 
 	<!-- == DIST =========================================================== -->
-	<target name="dist" depends="init">
-		<!-- make directories -->
-		<delete dir="${dist.dir}" />
-		<mkdir dir="${dist.dir}" />
+	<target name="check-dist">
+		<available file="${zip.file}" property="zip.file.present" />
+	</target>
 
+	<target name="dist" depends="check-dist, init" unless="zip.file.present" description="adds examples, source and references to a library">
 		<!-- run subtargets -->
-		<antcall target="library" />
 		<antcall target="examples" />
 		<antcall target="reference" />
 		<antcall target="source" />
@@ -146,14 +164,37 @@
 		<copy tofile="${dist.dir}/README.txt">
 			<fileset file="${base.dir}/res/readme/${project.name}.txt" />
 		</copy>
+
+
+		<!-- zip release -->
+		<delete file="${zip.file}" />
+
+		<zip destfile="${zip.file}">
+			<fileset dir="${dist.dir}" />
+		</zip>
+	</target>
+
+	<!-- ** build ******************************************************** -->
+	<target name="check-jar">
+		<available file="${jar.file}" property="jar.file.present" />
+	</target>
+
+	<target name="build" depends="check-jar, init" unless="jar.file.present" description="builds the acutal library .jar">
+		<echo>-----------------------------------------------------------</echo>
+		<echo>building ${dist.name}</echo>
+		<echo>-----------------------------------------------------------</echo>
+
+		<!-- make directories -->
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+
+		<!-- run subtargets -->
+		<antcall target="library" />
 	</target>
 
 	<!-- ** library ******************************************************** -->
 	<target name="library">
-		<property name="library.dir" location="${dist.dir}/library" />
 		<mkdir dir="${library.dir}" />
-
-		<property name="jar.file" value="${library.dir}/${project.jar}" />
 		<antcall target="jar" />
 	</target>
 
@@ -168,25 +209,25 @@
 	</target>
 
 	<!-- ** reference ****************************************************** -->
-	<target name="reference">
+	<target name="reference" depends="init">
 		<property name="reference.dir" location="${dist.dir}/reference" />
 		<mkdir dir="${reference.dir}" />
 
 		<property name="title" value="${dist.name} API Specification" />
 
-		<!-- 
-		Scaladoc is still a bit in a flux right now (pre 2.8) 
-		so ignore the warnings it creates. 
-		-->
+		<!--
+        Scaladoc is still a bit in a flux right now (pre 2.8)
+        so ignore the warnings it creates.
+        -->
 
 		<!--
-		<scaladoc srcdir="${project.src}" destdir="${reference.dir}" windowtitle="${title}" doctitle="${title}">
-			<classpath refid="cp" />
-		</scaladoc>
-		-->
+        <scaladoc srcdir="${project.src}" destdir="${reference.dir}" windowtitle="${title}" doctitle="${title}">
+        <classpath refid="classpath" />
+        </scaladoc>
+        -->
 
 		<scaladoc srcdir="${project.src}" destdir="${reference.dir}" doctitle="${title}">
-			<classpath refid="cp" />
+			<classpath refid="classpath" />
 		</scaladoc>
 	</target>
 
