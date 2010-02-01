@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ====================================================================== 
-     Apr 29, 2009 10:49:24 AM                                                                                                                        
+     Apr 29, 2009 10:49:24 AM
+     ANT_OPTS="-Xmx1G" ant -f update.xml                                                                                                               
      ====================================================================== -->
 <project name="FieldKit.osgi" default="update">
 	<description>
@@ -9,17 +10,19 @@
 
 	<property name="fieldkit" value="../FieldKit" />
 
-	<target name="update" description="update the libraries">
-		<ant dir="${fieldkit}/" target="dist" />
+	<target name="clean">
+		<ant dir="${fieldkit}/" target="clean" />
+	</target>
 
+	<target name="update" description="update the libraries">
+		<ant dir="${fieldkit}/" target="build" />
 
 		<copy todir=".">
-			<fileset dir="${fieldkit}/build/FieldKit/">
+			<fileset dir="${fieldkit}/build/FieldKit/library">
 				<include name="*.jar" />
-				<exclude name="*scala*" />
 			</fileset>
 		</copy>
 
-        <copy file="${fieldkit}/build/FieldKit/FieldKit.jar" todir="." overwrite="true" />
+		<copy file="${fieldkit}/build/FieldKit/library/FieldKit.jar" todir="." overwrite="true" />
 	</target>
 </project>

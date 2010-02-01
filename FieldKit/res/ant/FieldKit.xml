@@ -21,8 +21,12 @@
 	</fileset>
 
 	<!-- library references -->
+	<fileset id="project.jars" dir="${base.dir}/lib/" includes="**/*.jar" />
+
+	<fileset id="project.natives" dir="${base.dir}/lib/" excludes="**/*.jar" />
+	
 	<path id="project.classpath">
-		<fileset dir="${base.dir}/lib/" includes="**/*.jar" />
+		<fileset refid="project.jars" />
 	</path>
 
 	<property name="project.credits" value="Marcus Wendt (www.field.io)" />
@@ -213,7 +217,13 @@
 	<!-- ** library ******************************************************** -->
 	<target name="library">
 		<mkdir dir="${library.dir}" />
+		
 		<antcall target="jar" />
+		
+		<copy todir="${library.dir}" flatten="true" includeemptydirs="false"> 
+			<fileset refid="project.jars" />
+			<fileset refid="project.natives" />
+		</copy>
 	</target>
 
 	<!-- ** reference ****************************************************** -->
