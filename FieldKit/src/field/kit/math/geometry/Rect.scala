@@ -31,12 +31,20 @@ class Rect(var x1:Float, var y1:Float, var width:Float, var height:Float) {
     r.y1 < y2
   }
   
-  /** @return true when this rectangle is inside the given rectangle **/
+  /** @return true when this rectangle is inside the given rectangle */
   def contains(r:Rect):Boolean = {
     r.x1 >= x1 && 
     r.y1 >= y1 &&
     r.x2 <= x2 && 
     r.y2 <= y2
+  }
+  
+  /** check wether the given point lies within this rectangle */
+  def contains(x:Float, y:Float):Boolean = {
+    x >= x1 && 
+    y >= y1 &&
+    x <= x2 && 
+    y <= y2
   }
   
   def area = width * height
