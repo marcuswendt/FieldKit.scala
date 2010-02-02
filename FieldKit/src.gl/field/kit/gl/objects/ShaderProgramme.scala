@@ -37,7 +37,7 @@ class ShaderProgramme extends GLObject {
 	import scala.collection.mutable.HashMap
 	private var uniforms = new HashMap[String, ShaderUniform]
 
-	def uniform(name:String) = {
+	protected def uniform(name:String) = {
 		uniforms.get(name) match {
 			case None =>
 				val u = new ShaderUniform(this, name)
@@ -47,5 +47,13 @@ class ShaderProgramme extends GLObject {
 		}  
 	}
 	
-	def apply(name:String) = uniform(name)
+	protected def apply(name:String) = uniform(name)
+
+	// -- Updaters -------------------------------------------------------------
+	def update(name:String, value:Int) = uniform(name).set(value)
+	def update(name:String, value:Float) = uniform(name).set(value)
+	def update(name:String, x:Float, y:Float) = uniform(name).set(x,y)
+	def update(name:String, x:Float, y:Float, z:Float) = uniform(name).set(x,y,z)
+	def update(name:String, x:Float, y:Float, z:Float, u:Float) = uniform(name).set(x,y,z,u)
+
 }

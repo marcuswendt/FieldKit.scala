@@ -15,15 +15,15 @@ import field.kit.gl._
  */
 class ShaderUniform(sp:ShaderProgramme, name:String) extends GLUser {
 	
-	def set(value:Int) = execute(gl.glUniform1i(location, value))
+	def set(value:Int) = execute(gl.glUniform1i(location,value))
 	
-	def set(value:Float) = execute(gl.glUniform1f(location, value))
+	def set(value:Float) = execute(gl.glUniform1f(location,value))
 		
-	def set(x:Float, y:Float) = execute(gl.glUniform2f(location, x,y))
+	def set(x:Float, y:Float) = execute(gl.glUniform2f(location,x,y))
 		
-	def set(x:Float, y:Float, z:Float) = execute(gl.glUniform3f(location, x,y,z))
+	def set(x:Float, y:Float, z:Float) = execute(gl.glUniform3f(location,x,y,z))
 	
-	def set(x:Float, y:Float, z:Float, u:Float) = execute(gl.glUniform4f(location, x,y,z,u))
+	def set(x:Float, y:Float, z:Float, u:Float) = execute(gl.glUniform4f(location,x,y,z,u))
 	
 	private var location = GLObject.UNDEFINED
 	
