@@ -66,6 +66,8 @@ fk.Colour = fk.Class.extend({
 			this.green( arguments[1] );
 			this.blue( arguments[2] );
 		}
+		
+		return this;
 	},
 	
 	// sets/ gets the RED component

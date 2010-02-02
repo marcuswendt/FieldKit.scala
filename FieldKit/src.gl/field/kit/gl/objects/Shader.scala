@@ -5,9 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created June 01, 2009 */
-package field.kit.gl.render.objects
+package field.kit.gl.objects
 
-import field.kit.gl.render._
+import field.kit.gl._
 
 /** Thrown when a GLSL <code>Shader</code> couldn't be compiled. */
 class ShaderCompileException(info:String) 

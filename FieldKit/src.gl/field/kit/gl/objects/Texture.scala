@@ -5,9 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created May 11, 2009 */
-package field.kit.gl.render.objects
+package field.kit.gl.objects
 
-import field.kit.gl.render._
+import field.kit.gl._
 
 /** 
  * Companion object to <code>Texture</code>

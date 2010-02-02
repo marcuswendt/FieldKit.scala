@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created May 11, 2009 */
-package field.kit.gl.render
+package field.kit.gl
 
 import javax.media.opengl.GL
 

@@ -5,11 +5,10 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created April 23, 2009 */
-package field.kit.gl.render.objects
+package field.kit.gl.objects
 
+import field.kit.gl._
 import javax.media.opengl.GL
-
-import field.kit.gl.render._
 
 /**
  * Similar to the <code>FrameBuffer Object</code> this buffer stores the z-depth of the rendered objects

@@ -8,7 +8,7 @@
 package field.kit.gl.scene.state
 
 import field.kit.gl.scene.RenderState
-import field.kit.gl.render.objects._
+import field.kit.gl.objects._
 
 /** 
  * Provides utility constructors for the <code>ShaderState</code> class

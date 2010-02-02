@@ -5,11 +5,11 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created June 04, 2009 */
-package field.kit.gl.render
+package field.kit.gl.util
 
+import field.kit._
 import field.kit.gl.scene.state.ShaderState
 import field.kit.gl.scene.shape.Quad
-import field.kit.math.Vec3
 
 /** Companion object to class <code>Pass</code> */
 object Pass {
@@ -36,8 +36,8 @@ class Pass(name:String, var shader:ShaderState, width:Int, height:Int, alpha:Boo
            extends Quad(name+"Pass") {
              
   import field.kit.gl.scene.state.TextureState
-  import field.kit.gl.render.objects.Texture
-  import field.kit.math.Common._
+  import field.kit.gl.objects.Texture
+  
   
   scale := (width.toFloat, height.toFloat, 1f)
   translation := (width/2f, height/2f, 0f)

@@ -8,7 +8,7 @@
 package field.kit.p5
 
 import field.kit._
-import field.kit.gl.render.Camera
+import field.kit.gl.Camera
 
 /**
  * Implements more intuitive camera manipulation methods

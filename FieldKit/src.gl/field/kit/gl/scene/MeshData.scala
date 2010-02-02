@@ -55,7 +55,7 @@ class MeshData {
   import scala.collection.mutable.ArrayBuffer
   
   import field.kit.util.Buffer
-  import field.kit.gl.render.objects.VertexBuffer
+  import field.kit.gl.objects.VertexBuffer
 
   /** Number of vertices represented by this data. */
   var vertexCount = 0

@@ -7,7 +7,7 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.render.Drawable
+import field.kit.gl.Drawable
 import field.kit.util.datatype.graph._
 
 /** base class for all scene-graph elements */

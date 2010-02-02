@@ -8,7 +8,7 @@
 package field.kit.gl.scene.state
 
 import field.kit.gl.scene.RenderState
-import field.kit.gl.render.objects.Texture
+import field.kit.gl.objects.Texture
 
 /** Companion object to <code>TextureState</code> */
 object TextureState {

@@ -18,18 +18,19 @@ import field.kit.math.Common._
  */
 class Randomise extends Behaviour {
 
-  val size = Vec3(1f)
-  var weight = 1f
- 
-  protected val range = Vec3()
-  
-  override def prepare(dt:Float) {
-    range := size *= 0.5f *= ps.space.dimension
-  }
-  
-  def apply(p:Particle, dt:Float) {
-    p.x += range.x * randomNormal * weight
-    p.y += range.y * randomNormal * weight
-    p.z += range.z * randomNormal * weight
-  }
+	val min = Vec3(0f)
+	val max = Vec3(1f)
+	var weight = 1f
+	
+	protected val range = Vec3()
+	
+	override def prepare(dt:Float) {
+		range := max -= min *= ps.space.dimension
+	}
+	
+	def apply(p:Particle, dt:Float) {
+		p.x += range.x * randomNormal * weight
+		p.y += range.y * randomNormal * weight
+		p.z += range.z * randomNormal * weight
+	}
 }

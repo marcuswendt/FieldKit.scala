@@ -7,7 +7,7 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.render.Renderable
+import field.kit.gl.Renderable
 
 /** 
  * base class for all render states

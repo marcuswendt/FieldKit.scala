@@ -5,7 +5,7 @@
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created August 25, 2009 */
-package field.kit.gl.render
+package field.kit.gl
 
 import field.kit.Logger
 

@@ -5,9 +5,9 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created April 23, 2009 */
-package field.kit.gl.render.objects
+package field.kit.gl.objects
 
-import field.kit.gl.render._
+import field.kit.gl._
 
 object FrameBuffer {
   import javax.media.opengl.GL

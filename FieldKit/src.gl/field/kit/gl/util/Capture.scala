@@ -5,7 +5,13 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created June 04, 2009 */
-package field.kit.gl.render
+package field.kit.gl.util
+
+import field.kit._
+import field.kit.gl._
+import field.kit.gl.objects._
+
+import javax.media.opengl.GL
 
 /** 
  * <code>Capture</code> captures everything that is rendered between its <code>render</code> 
@@ -19,11 +25,6 @@ package field.kit.gl.render
  * @author Marcus Wendt
  */
 class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Renderable {
-  import javax.media.opengl.GL
-  
-  import field.kit.colour.Colour
-  import field.kit.gl.render.objects._
-  
   var clearBuffer = true
   var clearColour = new Colour(0f,0f,0f,1f)
   

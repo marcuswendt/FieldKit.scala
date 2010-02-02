@@ -20,8 +20,7 @@ class Tiler(rec:Recorder) extends Logger {
   import java.nio.ByteBuffer
   import javax.media.opengl.GL
   
-  import field.kit.gl.render._
-  import field.kit.math.Common._
+  import field.kit.gl._
   import field.kit.math._
   
   /** the current tile */

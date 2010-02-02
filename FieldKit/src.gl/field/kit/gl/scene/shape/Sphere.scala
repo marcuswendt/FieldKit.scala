@@ -7,8 +7,7 @@
 /* created August 07, 2009 */
 package field.kit.gl.scene.shape
 
-import field.kit.math._
-import field.kit.math.Common._
+import field.kit._
 import field.kit.gl.scene.Mesh
 import field.kit.util.Buffer._
 

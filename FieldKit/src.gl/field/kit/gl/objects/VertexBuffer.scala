@@ -5,10 +5,10 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created May 15, 2009 */
-package field.kit.gl.render.objects
+package field.kit.gl.objects
 
+import field.kit.gl._
 import javax.media.opengl.GL
-import field.kit.gl.render._
 
 /**
  * Provides usage constants for the <code>VertexBuffer</code> class

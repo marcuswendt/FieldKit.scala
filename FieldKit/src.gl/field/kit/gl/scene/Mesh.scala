@@ -7,6 +7,7 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
+import field.kit._
 import field.kit.gl.scene.transform.RenderStateable
 import field.kit.gl.scene.transform.Triangulator
 
@@ -20,9 +21,6 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   import javax.media.opengl.GL
   import java.nio.IntBuffer
   import java.nio.FloatBuffer
-  
-  import field.kit.math.Common._
-  import field.kit.colour.Colour
   
   /** Stores the actual data buffers */
   var data = new MeshData
@@ -122,8 +120,8 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Creates a VBO and accompanying buffer
    */
   protected def initInterleavedDataVBO {
-    import field.kit.gl.render.GLObject
-    import field.kit.gl.render.objects.VertexBuffer
+    import field.kit.gl.GLObject
+    import field.kit.gl.objects.VertexBuffer
     
     // make sure we have a valid vbo
     if(data.vbo == null) 

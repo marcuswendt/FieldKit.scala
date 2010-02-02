@@ -4,26 +4,25 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
-/* created April 23, 2009 */
-package field.kit.gl.render
+/* created March 24, 2009 */
+package field.kit.gl
 
-import field.kit.Logger
-
-object GLObject {
-  val UNDEFINED = -1
-}
-
-/**
- * Base class for all types of OpenGL objects.
+/** 
+ * base trait for all renderable elements in the scene
  * @author Marcus Wendt
  */
-abstract class GLObject extends Renderable with Logger {
-  var id:Int = GLObject.UNDEFINED
+trait Renderable {
+  import javax.media.opengl.GL
+  import javax.media.opengl.GLContext
   
-  def create
-  def destroy
-  def bind
-  def unbind
-  
-  final def render {}
+  def render
+  def gl = GLContext.getCurrent.getGL
+}
+
+trait Drawable extends Renderable {
+  var isVisible = true
+  def toggleVisibility = isVisible = !isVisible
+    
+  def render = if(isVisible) draw
+  def draw
 }
