@@ -5,25 +5,24 @@
 **        /_/        /____/ /____/ /_____/                                    **
 \*                                                                            */
 /* created April 23, 2009 */
-package field.kit.gl
+package field.kit.gl.objects
 
-import field.kit.Logger
+import field.kit._
+import field.kit.gl._
 
 object GLObject {
-  val UNDEFINED = -1
+	val UNDEFINED = -1
 }
 
 /**
  * Base class for all types of OpenGL objects.
  * @author Marcus Wendt
  */
-abstract class GLObject extends Renderable with Logger {
-  var id:Int = GLObject.UNDEFINED
-  
-  def create
-  def destroy
-  def bind
-  def unbind
-  
-  final def render {}
+abstract class GLObject extends GLUser with Logger {
+	var id:Int = GLObject.UNDEFINED
+
+	def create
+	def destroy
+	def bind
+	def unbind
 }

@@ -24,7 +24,7 @@ import javax.media.opengl.GL
  * @see http://wiki.delphigl.com/index.php/Tutorial_Framebufferobject
  * @author Marcus Wendt
  */
-class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Renderable {
+class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends GLUser {
   var clearBuffer = true
   var clearColour = new Colour(0f,0f,0f,1f)
   
@@ -59,9 +59,19 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Rende
   fbo.unbind
   
   /**
+   * Binds the capture's texture
+   */
+  def bind = texture.bind
+  
+  /**
+   * Unbinds the capture's texture
+   */
+  def unbind = texture.unbind
+  
+  /**
    * Call this method to begin rendering into the custom <code>FrameBuffer</code>
    */
-  def render {
+  def beginCapture {
     fbo.bind
     gl.glDrawBuffer(GL.GL_COLOR_ATTACHMENT0_EXT + textureUnit)
     
@@ -74,7 +84,7 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends Rende
   /**
    * Call this method when you're done rendering, to release the <code>FrameBuffer</code> context
    */
-  def done = fbo.unbind
+  def endCapture = fbo.unbind
   
   /**
    * Clean up the used ressources

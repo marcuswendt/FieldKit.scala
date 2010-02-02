@@ -7,11 +7,11 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.Drawable
+import field.kit.gl._
 import field.kit.util.datatype.graph._
 
 /** base class for all scene-graph elements */
-abstract class Spatial(name:String) extends BaseNode(name) with Drawable {
+abstract class Spatial(name:String) extends BaseNode(name) with Renderable {
   import field.kit.math._
   
   logName = name
@@ -20,7 +20,10 @@ abstract class Spatial(name:String) extends BaseNode(name) with Drawable {
   var scale = Vec3(1f)
   var rotation = Vec3()
   
-  override def render {
+  var isVisible = true
+  def toggleVisibility = isVisible = !isVisible
+  
+  def render {
     if(isVisible) {
       gl.glPushMatrix
       gl.glTranslatef(translation.x, translation.y, translation.z)
@@ -37,4 +40,6 @@ abstract class Spatial(name:String) extends BaseNode(name) with Drawable {
       gl.glPopMatrix  
     }
   }
+  
+  def draw
 }

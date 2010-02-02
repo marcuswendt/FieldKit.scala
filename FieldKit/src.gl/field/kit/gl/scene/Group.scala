@@ -7,7 +7,6 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene
 
-import field.kit.gl.Drawable
 import field.kit.util.datatype.graph.Branch
 
 /** basic scene-graph element that contains a group of spatials **/

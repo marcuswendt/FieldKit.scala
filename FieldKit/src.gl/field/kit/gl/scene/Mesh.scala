@@ -8,9 +8,17 @@
 package field.kit.gl.scene
 
 import field.kit._
+import field.kit.gl._
+
 import field.kit.gl.scene.transform.RenderStateable
 import field.kit.gl.scene.transform.Triangulator
 
+import field.kit.gl.objects._
+
+import javax.media.opengl.GL
+import java.nio.IntBuffer
+import java.nio.FloatBuffer
+  
 /** 
  * Base class for all sorts of polygon mesh geometry
  * 
@@ -18,10 +26,7 @@ import field.kit.gl.scene.transform.Triangulator
  * is added via Traits
  */
 abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with Triangulator {
-  import javax.media.opengl.GL
-  import java.nio.IntBuffer
-  import java.nio.FloatBuffer
-  
+
   /** Stores the actual data buffers */
   var data = new MeshData
   
@@ -120,9 +125,6 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
    * Creates a VBO and accompanying buffer
    */
   protected def initInterleavedDataVBO {
-    import field.kit.gl.GLObject
-    import field.kit.gl.objects.VertexBuffer
-    
     // make sure we have a valid vbo
     if(data.vbo == null) 
       data.vbo = new VertexBuffer
@@ -316,6 +318,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
       }
       colours.rewind
     }
+    data.refresh
   }
   
   def randomizeColours {
@@ -328,6 +331,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
       colours.put(1f)
     }
     colours.rewind
+    data.refresh
   }
   
   // -- Traits -----------------------------------------------------------------

@@ -16,7 +16,15 @@ trait RenderStateable {
   import scala.collection.mutable.ArrayBuffer
   
   var states = new ArrayBuffer[RenderState]
-  
+
+  /** Adds the given RenderState to this object **/
+  def +=(state:RenderState) =
+	  states += state
+
+  /** Remvoes the given RenderState from this object **/
+  def -=(state:RenderState) =
+	  states -= state
+	  
   protected def enableStates = {
     var i=0
     while(i < states.size) {

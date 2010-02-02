@@ -7,22 +7,18 @@
 /* created March 24, 2009 */
 package field.kit.gl
 
-/** 
- * base trait for all renderable elements in the scene
- * @author Marcus Wendt
+/**
+ * Provides quick access to the current OpenGL context
+ * @author marcus
  */
-trait Renderable {
-  import javax.media.opengl.GL
-  import javax.media.opengl.GLContext
-  
-  def render
-  def gl = GLContext.getCurrent.getGL
+trait GLUser {
+	import javax.media.opengl.GLContext
+	def gl = GLContext.getCurrent.getGL
 }
 
-trait Drawable extends Renderable {
-  var isVisible = true
-  def toggleVisibility = isVisible = !isVisible
-    
-  def render = if(isVisible) draw
-  def draw
+/** 
+ * Base trait for all renderable elements
+ */
+trait Renderable extends GLUser {
+	def render
 }

@@ -39,22 +39,17 @@ object Quad extends Enumeration {
 /** 
  * A quadliteral mesh, often used for billboards, shaders, etc
  */
-class Quad(name:String) extends Mesh(name) {
-  import javax.media.opengl.GL
+class Quad(name:String, mode:Quad.Value,  protected var _width:Float, protected var _height:Float)
+extends Mesh(name) {
   import field.kit.util.Buffer
   
   // TODO could make a more convenient method for that
   var useQuads = Quad.DEFAULT_USE_QUADS
   
-  protected var _width = 0f
-  protected var _height = 0f
+  init(mode, width, height)
   
-  // default size
-  init(Quad.CENTER, 1f, 1f)
-  
-  def this(name:String, mode:Quad.Value, width:Float, height:Float) = {
-    this("Quad")
-    init(mode, width, height)
+  def this(name:String) {
+	  this(name, Quad.CENTER, 1f, 1f)
   }
   
   /**
@@ -66,9 +61,8 @@ class Quad(name:String) extends Mesh(name) {
     
     // -- Vertices -------------------------------------------------------------
     val vertices = data.allocVertices(4)
-    val hw = width * 0.5f
-    val hh = height * 0.5f
     vertices.clear
+    
     mode match {
       case Quad.TOP_LEFT =>
         vertices put 0 put height put 0
@@ -76,7 +70,10 @@ class Quad(name:String) extends Mesh(name) {
         vertices put width put 0 put 0
         vertices put 0 put 0 put 0
       
-      case Quad.CENTER => 
+      case Quad.CENTER =>
+        val hw = width * 0.5f
+        val hh = height * 0.5f
+        
         vertices put -hw put hh put 0
         vertices put hw put hh put 0
         vertices put hw put -hh put 0
@@ -85,6 +82,7 @@ class Quad(name:String) extends Mesh(name) {
     
     // -- Texture Coordinates --------------------------------------------------
     val textureCoords = data.allocTextureCoords(4)
+    textureCoords.clear
     
     textureCoords put 0f put 0f
     textureCoords put 1f put 0f
@@ -93,6 +91,8 @@ class Quad(name:String) extends Mesh(name) {
 
     // -- Normals --------------------------------------------------------------
     val normals = data.allocNormals(4)
+    normals.clear
+    
     for(i <- 0 until 4)
       normals put 0 put 0 put 1
     
@@ -101,6 +101,8 @@ class Quad(name:String) extends Mesh(name) {
       data.indexModes(0) = IndexMode.QUADS
     } else {
       val indices = data.allocIndices(6)
+      indices.clear
+      
       indices put Array(0, 1, 2, 0, 2, 3) 
     }
   }

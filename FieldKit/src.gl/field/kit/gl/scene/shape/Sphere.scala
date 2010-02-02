@@ -22,25 +22,25 @@ object Sphere {
   }
   
   def apply() = 
-    new Sphere("Sphere", Vec3(), 1f, 16, 16)
+    new Sphere("Sphere", Vec3(), 1f, 16, 16, TextureMode.LINEAR)
 
   def apply(name:String, radius:Float) = 
-    new Sphere(name, Vec3(), radius, 16, 16)
+    new Sphere(name, Vec3(), radius, 16, 16, TextureMode.LINEAR)
   
   def apply(name:String, center:Vec3, radius:Float) = 
-    new Sphere(name, center, radius, 16, 16)
+    new Sphere(name, center, radius, 16, 16, TextureMode.LINEAR)
   
   def apply(radius:Float, samples:Int) = 
-    new Sphere("Sphere", Vec3(), radius, samples, samples)
+    new Sphere("Sphere", Vec3(), radius, samples, samples, TextureMode.LINEAR)
   
   def apply(name:String, radius:Float, samples:Int) = 
-    new Sphere(name, Vec3(), radius, samples, samples)
+    new Sphere(name, Vec3(), radius, samples, samples, TextureMode.LINEAR)
   
   /**
    * Creates a Sphere that shares its data with another Sphere
    */
   def apply(target:Sphere) = { 
-    val s = new Sphere(target.name+"Copy", target.center, target.radius, target.zSamples, target.radialSamples)
+    val s = new Sphere(target.name+"Copy", target.center, target.radius, target.zSamples, target.radialSamples, target.textureMode)
     s.data = target.data
     s.textureMode = target.textureMode
     for(state <- target.states)
@@ -57,20 +57,22 @@ object Sphere {
  */
 class Sphere(name:String,
              var center:Vec3,
-             var radius:Float, var zSamples:Int, var radialSamples:Int)
+             var radius:Float, var zSamples:Int, var radialSamples:Int,
+             var textureMode:Sphere.TextureMode.Value)
              extends Mesh(name) {
-  var textureMode = Sphere.TextureMode.LINEAR
+	
   protected var viewInside = false
 
-  init(radius, zSamples, radialSamples)
+  init(radius, zSamples, radialSamples, textureMode)
 
   /**
    * initializes the geometry data of this Sphere
    */
-  def init(radius:Float, zSamples:Int, radialSamples:Int) {
+  def init(radius:Float, zSamples:Int, radialSamples:Int, textureMode:Sphere.TextureMode.Value) {
     this.radius = radius
     this.zSamples = zSamples
     this.radialSamples = radialSamples
+    this.textureMode = textureMode
     
     initGeometry
     initIndices

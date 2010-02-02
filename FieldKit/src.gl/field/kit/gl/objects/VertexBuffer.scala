@@ -13,7 +13,7 @@ import javax.media.opengl.GL
 /**
  * Provides usage constants for the <code>VertexBuffer</code> class
  */
-object VertexBuffer extends Renderable {
+object VertexBuffer extends GLUser {
   /** lists different usage types for a vertex buffer */
   object Usage extends Enumeration {
     val STATIC_DRAW = Value(GL.GL_STATIC_DRAW)
@@ -40,8 +40,6 @@ object VertexBuffer extends Renderable {
   	gl.isFunctionAvailable("glBindBuffer") &&
   	gl.isFunctionAvailable("glBufferData") &&
   	gl.isFunctionAvailable("glDeleteBuffers")
-  
-  def render {}
 }
 
 /**

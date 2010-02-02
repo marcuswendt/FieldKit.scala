@@ -7,6 +7,7 @@
 /* created May 11, 2009 */
 package field.kit.gl.scene.state
 
+import field.kit.gl._
 import field.kit.gl.scene.RenderState
 import field.kit.gl.objects.Texture
 

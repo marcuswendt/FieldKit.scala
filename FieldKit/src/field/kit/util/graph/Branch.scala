@@ -14,7 +14,7 @@ package field.kit.util.datatype.graph
  * 
  * @author Marcus Wendt
  */
-trait Branch[T <: Node] extends Collection[T] {
+trait Branch[T <: Node] extends Iterable[T] {
   //import field.kit.util.datatype.collection.ArrayBuffer
 	import scala.collection.mutable.ArrayBuffer
   
@@ -47,9 +47,6 @@ trait Branch[T <: Node] extends Collection[T] {
   
   override def size = 
     if(children==null) 0 else children.size
-  
-  override def elements = 
-    if(children==null) null else children.elements
   
   def +=(child:T):T = {
     if(children==null) children = new ArrayBuffer[T]

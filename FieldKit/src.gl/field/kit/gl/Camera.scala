@@ -7,7 +7,7 @@
 /* created August 25, 2009 */
 package field.kit.gl
 
-import field.kit.Logger
+import field.kit._
 
 /**
  * Construct a new Camera with the given frame width and height.
@@ -30,7 +30,6 @@ import field.kit.Logger
  */
 class Camera(var width:Int, var height:Int) extends Renderable with Logger {
   import field.kit.math._
-  import field.kit.math.Common._
   import field.kit.util.Buffer
   import javax.media.opengl.GL
   import javax.media.opengl.glu.GLU

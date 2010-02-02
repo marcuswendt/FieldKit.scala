@@ -71,7 +71,6 @@ class FrameBuffer extends GLObject {
   def isComplete = {
     status match {
       case GL.GL_FRAMEBUFFER_COMPLETE_EXT => 
-        info("fbo complete")
         true
         
       case GL.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT =>

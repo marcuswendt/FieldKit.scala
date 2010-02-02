@@ -137,11 +137,17 @@ class Texture extends GLObject {
     needsUpdate = false
   }
   
-  /** based on code ported from Processings PGraphcisOpenGL */
+  /** based on code ported from Processings PGraphicsOpenGL */
   protected def updateImage {
     import field.kit.util.Buffer
     
+    // simply set texture dimensions to image dimensions, assuming the gpu supports
+    // non power of two textures
+    width = image.width
+    height = image.height
+    
     // make sure width & height are a power of 2
+    /*
     width = 2
     height = 2
     
@@ -150,7 +156,8 @@ class Texture extends GLObject {
     
     while(height < image.height)
       height *= 2
-      
+    */
+    
     // create pixels storage
     if(pixels == null) {
       pixels = new Array[Int](width * height)

@@ -7,6 +7,7 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene.shape
 
+import field.kit.gl._
 import field.kit.gl.scene._
 
 object Stroke2D {

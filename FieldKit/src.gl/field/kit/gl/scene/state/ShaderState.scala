@@ -103,32 +103,34 @@ object ShaderState extends field.kit.Logger {
  * @author Marcus Wendt
  */
 class ShaderState extends RenderState {
-  var prog:ShaderProgramme = null
-  
-  def this(s:Shader) = {
-    this()
-    if(s.isInstanceOf[VertexShader])
-      init(s.asInstanceOf[VertexShader], FragmentShader.DEFAULT)
-    else
-      init(VertexShader.DEFAULT, s.asInstanceOf[FragmentShader])
-  }
-  
-  def this(vs:VertexShader, fs:FragmentShader) = {
-    this()
-    init(vs, fs)
-  }
-  
-  /** initializes the <code>ShaderProgramme</code> with the given <code>Shaders</code> */
-  def init(vs:VertexShader, fs:FragmentShader) {
-    prog = new ShaderProgramme
-    prog.create
-    prog += vs
-    prog += fs
-    prog.init
-  }
-        
-  // methods
-  def enable = prog.bind
-  def disable = prog.unbind
-  def destroy = prog.destroy
+	
+	var prog:ShaderProgramme = null
+	
+	def this(s:Shader) = {
+		this()
+		
+		if(s.isInstanceOf[VertexShader])
+			init(s.asInstanceOf[VertexShader], FragmentShader.DEFAULT)
+		else
+			init(VertexShader.DEFAULT, s.asInstanceOf[FragmentShader])
+	}
+	
+	def this(vs:VertexShader, fs:FragmentShader) = {
+		this()
+		init(vs, fs)
+	}
+	
+	/** initializes the <code>ShaderProgramme</code> with the given <code>Shaders</code> */
+	def init(vs:VertexShader, fs:FragmentShader) {
+		prog = new ShaderProgramme
+		prog.create
+		prog += vs
+		prog += fs
+		prog.init
+	}
+	
+	// methods
+	def enable = prog.bind
+	def disable = prog.unbind
+	def destroy = prog.destroy
 }

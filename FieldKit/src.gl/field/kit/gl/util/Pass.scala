@@ -47,8 +47,8 @@ class Pass(name:String, var shader:ShaderState, width:Int, height:Int, alpha:Boo
   states += shader
   
   /** call this before rendering the contents that should go into the buffer */
-  def pre = capture.render
+  def beginCapture = capture.beginCapture
   
   /** call this after rendering the contents that should go into the buffer */
-  def post = capture.done
+  def endCapture = capture.endCapture
 }
