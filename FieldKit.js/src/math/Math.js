@@ -61,6 +61,10 @@ fk.math = {
 	randomNormal: function() {
 		return Math.random() > 0.5 ? 1 : -1;
 	},
+	
+	flipCoin: function() {
+		return Math.random() > 0.5 ? true : false;
+	},
 
 	slerp: function(cur, to, delta) {
 		return cur * (1 - delta) + to * delta

@@ -63,7 +63,7 @@
 
 	<target name="initMac" if="isMac">
 		<!-- this assumes you installed scala using macports -->
-		<property name="scala.home" location="/opt/local/share/scala-2.8" />
+		<property name="scala.home" location="/opt/local/share/scala" />
 		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
 		<property name="scala-compiler.jar" location="${scala.home}/lib/scala-compiler.jar" />
 	</target>

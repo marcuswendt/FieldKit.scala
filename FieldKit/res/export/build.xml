@@ -74,7 +74,7 @@
 	<property name="system.javac.target" value="1.5" />
 
 	<!-- scala -->
-	<property name="system.scala.home" value="/opt/local/share/scala-2.8/" />
+	<property name="system.scala.home" value="/opt/local/share/scala/" />
 	<property name="system.scalac.target" value="jvm-1.5" />
 	<property name="system.scala-library.jar" value="${system.scala.home}lib/scala-library.jar" />
 
