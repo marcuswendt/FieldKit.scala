@@ -82,4 +82,5 @@ trait Package extends Trigonometry with Interpolation with Intersection {
 	final def random(min:Int, max:Int) = (rnd.nextFloat * (max - min) + min).asInstanceOf[Int]
 	final def random(scale:Float) = rnd.nextFloat * scale
 	final def randomNormal = rnd.nextFloat * 2f - 1f
+	final def flipCoin = if(rnd.nextFloat > 0.5f) true else false 
 }

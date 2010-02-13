@@ -7,6 +7,8 @@
 /* created Februrary 05, 2010 */
 package field.kit.math.geometry
 
+import field.kit._
+
 /**
 * BSpline class
 * @author Marcus Wendt
@@ -55,7 +57,7 @@ class BSpline(capacity:Int) extends Spline(capacity) {
 				tmp3 := (vertices, i)
 
 				i += 1
-				if(i == size) {
+				if(i >= size) {
 					(tmp0 := beforeLast -= last).normalize *= EPSILON
 					tmp4 := last -= tmp0
 				} else {
@@ -63,7 +65,7 @@ class BSpline(capacity:Int) extends Spline(capacity) {
 				}
 
 				// calculate point
-				val s = 1.0/6
+				val s = 1.0f/6f
 				tmp1 *= s*(-t3 +3f*t2 -3f*t +1f)
 				tmpResult := tmp1
 
@@ -79,14 +81,14 @@ class BSpline(capacity:Int) extends Spline(capacity) {
 
 				// set result
 				result match {
-				case b:FloatBuffer => 
-				b put tmpResult.x
-				b put tmpResult.y
-				b put tmpResult.z
-
-				case v:Vec3 => 
-				v := tmpResult
-			}
+					case b:FloatBuffer => 
+						b put tmpResult.x
+						b put tmpResult.y
+						b put tmpResult.z
+	
+					case v:Vec3 => 
+						v := tmpResult
+				}
 		}
 	}
 }
