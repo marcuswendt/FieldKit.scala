@@ -71,6 +71,14 @@ object Sketch {
 			
 		val display = if(displayId == -1) environment.getDefaultScreenDevice else devices(displayId)  
 		
+		// figure out display position on the virtual desktop
+		var offsetX = 0
+		var offsetY = 0
+		
+		for(i <- 0 until displayId)
+			offsetX += devices(i).getDisplayMode.getWidth
+
+					
 		val frame = new Frame(display.getDefaultConfiguration)
 		frame.setTitle(applet.title)
 		frame.setResizable(false)
@@ -85,9 +93,10 @@ object Sketch {
 			if(exclusive) {
 				display.setFullScreenWindow(frame)	
 				fullScreenRect = frame.getBounds
-			} else {
+				
+			} else {				
 				val mode = display.getDisplayMode
-				fullScreenRect = new Rectangle(0, 0, mode.getWidth(), mode.getHeight())
+				fullScreenRect = new Rectangle(offsetX, offsetY, mode.getWidth(), mode.getHeight())
 				frame.setBounds(fullScreenRect)
 				frame.setVisible(true)
 			}
@@ -142,12 +151,6 @@ object Sketch {
 				frame.setLocation(location(0), location(1))
 
 			} else {
-				var offsetX = 0
-				var offsetY = 0
-				
-				for(i <- 0 until displayId)
-					offsetX += devices(i).getDisplayMode.getWidth
-				
 				frame.setLocation(
 						offsetX + (applet.screen.width - applet.width) / 2,
 						offsetY + (applet.screen.height - applet.height) / 2)
