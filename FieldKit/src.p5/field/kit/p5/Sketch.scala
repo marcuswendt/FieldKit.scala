@@ -31,36 +31,47 @@ object Sketch {
 		var exclusive = false
 		var external = false
 
+		var displayId = -1
 		var location:Array[Int] = null
 
 		args foreach { arg =>
 
 		// parse argument
 		val equals = arg.indexOf('=')
-		if(equals != -1) {
-			val param = arg.substring(0, equals)
-			val value = arg.substring(equals + 1)
-
-			param match {
-			case ARGS_LOCATION => 
-			location = parseInt(split(value, ','))
+			if(equals != -1) {
+				val param = arg.substring(0, equals)
+				val value = arg.substring(equals + 1)
+				
+				param match {
+					case ARGS_LOCATION => 
+						location = parseInt(split(value, ','))
+						
+					case ARGS_DISPLAY =>
+						displayId = parseInt(value)
+						
+					case _ => System.err.println("Invalid argument", param, "value", value)
+				}
+	
+			} else {
+	
+				// set parameter
+				arg match {
+					case ARGS_PRESENT => present = true
+					case ARGS_EXCLUSIVE => exclusive = true
+					case ARGS_EXTERNAL => external = true
+					case _ => System.err.println("Invalid argument:", arg)
+				}
 			}
-
-		} else {
-
-			// set parameter
-			arg match {
-			case ARGS_PRESENT => present = true
-			case ARGS_EXCLUSIVE => exclusive = true
-			case ARGS_EXTERNAL => external = true		
-			}
-		}
 		}
 
 		val environment = GraphicsEnvironment.getLocalGraphicsEnvironment
-		val displayDevice = environment.getDefaultScreenDevice
-
-		val frame = new Frame(displayDevice.getDefaultConfiguration)
+		val devices = environment.getScreenDevices
+		
+		if(displayId >= devices.length) displayId = -1
+			
+		val display = if(displayId == -1) environment.getDefaultScreenDevice else devices(displayId)  
+		
+		val frame = new Frame(display.getDefaultConfiguration)
 		frame.setTitle(applet.title)
 		frame.setResizable(false)
 
@@ -72,10 +83,10 @@ object Sketch {
 			frame.setBackground(Color.BLACK)
 
 			if(exclusive) {
-				displayDevice.setFullScreenWindow(frame)	
+				display.setFullScreenWindow(frame)	
 				fullScreenRect = frame.getBounds
 			} else {
-				val mode = displayDevice.getDisplayMode
+				val mode = display.getDisplayMode
 				fullScreenRect = new Rectangle(0, 0, mode.getWidth(), mode.getHeight())
 				frame.setBounds(fullScreenRect)
 				frame.setVisible(true)
@@ -87,14 +98,15 @@ object Sketch {
 
 		if(present) frame.invalidate else frame.pack
 
-
 		// these are needed before init/start
 		applet.frame = frame;
 		//    applet.sketchPath = folder;
 		applet.args = args
-		//    applet.external = external;
 		//applet.external = external
 
+		applet.screen.width = display.getDisplayMode.getWidth
+		applet.screen.height = display.getDisplayMode.getHeight
+		
 		// Initialize sketch
 		applet.init
 
@@ -130,8 +142,15 @@ object Sketch {
 				frame.setLocation(location(0), location(1))
 
 			} else {
-				frame.setLocation((applet.screen.width - applet.width) / 2,
-						(applet.screen.height - applet.height) / 2)
+				var offsetX = 0
+				var offsetY = 0
+				
+				for(i <- 0 until displayId)
+					offsetX += devices(i).getDisplayMode.getWidth
+				
+				frame.setLocation(
+						offsetX + (applet.screen.width - applet.width) / 2,
+						offsetY + (applet.screen.height - applet.height) / 2)
 			}
 		}
 

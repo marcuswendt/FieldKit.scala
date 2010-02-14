@@ -68,8 +68,7 @@ object CSVFile extends CSVFormat with FileReader[CSVFile] with Logger {
    * handles several special cases e.g. "xyz" "xy, z" and "x ""y"" z" within single cells
    * since it works on a line by line basis
    * 
-   * TODO could be improved but works for now
-   * TODO does not handle newlines within quoted blocks
+   * NOTE does not handle newlines within quoted blocks
    */
   def parse(_line:String) = {
     val l = new ArrayBuffer[String]()    
