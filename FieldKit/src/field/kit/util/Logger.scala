@@ -46,7 +46,7 @@ trait Logger {
 		}
 	}
 
-	private def log(l:Logger.Value, m:Seq[Any]) = Logger.log(l, name, m)
+	private def log(l:Logger.Value, m:Seq[Any]) = Logger.log(l, logName, m)
 
 	def logName_=(name:String) = this.name = name
 	def logName = if(name == null) className else name
