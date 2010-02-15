@@ -40,6 +40,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
     enableStates
     if(data.useVBO) setupInterleavedDataVBO else setupArrays
     drawElements
+    if(data.useVBO) data.vbo.unbind
     disableStates
   }
   
@@ -277,7 +278,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
   /**
    * Draws this Mesh as a point cloud using vertex arrays
    */
-  protected def drawAsPoints(pointSize:Float) {
+  def drawAsPoints(pointSize:Float) {
     // -- setup vertex array ---------------------------------------------------
     val vertices = data.vertices
     if(vertices == null) {

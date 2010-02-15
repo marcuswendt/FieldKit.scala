@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="src.p5"/>
 	<classpathentry kind="src" path="src.particle"/>
 	<classpathentry kind="src" path="src.gl"/>
-	<classpathentry kind="src" path="src.simulation"/>
 	<classpathentry kind="src" path="src.vision"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
