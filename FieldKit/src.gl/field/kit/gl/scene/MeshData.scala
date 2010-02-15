@@ -100,8 +100,10 @@ class MeshData {
   /**
    * Should be called whenever the buffer data has changed
    */
-  def refresh = 
-    needsRefresh = true
+  def refresh = {
+	  updateVertexCount
+	  needsRefresh = true
+  }
   
   // -- Allocation -------------------------------------------------------------
   /**
