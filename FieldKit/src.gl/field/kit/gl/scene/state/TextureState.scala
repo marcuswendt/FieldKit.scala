@@ -83,6 +83,8 @@ class TextureState extends RenderState {
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit)
   }
   
+  def apply(i:Int) = textures(i)
+  
   /** Sets the given texture for the first texture unit */
   def update(texture:Texture):Unit = update(0, texture)
   

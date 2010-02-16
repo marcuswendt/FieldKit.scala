@@ -66,6 +66,8 @@ class Texture extends GLObject {
   
   var needsUpdate = true
   
+  var createMipMaps = true
+  
   protected var _image:Image = null
   protected var _wrap = Texture.Wrap.CLAMP
   protected var _filter = Texture.Filter.NEAREST
@@ -125,8 +127,21 @@ class Texture extends GLObject {
       gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, wrap.id)
       gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, wrap.id)
         
+      if(createMipMaps) {
+    	  glu.gluBuild2DMipmaps(GL.GL_TEXTURE_2D, 4,
+                                width, height,
+                                GL.GL_RGBA,
+                                GL.GL_UNSIGNED_BYTE, buffer)
+    	   
+	      gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
+	                         GL.GL_LINEAR);
+	      gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
+	                         GL.GL_LINEAR_MIPMAP_LINEAR);
+      }
+      
       // select modulate to mix texture with color for shading
-      // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+      gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE)
+      
       unbind
 //    } catch {
 //      case e:java.lang.IndexOutOfBoundsException => 
