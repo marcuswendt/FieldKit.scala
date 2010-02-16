@@ -59,9 +59,9 @@ object Buffer {
    */
   def float(buffer:FloatBuffer, capacity:Int):FloatBuffer = {
     if(buffer != null) {
-      if(buffer.capacity <= capacity) {
-        buffer.rewind
-        return buffer
+      if(buffer.capacity >= capacity) {
+    	  buffer.rewind
+    	  return buffer
       }
     }
     float(capacity)  
@@ -72,7 +72,7 @@ object Buffer {
    */
   def int(buffer:IntBuffer, capacity:Int):IntBuffer = {
     if(buffer != null) {
-      if(buffer.capacity <= capacity) {
+      if(buffer.capacity >= capacity) {
         buffer.rewind
         return buffer
       }
@@ -85,7 +85,7 @@ object Buffer {
    */
   def byte(buffer:ByteBuffer, capacity:Int):ByteBuffer = {
     if(buffer != null) {
-      if(buffer.capacity <= capacity) {
+      if(buffer.capacity >= capacity) {
         buffer.rewind
         return buffer
       }

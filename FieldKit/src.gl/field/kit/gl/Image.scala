@@ -69,7 +69,7 @@ object Image extends field.kit.Logger {
       null
       
     } else if(cache.contains(url) && useCache) {
-      info("reusing", url)
+      fine("reusing", url)
       image = cache(url)
       
     } else {

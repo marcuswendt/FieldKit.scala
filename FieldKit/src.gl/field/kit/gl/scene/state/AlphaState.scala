@@ -68,6 +68,12 @@ object AlphaState extends Enumeration {
     /** additive blending without alpha */
     val SCREEN = Value("Screen")
   }
+  
+  def apply(mode:BlendMode.Value) = {
+	  val as = new AlphaState
+	  as.set(mode)
+	  as
+  }
 }
 
 /** 

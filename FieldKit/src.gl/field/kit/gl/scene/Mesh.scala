@@ -59,9 +59,9 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
     }
     
     // make sure we have a valid vbo
-    if(data.vbo == null)
+    if(data.vbo == null || data.needsRefresh)
       initInterleavedDataVBO
-      
+    
     data.vbo.bind
     
     var offset = 0
