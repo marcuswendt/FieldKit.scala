@@ -68,6 +68,8 @@ class Texture extends GLObject {
   
   var createMipMaps = true
   
+  var autoUnloadImage = true
+  
   protected var _image:Image = null
   protected var _wrap = Texture.Wrap.CLAMP
   protected var _filter = Texture.Filter.NEAREST
@@ -75,7 +77,6 @@ class Texture extends GLObject {
   var width = 0
   var height = 0
   
-  protected var pixels:Array[Int] = null
   protected var buffer:IntBuffer = null
   
   id = Texture.UNDEFINED
@@ -106,7 +107,7 @@ class Texture extends GLObject {
   }
   
   protected def update {
-    if(image == null) 
+    if(buffer == null) 
       return
         
     if(id == Texture.UNDEFINED) create
@@ -142,6 +143,11 @@ class Texture extends GLObject {
       // select modulate to mix texture with color for shading
       gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE)
       
+      if(autoUnloadImage) {
+    	  buffer = null
+    	  image = null
+      }
+      
       unbind
 //    } catch {
 //      case e:java.lang.IndexOutOfBoundsException => 
@@ -155,6 +161,8 @@ class Texture extends GLObject {
   /** based on code ported from Processings PGraphicsOpenGL */
   protected def updateImage {
     import field.kit.util.Buffer
+    
+    if(image == null) return
     
     // simply set texture dimensions to image dimensions, assuming the gpu supports
     // non power of two textures
@@ -174,10 +182,8 @@ class Texture extends GLObject {
     */
     
     // create pixels storage
-    if(pixels == null) {
-      pixels = new Array[Int](width * height)
-      buffer = Buffer.int(width * height)
-    }
+    if(buffer == null) 
+    	buffer = Buffer.int(width * height)
     
     // copy data into the texture
     var t = 0
@@ -189,7 +195,7 @@ class Texture extends GLObject {
             // flip the image upside down
             val pixel = image.pixels((image.height - y - 1) * image.width + x)
             
-            pixels(t) = (pixel << 24) | 0x00FFFFFF
+            buffer.put(t, (pixel << 24) | 0x00FFFFFF)
             t += 1
             p += 1
           }
@@ -206,10 +212,10 @@ class Texture extends GLObject {
             
             // needs to be ABGR, stored in memory xRGB
             // so R and B must be swapped, and the x just made FF
-            pixels(t) = 0xff000000 |  // force opacity for good measure
-                		((pixel & 0xFF) << 16) |
-                		((pixel & 0xFF0000) >> 16) |
-                		(pixel & 0x0000FF00)
+            buffer.put(t, 0xff000000 |  // force opacity for good measure
+                		  ((pixel & 0xFF) << 16) |
+                		  ((pixel & 0xFF0000) >> 16) |
+                		  (pixel & 0x0000FF00))
             t += 1
             p += 1
           }
@@ -226,9 +232,9 @@ class Texture extends GLObject {
             
             // needs to be ABGR stored in memory ARGB
             // so R and B must be swapped, A and G just brought back in
-            pixels(t) = ((pixel & 0xFF) << 16) |
-                		((pixel & 0xFF0000) >> 16) |
-                		(pixel & 0xFF00FF00)
+            buffer.put(t, ((pixel & 0xFF) << 16) |
+                		  ((pixel & 0xFF0000) >> 16) |
+                		  (pixel & 0xFF00FF00))
             
             t += 1
             p += 1
@@ -239,7 +245,6 @@ class Texture extends GLObject {
     }
     
     // put pixels into buffer and rewind
-    buffer.put(pixels)
     buffer.rewind
   }
   

@@ -26,12 +26,10 @@ class Polyline(capacity:Int) extends Curve(capacity) {
 		// first point
 		if(time <= 0 || size <= 1) {
 			vertex(0, tmpResult)
-			return
 		
 		// last point
 		} else if(time >= 1) {
 			vertex(size-1, tmpResult)
-			return
 			
 		// in between
 		} else {

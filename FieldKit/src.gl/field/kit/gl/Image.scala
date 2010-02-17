@@ -25,7 +25,7 @@ object Image extends field.kit.Logger {
   
   import field.kit.util.Buffer
   
-  private val DEFAULT_USE_CACHE = true
+  private val DEFAULT_USE_CACHE = false
   
   val cache = new HashMap[URL, Image]
   
