@@ -68,8 +68,6 @@ class Texture extends GLObject {
   
   var createMipMaps = true
   
-  var autoUnloadImage = true
-  
   protected var _image:Image = null
   protected var _wrap = Texture.Wrap.CLAMP
   protected var _filter = Texture.Filter.NEAREST
@@ -142,11 +140,6 @@ class Texture extends GLObject {
       
       // select modulate to mix texture with color for shading
       gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE)
-      
-      if(autoUnloadImage) {
-    	  buffer = null
-    	  image = null
-      }
       
       unbind
 //    } catch {
