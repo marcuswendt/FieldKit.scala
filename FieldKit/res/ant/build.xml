@@ -54,10 +54,9 @@
 	</target>
 
 	<target name="initWindows" if="isWindows">
-		<!-- TODO need to set paths for windows -->
-		<property name="scala.home" location="/opt/local/share/scala" />
-		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
-		<property name="scala-compiler.jar" location="${scala.home}/scala-compiler.jar" />
+		<property name="scala.home" location="C:\Program Files\scala" />
+		<property name="scala-library.jar" location="${scala.home}\lib\scala-library.jar" />
+		<property name="scala-compiler.jar" location="${scala.home}\lib\scala-compiler.jar" />
 	</target>
 
 	<target name="initLinux" if="isLinux">

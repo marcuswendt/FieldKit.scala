@@ -15,7 +15,6 @@ trait Trigonometry {
   
   /** The value PI as a float. (180 degrees) */
   final val PI = Math.Pi.toFloat
-  final val π = PI
   
   /** The value PI/2 as a float. (90 degrees) */
   final val HALF_PI = PI / 2f
