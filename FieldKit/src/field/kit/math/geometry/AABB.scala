@@ -13,12 +13,18 @@ import field.kit.math.Common._
 /**
  * Axis-aligned bounding box used for Octrees and other optimisation techniques
  */
-class AABB(position:Vec3, _extent:Vec3) extends Vec3(position.x,position.y,position.z) {
+class AABB extends Vec3 {
+  protected val _extent = new Vec3
   
   def extent = _extent
-  def extent_=(v:Vec3) = {
-    _extent := v
+  def extent_=(value:Vec3) {
+    _extent := value
     updateBounds
+  }
+  
+  def extent_=(value:Float) {
+	_extent := value
+	updateBounds
   }
   
   var min = Vec3()
@@ -26,12 +32,24 @@ class AABB(position:Vec3, _extent:Vec3) extends Vec3(position.x,position.y,posit
   updateBounds
   
   // -- Constructors -----------------------------------------------------------
-  def this() = this(Vec3(), Vec3())
-  def this(extent:Vec3) = this(Vec3(), extent)
-  def this(position:Vec3, extent:Float) = this(position, Vec3(extent))
+  def this(extent:Vec3) {
+	  this()
+	  this.extent = extent
+  }
   
-  // -- Utilities --------------------------------------------------------------
-  def updateBounds {
+  def this(position:Vec3, extent:Vec3) {
+	  this()
+	  this := position
+	  this.extent = extent
+  }
+  
+  def this(position:Vec3, extent:Float) {
+	  this()
+	  this := position
+	  this.extent = extent
+  }
+  
+  protected def updateBounds {
     min := this -= extent
     max := this += extent
   }

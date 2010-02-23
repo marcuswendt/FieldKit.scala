@@ -15,6 +15,9 @@
 	</target>
 
 	<target name="update" description="update the libraries">
+		
+		<antcall target="clean" />
+		
 		<ant dir="${fieldkit}/" target="build" />
 
 		<copy todir=".">

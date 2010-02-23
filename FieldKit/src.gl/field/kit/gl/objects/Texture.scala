@@ -66,7 +66,7 @@ class Texture extends GLObject {
   
   var needsUpdate = true
   
-  var createMipMaps = true
+  var createMipMaps = false
   
   protected var _image:Image = null
   protected var _wrap = Texture.Wrap.CLAMP
