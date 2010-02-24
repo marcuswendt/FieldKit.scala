@@ -1,9 +1,20 @@
+/*                                                                            *\
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
+\*                                                                            */
+/* created February 23, 2010 */
 package field.kit.test.physics
 
 import field.kit._
 import field.kit.p5._
 import field.kit.physics._
 
+/**
+ * Shows how to create a simple animation using just a single physics Particle
+ * and a few Behaviours
+ */
 object SimplePhysicsTest extends Sketch {
 	import processing.core.PConstants._
 	

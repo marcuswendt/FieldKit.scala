@@ -14,7 +14,7 @@ import field.kit.math.geometry.AABB
  * 3D Verlet Particle class with support for multiple behaviours, finite state handling, colour integration
  * This is 
  */
-class Particle extends Vec3 with Updateable with Behavioural {
+class Particle extends Vec3 with Behavioural {
 		
 	/**
 	 * Creates a new particle at the given position 
@@ -136,6 +136,13 @@ class Particle extends Vec3 with Updateable with Behavioural {
 //	protected var _invWeight = 1f/ _weight
 	
 	// -- Behaviours -----------------------------------------------------------
+	/**
+	 * When adding a Behaviour to a Particle an identical copy is automatically created
+	 */
+	override def +=(b:Behaviour) {
+		super.+=(b.copy)
+	}
+	
 	/**
 	 * Applies all assigned behaviours to this particle
 	 */
