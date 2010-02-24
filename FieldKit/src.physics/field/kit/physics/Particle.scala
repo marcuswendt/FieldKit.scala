@@ -11,9 +11,10 @@ import field.kit._
 import field.kit.math.geometry.AABB
 
 /**
- * 3D Verlet Particle class with support for multiple behaviours, finite state handling, colour integration 
+ * 3D Verlet Particle class with support for multiple behaviours, finite state handling, colour integration
+ * This is 
  */
-class Particle extends AABB {
+class Particle extends Vec3 with Updateable with Behavioural {
 		
 	/**
 	 * Creates a new particle at the given position 
@@ -21,7 +22,6 @@ class Particle extends AABB {
 	def this(v:Vec3) {
 		this()
 		reset(v)
-		extent = 1f
 	}
 	
 	/**
@@ -89,9 +89,36 @@ class Particle extends AABB {
 		this.age += dt
 	}
 
+	// -- Boundaries -----------------------------------------------------------
+	var bounds:AABB = _
+	
+	def extent:Vec3 = {
+		if(bounds == null) return new Vec3()
+		bounds.extent
+	}
+	
+	def extent_=(value:Vec3) {
+		if(bounds == null) bounds = new AABB
+		bounds.extent = value
+	}
+	
+	def extent_=(value:Float) {
+		if(bounds == null) bounds = new AABB
+		bounds.extent = value
+	}
+	
+	/**
+	 * Updates the bounding box (if set)
+	 */
+	protected def updateBounds {
+		if(bounds == null) return
+		bounds := this
+	}
+	
 	// -- Colour ---------------------------------------------------------------
-	// TODO add colour when implementing colour behaviours
-//	protected def updatePosition {
+	protected var _colour:Colour = _
+	
+//	protected def updateColour {
 //		this.x = 2*x - prev.x + steer.x * _timestepSq
 //		this.y = 2*y - prev.y + steer.y * _timestepSq
 //		this.z = 2*z - prev.z + steer.z * _timestepSq
@@ -109,30 +136,14 @@ class Particle extends AABB {
 //	protected var _invWeight = 1f/ _weight
 	
 	// -- Behaviours -----------------------------------------------------------
-	import scala.collection.mutable.ArrayBuffer
-	protected var behaviours:ArrayBuffer[Behaviour] = _
-	
-	def +=(e:Behaviour) {
-		if(behaviours == null)
-			behaviours = new ArrayBuffer[Behaviour]
-		behaviours += e
-	}
-	
-	def -=(e:Behaviour) {
-		if(behaviours == null) return
-		behaviours -= e
-	}
-	
 	/**
-	 * Applies all assigned and enabled behaviours to this particle
+	 * Applies all assigned behaviours to this particle
 	 */
 	protected def updateBehaviours {
 		if(behaviours == null) return
 		var i = 0
 		while(i < behaviours.length) {
-			val e = behaviours(i)
-			if(e.isEnabled)
-				e.apply(this)
+			behaviours(i).apply(this)				
 			i += 1
 		}
 	}

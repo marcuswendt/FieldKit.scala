@@ -15,6 +15,7 @@
 		<include name="src/**" />
 		<include name="src.p5/**" />
 		<include name="src.particle/**" />
+		<include name="src.physics/**" />
 		<include name="src.gl/**" />
 		<include name="src.simulation/**" />
 		<include name="src.vision/**" />

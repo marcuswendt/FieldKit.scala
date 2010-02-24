@@ -13,25 +13,21 @@ object SimplePhysicsTest extends Sketch {
 	val p = new Particle {
 		def reset {
 			this.reset(width/2f, startHeight, 0f)
-			this.extent = 50f
+			this.extent = 25f
 		}
-		def size = this.extent.x * 2
+		def size = this.bounds.extent.x * 2
 	}
 	
 	// Gravity 
-	p += new Behaviour {
-		def apply(p:Particle) {
-			p.steer.y += 0.1f
-		}
+	p += behaviour { p:Particle =>
+		p.steer.y += 0.1f
 	}
 	
 	// Floor Bounce
-	p += new Behaviour {
-		def apply(p:Particle) {
-			if(p.max.y > floorHeight) {
-				p.y = floorHeight - p.extent.y
-				p.steer *= -0.5
-			}
+	p += behaviour { p:Particle =>
+		if(p.bounds.max.y > floorHeight) {
+			p.y = floorHeight - p.bounds.extent.y
+			p.steer *= -0.5
 		}
 	}
 	

@@ -23,6 +23,37 @@ package field.kit.physics
  *   e.g. Colour steering
  */
 trait Behaviour {
-	var isEnabled = true
+	
+	/**
+	 * Applies this behaviour to the given particle
+	 */
 	def apply(p:Particle)
+	
+	// support for creating identical copies
+	type T <: Behaviour
+	
+	/**
+	 * @return returns an identical copy of this behaviour
+	 */
+	def copy:T
+}
+
+/**
+ * Base trait for all classes using physics behaviours (PhysicsSystem, Flock, Particle)
+ */
+trait Behavioural {
+	import scala.collection.mutable.ArrayBuffer
+	
+	protected var behaviours:ArrayBuffer[Behaviour] = _
+	
+	def +=(e:Behaviour) {
+		if(behaviours == null)
+			behaviours = new ArrayBuffer[Behaviour]
+		behaviours += e
+	}
+	
+	def -=(e:Behaviour) {
+		if(behaviours == null) return
+		behaviours -= e
+	}
 }

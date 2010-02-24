@@ -29,7 +29,6 @@ class AABB extends Vec3 {
   
   var min = Vec3()
   var max = Vec3()
-  updateBounds
   
   // -- Constructors -----------------------------------------------------------
   def this(extent:Vec3) {
@@ -49,9 +48,21 @@ class AABB extends Vec3 {
 	  this.extent = extent
   }
   
-  protected def updateBounds {
+  // -- Setters ----------------------------------------------------------------
+  override def :=(v:Vec) = {
+	  super.:=(v)
+	  updateBounds
+  }
+  
+  override def :=(v:Float) = {
+	  super.:=(v)
+	  updateBounds
+  }
+  
+  protected def updateBounds = {
     min := this -= extent
     max := this += extent
+    this
   }
   
   /**

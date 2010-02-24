@@ -49,7 +49,7 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
    * Sets this Vectors components to the given Vec3
    * @return itself
    */
-  final def :=(v:Vec) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
+  def :=(v:Vec) = { this.x=v.x; this.y=v.y; this.z=v.z; this }
   
   /** 
    * Sets this Vectors components to the given Vec3
@@ -61,7 +61,7 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
    * Sets all components of this Vector to the given Float
    * @return itself
    */
-  final def :=(s:Float) = { this.x = s; this.y = s; this.z = s; this }
+  def :=(s:Float) = { this.x = s; this.y = s; this.z = s; this }
   
   /**
    * Sets all components of this Vector to the given Float
