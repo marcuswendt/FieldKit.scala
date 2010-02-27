@@ -67,6 +67,15 @@ class AABB extends BoundingVolume {
 		this
 	}
 
+	// -- Bounding Volume methods -----------------------------------------------
+	
+	def size = extent.x * 2f
+	
+	def size_=(value:Float) {
+		extent.normaliseTo(value)
+		updateBounds
+	}
+	
 	/** 
 	* @return true, if the given Vec3 lies within this bounding volume 
 	*/

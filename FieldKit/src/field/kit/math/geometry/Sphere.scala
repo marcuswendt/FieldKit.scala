@@ -16,10 +16,11 @@ class Sphere extends BoundingVolume {
 	
 	var radius = 0f
 	
+	// -- Constructors ---------------------------------------------------------
 	def this(position:Vec, radius:Float) {
 		this()
-		this.radius = radius
 		this := position
+		this.radius = radius
 	}
 	
 	def this(radius:Float) {
@@ -27,14 +28,24 @@ class Sphere extends BoundingVolume {
 		this.radius = radius
 	}
 
+	// -- Sphere properties ----------------------------------------------------
+	final def diameter = radius * 2f
+	
+	final def diameter_=(value:Float) = this.radius = value*0.5f	
+	
+	// -- Bounding Volume methods ----------------------------------------------
+	final def size = diameter
+	
+	final def size_=(value:Float) = diameter = value
+	
 	private val tmp = new Vec3
 	
-	def contains(p:Vec) = {
+	final def contains(p:Vec) = {
 		tmp.set(this) -= p
 		(tmp.lengthSquared <= radius * radius)
 	}
 	
-	def intersects(s:Sphere) = {
+	final def intersects(s:Sphere) = {
 		val delta = s - this
 		val d = delta.length
 		val r1 = radius
@@ -42,5 +53,5 @@ class Sphere extends BoundingVolume {
 		d <= r1 + r2 && d >= Math.abs(r1 - r2)
 	}
 	
-	def intersects(box:AABB) = box.intersects(this)
+	final def intersects(box:AABB) = box.intersects(this)
 }
