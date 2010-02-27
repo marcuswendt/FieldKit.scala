@@ -22,7 +22,16 @@
 	</fileset>
 
 	<!-- library references -->
-	<fileset id="project.jars" dir="${base.dir}/lib/" includes="**/*.jar" />
+	<property name="scala-library.jar" location="${base.dir}/lib/scala/scala-library.jar" />
+	<property name="scala-compiler.jar" location="${base.dir}/lib/scala/scala-compiler.jar" />
+
+	<fileset id="project.jars" dir="${base.dir}/lib/" includes="**/*.jar">
+		<exclude name="**/scala-compiler.jar"/>
+		<exclude name="**/jline.jar"/>
+		<exclude name="**/scala-dbc.jar"/>
+		<exclude name="**/scala-swing.jar"/>
+		<exclude name="**/scalap.jar"/>
+	</fileset>
 
 	<fileset id="project.natives" dir="${base.dir}/lib/" excludes="**/*.jar" />
 	
@@ -49,39 +58,7 @@
 	<property name="jar.file" value="${library.dir}/${project.jar}" />
 	<property name="zip.file" value="${build.dir}/${dist.name}.zip" />
 
-	<!-- == OS SPECIFIC ==================================================== -->
-	<condition property="isMac">
-		<os family="mac" />
-	</condition>
-
-	<condition property="isWindows">
-		<os family="windows" />
-	</condition>
-
-	<condition property="isLinux">
-		<os family="unix" />
-	</condition>
-
-	<target name="initMac" if="isMac">
-		<!-- this assumes you installed scala using macports -->
-		<property name="scala.home" location="/opt/local/share/scala" />
-		<property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
-		<property name="scala-compiler.jar" location="${scala.home}/lib/scala-compiler.jar" />
-	</target>
-
-	<target name="initWindows" if="isWindows">
-		<property name="scala.home" location="C:\Program Files\scala" />
-		<property name="scala-library.jar" location="${scala.home}\lib\scala-library.jar" />
-		<property name="scala-compiler.jar" location="${scala.home}\lib\scala-compiler.jar" />
-	</target>
-
-	<target name="initLinux" if="isLinux">
-		<!-- TODO need to set paths for linux -->
-		<property name="scala.home" location="/usr/share/java" />
-		<property name="scala-library.jar" location="${scala.home}/scala-library.jar" />
-		<property name="scala-compiler.jar" location="${scala.home}/scala-compiler.jar" />
-	</target>
-
+	
 	<!-- == CLEAN ========================================================== -->
 	<target name="clean">
 		<delete dir="${tmp.dir}" />
@@ -96,7 +73,7 @@
 		</condition>
 	</target>
 
-	<target name="init" depends="check-init, initMac, initWindows, initLinux" unless="is.initialised">
+	<target name="init" depends="check-init" unless="is.initialised">
 		<!-- additional tasks -->
 		<taskdef resource="scala/tools/ant/antlib.xml">
 			<classpath>

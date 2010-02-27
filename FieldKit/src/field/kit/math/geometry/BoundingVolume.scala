@@ -15,4 +15,16 @@ import field.kit._
 trait BoundingVolume extends Vec3 {
 	/** @return true, when the given point lies within this bounding volume */
 	def contains(p:Vec):Boolean
+	
+	final def intersects(v:BoundingVolume):Boolean = {
+		v match {
+			case box:AABB => intersects(box)
+			case sphere:Sphere => intersects(sphere)
+			case _ => false
+		}
+	}
+	
+	def intersects(box:AABB):Boolean
+	
+	def intersects(sphere:Sphere):Boolean
 }

@@ -8,6 +8,8 @@
 package field.kit.math.geometry
 
 import field.kit.math._
+import scala.collection.mutable.ArrayBuffer
+import scala.annotation._ 
 
 /**
 * 
@@ -19,29 +21,24 @@ import field.kit.math._
 * 
 * @see http://code.google.com/p/toxiclibs/source/browse/trunk/toxiclibs/src.core/toxi/geom/PointOctree.java
 */
-class Octree[T <: Vec3](val parent:Octree[T], val offset:Vec3, val halfSize:Vec3) 
+class Octree[T <: Vec3](parent:Octree[T], val offset:Vec3, halfSize:Vec3)
 extends AABB(offset + halfSize, halfSize) {
-	import scala.collection.mutable.ArrayBuffer
-
+	
+	if(parent != null)
+		this.minSize = parent.minSize 
+		
 	/**
-	* Constructs a new Octree root node
-	*/
-	def this(offset:Vec3, size:Float) = this(null, offset, Vec3(size/2f))
-
-	/**
-	* Constructs a new Octree root node
-	*/
-	def this(offset:Vec3, size:Vec3) = this(null, offset, size/2f)
-
-	def this(size:Vec3) = this(null, Vec3(), size/2f)
+	 * Constructs a new Octree root node
+	 */
+	def this(offset:Vec3, size:Vec3) = this(null, offset, size*0.5f)
+		
+	// -------------------------------------------------------------------------
 
 	/**
 	* Alternative tree recursion limit, number of world units when cells are
 	* not subdivided any further
 	*/
 	var minSize = 10f
-
-	val size = halfSize * 2f
 
 	val depth:Int = if(parent == null) 0 else parent.depth + 1
 
@@ -70,36 +67,68 @@ extends AABB(offset + halfSize, halfSize) {
 	* @return true, if point has been added successfully
 	*/
 	def insert(p:T):Boolean = {
-		// check if point is inside cube
-		if(this contains p) {
-			// only add data to leaves for now
-			if(halfSize.x <= minSize || halfSize.y <= minSize || halfSize.z <= minSize) {
-				if(data == null)
-					data = new ArrayBuffer[T]
-			
-					data += p
-					true
-				} else {
-					if(children == null)
-						children = new Array[Octree[T]](8)
-			
-					val octant = octantID(p.x - offset.x, p.y - offset.y, p.z - offset.z)
-			
-					if(children(octant) == null) {
-						val o = Vec3(offset)
-						if((octant & 1) != 0) o.x += halfSize.x
-						if((octant & 2) != 0) o.y += halfSize.y
-						if((octant & 4) != 0) o.z += halfSize.z
+		// tail-recursion optimised insert
+		@tailrec def insertElement(n:Octree[T], p:T):Boolean = {
+			if( !(n contains p) ) return false
 				
-						children(octant) = new Octree[T](this, o, halfSize * 0.5f);
-						numChildren += 1
-					}
-					
-					children(octant) insert p  
-				}
+			if(n.extent.x <= minSize || n.extent.y <= minSize || n.extent.z <= minSize) {
+				if(n.data == null)
+					n.data = new ArrayBuffer[T]
+			
+				n.data += p
+				true
+				
 			} else {
-				false
+				if(n.children == null)
+					n.children = new Array[Octree[T]](8)
+		
+		        val octant = n.octantID(p.x - n.offset.x, p.y - n.offset.y, p.z - n.offset.z)
+		
+				if(n.children(octant) == null) {
+					val o = Vec3(n.offset)
+					if((octant & 1) != 0) o.x += n.extent.x
+					if((octant & 2) != 0) o.y += n.extent.y
+					if((octant & 4) != 0) o.z += n.extent.z
+			
+					n.children(octant) = new Octree[T](this, o, n.extent * 0.5f)
+					n.numChildren += 1
+				}
+				
+				insertElement(n.children(octant), p)
+			}
 		}
+		insertElement(this, p)
+		
+		/*
+		// check if point is inside cube
+		if(!(this contains p)) return false
+		
+		// only add data to leaves for now
+		if(extent.x <= minSize || extent.y <= minSize || extent.z <= minSize) {
+			if(data == null)
+				data = new ArrayBuffer[T]
+		
+			data += p
+			return true
+			
+		} else {
+			if(children == null)
+				children = new Array[Octree[T]](8)
+	
+	        val octant = octantID(p.x - offset.x, p.y - offset.y, p.z - offset.z)
+	
+			if(children(octant) == null) {
+				val o = Vec3(offset)
+				if((octant & 1) != 0) o.x += extent.x
+				if((octant & 2) != 0) o.y += extent.y
+				if((octant & 4) != 0) o.z += extent.z
+		
+				children(octant) = new Octree[T](this, o, extent * 0.5f)
+				numChildren += 1
+			}
+			children(octant) insert p  
+		}
+		*/
 	}
 
 	/**
@@ -110,11 +139,11 @@ extends AABB(offset + halfSize, halfSize) {
 	*/
 	def remove(p:T):Boolean = {
 		var found = false 
-		val leaf = apply(p)
+		val leaf = findLeaf(p)
 		if(leaf != null) {
-			val sizeBefore = leaf.size
+			val sizeBefore = leaf.data.size
 			leaf.data -= p
-			if(leaf.size != sizeBefore) {
+			if(leaf.data.size != sizeBefore) {
 				found = true
 				if(isAutoReducing && leaf.data.size == 0)
 					leaf.reduceBranch
@@ -128,40 +157,20 @@ extends AABB(offset + halfSize, halfSize) {
 	*/
 	protected def reduceBranch {
 		if(data != null && data.size == 0)
-		data = null
-
+			data = null
+	
 		if(numChildren > 0) {
 			for(i <- 0 until 8) {
 				val child = children(i)
 					if(child != null && child.data == null)
 						children(i) = null
-				}
 			}
+		}
 	
-			if(parent != null)
+		if(parent != null)
 			parent.reduceBranch
-		}
-
-		/**
-		* Finds the leaf node which spatially relates to the given point
-		* 
-		* @param p point to check
-		* @return leaf node or null if point is outside the tree dimensions
-		*/
-		def apply(p:T):Octree[T] = {
-			// if not a leaf node...
-			if (this contains p) {
-				if(numChildren > 0) {
-					val octant = octantID(p.x - offset.x, p.y - offset.y, p.z - offset.z)
-					if(children(octant) != null)
-					return children(octant)(p)
-		
-				} else if(data != null) {
-					return this
-			}
-		}
-		null
 	}
+
 
 	/**
 	* Selects all stored points within the given axis-aligned bounding box.
@@ -170,7 +179,40 @@ extends AABB(offset + halfSize, halfSize) {
 	* @param result the ArrayBuffer
 	* @return all points with the box volume
 	*/
-	def apply(box:AABB, result:ArrayBuffer[T]):ArrayBuffer[T] = {
+	def find(bounds:BoundingVolume, result:ArrayBuffer[T]):ArrayBuffer[T] = {
+		
+		// find using tail-recursion optimisation
+		val r = if(result == null) new ArrayBuffer[T] else result
+		
+		@tailrec def findPoints(n:Octree[T]) {
+			if(n == null) return
+			
+			if(n intersects bounds) {
+				if(n.data != null) {
+					var i = 0
+					while(i < n.data.length) {
+						val p = n.data(i)
+						if(bounds contains p)
+							r += p
+						i += 1
+					}              
+					
+				} else if(n.numChildren > 0) {
+					findPoints(n.children(0))
+					findPoints(n.children(1))
+					findPoints(n.children(2))
+					findPoints(n.children(3))
+					findPoints(n.children(4))
+					findPoints(n.children(5))
+					findPoints(n.children(6))
+					findPoints(n.children(7))
+				}
+			}
+		}
+		findPoints(this)
+		r
+		
+		/*
 		val r = if(result == null) new ArrayBuffer[T] else result
 
 		if (this intersects box) {
@@ -193,50 +235,62 @@ extends AABB(offset + halfSize, halfSize) {
 			}
 		}
 		r
+		*/
 	}
 
 	/**
-	* Selects all stored points within the given sphere volume
-	*/
-	def apply(sphere:Sphere, result:ArrayBuffer[T]):ArrayBuffer[T] = {
-		val r = if(result == null) new ArrayBuffer[T] else result
+	 * Alias for find
+	 */
+	def apply(bounds:BoundingVolume, result:ArrayBuffer[T]) = find(bounds, result)
+	
+//	/**
+//	* Selects all stored points within the given sphere volume
+//	*/
+//	def apply(sphere:Sphere, result:ArrayBuffer[T]):ArrayBuffer[T] = {
+//		val r = if(result == null) new ArrayBuffer[T] else result
+//
+//		if (this intersects sphere) {
+//			if(data != null) {
+//				var i = 0
+//				while(i < data.length) {
+//					val p = data(i)
+//					if(sphere contains p)
+//						r += p
+//					i += 1
+//				}                       
+//			} else if(numChildren > 0) {
+//				var i = 0
+//				while(i < 8) {
+//					val child = children(i)
+//					if(child != null)
+//						child(sphere, result)
+//					i += 1
+//				}
+//			}
+//		}
+//		r
+//	}
 
-		if (this intersects sphere) {
-			if(data != null) {
-				var i = 0
-				while(i < data.length) {
-					val p = data(i)
-					if(sphere contains p)
-						r += p
-					i += 1
-				}                       
-			} else if(numChildren > 0) {
-				var i = 0
-				while(i < 8) {
-					val child = children(i)
-					if(child != null)
-						child(sphere, result)
-					i += 1
-				}
+	/**
+	* Finds the leaf node which spatially relates to the given point
+	* 
+	* @param p point to check
+	* @return leaf node or null if point is outside the tree dimensions
+	*/
+	def findLeaf(p:T):Octree[T] = {
+		// if not a leaf node...
+		if (this contains p) {
+			if(numChildren > 0) {
+				val octant = octantID(p.x - x, p.y - y, p.z - z)
+				if(children(octant) != null)
+				return children(octant).findLeaf(p)
+	
+			} else if(data != null) {
+				return this
 			}
 		}
-		r
+		null
 	}
-
-	/**
-	* Alias for apply(p:Vec)
-	*/
-	def leafForPoint(p:T) = apply(p)
-
-	/**
-	* Alias for apply(box:AABB, result:ArrayBuffer[Vec])
-	*/
-	def pointsWithinBox(box:AABB, result:ArrayBuffer[T]) = apply(box,result)
-
-	/**
-	* Alias for apply(sphere:Sphere, result:ArrayBuffer[Vec])
-	*/
-	def pointsWithinSphere(sphere:Sphere, result:ArrayBuffer[T]) = apply(sphere,result)
 
 	/**
 	* Clears all children and data of this node
@@ -255,9 +309,9 @@ extends AABB(offset + halfSize, halfSize) {
 	*/
 	protected final def octantID(x:Float, y:Float, z:Float):Int = {
 		var id = 0
-		if(x >= halfSize.x) id += 1
-		if(y >= halfSize.y) id += 2
-		if(z >= halfSize.z) id += 4
+		if(x >= extent.x) id += 1
+		if(y >= extent.y) id += 2
+		if(z >= extent.z) id += 4
 		id
 	}
 

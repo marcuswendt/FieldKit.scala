@@ -30,8 +30,17 @@ class Sphere extends BoundingVolume {
 	private val tmp = new Vec3
 	
 	def contains(p:Vec) = {
-		//val d = (this - p).lengthSquared
 		tmp.set(this) -= p
 		(tmp.lengthSquared <= radius * radius)
 	}
+	
+	def intersects(s:Sphere) = {
+		val delta = s - this
+		val d = delta.length
+		val r1 = radius
+		val r2 = s.radius
+		d <= r1 + r2 && d >= Math.abs(r1 - r2)
+	}
+	
+	def intersects(box:AABB) = box.intersects(this)
 }

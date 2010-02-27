@@ -73,7 +73,7 @@ extends Space(width, height, depth) {
 class OctreeSpace(width:Float, height:Float, depth:Float) 
 extends Space(width, height, depth) {
 	
-  val tree = new Octree[T](null, this, (width/2f, height/2f, depth/2f))
+  val tree = new Octree[T](this, (width/2f, height/2f, depth/2f))
   
   protected val result = new ArrayBuffer[T]
   
