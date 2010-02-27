@@ -12,25 +12,35 @@ import field.kit.math._
 /**
  * Defines a mathematical Circle
  */
-class Circle(var radius:Float) extends Vec2 {
-  
-  def this(position:Vec, radius:Float) = {
-    this(radius)
-    this := position
-  }
-  
-  /** @return true if this circle contains the given point, false otherwise */
-  def contains(p:Vec) = {
-    val dx = this.x - p.x
-    val dy = this.y - p.y
-    val d = dx*dx + dy*dy
-    (d <= radius * radius)
-  }
-  
-  /** @return true if this circle intersects with the given circle, false otherwise */
-  def intersects(circle:Circle) = {
-    (x - circle.x) * (x - circle.x) +
-    (y - circle.y) * (y - circle.y) < 
-    (radius - circle.radius) * (radius - circle.radius)
-  }
+class Circle extends Vec2 {
+
+	var radius = 0f
+	
+	def diameter = 2f*radius
+	
+	def this(position:Vec, radius:Float) = {
+		this()
+		this.radius = radius
+		this := position
+	}
+
+	def this(radius:Float) {
+		this()
+		this.radius = radius
+	}
+
+	/** @return true if this circle contains the given point, false otherwise */
+	def contains(p:Vec) = distanceSquared(p) <= radius * radius
+
+	/** @return true if this circle contains the given circle */
+	def contains(c:Circle) = distance(c) + c.radius <= radius
+	
+	/** @return true if this circle intersects with the given circle, false otherwise */
+	def intersects(c:Circle) = {
+		val delta = c - this
+		val d = delta.length
+		val r1 = radius
+		val r2 = c.radius
+		d <= r1 + r2 && d >= Math.abs(r1 - r2)
+	}
 }

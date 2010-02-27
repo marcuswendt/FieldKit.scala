@@ -48,7 +48,7 @@ class ParticleSystem extends Logger {
       
       j = 0
       while(j < flock.size) {
-        space.insert(flock(j).asInstanceOf[Vec])
+        space.insert(flock(j).asInstanceOf[Particle])
         j += 1
       }
     }

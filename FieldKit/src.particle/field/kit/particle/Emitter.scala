@@ -16,7 +16,8 @@ import scala.reflect.Manifest
  * represents a point based emitter
  * @author Marcus Wendt
  */
-class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) extends Vec3 with Logger {
+class Emitter[P <: Particle](val flock:Flock[P])(implicit m:Manifest[P]) 
+extends Vec3 with Logger {
   import scala.collection.mutable.ArrayBuffer
   fine("init")
   

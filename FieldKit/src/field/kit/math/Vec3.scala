@@ -224,9 +224,9 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
   
   final def lengthSquared = x * x + y * y + z * z
   
-  final def distance(v:Vec3) = Math.sqrt(distanceSquared(v)).toFloat
+  final def distance(v:Vec) = Math.sqrt(distanceSquared(v)).toFloat
   
-  final def distanceSquared(v:Vec3) = {
+  final def distanceSquared(v:Vec) = {
     val dx = x - v.x
     val dy = y - v.y
     val dz = z - v.z
@@ -234,10 +234,10 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
   }
   
   /**
-   * Normalizes this vector.
+   * Normalises this vector so that its magnitude = 1.
    * @return itself
    */
-  final def normalize = {
+  final def normalise = {
     val l = length
     if(l != 0)
       this /= l
@@ -245,6 +245,24 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
       this /= 1
     this
   }
+  
+  	/**
+	 * Normalizes the vector to the given length.
+	 * @return itself
+	 */
+  	final def normaliseTo(len:Float) = {
+	  var mag = Math.sqrt(x * x + y * y + z * z).toFloat
+	  if(mag > 0) {
+			mag = len / mag
+			x *= mag
+			y *= mag
+			z *= mag
+	  }
+	  this
+  	}
+  
+  /** @deprecated */
+  final def normalize = normalise
 
   /** <code>angleBetween</code> returns (in radians) the angle between two vectors.
    *  It is assumed that both this vector and the given vector are unit vectors (iow, normalized). */
@@ -272,6 +290,16 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
     this.y = y * (1 - delta) + target.y * delta
     this.z = z * (1 - delta) + target.z * delta
     this
+  }
+  
+  /**
+   * Interpolates the vector towards the given target vector, using linear interpolation.
+   */
+  final def interpolate(target:Vec3, delta:Float) = {
+	x += (target.x - x) * delta
+	y += (target.y - y) * delta
+	z += (target.z - z) * delta
+	this
   }
   
   /** checks wether one or several components of this vector are Not a Number or Infinite */

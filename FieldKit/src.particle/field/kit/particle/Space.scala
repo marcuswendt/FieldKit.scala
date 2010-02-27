@@ -25,19 +25,16 @@ object Space {
  */
 class Space(val width:Float, val height:Float, val depth:Float) 
 extends AABB(Vec3(0, 0, -depth/2f), Vec3(width, height, depth)) {
-  
+
+	type T = Particle
+	
   val dimension = Vec3(width, height, depth)
   
   /** inserts another particle into this space */
-  def insert(particle:Vec) {}
-  
-  protected val result = new ArrayBuffer[Vec]
+  def insert(p:Particle) {}
   
   /** @return a list of particles at the given position */
-  def apply(point:Vec, radius:Float) = {
-    result.clear
-    result
-  }
+  def apply(point:Vec3, radius:Float):ArrayBuffer[_ <: Vec] = null
   
   /** removes all registered particles from this space */
   def clear {}
@@ -57,12 +54,14 @@ class QuadtreeSpace(width:Float, height:Float, depth:Float)
 extends Space(width, height, depth) {
   var tree = new Quadtree(null, (x,y), (width/2f, height/2f))
   
-  override def apply(point:Vec, radius:Float) = {
+  protected val result = new ArrayBuffer[Vec]
+  
+  override def apply(point:Vec3, radius:Float) = {
     result.clear
     tree(new Circle(point, radius), result)
   }
 
-  override def insert(particle:Vec) = tree.insert(particle)
+  override def insert(p:Particle) = tree.insert(p)
 
   override def clear = tree.clear  
 }
@@ -73,14 +72,17 @@ extends Space(width, height, depth) {
  */
 class OctreeSpace(width:Float, height:Float, depth:Float) 
 extends Space(width, height, depth) {
-  val tree = new Octree(null, this, (width/2f, height/2f, depth/2f))
+	
+  val tree = new Octree[T](null, this, (width/2f, height/2f, depth/2f))
   
-  override def apply(point:Vec, radius:Float) = {
+  protected val result = new ArrayBuffer[T]
+  
+  override def apply(point:Vec3, radius:Float) = {
     result.clear
     tree(new Sphere(point, radius), result)
   }
 
-  override def insert(particle:Vec) = tree.insert(particle)
+  override def insert(p:Particle) = tree.insert(p)
   
   override def clear = tree.clear
 }

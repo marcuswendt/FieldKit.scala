@@ -216,7 +216,7 @@ class Vec2(var x:Float, var y:Float) extends Vec {
   final def distance(v:Vec) = Math.sqrt(distanceSquared(v.x, v.y)).toFloat
   final def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).toFloat
   
-  final def distanceSquared(v:Vec2):Float = distanceSquared(v.x, v.y)
+  final def distanceSquared(v:Vec):Float = distanceSquared(v.x, v.y)
   final def distanceSquared(x:Float, y:Float) = {
     val dx = this.x - x
     val dy = this.y - y
