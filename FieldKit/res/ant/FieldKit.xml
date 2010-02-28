@@ -94,9 +94,6 @@
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${tmp.dir}" />
 
-		<!-- info -->
-		<echo>using: ${scala.home}, ${scala-compiler.jar}, ${scala-library.jar}</echo>
-
 		<pathconvert property="classpath.string" refid="classpath" />
 		<echo>classpath: ${classpath.string}</echo>
 		<property name="initialised" value="true" />
