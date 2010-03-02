@@ -23,6 +23,8 @@ object Common extends Package
  */
 trait Package extends Trigonometry with Interpolation with Intersection {
 
+	val EPS = 1e-6f
+	
 	// Implicit conversions
 	implicit def doubleTofloat(d: Double) = d.toFloat
 

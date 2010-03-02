@@ -33,6 +33,12 @@ class Sphere extends BoundingVolume {
 	
 	final def diameter_=(value:Float) = this.radius = value*0.5f	
 	
+	/** Sets this sphere to be an exact copy of the passed in sphere */
+	def :=(sphere:Sphere) {
+		super.:=(sphere)
+		this.radius = radius
+	}
+	
 	// -- Bounding Volume methods ----------------------------------------------
 	final def size = diameter
 	

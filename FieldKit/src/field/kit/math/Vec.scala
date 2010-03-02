@@ -8,15 +8,15 @@
 package field.kit.math
 
 /**
- * Common base class for all Vector types <code>Vec2</code> & <code>Vec3</code>
- */
+* Common base class for all Vector types <code>Vec2</code> & <code>Vec3</code>
+*/
 trait Vec {
-  def x:Float
-  def x_=(value:Float)
-  
-  def y:Float
-  def y_=(value:Float)
-  
-  def z:Float
-  def z_=(value:Float)
+	def x:Float
+	def x_=(value:Float)
+
+	def y:Float
+	def y_=(value:Float)
+
+	def z:Float
+	def z_=(value:Float)
 }

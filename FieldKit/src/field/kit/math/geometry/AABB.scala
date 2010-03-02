@@ -60,6 +60,13 @@ class AABB extends BoundingVolume {
 		super.:=(v)
 		updateBounds
 	}
+	
+	/** Sets this AABB to be an exact copy of the passed in AABB */
+	def :=(box:AABB) {
+		super.:=(box)
+		this.extent = box.extent
+	}
+
 
 	protected def updateBounds = {
 		min := this -= extent
