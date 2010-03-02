@@ -8,7 +8,7 @@
 package field.kit.physics
 
 import field.kit._
-import field.kit.math.geometry.AABB
+import field.kit.math.geometry._
 
 /**
  * 3D Verlet Particle class with support for multiple behaviours, finite state handling, colour integration
@@ -21,7 +21,7 @@ class Particle extends Vec3 with Behavioural {
 	 */
 	def this(v:Vec3) {
 		this()
-		reset(v)
+		init(v)
 	}
 	
 	/**
@@ -35,19 +35,37 @@ class Particle extends Vec3 with Behavioural {
 		updateBehaviours
 	}
 	
-	// -- Verlet Integration ---------------------------------------------------
-	protected var _isLocked = false
+	// -- Weights --------------------------------------------------------------
+	def weight = _weight
+	def weight_=(value:Float) {
+		_weight = value
+		_invWeight = 1f / value
+	}
 	
+	def invWeight = _invWeight
+	
+	protected var _weight = 1f
+	protected var _invWeight = 1f/ _weight
+	
+	// -- Verlet Integration ---------------------------------------------------
 	def lock = _isLocked = true
 	
 	def unlock {
 		clearVelocity
 		_isLocked = false
 	}
+
+	def isLocked = _isLocked
+	
+	protected var _isLocked = false
 	
 	/** Steering force */
-	val steer = new Vec3
+	val force = new Vec3
+
+	/** Air resistance or fluid resistance, force opposed to the relative motion of this particle */
+	var drag = 0.03f
 	
+	/** Time between updates */
 	def timestep = _timestep
 	def timestep_=(value:Float) {
 		_timestep = value
@@ -56,19 +74,37 @@ class Particle extends Vec3 with Behavioural {
 	protected var _timestep = 1f
 	protected var _timestepSq = _timestep * _timestep
 	
-	private val prev = new Vec3
+	val prev = new Vec3
+	private val tmp = new Vec3
 	
 	/**
 	 * Updates the position based on the previous position and the steering force 
 	 */
 	protected def updatePosition {
-		this.x = 2*x - prev.x + steer.x * _timestepSq
-		this.y = 2*y - prev.y + steer.y * _timestepSq
-		this.z = 2*z - prev.z + steer.z * _timestepSq
-		prev := this
+		tmp := this
+		
+		//this += (this - prev) + force * (1f - drag) * _timestepSq
+		
+//		force *= (1f - drag) *= _timestepSq
+//		
+//		this.x += (this.x - prev.x) + force.x
+//		this.y += (this.y - prev.y) + force.y
+//		this.z += (this.z - prev.z) + force.z
+		
+		force *= _timestepSq
+		
+		this.x += (this.x - prev.x) + force.x
+		this.y += (this.y - prev.y) + force.y
+		this.z += (this.z - prev.z) + force.z
+
+		prev := tmp
+		
+		scaleVelocity(1f - drag)
+		
+		force.zero
 	}
 	
-	def reset(v:Vec3) {
+	def init(v:Vec3) {
 		this := v
 		clearVelocity
 	}
@@ -76,6 +112,35 @@ class Particle extends Vec3 with Behavioural {
 	def clearVelocity {
 		prev := this
 	}
+	
+	def scaleVelocity(s:Float) = prev.interpolate(this, 1f - s)
+	
+	
+	// -- Neighbours -----------------------------------------------------------
+	import scala.collection.mutable.ArrayBuffer
+	
+	/** List to keep track of this particles neighbours */
+	var neighbours:ArrayBuffer[Particle] = _
+	
+	/**
+	 * Adds another particle as this particles neighbour
+	 */
+	def +=(p:Particle) = {
+		if(neighbours == null)
+			neighbours = new ArrayBuffer[Particle]
+		neighbours += p
+	}
+	
+	/**
+	 * Clears neighbour list (if set)
+	 */
+	def clearNeighbours = {
+		if(neighbours == null) 
+			neighbours = new ArrayBuffer[Particle]
+		
+		neighbours.clear
+	}
+	
 	
 	// -- State Machine --------------------------------------------------------
 	var age = 0f
@@ -90,22 +155,18 @@ class Particle extends Vec3 with Behavioural {
 	}
 
 	// -- Boundaries -----------------------------------------------------------
-	var bounds:AABB = _
+	var bounds:BoundingVolume = _
 	
-	def extent:Vec3 = {
-		if(bounds == null) return new Vec3()
-		bounds.extent
+	def size = if(bounds == null) 0f else bounds.size
+	
+	def size_=(value:Float) {
+		if(bounds == null)
+			bounds = createBounds
+			
+		bounds.size = value
 	}
 	
-	def extent_=(value:Vec3) {
-		if(bounds == null) bounds = new AABB
-		bounds.extent = value
-	}
-	
-	def extent_=(value:Float) {
-		if(bounds == null) bounds = new AABB
-		bounds.extent = value
-	}
+	protected def createBounds = new Sphere(this, 0f)
 	
 	/**
 	 * Updates the bounding box (if set)
@@ -116,32 +177,22 @@ class Particle extends Vec3 with Behavioural {
 	}
 	
 	// -- Colour ---------------------------------------------------------------
-	protected var _colour:Colour = _
+	var colour:Colour = _
 	
 //	protected def updateColour {
 //		this.x = 2*x - prev.x + steer.x * _timestepSq
 //		this.y = 2*y - prev.y + steer.y * _timestepSq
 //		this.z = 2*z - prev.z + steer.z * _timestepSq
 //		prev := this
-//	}
-	
-	// -- Weights --------------------------------------------------------------
-	// TODO add weights when implementing springs
-//	def weight = _weight
-//	def weight_=(value:Float) {
-//		_weight = value
-//		_invWeight = 1f / value
-//	}
-//	protected var _weight = 1f
-//	protected var _invWeight = 1f/ _weight
+//	}	
 	
 	// -- Behaviours -----------------------------------------------------------
-	/**
-	 * When adding a Behaviour to a Particle an identical copy is automatically created
-	 */
-	override def +=(b:Behaviour) {
-		super.+=(b.copy)
-	}
+//	/**
+//	 * When adding a Behaviour to a Particle an identical copy is automatically created
+//	 */
+//	override def +=(b:Behaviour) {
+//		super.+=(b.copy)
+//	}
 	
 	/**
 	 * Applies all assigned behaviours to this particle
