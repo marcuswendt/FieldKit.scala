@@ -23,7 +23,7 @@ extends Vec3 with Behavioural {
 
 	protected var time = 0f
 	
-	override def update(dt:Float) {
+	def update(dt:Float) {
 		time += dt
     
 		if(time < interval) return
@@ -50,13 +50,8 @@ extends Vec3 with Behavioural {
 		physics += p
     
 		// apply behaviours
-		if(behaviours == null) return p
-		
-		var i = 0
-		while(i < behaviours.size) {
-			behaviours(i).apply(p)
-			i += 1
-		}
+		applyBehaviours(p)
+		applyConstraints(p)
 		
 		p
 	}
@@ -66,5 +61,25 @@ extends Vec3 with Behavioural {
 		val clazz = Class.forName(m.toString)
 		val p = clazz.newInstance.asInstanceOf[T]
 		p
+	}
+	
+	protected def applyBehaviours(p:Particle) {
+		if(behaviours == null) return
+		
+		var i = 0
+		while(i < behaviours.size) {
+			behaviours(i).apply(p)
+			i += 1
+		}	
+	}
+	
+	protected def applyConstraints(p:Particle) {
+		if(constraints == null) return
+		
+		var i = 0
+		while(i < constraints.size) {
+			constraints(i).apply(p)
+			i += 1
+		}
 	}
 }

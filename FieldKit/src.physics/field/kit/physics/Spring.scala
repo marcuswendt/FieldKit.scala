@@ -30,25 +30,25 @@ class Spring {
 	protected val delta = new Vec3
 	protected val tmp = new Vec3
 	
-	def update {
+	def update(applyConstraints:Boolean) {
 		delta := b -= a
 		val dist = delta.length + EPS
 		val normDistStrength = (dist - restLength) / (dist * (a.invWeight + b.invWeight)) * strength
 
+		//println("delta", delta, "dist", dist, "normDistStrength", normDistStrength)
+		
         if (!a.isLocked && !isALocked) {
         	tmp := delta *= normDistStrength * a.invWeight
         	a += tmp
-//            if (applyConstraints) {
-//                a.applyConstraints();
-//            }
+            if (applyConstraints)
+                a.applyConstraints
         }
+		
         if (!b.isLocked && !isBLocked) {
-            tmp := delta *= normDistStrength * a.invWeight
-        	a += tmp
-//            if (applyConstraints) {
-//                b.applyConstraints();
-//            }
+            tmp := delta *= -normDistStrength * b.invWeight
+        	b += tmp
+            if (applyConstraints)
+                b.applyConstraints
         }
-
 	}
 }

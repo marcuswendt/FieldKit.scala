@@ -16,9 +16,6 @@ class CircleConstraint(circle:Circle, isBoundingCircle:Boolean) extends Behaviou
 		}
 			
 	}
-	
-	type T = CircleConstraint
-	def copy = new CircleConstraint(circle, isBoundingCircle)
 }
 
 /**
@@ -41,7 +38,4 @@ class CircleParticleSizeConstraint(circle:Circle) extends Behaviour {
 			p := v
 		}	
 	}
-	
-	type T = CircleParticleSizeConstraint
-	def copy = new CircleParticleSizeConstraint(circle)
 }

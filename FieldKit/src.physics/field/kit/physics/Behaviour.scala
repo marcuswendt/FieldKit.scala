@@ -30,27 +30,28 @@ trait Behaviour extends Logger {
 	 * Applies this behaviour to the given particle
 	 */
 	def apply(p:Particle)
-	
-	// support for creating identical copies
-	type T <: Behaviour
-	
-	/**
-	 * @return returns an identical copy of this behaviour
-	 */
-	def copy:T
 }
 
+/** 
+ * A constraint is a special type of Behaviour that may not be invalidated by other behaviours 
+ */
+trait Constraint extends Behaviour
+
+
 /**
- * Base trait for all classes using physics behaviours (PhysicsSystem, Flock, Particle)
+ * Base trait for all classes using physics behaviours (Physics, Particle)
  * It is up to the implementing class to define how the behaviours are actually used.
  */
 trait Behavioural {
 	import scala.collection.mutable.ArrayBuffer
 	
+	
+	// -- Forces ---------------------------------------------------------------
+	
 	protected var behaviours:ArrayBuffer[Behaviour] = _
 	
 	/**
-	 * Adds the given Behaviour
+	 * Adds the given Force to this Behavioural class
 	 */
 	def +=(b:Behaviour) {
 		if(behaviours == null)
@@ -62,15 +63,32 @@ trait Behavioural {
 	
 	def -=(b:Behaviour) {
 		if(behaviours == null) return
-		// TODO this should probably match against the behaviour's class or type
-		// not the isntance variable
 		behaviours -= b
 	}
 	
 	def remove(b:Behaviour) = this -= b
 
+	
+	// -- Constraints ----------------------------------------------------------
+	
+	protected var constraints:ArrayBuffer[Constraint] = _
+	
 	/**
-	 * Each Behavioural class needs some form of updating its state
+	 * Adds the given Force to this Behavioural class
 	 */
-	def update(dt:Float)
+	def +=(c:Constraint) {
+		if(constraints == null)
+			constraints = new ArrayBuffer[Constraint]
+		constraints += c
+	}
+	
+	def add(c:Constraint) = this += c
+	
+	def -=(c:Constraint) {
+		if(constraints == null) return
+		constraints -= c
+	}
+	
+	def remove(c:Constraint) = this -= c
+
 }

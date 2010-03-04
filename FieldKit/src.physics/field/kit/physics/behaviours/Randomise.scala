@@ -23,9 +23,6 @@ class RandomiseWithinRadius(val radius:Float) extends Behaviour {
 		p.z += random(-radius, radius)
 		p.clearVelocity
 	}
-	
-	type T = RandomiseWithinRadius
-	def copy = new RandomiseWithinRadius(radius)
 }
 
 /**
@@ -38,7 +35,4 @@ class RandomSphericalForce(val weight:Float) extends Behaviour {
 	def apply(p:Particle) {
 		p.force += tmp.randomiseTo(weight)
 	}
-	
-	type T = RandomSphericalForce
-	def copy = new RandomSphericalForce(weight)
 } 

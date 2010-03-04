@@ -48,7 +48,4 @@ class Repel extends Behaviour {
 			i += 1
 		}
 	}
-	
-	type T = Repel
-	def copy = new Repel
 }

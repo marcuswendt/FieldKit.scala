@@ -7,19 +7,26 @@
 /* created February 23, 2010 */
 package field.kit
 
+/**
+ * Global utility methods for the physics library
+ */
 package object physics {
 	
 	/**
-	 * Shorthand behaviour constructor
+	 * Anonymous / shorthand force constructor
 	 */
 	def behaviour(body:Particle => Unit):Behaviour = {
 		new Behaviour {
-			
 			def apply(p:Particle) = body(p)
-			
-			// support for creating identical copies
-			type T = Behaviour
-			def copy = behaviour(body)
+		}
+	}
+	
+	/**
+	 * Anonymous / shorthand constraint constructor
+	 */
+	def constraint(body:Particle => Unit):Constraint = {
+		new Constraint {
+			def apply(p:Particle) = body(p)
 		}
 	}
 }

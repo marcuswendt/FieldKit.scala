@@ -32,7 +32,9 @@ class Particle extends Vec3 with Behavioural {
 		if(_isLocked) return
 		updatePosition
 		updateBounds
-		updateBehaviours
+		
+		applyBehaviours
+		applyConstraints
 	}
 	
 	// -- Weights --------------------------------------------------------------
@@ -115,7 +117,6 @@ class Particle extends Vec3 with Behavioural {
 	
 	def scaleVelocity(s:Float) = prev.interpolate(this, 1f - s)
 	
-	
 	// -- Neighbours -----------------------------------------------------------
 	import scala.collection.mutable.ArrayBuffer
 	
@@ -187,21 +188,28 @@ class Particle extends Vec3 with Behavioural {
 //	}	
 	
 	// -- Behaviours -----------------------------------------------------------
-//	/**
-//	 * When adding a Behaviour to a Particle an identical copy is automatically created
-//	 */
-//	override def +=(b:Behaviour) {
-//		super.+=(b.copy)
-//	}
 	
 	/**
 	 * Applies all assigned behaviours to this particle
 	 */
-	protected def updateBehaviours {
+	def applyBehaviours {
 		if(behaviours == null) return
 		var i = 0
 		while(i < behaviours.length) {
 			behaviours(i).apply(this)				
+			i += 1
+		}
+	}
+	
+	// -- Constraints ----------------------------------------------------------
+	/**
+	 * Applies all assigned constraints to this particle
+	 */
+	def applyConstraints {
+		if(constraints == null) return
+		var i = 0
+		while(i < constraints.length) {
+			constraints(i).apply(this)				
 			i += 1
 		}
 	}

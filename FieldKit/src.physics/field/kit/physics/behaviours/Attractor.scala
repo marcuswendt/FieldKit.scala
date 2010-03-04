@@ -29,7 +29,4 @@ class AttractorPoint(val weight:Float) extends Vec3 with Behaviour {
 		tmp.normaliseTo(weight)
 		p.force += tmp
 	}
-	
-	type T = AttractorPoint
-	def copy = new AttractorPoint(this, weight)
 }
