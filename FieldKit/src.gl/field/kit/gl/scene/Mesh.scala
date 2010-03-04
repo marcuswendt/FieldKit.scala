@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, FIELD                **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 24, 2009 */
 package field.kit.gl.scene
@@ -82,7 +82,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 
 		// make sure we have a valid vbo
 		if(data.vbo == null || data.needsRefresh)
-		initInterleavedDataVBO
+			initInterleavedDataVBO
 
 		data.vbo.bind
 
@@ -148,10 +148,10 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 	protected def initInterleavedDataVBO {
 		// make sure we have a valid vbo
 		if(data.vbo == null) 
-		data.vbo = new VertexBuffer
+			data.vbo = new VertexBuffer
 
 		if(data.vbo.id == GLObject.UNDEFINED) 
-		data.vbo.create
+			data.vbo.create
 
 		val vbo = data.vbo
 		vbo.bind

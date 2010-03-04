@@ -93,8 +93,7 @@ class MeshData {
    * Should be called whenever the vertex buffer data has changed 
    */
   def updateVertexCount {
-    vertexCount = 
-      if(vertices == null) 0 else vertices.limit / 3
+	  vertexCount = if(vertices == null) 0 else vertices.limit / 3
   }
   
   /**
