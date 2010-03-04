@@ -55,9 +55,11 @@ object ShaderState extends field.kit.Logger {
    * @return the source code
    */
   protected def getSource(sourceOrURL:String) = {
-	  Loader.resolveToURL(sourceOrURL) match {
-	 	  case url:URL => Loader.read(url)
-	 	  case _ => sourceOrURL
+	  val url = Loader.resolveToURL(sourceOrURL) 
+	  if(url == null) {
+	 	  sourceOrURL
+	  } else {
+	 	  Loader.read(url)
 	  }
   }
 
