@@ -8,8 +8,11 @@
 package field.kit.gl.objects
 
 import field.kit.gl._
+import scala.collection.mutable.HashMap
 
-/** A <code>ShaderProgramme</code> combines several Shaders into one executeable Program on the GPU */
+/** 
+ * A <code>ShaderProgramme</code> combines several Shaders into one executeable Program on the GPU 
+ */
 class ShaderProgramme extends GLObject {
 	def create = 
 		id = gl.glCreateProgram
@@ -34,10 +37,38 @@ class ShaderProgramme extends GLObject {
 		gl.glUseProgram(0)
 
 
-	import scala.collection.mutable.HashMap
+	// -- Attributes -----------------------------------------------------------
+	private var attributes = new HashMap[String, Int]
+
+	/**
+	 * @return The attribute location for the attribute with the given name
+	 */
+	def attribute(name:String) = {
+		attributes.get(name) match {
+			case None =>
+				val location = gl.glGetAttribLocation(id, name)
+				attributes(name) = location
+				location
+				
+			case Some(location:Int) => location
+		}
+	}
+	
+	/**
+	 * Sets the attribute location for the given name
+	 */
+	def attribute(name:String, location:Int) {
+		attributes(name) = location
+		gl.glBindAttribLocation(id, location, name)
+	}
+	
+	// -- Uniforms -------------------------------------------------------------
 	private var uniforms = new HashMap[String, ShaderUniform]
 
-	protected def uniform(name:String) = {
+	/**
+	 * @return The shader uniform for the uniform variable with the given name
+	 */
+	def uniform(name:String) = {
 		uniforms.get(name) match {
 			case None =>
 				val u = new ShaderUniform(this, name)
