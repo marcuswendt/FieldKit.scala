@@ -13,8 +13,50 @@ import field.kit.gl.scene.transform.RenderStateable
 import field.kit.gl.scene.state.ShaderState
 import javax.media.opengl.GL
 
+/**
+ * 
+ * @author Marcus Wendt
+ */
+object PointCloud {
+	val DEFAULT_VS = """
+	//
+	// Pointcloud Vertex Shader
+	//
+	attribute vec3 InVertex;
+	attribute vec4 InColour;
+	attribute float InSize;
+	
+	void main() {
+		vec4 vertex = vec4(InVertex, 1.0);
+		vec4 position = gl_ProjectionMatrix * gl_ModelViewMatrix * vertex;
+		gl_Position = position;
+		gl_PointSize = InSize;
+		gl_FrontColor = colour;
+	}
+	"""
+		
+	val DEFAULT_FS = """
+	//
+	// Pointcloud Fragment Shader
+	//
+	uniform sampler2D tex0;
+	
+	void main() {
+		//gl_FragColor = gl_Color * texture2D(tex0, gl_TexCoord[0].st);
+		gl_FragColor = gl_Color;
+	}
+	""" 
+}
+
 
 /**
+ * A modern (OpenGL 2.0, ready for 3.0) approach to draw a cloud of points.
+ * Instead of setting the various GL array pointers we use one interleaved VBO 
+ * and glAttribPointer to send the point data to a shader that decides how everything will be displayed.
+ * 
+ * This class assumes you have a ShaderState using these attributes assigned to it. 
+ * See <code>PointCloud.DEFAULT_VS</code> and <code>PointCloud.DEFAULT_FS</code>
+ * 
  * @author Marcus Wendt
  */
 class PointCloud(name:String, capacity:Int, format:PointData.Format)

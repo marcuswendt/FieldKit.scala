@@ -18,7 +18,9 @@ import field.kit.gl.objects.VertexBuffer
 object PointData {
 	val FLOAT_SIZE = 4
 	
-	/** Base trait for all point data formats */
+	/** 
+	 * Describes the interleaved PointData buffer contents
+	 */
 	trait Format {
 		var elementSize = 0
 		def elementStride = elementSize * FLOAT_SIZE
@@ -65,6 +67,8 @@ object PointData {
 }
 
 /**
+ * Holds all drawing relevant data for a <code>PointCloud</code> object.
+ * 
  * @author Marcus Wendt
  */
 class PointData(var capacity:Int, val elementSize:Int) {
