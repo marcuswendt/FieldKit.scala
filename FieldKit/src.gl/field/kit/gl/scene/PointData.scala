@@ -35,6 +35,10 @@ object PointData {
 		var size = false
 		var sizeAttrib = "InSize"
 		var sizeOffset = 0
+		
+		var time = false
+		var timeAttrib = "InTime"
+		var timeOffset = 0
 	}
 	
 	object Position extends Format {
@@ -63,6 +67,19 @@ object PointData {
 		
 		size = true
 		sizeOffset = 7 * FLOAT_SIZE
+	}
+	
+	object PositionColourSizeTime extends Format {
+		elementSize = 9
+		
+		colour = true
+		colourOffset = 3 * FLOAT_SIZE
+		
+		size = true
+		sizeOffset = 7 * FLOAT_SIZE
+		
+		time = true
+		timeOffset = 8 * FLOAT_SIZE
 	}
 }
 

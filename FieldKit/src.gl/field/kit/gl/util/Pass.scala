@@ -13,16 +13,16 @@ import field.kit.gl.scene.shape.Quad
 
 /** Companion object to class <code>Pass</code> */
 object Pass {
-  import javax.media.opengl.GLContext
-  
-  // defaults
-  def width = GLContext.getCurrent.getGLDrawable.getWidth
-  def height = GLContext.getCurrent.getGLDrawable.getHeight
-  val alpha = true
-  val depth = false
-  
-  def apply(name:String, shader:ShaderState) =
-    new Pass(name,shader,width,height,alpha,depth)
+	import javax.media.opengl.GLContext
+
+	// defaults
+	def width = GLContext.getCurrent.getGLDrawable.getWidth
+	def height = GLContext.getCurrent.getGLDrawable.getHeight
+	val alpha = true
+	val depth = false
+
+	def apply(name:String, shader:ShaderState) =
+		new Pass(name,shader,width,height,alpha,depth)
 }
 
 /** 
@@ -34,21 +34,20 @@ object Pass {
  */
 class Pass(name:String, var shader:ShaderState, width:Int, height:Int, alpha:Boolean, depth:Boolean)
            extends Quad(name+"Pass") {
-             
-  import field.kit.gl.scene.state.TextureState
-  import field.kit.gl.objects.Texture
-  
-  
-  scale := (width.toFloat, height.toFloat, 1f)
-  translation := (width/2f, height/2f, 0f)
-  
-  var capture = new Capture(width, height, alpha, depth)
-  states += new TextureState(capture.texture)
-  states += shader
-  
-  /** call this before rendering the contents that should go into the buffer */
-  def beginCapture = capture.beginCapture
-  
-  /** call this after rendering the contents that should go into the buffer */
-  def endCapture = capture.endCapture
+	import field.kit.gl.scene.state.TextureState
+	import field.kit.gl.objects.Texture
+
+
+	scale := (width.toFloat, height.toFloat, 1f)
+	translation := (width/2f, height/2f, 0f)
+
+	var capture = new Capture(width, height, alpha, depth)
+	states += new TextureState(capture.texture)
+	states += shader
+
+	/** call this before rendering the contents that should go into the buffer */
+	def beginCapture = capture.beginCapture
+
+	/** call this after rendering the contents that should go into the buffer */
+	def endCapture = capture.endCapture
 }

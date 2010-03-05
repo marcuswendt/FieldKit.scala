@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created June 04, 2009 */
 package field.kit.gl.util
@@ -25,73 +25,73 @@ import javax.media.opengl.GL
  * @author Marcus Wendt
  */
 class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends GLUser {
-  var clearBuffer = true
-  var clearColour = new Colour(0f,0f,0f,1f)
-  
-  var fbo:FrameBuffer = _
-  var depthBuffer:DepthBuffer = _
+	var clearBuffer = true
+	var clearColour = new Colour(0f,0f,0f,1f)
 
-  // -- Initialise -------------------------------------------------------------
-  fbo = new FrameBuffer
-  fbo.bind
+	var fbo:FrameBuffer = _
+	var depthBuffer:DepthBuffer = _
+
+	// -- Initialise -------------------------------------------------------------
+	fbo = new FrameBuffer
+	fbo.bind
+
+	// create depth buffer
+	if(depth) {
+		depthBuffer = new DepthBuffer(width, height)
+		depthBuffer.bind
+		fbo.init(FrameBuffer.Format.DEPTH, width, height)
+		fbo += depthBuffer
+	}
+
+	// create texture target
+	var texture = Texture(width, height, alpha)
+	var textureUnit = 0
+	texture.wrap = Texture.Wrap.CLAMP
+	texture.filter = Texture.Filter.LINEAR
+	texture.bind
+	fbo += texture
   
-  // create depth buffer
-  if(depth) {
-    depthBuffer = new DepthBuffer(width, height)
-    depthBuffer.bind
-    fbo.init(FrameBuffer.Format.DEPTH, width, height)
-    fbo += depthBuffer
-  }
-  
-  // create texture target
-  var texture = Texture(width, height, alpha)
-  var textureUnit = 0
-  texture.wrap = Texture.Wrap.CLAMP
-  texture.filter = Texture.Filter.LINEAR
-  texture.bind
-  fbo += texture
-    
-  // check if everything went well
-  fbo.isComplete
-  
-  // clean up
-  texture.unbind
-  fbo.unbind
-  
-  /**
-   * Binds the capture's texture
-   */
-  def bind = texture.bind
-  
-  /**
-   * Unbinds the capture's texture
-   */
-  def unbind = texture.unbind
-  
-  /**
-   * Call this method to begin rendering into the custom <code>FrameBuffer</code>
-   */
-  def beginCapture {
-    fbo.bind
-    gl.glDrawBuffer(GL.GL_COLOR_ATTACHMENT0_EXT + textureUnit)
-    
-    if(clearBuffer) {
-     gl.glClearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a)
-     gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
-    }
-  }
-  
-  /**
-   * Call this method when you're done rendering, to release the <code>FrameBuffer</code> context
-   */
-  def endCapture = fbo.unbind
-  
-  /**
-   * Clean up the used ressources
-   */
-  def destroy {
-    texture.destroy
-    fbo.destroy
-    if(depthBuffer != null) depthBuffer.destroy
-  }
+	// check if everything went well
+	fbo.isComplete
+
+	// clean up
+	texture.unbind
+	fbo.unbind
+
+	/**
+	 * Binds the capture's texture
+	 */
+	def bind = texture.bind
+
+	/**
+	 * Unbinds the capture's texture
+	 */
+	def unbind = texture.unbind
+
+	/**
+	 * Call this method to begin rendering into the custom <code>FrameBuffer</code>
+	 */
+	def beginCapture {
+		fbo.bind
+		gl.glDrawBuffer(GL.GL_COLOR_ATTACHMENT0_EXT + textureUnit)
+
+		if(clearBuffer) {
+			gl.glClearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a)
+			gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+		}
+	}
+
+	/**
+	 * Call this method when you're done rendering, to release the <code>FrameBuffer</code> context
+	 */
+	def endCapture = fbo.unbind
+
+	/**
+	 * Clean up the used ressources
+	 */
+	def destroy {
+		texture.destroy
+		fbo.destroy
+		if(depthBuffer != null) depthBuffer.destroy
+	}
 }

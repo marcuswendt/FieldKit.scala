@@ -110,10 +110,24 @@ extends Spatial(name) with RenderStateable {
 			gl.glEnable(GL.GL_VERTEX_PROGRAM_POINT_SIZE)
 		}
 		
-		// draw (finally)
+		// time
+		var timeLoc = 0
+		if(format.time) {
+			timeLoc = ss.prog.attribute(format.timeAttrib)
+			gl.glEnableVertexAttribArray(timeLoc)
+			gl.glVertexAttribPointer(timeLoc, 1, GL.GL_FLOAT, false, format.elementStride, format.timeOffset)				
+		}
+		
+		// -- draw (finally) ---------------------------------------------------
+		gl.glEnable(GL.GL_POINT_SPRITE)
+		gl.glTexEnvi(GL.GL_POINT_SPRITE, GL.GL_COORD_REPLACE, GL.GL_TRUE)
 		gl.glDrawArrays(GL.GL_POINTS, 0, data.elementCount)
-
-		// clean up
+		gl.glDisable(GL.GL_POINT_SPRITE)
+		
+		// -- clean up ---------------------------------------------------------
+		if(format.time)
+			gl.glDisableVertexAttribArray(timeLoc)
+			
 		if(format.size) {
 			gl.glDisableVertexAttribArray(sizeLoc)
 			gl.glDisable(GL.GL_VERTEX_PROGRAM_POINT_SIZE)
@@ -156,6 +170,15 @@ extends Spatial(name) with RenderStateable {
 			.put(pos.x).put(pos.y).put(pos.z)
 			.put(colour.r).put(colour.g).put(colour.b).put(colour.a)
 			.put(size)
+		data.elementCount += 1
+	}
+	
+	def +=(pos:Vec3, colour:Colour, size:Float, time:Float) {
+		data.buffer
+			.put(pos.x).put(pos.y).put(pos.z)
+			.put(colour.r).put(colour.g).put(colour.b).put(colour.a)
+			.put(size)
+			.put(time)
 		data.elementCount += 1
 	}
 }
