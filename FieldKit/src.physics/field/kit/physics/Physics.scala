@@ -182,7 +182,7 @@ class Physics[T <: Particle](implicit m:Manifest[T]) extends Behavioural with Lo
     protected def updateSprings {
     	if(springs == null) return
     	
-		val numIterations = 20
+//		val numIterations = 20
 		
 		var i = 0
 		while(i < springs.length) {

@@ -15,7 +15,7 @@ import field.kit.math.geometry._
  * Sets the particle to a random position within a sphere; Thought to be used as
  * Emitter behaviour and therefore clears the particles velocity 
  */
-class RandomiseWithinRadius(val radius:Float) extends Behaviour {
+class RandomiseWithinRadius(var radius:Float) extends Behaviour {
 	
 	def apply(p:Particle) {
 		p.x += random(-radius, radius)
@@ -28,7 +28,7 @@ class RandomiseWithinRadius(val radius:Float) extends Behaviour {
 /**
  * Pushes the particle into a random direction
  */
-class RandomSphericalForce(val weight:Float) extends Behaviour {
+class RandomSphericalForce(var weight:Float) extends Behaviour {
 	
 	protected val tmp = new Vec3
 	

@@ -32,8 +32,10 @@ trait Behaviour extends Logger {
 	def apply(p:Particle)
 }
 
+
 /** 
- * A constraint is a special type of Behaviour that may not be invalidated by other behaviours 
+ * A constraint is a special type of Behaviour that may not be invalidated by other behaviours
+ * such as forces like gravity etc. 
  */
 trait Constraint extends Behaviour
 
@@ -55,7 +57,7 @@ trait Behavioural {
 	 */
 	def +=(b:Behaviour) {
 		if(behaviours == null)
-			behaviours = new ArrayBuffer[Behaviour]
+			behaviours = new ArrayBuffer[Behaviour](6)
 		behaviours += b
 	}
 	
@@ -78,7 +80,7 @@ trait Behavioural {
 	 */
 	def +=(c:Constraint) {
 		if(constraints == null)
-			constraints = new ArrayBuffer[Constraint]
+			constraints = new ArrayBuffer[Constraint](6)
 		constraints += c
 	}
 	
@@ -90,5 +92,4 @@ trait Behavioural {
 	}
 	
 	def remove(c:Constraint) = this -= c
-
 }

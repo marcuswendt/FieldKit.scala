@@ -27,7 +27,6 @@ extends Vec3 with Behavioural {
 		time += dt
     
 		if(time < interval) return
-		
 		time = 0
 		
 		// emit particles
@@ -40,8 +39,7 @@ extends Vec3 with Behavioural {
 	
 	/** emits a single particle and applies the emitter behaviours */
 	protected def emit:T = {
-		// create particle
-		val p = create
+		val p = createParticle
 		
 		// set particle to start at the emitters position
 		p.init(this) 
@@ -57,7 +55,7 @@ extends Vec3 with Behavioural {
 	}
 	
 	/** creates a new particle object from the parameterized type */
-	protected def create:T = {
+	protected def createParticle:T = {
 		val clazz = Class.forName(m.toString)
 		val p = clazz.newInstance.asInstanceOf[T]
 		p
@@ -65,7 +63,7 @@ extends Vec3 with Behavioural {
 	
 	protected def applyBehaviours(p:Particle) {
 		if(behaviours == null) return
-		
+
 		var i = 0
 		while(i < behaviours.size) {
 			behaviours(i).apply(p)

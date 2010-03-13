@@ -14,7 +14,7 @@ import field.kit.math.geometry._
 /**
  * Constrains the particle to the inside or outside of a circle
  */
-class Repel extends Behaviour {
+class Repel extends Constraint {
 	
 	protected val tmp = new Vec3
 	
