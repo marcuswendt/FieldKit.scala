@@ -18,28 +18,28 @@ object Loader extends Logger {
 	/**
 	* Tries to resolve the given <code>String</code> to an <code>URL</code> in various ways
 	*/
-	def resolveToURL(_file:String):URL = {
+	def resolveToURL(path:String):URL = {
 		import java.net.MalformedURLException
 
-		if(_file == null) return null
+		if(path == null) return null
 
-		var file = _file.replaceAll(" ","%20")
+		var pathEscaped = path.replaceAll(" ","%20")
 
 		var url:URL = null
 
 		// 1. via URL
 		try {
-			url = new URL(file)
+			url = new URL(pathEscaped)
 		} catch {
 			case e:MalformedURLException => url = null
 		}
 
 		// 2. via ClassLoader
-		if(url == null) url = ClassLoader.getSystemResource(file)
+		if(url == null) url = ClassLoader.getSystemResource(pathEscaped)
 
 		// 3. via local File path
 		if(url == null) {
-			val localFile = new File(file)
+			val localFile = new File(path)
 			if(localFile.exists())
 				url = localFile.toURI.toURL
 		}

@@ -222,11 +222,11 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	*/
 	final def cross(v:Vec3):Vec3 = cross(v, null)
 
-	final def length = Math.sqrt(lengthSquared).toFloat
+	final def length = sqrt(lengthSquared).toFloat
 
 	final def lengthSquared = x * x + y * y + z * z
 
-	final def distance(v:Vec) = Math.sqrt(distanceSquared(v)).toFloat
+	final def distance(v:Vec) = sqrt(distanceSquared(v)).toFloat
 
 	final def distanceSquared(v:Vec) = {
 		val dx = x - v.x
@@ -253,7 +253,7 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	* @return itself
 	*/
 	final def normaliseTo(len:Float) = {
-		var mag = Math.sqrt(x * x + y * y + z * z).toFloat
+		var mag = sqrt(x * x + y * y + z * z).toFloat
 		if(mag > 0) {
 			mag = len / mag
 			x *= mag
@@ -270,7 +270,7 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	*  It is assumed that both this vector and the given vector are unit vectors (iow, normalized). */
 	final def angleBetween(v:Vec3) {
 		val dotProduct = dot(v)
-		Math.acos(dotProduct).toFloat
+		acos(dotProduct).toFloat
 	}
 
 	/** makes sure this vector does not exceed a certain length */

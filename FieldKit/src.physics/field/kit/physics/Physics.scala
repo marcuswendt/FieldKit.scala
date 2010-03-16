@@ -31,7 +31,9 @@ class Physics[T <: Particle](implicit m:Manifest[T]) extends Behavioural with Lo
 	 * Updates all particles
 	 */
 	def update(dt:Float) {
-		emitter.update(dt)
+		if(emitter != null)
+			emitter.update(dt)
+			
 		updateParticles(dt)
 		updateSprings
 		updateNeighbours

@@ -7,6 +7,7 @@
 /* created March 24, 2009 */
 package field.kit.gl.scene.shape
 
+import field.kit._
 import field.kit.gl._
 import field.kit.gl.scene._
 
@@ -135,7 +136,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Mesh(name) {
     index * 2 + side.id
   
   protected def calcOutlinePoint(side:Stroke2D.Side.Value, i:Int, weight:Float) {
-    vPrev := (points, Math.max(0, i-1))
+    vPrev := (points, max(0, i-1))
     vCur := (points, i)
     vNext := (points, i + 1)
     
@@ -224,7 +225,7 @@ class Stroke2D(name:String, defaultCapacity:Int) extends Mesh(name) {
       v5 := vCur
       v5 -= vIntersect
       val l = v5.length
-      val absWeight = Math.abs(weight * 2)
+      val absWeight = abs(weight * 2)
       
       if(l > absWeight) {
         v5.normalize

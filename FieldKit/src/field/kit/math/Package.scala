@@ -23,7 +23,7 @@ object Common extends Package
  */
 trait Package extends Trigonometry with Interpolation with Intersection {
 
-	val EPS = 1e-6f
+	final val EPSILON = 1e-6f
 	
 	// Implicit conversions
 	implicit def doubleTofloat(d: Double) = d.toFloat
@@ -40,10 +40,10 @@ trait Package extends Trigonometry with Interpolation with Intersection {
 	final def abs(n:Float) = if(n < 0) -n else n
 
 	final def sq(n:Float) = n*n
-	final def sqrt(a:Float) = Math.sqrt(a).toFloat
-	final def log(a:Float) = Math.log(a).toFloat
-	final def exp(a:Float) = Math.exp(a).toFloat
-	final def pow(a:Float, b:Float) = Math.pow(a,b).toFloat
+	final def sqrt(a:Float) = math.sqrt(a).toFloat
+	final def log(a:Float) = math.log(a).toFloat
+	final def exp(a:Float) = math.exp(a).toFloat
+	final def pow(a:Float, b:Float) = math.pow(a,b).toFloat
 
 	final def max(a:Int, b:Int) = if(a > b) a else b
 	final def max(a:Float, b:Float) = if(a > b) a else b
@@ -53,8 +53,8 @@ trait Package extends Trigonometry with Interpolation with Intersection {
 	final def min(a:Float, b:Float) = if(a > b) b else a
 	final def min(a:Float, b:Float, c:Float) = if(a < b) if(a < c) a else c else if(b < c) b else c
 
-	final def floor(n:Float) = Math.floor(n).toFloat
-	final def ceil(n:Float) = Math.ceil(n).toFloat
+	final def floor(n:Float) = math.floor(n).toFloat
+	final def ceil(n:Float) = math.ceil(n).toFloat
 
 	/** @return Returns the signum function of the argument; zero if the argument is zero, 1.0f if the argument is greater than zero, -1.0f if the argument is less than zero.*/
 	final def signum(value:Float) = if(value > 1f) 1f else -1f
@@ -63,8 +63,8 @@ trait Package extends Trigonometry with Interpolation with Intersection {
 	final def same(a:Float, b:Float) = (a * b) >= 0
 
 	final def round(value:Float, precision:Int):Float = {
-		val exp = Math.pow(10, precision).toFloat
-		Math.round(value * exp) / exp
+		val exp = math.pow(10, precision).toFloat
+		math.round(value * exp) / exp
 	}
 
 	final def clamp(value:Float):Float = clamp(value, 0f, 1f)

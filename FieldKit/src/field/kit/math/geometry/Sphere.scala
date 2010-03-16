@@ -7,7 +7,7 @@
 /* created August 03, 2009 */
 package field.kit.math.geometry
 
-import field.kit.math._
+import field.kit._
 
 /**
  * Defines a mathematical Sphere (also used as Bounding Volume)
@@ -56,7 +56,7 @@ class Sphere extends BoundingVolume {
 		val d = delta.length
 		val r1 = radius
 		val r2 = s.radius
-		d <= r1 + r2 && d >= Math.abs(r1 - r2)
+		d <= r1 + r2 && d >= abs(r1 - r2)
 	}
 	
 	final def intersects(box:AABB) = box.intersects(this)

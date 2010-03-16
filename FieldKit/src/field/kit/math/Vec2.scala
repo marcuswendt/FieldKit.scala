@@ -210,11 +210,11 @@ class Vec2(var x:Float, var y:Float) extends Vec {
    final def *=(v:Vec) = { x*=v.x; y*=v.y; this }
    final def /=(v:Vec) = { x/=v.x; y/=v.y; this }
   
-  final def length = Math.sqrt(lengthSquared).toFloat
+  final def length = sqrt(lengthSquared).toFloat
   final def lengthSquared = x * x + y * y
   
-  final def distance(v:Vec) = Math.sqrt(distanceSquared(v.x, v.y)).toFloat
-  final def distance(x:Float, y:Float):Float = Math.sqrt(distanceSquared(x,y)).toFloat
+  final def distance(v:Vec) = sqrt(distanceSquared(v.x, v.y)).toFloat
+  final def distance(x:Float, y:Float):Float = sqrt(distanceSquared(x,y)).toFloat
   
   final def distanceSquared(v:Vec):Float = distanceSquared(v.x, v.y)
   final def distanceSquared(x:Float, y:Float) = {

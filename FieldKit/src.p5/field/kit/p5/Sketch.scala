@@ -134,9 +134,9 @@ object Sketch {
 			// Set frame size
 			val insets = frame.getInsets()
 			
-			val windowW = Math.max(applet.width, MIN_WINDOW_WIDTH) +
+			val windowW = max(applet.width, MIN_WINDOW_WIDTH) +
 			insets.left + insets.right
-			val windowH = Math.max(applet.height, MIN_WINDOW_HEIGHT) +
+			val windowH = max(applet.height, MIN_WINDOW_HEIGHT) +
 			insets.top + insets.bottom
 
 			frame.setSize(windowW, windowH)

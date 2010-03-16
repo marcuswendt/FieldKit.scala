@@ -12,7 +12,7 @@ import field.kit.physics._
 import field.kit.math.geometry._
 
 /**
- * Constrains the particle to the inside or outside of a circle
+ * Prevents the particles from colliding with each other
  */
 class Repel extends Constraint {
 	

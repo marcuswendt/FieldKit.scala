@@ -32,7 +32,7 @@ class Spring {
 	
 	def update(applyConstraints:Boolean) {
 		delta := b -= a
-		val dist = delta.length + EPS
+		val dist = delta.length + EPSILON
 		val normDistStrength = (dist - restLength) / (dist * (a.invWeight + b.invWeight)) * strength
 
 		//println("delta", delta, "dist", dist, "normDistStrength", normDistStrength)

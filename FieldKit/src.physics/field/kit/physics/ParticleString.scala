@@ -13,7 +13,7 @@ import field.kit._
  * Utility class to create & manage a series of particles connected via springs 
  * into one continous string. 
  */
-class ParticleString[T <: Particle](physics:Physics[T])(implicit m:Manifest[T]) {
+class ParticleString[T <: Particle](var physics:Physics[T])(implicit m:Manifest[T]) {
 	import scala.collection.mutable.ArrayBuffer
 	
 	// particles

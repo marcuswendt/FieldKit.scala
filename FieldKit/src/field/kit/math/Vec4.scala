@@ -65,7 +65,7 @@ class Vec4(var x:Float, var y:Float, var z:Float, var w:Float) extends Vec {
   final def /=(v:Vec4) = { x/=v.x; y/=v.y; z/=v.z; w/=v.w; this }
   
   // -- Geometric Operations ---------------------------------------------------
-  final def length = Math.sqrt(lengthSquared).toFloat
+  final def length = sqrt(lengthSquared).toFloat
   
   final def lengthSquared = x*x + y*y + z*z + w*w
   

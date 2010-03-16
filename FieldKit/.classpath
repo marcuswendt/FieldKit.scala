@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src.p5"/>
+	<classpathentry kind="src" path="src.physics"/>
 	<classpathentry kind="src" path="src.particle"/>
 	<classpathentry kind="src" path="src.gl"/>
 	<classpathentry kind="src" path="src.vision"/>

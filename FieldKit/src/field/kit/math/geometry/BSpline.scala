@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created Februrary 05, 2010 */
 package field.kit.math.geometry
@@ -10,7 +10,7 @@ package field.kit.math.geometry
 import field.kit._
 
 /**
-* BSpline class
+* <code>BSpline</code> Curve
 * @author Marcus Wendt
 */
 class BSpline(capacity:Int) extends Spline(capacity) {
@@ -33,7 +33,7 @@ class BSpline(capacity:Int) extends Spline(capacity) {
 			} else {
 				val partPercentage = 1.0f / (size - 1)
 				val timeBetween = time / partPercentage
-				var i = Math.floor(timeBetween).asInstanceOf[Int]
+				var i = floor(timeBetween).asInstanceOf[Int]
 
 				val normalizedTime = timeBetween - i
 

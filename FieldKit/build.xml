@@ -16,6 +16,7 @@
 		<ant antfile="BaseKit.xml" dir="${ant.dir}" />
 		<ant antfile="GLKit.xml" dir="${ant.dir}" />
 		<ant antfile="ParticleKit.xml" dir="${ant.dir}" />
+		<ant antfile="PhysicsKit.xml" dir="${ant.dir}" />
 	</target>
 
 	<target name="clean">

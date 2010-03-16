@@ -41,6 +41,6 @@ class Circle extends Vec2 {
 		val d = delta.length
 		val r1 = radius
 		val r2 = c.radius
-		d <= r1 + r2 && d >= Math.abs(r1 - r2)
+		d <= r1 + r2 && d >= math.abs(r1 - r2)
 	}
 }
