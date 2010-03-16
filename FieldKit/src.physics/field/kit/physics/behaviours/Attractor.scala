@@ -30,3 +30,33 @@ class AttractorPoint(val weight:Float) extends Vec3 with Behaviour {
 		p.force += tmp
 	}
 }
+
+
+import field.kit.math.geometry.Sphere
+
+/**
+ * An orbital force across the surface of a sphere  
+ */
+class AttractorOrbit(position:Vec3, radius:Float)
+extends Sphere(position, radius) with Behaviour {
+
+	var direction = new Vec2(0.0010f, 0.0025f)
+	var weight = 0.25f
+	
+	private val tmp = new Vec3
+	
+	def apply(p:Particle) {
+		val rotX = p.age * direction.x
+		val rotY = p.age * direction.y
+		
+		tmp.x = this.x + (sin(rotX) * sin(rotY)) * radius
+		tmp.y = this.y + (cos(rotX) * sin(rotY)) * radius
+		tmp.z = this.z + cos(rotY) * radius
+		 
+		tmp -= p
+		tmp.normalise
+		tmp *= weight
+
+		p.force += tmp
+	}
+}
