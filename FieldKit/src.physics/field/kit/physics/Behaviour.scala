@@ -131,12 +131,11 @@ trait Behavioural {
 	def remove(s:BehaviourSet) = this -= s
 }
 
-
 /**
  * Groups a set of behaviours and constraints to allow switching between
  * complex physics states
  */
-trait BehaviourSet extends Behavioural {
+class BehaviourSet extends Behavioural {
 	
 	/**
 	 * Adds all behaviours & constraints of this set to the given target

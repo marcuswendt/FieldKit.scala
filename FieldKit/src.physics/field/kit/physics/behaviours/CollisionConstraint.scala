@@ -14,7 +14,7 @@ import field.kit.math.geometry._
 /**
  * Prevents the particles from colliding with each other
  */
-class Repel extends Constraint {
+class CollisionConstraint extends Constraint {
 	
 	protected val tmp = new Vec3
 	
