@@ -48,26 +48,34 @@ trait Behavioural {
 	import scala.collection.mutable.ArrayBuffer
 	
 	
-	// -- Forces ---------------------------------------------------------------
+	// -- Behaviours -----------------------------------------------------------
 	
 	protected var behaviours:ArrayBuffer[Behaviour] = _
 	
 	/**
-	 * Adds the given Force to this Behavioural class
+	 * Adds the given Behaviour to this Behavioural
 	 */
 	def +=(b:Behaviour) {
-		if(behaviours == null)
-			behaviours = new ArrayBuffer[Behaviour](6)
+		if(behaviours == null) behaviours = new ArrayBuffer[Behaviour](6)
 		behaviours += b
 	}
 	
+	/**
+	 * Adds the given Behaviour to this Behavioural
+	 */
 	def add(b:Behaviour) = this += b
 	
+	/**
+	 * Removes the given Behaviour to this Behavioural
+	 */
 	def -=(b:Behaviour) {
 		if(behaviours == null) return
 		behaviours -= b
 	}
 	
+	/**
+	 * Removes the given Behaviour to this Behavioural
+	 */
 	def remove(b:Behaviour) = this -= b
 
 	
@@ -76,20 +84,79 @@ trait Behavioural {
 	protected var constraints:ArrayBuffer[Constraint] = _
 	
 	/**
-	 * Adds the given Force to this Behavioural class
+	 * Adds the given Constraint to this Behavioural
 	 */
 	def +=(c:Constraint) {
-		if(constraints == null)
-			constraints = new ArrayBuffer[Constraint](6)
+		if(constraints == null) constraints = new ArrayBuffer[Constraint](6)
 		constraints += c
 	}
-	
+
+	/**
+	 * Adds the given Constraint to this Behavioural
+	 */
 	def add(c:Constraint) = this += c
 	
+	/**
+	 * Removes the given Constraint to this Behavioural
+	 */
 	def -=(c:Constraint) {
 		if(constraints == null) return
 		constraints -= c
 	}
 	
+	/**
+	 * Removes the given Constraint to this Behavioural
+	 */
 	def remove(c:Constraint) = this -= c
+	
+	// -- Sets -----------------------------------------------------------------
+	
+	/**
+	 * Adds the given BehaviourSet to this Behavioural
+	 */
+	def +=(s:BehaviourSet) {
+		if(s.constraints == null) return
+		if(constraints == null) constraints = new ArrayBuffer[Constraint](6)
+		s.constraints foreach { constraints += _ }
+	}
+	
+	def add(s:BehaviourSet) = this += s
+	
+	def -=(s:BehaviourSet) {
+		if(s.constraints == null) return
+		if(constraints == null) return
+		s.constraints foreach { constraints -= _ }
+	}
+	
+	def remove(s:BehaviourSet) = this -= s
+}
+
+
+/**
+ * Groups a set of behaviours and constraints to allow switching between
+ * complex physics states
+ */
+trait BehaviourSet extends Behavioural {
+	
+	/**
+	 * Adds all behaviours & constraints of this set to the given target
+	 */ 
+	def apply(target:Behavioural) {
+		if(behaviours != null)
+			behaviours foreach { target += _ }
+		
+		if(constraints != null)
+			constraints foreach { target += _ }
+	}
+	
+	/**
+	 * Removes all behaviours & constraints of this set from the given target
+	 */
+	def unapply(target:Behavioural) {
+		if(behaviours != null)
+			behaviours foreach { target -= _ }
+		
+		if(constraints != null)
+			constraints foreach { target -= _ }
+	}
 }
