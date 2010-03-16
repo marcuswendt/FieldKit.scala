@@ -18,6 +18,10 @@ import field.kit.gl._
 class ScalarMap(physics:Physics[_]) extends AttributeMap(physics) {
 		
 	private var width = 0
+	private var height = 0
+	
+	private var halfWidth = 0
+	private var halfHeight = 0
 	
 	var values:Array[Float] = _
 	
@@ -25,11 +29,14 @@ class ScalarMap(physics:Physics[_]) extends AttributeMap(physics) {
 	
 	def load(image:Image) {
 		width = image.width
-		val height = image.height
-		val depth = 10f
+		height = image.height
+		
+		halfWidth = width / 2
+		halfHeight = height / 2
+		
+		val depth = 1f
 
 		extent = new Vec3(width/2f, height/2f, depth/2f)
-		
 		values = new Array[Float](image.width * image.height)
 		
 		for(y <- 0 until image.height) {
@@ -44,14 +51,24 @@ class ScalarMap(physics:Physics[_]) extends AttributeMap(physics) {
 	def apply(v:Vec3):Float = {
 		if(!contains(v))
 			return 0f
-			
-		val ix = (v.x * scale.x - this.min.x).toInt
-		val iy = (v.y * scale.y - this.min.y).toInt
-		val i = iy * width + ix
 		
-		if(i < 0 || i >= values.size)
+		// get position in image
+		var ix = v.x - min.x
+		var iy = v.y - min.y
+		
+		// apply scale
+		ix = (ix * invScale.x + (halfWidth * (1f - invScale.x))).toInt
+		iy = (iy * invScale.y + (halfHeight * (1f - invScale.y))).toInt
+		
+		// check if we're still in the image's boundaries
+		if(ix < 0 || ix >= width)
 			return 0f
 			
+		if(iy < 0 || iy >= height)
+			return 0f
+		
+		// sample image
+		val i = (iy * width + ix).toInt			
 		values(i)
 	}
 }

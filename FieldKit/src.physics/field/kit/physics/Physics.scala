@@ -101,9 +101,6 @@ class Physics[T <: Particle](implicit m:Manifest[T]) extends Behavioural with Lo
 	
 	// -- Behaviours ---------------------------------------------------------------
 	override def +=(b:Behaviour) {
-		
-		warn("added behaviour", b.getClass)
-		
 		super.+=(b)
 		// add new behaviour to all particles
 		particles foreach (_ += b)
@@ -117,8 +114,6 @@ class Physics[T <: Particle](implicit m:Manifest[T]) extends Behavioural with Lo
 	
 	// -- Constraints ----------------------------------------------------------
 	override def +=(c:Constraint) {
-		
-		warn("added constraint", c.getClass)
 		super.+=(c)
 		// add new behaviour to all particles
 		particles foreach (_ += c)
