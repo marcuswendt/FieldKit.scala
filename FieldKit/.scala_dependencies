@@ -460,6 +460,7 @@
 /Users/marcus/Documents/Development/FieldKit/FieldKit/test/field/kit/test/unit/SphereTest.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/math/geometry/Sphere.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/RenderState.scala
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/util/Logger.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/Renderable.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/map/ScalarMap.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/map/AttributeMap.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/map/ScalarMap.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Physics.scala
@@ -907,7 +908,6 @@
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/gl/scene/state/AlphaState$.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/gl/scene/state/AlphaState$BlendMode$.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/gl/scene/state/AlphaState.class
-/Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/scene/state/AlphaState.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/gl/scene/state/AlphaState$Equation$.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/map/ScalarMap.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/map/ScalarMap.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/map/ScalarMap.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/map/ScalarMap$$anonfun$load$1$$anonfun$apply$1.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/map/ScalarMap.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/map/ScalarMap$$anonfun$load$1.class
