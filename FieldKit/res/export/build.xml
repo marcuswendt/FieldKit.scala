@@ -43,8 +43,9 @@
 
 	<!-- LIBRARIES -->
 	<property name="libraries.dir" value="${project.dir}/lib" />
-	<property name="libraries.includes" value="*.*" />
-
+	<property name="libraries.includes" value="**.*" />
+	<property name="libraries.excludes" value="" />
+	
 	<!-- DATA -->
 	<property name="data.internal.dir" value="${project.dir}" />
 	<property name="data.internal.includes" value="data/**" />
@@ -184,7 +185,7 @@
 		-->
 		<echo>copying fieldkit...</echo>
 		<copy todir="${tmp.lib}" flatten="true" includeemptydirs="false">
-			<fileset dir="../../build/FieldKit/" />
+			<fileset dir="../../build/FieldKit/" excludes="**/*.html;**/*.txt" />
 		</copy>
 	</target>
 
@@ -195,7 +196,7 @@
 			<then>
 				<echo>copying libraries...</echo>
 				<copy todir="${tmp.lib}" flatten="true" includeemptydirs="false">
-					<fileset dir="${libraries.dir}" includes="${libraries.includes}" />
+					<fileset dir="${libraries.dir}" includes="${libraries.includes}" excludes="${libraries.excludes}" />
 				</copy>
 			</then>
 		</if>

@@ -68,7 +68,7 @@ class AABB extends BoundingVolume {
 	}
 
 
-	protected def updateBounds = {
+	def updateBounds = {
 		min := this -= extent
 		max := this += extent
 		this

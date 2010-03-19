@@ -158,4 +158,12 @@ class BehaviourSet extends Behavioural {
 		if(constraints != null)
 			constraints foreach { target -= _ }
 	}
+	
+	def clear {
+		if(behaviours != null)
+			behaviours.clear
+			
+		if(constraints != null)
+			constraints.clear
+	}
 }
