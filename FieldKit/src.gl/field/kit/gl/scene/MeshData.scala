@@ -73,7 +73,8 @@ class MeshData {
   var indices:IntBuffer = _
   var indexLengths:Array[Int] = _
   var indexModes = Array(IndexMode.TRIANGLES)
-
+  var indexElementCount = 0
+  
   /** set true when any of the buffers data has changed */
   var needsRefresh = true
   
@@ -145,6 +146,18 @@ class MeshData {
   def allocIndices(capacity:Int) = {
     indices = Buffer.int(indices, capacity)
     indices
+  }
+  
+  /**
+   * Allocates a new index length array when necessary
+   * @return the current index lengths array
+   */
+  def allocIndexLenghts(elementCount:Int) = {
+	  if(indexLengths == null || indexLengths.size < elementCount)
+		  indexLengths = new Array[Int](elementCount)
+		  
+	  indexElementCount = elementCount
+	  indexLengths
   }
   
   /** 

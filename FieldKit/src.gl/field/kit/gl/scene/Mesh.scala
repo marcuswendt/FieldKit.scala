@@ -73,10 +73,10 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 	* Setups the VBO for drawing
 	*/
 	protected def setupInterleavedDataVBO:Unit = {
-			def updateVBO(buffer:FloatBuffer, offset:Int) {
-				if(data.needsRefresh) {
-					buffer.rewind
-					gl.glBufferSubData(GL.GL_ARRAY_BUFFER, offset, buffer.limit * 4, buffer)
+		def updateVBO(buffer:FloatBuffer, offset:Int) {
+			if(data.needsRefresh) {
+				buffer.rewind
+				gl.glBufferSubData(GL.GL_ARRAY_BUFFER, offset, buffer.limit * 4, buffer)
 			}
 		}
 
@@ -111,21 +111,24 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 		}
 
 		// -- setup texture coord arrays -------------------------------------------
-		var j = 0
-		// the completely proper way to do this would be to keep track of the activated 
-		// texture units and deactivate them when not required 
-		while(j < data.textureCoords.size) {
-			gl.glClientActiveTexture(GL.GL_TEXTURE0 + j)
-			val textureCoords = data.textureCoords(j)
-			if(textureCoords == null) {
-				gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-			} else {
-				updateVBO(textureCoords, offset)
-				gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-				gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, offset)
-				offset += textureCoords.limit * 4
+		val textureMultiCoords = data.textureCoords
+		if(textureMultiCoords != null) {
+			var j = 0
+			// the completely proper way to do this would be to keep track of the activated 
+			// texture units and deactivate them when not required 
+			while(j < textureMultiCoords.size) {
+				gl.glClientActiveTexture(GL.GL_TEXTURE0 + j)
+				val textureCoords = textureMultiCoords(j)
+				if(textureCoords == null) {
+					gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+				} else {
+					updateVBO(textureCoords, offset)
+					gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+					gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, offset)
+					offset += textureCoords.limit * 4
+				}
+				j += 1
 			}
-			j += 1
 		}
 
 		// -- setup vertex array ---------------------------------------------------
@@ -206,20 +209,23 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 		}
 
 		// -- setup texture coord arrays -------------------------------------------
-		var j = 0
-		// the completely proper way to do this would be to keep track of the activated 
-		// texture units and deactivate them when not required 
-		while(j < data.textureCoords.size) {
-			gl.glClientActiveTexture(GL.GL_TEXTURE0 + j)
-			val textureCoords = data.textureCoords(j)
-			if(textureCoords == null) {
-				gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-			} else {
-				textureCoords.rewind
-				gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
-				gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoords)
+		val textureMultiCoords = data.textureCoords
+		if(textureMultiCoords != null) {
+			var j = 0
+			// the completely proper way to do this would be to keep track of the activated 
+			// texture units and deactivate them when not required 
+			while(j < textureMultiCoords.size) {
+				gl.glClientActiveTexture(GL.GL_TEXTURE0 + j)
+				val textureCoords = textureMultiCoords(j)
+				if(textureCoords == null) {
+					gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+				} else {
+					textureCoords.rewind
+					gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY)
+					gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoords)
+				}
+				j += 1
 			}
-			j += 1
 		}
 
 		// -- setup vertex array ---------------------------------------------------
@@ -253,7 +259,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 				var offset = 0
 				var i = 0
 				var indexModeCounter = 0
-				while(i < data.indexLengths.length) {
+				while(i < data.indexElementCount) {
 					val count = data.indexLengths(i)
 					val glIndexMode = data.indexModes(indexModeCounter).id
 					gl.glDrawArrays(glIndexMode, offset, count)
@@ -279,7 +285,7 @@ abstract class Mesh(name:String) extends Spatial(name) with RenderStateable with
 				var offset = 0
 				var i = 0
 				var indexModeCounter = 0
-				while(i < data.indexLengths.length) {
+				while(i < data.indexElementCount) {
 					val count = data.indexLengths(i)
 					val glIndexMode = data.indexModes(indexModeCounter).id
 
