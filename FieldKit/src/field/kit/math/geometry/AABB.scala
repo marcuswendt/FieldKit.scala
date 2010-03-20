@@ -18,17 +18,6 @@ class AABB extends BoundingVolume {
 
 	private val tmp = new Vec3
 	
-	def extent = _extent
-	def extent_=(value:Vec3) {
-		_extent := value
-		updateBounds
-	}
-
-	def extent_=(value:Float) {
-		_extent := value
-		updateBounds
-	}
-
 	var min = Vec3()
 	var max = Vec3()
 
@@ -50,7 +39,7 @@ class AABB extends BoundingVolume {
 		this.extent = extent
 	}
 
-	// -- Setters ----------------------------------------------------------------
+	// -- Setters --------------------------------------------------------------
 	override def :=(v:Vec) = {
 		super.:=(v)
 		updateBounds
@@ -74,7 +63,41 @@ class AABB extends BoundingVolume {
 		this
 	}
 
-	// -- Bounding Volume methods -----------------------------------------------
+	// -- Getters & Setters ----------------------------------------------------
+	def extent = _extent
+	def extent_=(value:Vec3) {
+		_extent := value
+		updateBounds
+	}
+
+	def extent_=(value:Float) {
+		_extent := value
+		updateBounds
+	}
+
+	def width = extent.x * 2f	
+	def width_=(v:Float) {
+		extent.x = v * 0.5f
+		updateBounds
+	}
+	
+	def height = extent.y * 2f
+	def height_=(v:Float) {
+		extent.y = v * 0.5f
+		updateBounds
+	}
+	
+	def depth = extent.z * 2f
+	def depth_=(v:Float) {
+		extent.z = v * 0.5f
+		updateBounds
+	}
+	
+	def halfWidth = extent.x
+	def halfHeight = extent.y
+	def halfDepth = extent.z
+	
+	// -- Bounding Volume methods ----------------------------------------------
 	
 	def size = extent.x * 2f
 	

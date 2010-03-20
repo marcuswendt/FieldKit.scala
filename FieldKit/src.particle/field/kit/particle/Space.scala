@@ -23,7 +23,7 @@ object Space {
  * 
  * @author Marcus Wendt
  */
-class Space(val width:Float, val height:Float, val depth:Float) 
+class Space(width:Float, height:Float, depth:Float) 
 extends AABB(Vec3(0, 0, -depth/2f), Vec3(width, height, depth)) {
 
 	type T = Particle

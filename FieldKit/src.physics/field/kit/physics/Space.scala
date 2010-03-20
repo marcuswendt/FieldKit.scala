@@ -22,13 +22,6 @@ import scala.collection.mutable.ArrayBuffer
 abstract class Space(val dimension:Vec3) extends AABB(dimension * 0.5f) {
 	
 	type T = Particle
-	
-	// move origin to center
-//	this := extent
-
-	def width = dimension.x
-	def height = dimension.y
-	def depth = dimension.z
 }
 
 /**

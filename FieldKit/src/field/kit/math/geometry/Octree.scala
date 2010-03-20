@@ -40,7 +40,7 @@ extends AABB(offset + halfSize, halfSize) {
 	*/
 	var minSize = 10f
 
-	val depth:Int = if(parent == null) 0 else parent.depth + 1
+	val treeDepth:Int = if(parent == null) 0 else parent.treeDepth + 1
 
 	protected var data:ArrayBuffer[T] = null
 
