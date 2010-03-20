@@ -4,7 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created March 16, 2010 */
+/* created March 20, 2010 */
 package field.kit.physics.map
 
 import field.kit._
@@ -13,11 +13,11 @@ import field.kit.physics._
 import field.kit.gl._
 
 /**
- * Represents a 2D field of boolean values mapped into the 3d physics space
+ * Represents a 2D field of boolean values mapped into the physics space
  */
-class BinaryMap(physics:Physics[_]) extends AttributeMap(physics) {
+class BinaryMap(physics:Physics[_]) extends AttributeMap[Boolean](physics) {
 	
-	var values:Array[Boolean] = _
+	defaultValue = false
 	
 	def load(file:String) = load(Image(file))
 	
@@ -31,11 +31,5 @@ class BinaryMap(physics:Physics[_]) extends AttributeMap(physics) {
 				values(index) = image.red(x, y) > 0f
 			}
 		}
-	}
-	
-	/** @return the value of this map at the specified position */
-	def apply(v:Vec3):Boolean = {
-		val index = indexOf(v)
-		if(index == -1) false else values(index)
 	}
 }

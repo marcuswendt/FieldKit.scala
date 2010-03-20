@@ -14,8 +14,12 @@ import field.kit.physics._
 /**
  * Base class for all attribute maps 
  */
-abstract class AttributeMap(physics:Physics[_]) extends AABB {
+abstract class AttributeMap[T](physics:Physics[_]) extends AABB {
 	
+	protected var values:Array[T] = _
+	protected var defaultValue:T = _
+	
+	// scaling
 	protected var _scale = Vec3(1f)
 	protected var invScale = Vec3(1f)
 	
@@ -34,6 +38,12 @@ abstract class AttributeMap(physics:Physics[_]) extends AABB {
 	}
 	
 	def load(file:String)
+	
+	/** @return the value of this map at the specified position */
+	def apply(v:Vec3):T = {
+		val index = indexOf(v)
+		if(index == -1) defaultValue else values(index)
+	}
 	
 	/**
 	 * @return the data-index at the given position or -1 when outside of the boundaries
