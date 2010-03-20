@@ -44,11 +44,15 @@ class Sphere extends BoundingVolume {
 	
 	final def size_=(value:Float) = diameter = value
 	
-	private val tmp = new Vec3
+	//private val tmp = new Vec3
 	
 	final def contains(p:Vec) = {
-		tmp.set(this) -= p
-		(tmp.lengthSquared <= radius * radius)
+		val dx = x - p.x
+		val dy = y - p.y
+		val dz = z - p.z
+		dx * dx + dy * dy + dz * dz <= radius * radius 
+		//tmp.set(this) -= p
+		//(tmp.lengthSquared <= radius * radius)
 	}
 	
 	final def intersects(s:Sphere) = {
