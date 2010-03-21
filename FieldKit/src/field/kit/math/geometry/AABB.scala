@@ -18,8 +18,8 @@ class AABB extends BoundingVolume {
 
 	private val tmp = new Vec3
 	
-	var min = Vec3()
-	var max = Vec3()
+	var min = new Vec3
+	var max = new Vec3
 
 	// -- Constructors ---------------------------------------------------------
 	def this(extent:Vec3) {

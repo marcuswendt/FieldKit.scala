@@ -11,7 +11,6 @@ import field.kit._
 
 import processing.core.PApplet
 import processing.core.PConstants._
-import processing.core.PAppletProxy
 
 /**
  * Companion to <code>class Sketch</code> provides helpers to manage (e.g. launch) Sketches
@@ -113,8 +112,8 @@ object Sketch {
 		applet.args = args
 		//applet.external = external
 
-		applet.screen.width = display.getDisplayMode.getWidth
-		applet.screen.height = display.getDisplayMode.getHeight
+		applet.screenWidth = display.getDisplayMode.getWidth
+		applet.screenHeight = display.getDisplayMode.getHeight
 		
 		// Initialize sketch
 		applet.init
@@ -152,8 +151,8 @@ object Sketch {
 
 			} else {
 				frame.setLocation(
-						offsetX + (applet.screen.width - applet.width) / 2,
-						offsetY + (applet.screen.height - applet.height) / 2)
+						offsetX + (applet.screenWidth - applet.width) / 2,
+						offsetY + (applet.screenHeight - applet.height) / 2)
 			}
 		}
 
@@ -171,103 +170,54 @@ object Sketch {
 	}
 }
 
-/**
- * The FieldKit version of a Processing.org PApplet sketch
- * @author Marcus Wendt
- */
-abstract class Sketch extends PAppletProxy with Logger {
 
+/**
+* The FieldKit version of a Processing.org PApplet sketch
+* @author Marcus Wendt
+*/
+abstract class Sketch extends PApplet with Logger {
+	import processing.core.PConstants._
+	
 	def main(args:Array[String]):Unit = Sketch.launch(this, args)
 
 	def title = logName
 
 	// -- OpenGL Tweaks --------------------------------------------------------
 	import processing.opengl.PGraphicsOpenGL
-  
+
 	def pgl = g.asInstanceOf[PGraphicsOpenGL]
 	def gl = pgl.gl
 	def beginGL = pgl.beginGL
 	def endGL = pgl.endGL
+
+	// -- Screen Recorder ------------------------------------------------------
+	import field.kit.p5.Recorder
+	protected var rec:Recorder = _
 	
-	// Use pre / post methods for recorder
-	// registerPre , registerPost
+	def beginRecord {
+		if(rec != null) rec.pre
+	}
 	
-	//  
-	//  // -- Menubar ---------------------------------------------------------------- 
-	//  import java.awt.MenuBar
-	//  import java.awt.Menu
-	//  protected var menuBar:MenuBar = null
-	//  
-	//  /** Called from init to create a system menubar */
-	//  protected def initMenuBar = {
-	//    menuBar = new MenuBar
-	//    
-	//    // file menu
-	//    val file = new Menu("File")
-	//    initFileMenu(file)
-	//    menuBar add file
-	//    
-	//    menuBar
-	//  }
-	//  
-	//  protected def initFileMenu(file:Menu) {
-	//    import field.kit.util.SwingUtil
-	//    import java.awt.event.KeyEvent
-	//    
-	//    file add SwingUtil.menuItem("Record Screenshot", KeyEvent.VK_R, false, recordScreenshot)
-	//    file add SwingUtil.menuItem("Record Sequence", KeyEvent.VK_R, true, recordSequence)
-	//    file add SwingUtil.menuItem("Recording Settings", {
-	//      import javax.swing.JOptionPane
-	//      
-	//      val options = new Array[Object](10)
-	//      for(i <- 0 until options.length)
-	//        options(i) = (i+1)*width +" x "+ (i+1)*height +" px"
-	//      
-	//      val input = JOptionPane.showInputDialog(frame, 
-	//                                              "Select the output dimension:",
-	//                                              "Recording Settings",
-	//                                              JOptionPane.PLAIN_MESSAGE,
-	//                                              null,
-	//                                              options,
-	//                                              options(0)).toString
-	//      
-	//      val outputWidth = input.substring(0, input.indexOf(' ')).toInt
-	//      val numTiles = outputWidth / width
-	//      rec.init(numTiles * width, numTiles * height)
-	//    })
-	//    file add SwingUtil.menuItem("Quit", KeyEvent.VK_Q, false, exit)
-	//  }
-	//  
-	//  /*
-	//  override def init(width:Int, height:Int, fullscreen:Boolean, aaSamples:Int, initializer: => Unit) {
-	//    super.init(width, height, fullscreen, aaSamples, initializer)
-	//    
-	//    // set default recording dimensions
-	//    rec.init(width, height)
-	//    
-	//    // dont show menubar in fullscreen mode, (deactivates keyboard shortcuts on linux)
-	//    if(!fullscreen)
-	//      frame.setMenuBar(initMenuBar)
-	//  }
-	//  */
-	//    
-	//  // -- Screen Recorder---------------------------------------------------------
-	//  import field.kit.p5.Recorder
-	//  var rec = new Recorder(this)
-	//  rec.name = logName
-	//  
-	////  /** enables/disabled the vertical sync, prevents tearing */
-	////  var vsyncEnabled = false
-	////  
-	////  override def draw {
-	////    if(vsyncEnabled) gl.setSwapInterval(1)
-	////    
-	////    rec.pre
-	////    render
-	////    rec.post
-	////  }
-	//  
-	//  protected def recordScreenshot = rec.screenshot
-	//  
-	//  protected def recordSequence = rec.sequence
+	override def endRecord {
+		super.endRecord
+		if(rec != null) rec.post
+	}
+	
+	protected def initRecorder {
+		rec = new Recorder(this)
+	}
+	
+	override def keyPressed {
+		key match {
+			case 'r' =>
+				if(rec == null) initRecorder
+				rec.screenshot
+				
+			case 'R' =>
+				if(rec == null) initRecorder
+				rec.sequence
+				
+			case _ =>
+		}
+	}
 }

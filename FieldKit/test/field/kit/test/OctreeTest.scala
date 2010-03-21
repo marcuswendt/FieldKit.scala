@@ -86,7 +86,7 @@ object OctreeTest extends Sketch {
 	}
 
 	override def draw {
-		// -- update ---------------------------------------------------------------
+		// -- update -----------------------------------------------------------
 		// rotate view on mouse drag
 		if (mousePressed) {
 			xrot += (mouseY*0.01f-xrot)*0.1f
@@ -98,7 +98,9 @@ object OctreeTest extends Sketch {
 			pointer.y = -(height*0.5f-mouseY)/(height/2)*DIM2
 		}
 
-		// -- render ---------------------------------------------------------------
+		// -- render -----------------------------------------------------------
+		beginRecord
+		
 		background(255)
 
 		pushMatrix
@@ -123,6 +125,8 @@ object OctreeTest extends Sketch {
 		//text("total: "+numParticles,10,30);
 		//text("clipped: "+numClipped+" (time: "+dt+"ms)",10,50);
 		popMatrix
+		
+		endRecord
 	}
 
 	def drawCursor {
@@ -154,7 +158,6 @@ object OctreeTest extends Sketch {
 		}
 	}
 
-
 	def drawSphere {
 		fill(0,30)
 		pushMatrix
@@ -164,6 +167,8 @@ object OctreeTest extends Sketch {
 	}
 
 	override def keyPressed {
+		super.keyPressed()
+		
 		key match {
 			case ' ' =>
 			// add NUM new particles within a sphere of radius DIM2
