@@ -175,6 +175,7 @@
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Compressor.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/Package.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Compressor.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Compressor.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Compressor.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/util/Logger.scala
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Compressor.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/math/Package.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Capture.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/objects/FrameBuffer.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Capture.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/objects/Texture.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Capture.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/colour/Colour.scala

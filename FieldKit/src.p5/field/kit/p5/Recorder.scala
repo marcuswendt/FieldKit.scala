@@ -48,7 +48,7 @@ class Recorder(val sketch:Sketch) extends Logger {
 	var name = sketch.logName
 	var baseDir = "./recordings"
 	var alpha = false
-	var fileFormat = Recorder.FileFormat.PNG
+	var fileFormat = Recorder.FileFormat.JPG
 
 	/** the target image dimensions */
 	protected var image = new Dim2[Int]
