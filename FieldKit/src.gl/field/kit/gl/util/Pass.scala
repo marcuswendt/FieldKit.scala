@@ -37,9 +37,8 @@ class Pass(name:String, var shader:ShaderState, width:Int, height:Int, alpha:Boo
 	import field.kit.gl.scene.state.TextureState
 	import field.kit.gl.objects.Texture
 
-
-	scale := (width.toFloat, height.toFloat, 1f)
-	translation := (width/2f, height/2f, 0f)
+	scale := Vec3(width, height, 1f)
+//	translation := (width.toFloat, height.toFloat, 0f)
 
 	var capture = new Capture(width, height, alpha, depth)
 	states += new TextureState(capture.texture)

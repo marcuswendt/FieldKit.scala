@@ -97,7 +97,7 @@ object Image extends Logger {
 		val format = if(tga.getGLFormat == GL.GL_BGR) Format.RGB else Format.ARGB
 		val image = new Image(tga.getWidth, tga.getHeight, format)
 
-		warn("Currently not implemented!")
+//		warn("Currently not implemented!")
 
 		//    val data = tga.getData
 		//
