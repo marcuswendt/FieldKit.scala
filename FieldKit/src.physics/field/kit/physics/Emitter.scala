@@ -32,17 +32,17 @@ extends Vec3 with Behavioural {
 		// emit particles
 		var j = 0
 		while(j < rate && physics.size < max) {
-			emit
+			emit(this)
 			j += 1
 		}
 	}
 	
 	/** emits a single particle and applies the emitter behaviours */
-	protected def emit:T = {
+	def emit(position:Vec3):T = {
 		val p = createParticle
 		
 		// set particle to start at the emitters position
-		p.init(this) 
+		p.init(position) 
     
 		// add particle to physics
 		physics += p

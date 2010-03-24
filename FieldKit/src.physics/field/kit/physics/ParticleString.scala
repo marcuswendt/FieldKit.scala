@@ -13,7 +13,7 @@ import field.kit._
  * Utility class to create & manage a series of particles connected via springs 
  * into one continous string. 
  */
-class ParticleString[T <: Particle](var physics:Physics[T])(implicit m:Manifest[T]) {
+class ParticleString[T <: Particle](var physics:Physics[T]) {
 	import scala.collection.mutable.ArrayBuffer
 	
 	// particles
@@ -21,7 +21,7 @@ class ParticleString[T <: Particle](var physics:Physics[T])(implicit m:Manifest[
 	
 	def head = particles(0)
 	def tail = particles(particles.size - 1)
-	def size = particles(0)
+	def size = particles.size
 	
 	// springs
 	var springs = new ArrayBuffer[Spring]
@@ -33,6 +33,15 @@ class ParticleString[T <: Particle](var physics:Physics[T])(implicit m:Manifest[
 		springs foreach { _.strength = s }
 	}
 	
+	/**
+	 * Creates a number of springs from a certain Vec3 to another Vec3 position
+	 */
+	def create(start:Vec3, end:Vec3, steps:Int, mass:Float, strength:Float) {
+		val step = (start - end) / steps
+		create(steps, start, step, mass, strength)
+	}
+	
+	
 	def create(num:Int, start:Vec3, step:Vec3, mass:Float, strength:Float) {
 		
 		val pos = Vec3(start)
@@ -42,8 +51,7 @@ class ParticleString[T <: Particle](var physics:Physics[T])(implicit m:Manifest[
 		
 		for(i <- 0 until num) {
 			// create particle and add it to string/ physics
-			val p = createParticle
-			p.init(pos)
+			val p = physics.emitter.emit(pos)
 			
 			particles += p
 			physics += p
@@ -58,13 +66,6 @@ class ParticleString[T <: Particle](var physics:Physics[T])(implicit m:Manifest[
 			prev = p
 			pos += step
 		}
-	}
-	
-	/** Creates a new particle based on this class's parameter type */
-	protected def createParticle:T = {
-		val clazz = Class.forName(m.toString)
-		val p = clazz.newInstance.asInstanceOf[T]
-		p
 	}
 	
 	/** Creates a new spring connecting two particles a, b */

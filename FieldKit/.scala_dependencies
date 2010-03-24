@@ -2,12 +2,13 @@
 -------
 /Users/marcus/Documents/Development/FieldKit/FieldKit/test/field/kit/test/unit/Mat4Test.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/test/field/kit/test/unit/Mat4Test.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/test/field/kit/test/unit/Mat4Test.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/math/Mat4.scala
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Physics.scala
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Particle.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/Package.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Spring.scala
-/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Physics.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/math/Vec3.scala
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Emitter.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala
-/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/ParticleString.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Particle.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/util/Logger.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/util/Logger.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.p5/field/kit/p5/Tiler.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.p5/field/kit/p5/Recorder.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.p5/field/kit/p5/Tiler.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/util/Logger.scala
