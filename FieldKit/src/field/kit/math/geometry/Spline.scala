@@ -67,7 +67,7 @@ class Spline(capacity:Int) extends Curve(capacity) {
 	* point at the interval is calculated and returned.
 	* 
 	* @see field.kit.math.geometry.Curve#point(float)
-*/
+	*/
 	def point(time:Float, result:Object) {
 		import java.nio.FloatBuffer
 
@@ -86,7 +86,12 @@ class Spline(capacity:Int) extends Curve(capacity) {
 			} else {
 				val partPercentage = 1.0f / (size - 1)
 				val timeBetween = time / partPercentage
-				var i = floor(timeBetween).asInstanceOf[Int]
+				
+				// this is maybe the more proper way to do it
+				//var i = java.lang.Math.floor(timeBetween).asInstanceOf[Int]
+				
+				// however just casting toInt gives us a considerable performance boost when using large numbers of curves
+				var i = timeBetween.toInt
 
 				val normalizedTime = timeBetween - i
 
@@ -132,13 +137,13 @@ class Spline(capacity:Int) extends Curve(capacity) {
 
 			// set result
 			result match {
-			case b:FloatBuffer => 
-			b put tmpResult.x
-			b put tmpResult.y
-			b put tmpResult.z
-
-			case v:Vec3 => 
-			v := tmpResult
+				case b:FloatBuffer => 
+					b put tmpResult.x
+					b put tmpResult.y
+					b put tmpResult.z
+	
+				case v:Vec3 => 
+					v := tmpResult
 			}
 		}
 	}

@@ -8,13 +8,14 @@
 package field.kit.math
 
 /**
- * Trigonometry related methods and constants for math.Common
+ * Trigonometry related methods and constants for Math.Common
  */
 trait Trigonometry {
   import Common._
+  import java.lang.Math
   
   /** The value PI as a float. (180 degrees) */
-  final val PI = math.Pi.toFloat
+  final val PI = Math.PI.toFloat
   
   /** The value PI/2 as a float. (90 degrees) */
   final val HALF_PI = PI / 2f
@@ -37,13 +38,13 @@ trait Trigonometry {
   /** A value to multiply a radian value by, to convert it to degrees. */
   final val RAD_TO_DEG = 180f / PI
   
-  final def sin(f:Float) = math.sin(f).toFloat
-  final def asin(f:Float) = math.asin(f).toFloat
-  final def cos(f:Float) = math.cos(f).toFloat
-  final def acos(f:Float) = math.acos(f).toFloat
-  final def tan(f:Float) = math.tan(f).toFloat
-  final def atan(f:Float) = math.atan(f).toFloat
-  final def atan2(x:Float, y:Float) = math.atan2(x,y).toFloat
+  final def sin(f:Float) = Math.sin(f).toFloat
+  final def asin(f:Float) = Math.asin(f).toFloat
+  final def cos(f:Float) = Math.cos(f).toFloat
+  final def acos(f:Float) = Math.acos(f).toFloat
+  final def tan(f:Float) = Math.tan(f).toFloat
+  final def atan(f:Float) = Math.atan(f).toFloat
+  final def atan2(x:Float, y:Float) = Math.atan2(x,y).toFloat
   
   /**
    * Reduces the given angle into the -PI/4 ... PI/4 interval. 
