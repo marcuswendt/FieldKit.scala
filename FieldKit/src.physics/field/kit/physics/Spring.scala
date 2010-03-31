@@ -35,19 +35,17 @@ class Spring {
 		val dist = delta.length + EPSILON
 		val normDistStrength = (dist - restLength) / (dist * (a.invWeight + b.invWeight)) * strength
 
-		//println("delta", delta, "dist", dist, "normDistStrength", normDistStrength)
-		
-        if (!a.isLocked && !isALocked) {
+        if(!a.isLocked && !isALocked) {
         	tmp := delta *= normDistStrength * a.invWeight
         	a += tmp
-            if (applyConstraints)
+            if(applyConstraints)
                 a.applyConstraints
         }
 		
-        if (!b.isLocked && !isBLocked) {
+        if(!b.isLocked && !isBLocked) {
             tmp := delta *= -normDistStrength * b.invWeight
         	b += tmp
-            if (applyConstraints)
+            if(applyConstraints)
                 b.applyConstraints
         }
 	}
