@@ -17,7 +17,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/p5/controlP5.jar"/>
-	<classpathentry kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Development/Research/processing/core/src"/>
+	<classpathentry kind="lib" path="lib/p5/core.jar" sourcepath="/Users/marcus/Documents/Resources/processing/core/src"/>
 	<classpathentry kind="lib" path="lib/p5/opengl.jar"/>
 	<classpathentry kind="lib" path="lib/vision/jna.jar"/>
 	<classpathentry kind="output" path="bin"/>

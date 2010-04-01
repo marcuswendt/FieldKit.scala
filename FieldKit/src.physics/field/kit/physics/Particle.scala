@@ -15,7 +15,7 @@ import field.kit.math.geometry._
  * This is 
  */
 class Particle extends Vec3 with Behavioural {
-		
+	
 	/**
 	 * Creates a new particle at the given position 
 	 */

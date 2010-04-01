@@ -157,7 +157,7 @@ object Sketch {
 		}
 
 		frame.addWindowListener(new WindowAdapter {
-			override def windowClosing(e:WindowEvent) = System.exit(0)
+			override def windowClosing(e:WindowEvent) = applet.exit()
 		}) 
 
 		// handle frame resizing events

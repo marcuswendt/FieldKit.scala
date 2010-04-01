@@ -29,10 +29,10 @@ trait Interpolation {
     current * (1.0 - delta) + target * delta
   
   final def linear(current:Float, target:Float, delta:Float):Float =
-    (target - current) * delta + current  
+    current + (target - current) * delta  
   
   final def linear(current:Double, target:Double, delta:Double):Double =
-    (target - current) * delta + current  
+    current + (target - current) * delta   
 
   final def slerpAngle(cur:Float, to:Float, delta:Float) = {
     var result = cur
