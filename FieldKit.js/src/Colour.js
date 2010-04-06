@@ -2,7 +2,7 @@
  * FieldKit JavaScript Library
  * http://code.google.com/p/fieldkit
  *
- * Copyright (c) 2009 Marcus Wendt
+ * Copyright (c) 2010 Marcus Wendt
  * Licensed under the LGPL license.
  * http://www.gnu.org/licenses/lgpl.html
  *

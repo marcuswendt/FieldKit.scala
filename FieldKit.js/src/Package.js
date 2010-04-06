@@ -2,7 +2,7 @@
  * FieldKit JavaScript Library
  * http://code.google.com/p/fieldkit
  *
- * Copyright (c) 2009 Marcus Wendt
+ * Copyright (c) 2010 Marcus Wendt
  * Licensed under the LGPL license.
  * http://www.gnu.org/licenses/lgpl.html
  *
@@ -14,10 +14,6 @@
 // FIELDKIT MAIN CLASS
 // =============================================================================
 fk = {
-	// private static fields
-	_baseURL: null,
-	_templateURL: null,
-	
 	// -- Inheritance Support --------------------------------------------------
 	// this code was adapted from John Resig's Simple JavaScript inheritance article
 	// http://ejohn.org/blog/simple-javascript-inheritance

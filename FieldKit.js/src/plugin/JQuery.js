@@ -14,12 +14,6 @@
 // =============================================================================
 fk.jquery = {
 	
-	// -- Packages -------------------------------------------------------------
-	include: function(package) {
-		fk.info("import", package);
-		fk.load(this.baseURL() + package +'.js');
-	},
-
 	// -- Helpers --------------------------------------------------------------
 	load: function(url) {
 		fk.info('load', url);

@@ -32,6 +32,8 @@
 			<filelist dir="src/particle" files="System.js Flock.js Emitter.js Particle.js Behaviour.js"/>
 			
 			<filelist dir="src/particle/3d" files="Flock.js Emitter.js Particle.js Behaviour.js"/>
+			
+			<filelist dir="src/plugin" files="Wordpress.js JQuery.js"/>
 		</concat>
 	</target>
 
