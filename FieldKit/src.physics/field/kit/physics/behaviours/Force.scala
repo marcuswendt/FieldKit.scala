@@ -16,6 +16,9 @@ import field.kit.math.geometry._
  */
 class Force extends Vec3 with Behaviour {
 	
+	var weight = 1f
+	protected val tmp = new Vec3
+	
 	def this(x:Float, y:Float, z:Float) {
 		this()
 		set(x,y,z)
@@ -27,6 +30,8 @@ class Force extends Vec3 with Behaviour {
 	}
 	
 	def apply(p:Particle) {
-		p.force += this
+		tmp := this
+		tmp *= weight
+		p.force += tmp 
 	}
 }

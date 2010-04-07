@@ -37,7 +37,7 @@ class ParticleString[T <: Particle](var physics:Physics[T]) {
 	 * Creates a number of springs from a certain Vec3 to another Vec3 position
 	 */
 	def create(start:Vec3, end:Vec3, steps:Int, mass:Float, strength:Float) {
-		val step = (start - end) / steps
+		val step = (end - start) / steps
 		create(steps, start, step, mass, strength)
 	}
 	
