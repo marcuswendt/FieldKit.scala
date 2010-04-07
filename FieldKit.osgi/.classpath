@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="core.jar" sourcepath="/Users/marcus/Documents/Development/Research/processing/core/src"/>
-	<classpathentry exported="true" kind="lib" path="FieldKit.jar" sourcepath="/FieldKit/src"/>
+	<classpathentry exported="true" kind="lib" path="FieldKit.jar" sourcepath="/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics"/>
 	<classpathentry exported="true" kind="lib" path="gluegen-rt.jar"/>
 	<classpathentry exported="true" kind="lib" path="jogl.jar" sourcepath="/FieldKit/src">
 		<attributes>

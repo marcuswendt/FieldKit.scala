@@ -1,3 +1,10 @@
+/*                                                                            *\
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, field.io             **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
+\*                                                                            */
+/* created March 01, 2010 */
 package field.kit.physics.behaviours
 
 import field.kit._

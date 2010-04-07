@@ -4,7 +4,7 @@
 **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, field.io             **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
-/* created March 01, 2010 */
+/* created April 07, 2010 */
 package field.kit.physics.behaviours
 
 import field.kit._
@@ -12,27 +12,21 @@ import field.kit.physics._
 import field.kit.math.geometry._
 
 /**
- * Sets the particle to a random position within a sphere; Thought to be used as
- * Emitter behaviour and therefore clears the particles velocity 
+ * Applies a constant force to each particle
  */
-class RandomiseWithinRadius(var radius:Float) extends Behaviour {
+class Force extends Vec3 with Behaviour {
+	
+	def this(x:Float, y:Float, z:Float) {
+		this()
+		set(x,y,z)
+	}
+	
+	def this(v:Vec3) {
+		this()
+		set(v)
+	}
 	
 	def apply(p:Particle) {
-		p.x += random(-radius, radius)
-		p.y += random(-radius, radius)
-		p.z += random(-radius, radius)
-		p.clearVelocity
+		p.force += this
 	}
 }
-
-/**
- * Pushes the particle into a random direction
- */
-class RandomSphericalForce(var weight:Float) extends Behaviour {
-	
-	protected val tmp = new Vec3
-	
-	def apply(p:Particle) {
-		p.force += tmp.randomiseTo(weight)
-	}
-} 
