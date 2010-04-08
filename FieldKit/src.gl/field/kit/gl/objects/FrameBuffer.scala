@@ -26,6 +26,9 @@ object FrameBuffer {
  * By capturing images that would normally be drawn to the screen, it can be used 
  * to implement a large variety of image filters, and post-processing effects.
  * 
+ * TODO add multiple render targets support
+ * @see <a href="http://www.gamedev.net/reference/articles/article2333.asp">Frame Buffer Object 201</a>
+ * 
  * @see <a href="http://en.wikipedia.org/wiki/Framebuffer_Object">Wikipedia Framebuffer Object</a>
  * @author Marcus Wendt
  */

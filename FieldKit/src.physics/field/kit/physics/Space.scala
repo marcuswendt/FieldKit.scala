@@ -19,7 +19,8 @@ import scala.collection.mutable.ArrayBuffer
 * 
 * @author Marcus Wendt
 */
-abstract class Space(val dimension:Vec3) extends AABB(dimension * 0.5f) {
+abstract class Space(position:Vec3, val dimension:Vec3) 
+extends AABB(position, dimension * 0.5f) {
 	
 	type T = Particle
 }
@@ -27,9 +28,11 @@ abstract class Space(val dimension:Vec3) extends AABB(dimension * 0.5f) {
 /**
 * A space that uses an Octree to find neighbouring particles 
 */
-class OctreeSpace(dimension:Vec3) extends Space(dimension) {
+class OctreeSpace(position:Vec3, dimension:Vec3) extends Space(position, dimension) {
 		
 	val tree = new Octree[Particle](Vec3(), dimension)
+
+	def this(dimension:Vec3) = this(new Vec3, dimension)
 	
 	def clear = tree.clear
 	

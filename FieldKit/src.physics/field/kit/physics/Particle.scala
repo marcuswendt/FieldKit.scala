@@ -106,14 +106,21 @@ class Particle extends Vec3 with Behavioural {
 		force.zero
 	}
 	
+	/** initialises the particle at the given position */
 	def init(v:Vec3) {
 		this := v
 		clearVelocity
 	}
 	
-	def clearVelocity {
-		prev := this
-	}
+//	/** @return the velocity of this particle */
+//	def velocity = distance(prev) 
+//		
+//	/** sets the velocity of this particle */
+//	def velocity_=(vel:Float) = prev := (prev - this).normaliseTo(vel)
+////	def velocity_=(vel:Float) = prev := (this - prev).normaliseTo(vel)
+	
+	/** sets the velocity of this particle to zero */
+	def clearVelocity = prev := this
 	
 	def scaleVelocity(s:Float) = prev.interpolate(this, 1f - s)
 	
