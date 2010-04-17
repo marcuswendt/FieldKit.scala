@@ -44,7 +44,7 @@ class BSpline(capacity:Int) extends Spline(capacity) {
 				i -= 1
 
 				if(i == -1) {
-					(tmp0 := second -= first).normalize *= EPSILON
+					(tmp0 := second -= first).normalizeTo(EPSILON)
 					tmp1 := first -= tmp0
 				} else {
 					tmp1 := (vertices, i)
@@ -58,7 +58,7 @@ class BSpline(capacity:Int) extends Spline(capacity) {
 
 				i += 1
 				if(i >= size) {
-					(tmp0 := beforeLast -= last).normalize *= EPSILON
+					(tmp0 := beforeLast -= last).normalizeTo(EPSILON)
 					tmp4 := last -= tmp0
 				} else {
 					tmp4 := (vertices, i)

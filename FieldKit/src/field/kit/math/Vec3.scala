@@ -265,6 +265,9 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 
 	/** @deprecated */
 	final def normalize = normalise
+	
+	/** @deprecated */
+	final def normalizeTo(len:Float) = normaliseTo(len)
 
 	/** <code>angleBetween</code> returns (in radians) the angle between two vectors.
 	*  It is assumed that both this vector and the given vector are unit vectors (iow, normalized). */

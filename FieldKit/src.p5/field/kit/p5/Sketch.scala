@@ -36,10 +36,10 @@ object Sketch {
 		args foreach { arg =>
 
 		// parse argument
-		val equals = arg.indexOf('=')
-			if(equals != -1) {
-				val param = arg.substring(0, equals)
-				val value = arg.substring(equals + 1)
+		val eq = arg.indexOf('=')
+			if(eq != -1) {
+				val param = arg.substring(0, eq)
+				val value = arg.substring(eq + 1)
 				
 				param match {
 					case ARGS_LOCATION => 
@@ -81,7 +81,8 @@ object Sketch {
 		val frame = new Frame(display.getDefaultConfiguration)
 		frame.setTitle(applet.title)
 		frame.setResizable(false)
-
+		frame.setBackground(java.awt.Color.BLACK)
+	
 		var fullScreenRect:Rectangle = null
 
 		// presentation mode
@@ -97,7 +98,7 @@ object Sketch {
 				val mode = display.getDisplayMode
 				fullScreenRect = new Rectangle(offsetX, offsetY, mode.getWidth(), mode.getHeight())
 				frame.setBounds(fullScreenRect)
-				frame.setVisible(true)
+//				frame.setVisible(true)
 			}
 		}
 

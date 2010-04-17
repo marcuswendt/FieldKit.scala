@@ -1,8 +1,8 @@
 /*                                                                            *\
-**           _____  __  _____  __     ____     FieldKit                       **
-**          / ___/ / / /____/ / /    /    \    (c) 2009, field                **
-**         / ___/ /_/ /____/ / /__  /  /  /    http://www.field.io            **
-**        /_/        /____/ /____/ /_____/                                    **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 31, 2009 */
 package field.kit.util
@@ -29,7 +29,7 @@ object Timer {
 
 
 /** 
- * a simple helper for making sketches time-invariant
+ * A simple helper to set up alarms and measure time between frames
  * @author Marcus Wendt
  */
 class Timer {
