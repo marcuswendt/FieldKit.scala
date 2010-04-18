@@ -15,26 +15,18 @@ import field.kit.gl.objects.Texture
 object TextureState {
 	import java.net.URL
 
-	/** Creates a new <code>TextureState</code> with a single Texture loaded from the give path */
-	def apply(file:String) = load(file)
-
-	/** Creates a new <code>TextureState</code> with a single Texture loaded from the give URL */
-	def apply(file:URL) = load(file)
-
-	/** Creates a new <code>TextureState</code> with a single Texture and a blank Image with the given properties */
-	def apply(width:Int, height:Int, alpha:Boolean) = create(width, height, alpha)
-
 	def apply(texture:Texture) = new TextureState(texture)
 
-	// -- Loading & Creating -----------------------------------------------------
 	/** Creates a new <code>TextureState</code> with a single Texture loaded from the give path */
-	def load(file:String) = new TextureState(Texture(file))
+	def apply(file:String, mipmap:Boolean) =
+		new TextureState(Texture(file, mipmap))
 
 	/** Creates a new <code>TextureState</code> with a single Texture loaded from the give URL */
-	def load(file:URL) = new TextureState(Texture(file))
+	def apply(file:URL, mipmap:Boolean) = 
+		new TextureState(Texture(file, mipmap))
 
 	/** Creates a new <code>TextureState</code> with a single Texture and a blank Image with the given properties */
-	def create(width:Int, height:Int, alpha:Boolean) =
+	def apply(width:Int, height:Int, alpha:Boolean = true, mipmap:Boolean = true) =
 		new TextureState(Texture(width, height, alpha))
 }
 
