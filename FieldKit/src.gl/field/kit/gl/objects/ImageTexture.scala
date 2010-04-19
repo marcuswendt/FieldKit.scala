@@ -48,11 +48,13 @@ object ImageTexture {
 * An OpenGL texture that keeps an internal bitmap image to allow pixel manipulation 
 * @author Marcus Wendt
 */
-class ImageTexture(var _image:Image) extends Texture {
+class ImageTexture(protected var _image:Image, 
+				   protected var createMipMaps:Boolean = true) 
+				   extends Texture {
 	
-	var createMipMaps = false
+	protected var buffer:IntBuffer = _	
 
-	protected var buffer:IntBuffer = null
+	image = _image
 	
 	def image = _image
 	def image_=(image:Image) = {
@@ -61,13 +63,13 @@ class ImageTexture(var _image:Image) extends Texture {
 		needsUpdate = true
 	}
 	
-	protected def update {
+	protected def updateTexture {
 		if(buffer == null) return
 
 		if(id == Texture.UNDEFINED) create
 
 		// upload image data to texture
-		//info("updating texture", this.id, "width", image.width, "height", image.height)
+//		info("updating texture", this.id, "width", image.width, "height", image.height)
 
 		// upload data
 		gl.glEnable(GL.GL_TEXTURE_2D)
@@ -107,7 +109,7 @@ class ImageTexture(var _image:Image) extends Texture {
 
 	/** based on code ported from Processings PGraphicsOpenGL */
 	protected def updateImage {
-		if(image == null) return
+		if(_image == null) return
 
 		// simply set texture dimensions to image dimensions, assuming the gpu supports
 		// non power of two textures
@@ -128,8 +130,8 @@ class ImageTexture(var _image:Image) extends Texture {
 
 		// create pixels storage
 		if(buffer == null) 
-		buffer = Buffer.int(width * height)
-
+			buffer = Buffer.int(width * height)
+		
 		// copy data into the texture
 		var t = 0
 		var p = 0
@@ -197,7 +199,7 @@ class ImageTexture(var _image:Image) extends Texture {
 			needsUpdate = true
 		}
 
-		if(needsUpdate) update
+		if(needsUpdate) updateTexture
 
 		if(!isValid) return
 		gl.glEnable(GL.GL_TEXTURE_2D)
