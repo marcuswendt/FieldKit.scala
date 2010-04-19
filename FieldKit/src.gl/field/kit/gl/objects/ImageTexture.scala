@@ -36,17 +36,17 @@ object ImageTexture {
 * @author Marcus Wendt
 */
 class ImageTexture(protected var _image:Image, 
-				   protected var createMipMaps:Boolean = true) 
+				   protected var createMipMaps:Boolean = false) 
 				   extends Texture {
 	
 	protected var buffer:IntBuffer = _	
 
-	image = _image
+	updateBuffer
 	
 	def image = _image
 	def image_=(image:Image) = {
 		this._image = image
-		updateImage
+		updateBuffer
 		needsUpdate = true
 	}
 	
@@ -95,7 +95,7 @@ class ImageTexture(protected var _image:Image,
 	}
 
 	/** based on code ported from Processings PGraphicsOpenGL */
-	protected def updateImage {
+	protected def updateBuffer {
 		
 		// simply set texture dimensions to image dimensions, assuming the gpu supports
 		// non power of two textures

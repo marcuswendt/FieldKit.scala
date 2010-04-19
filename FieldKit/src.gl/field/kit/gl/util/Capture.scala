@@ -44,7 +44,7 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends GLUse
 	}
 
 	// create texture target
-	var texture = Texture(width, height, alpha, false)
+	var texture = ImageTexture(width, height, alpha, false)
 	var textureUnit = 0
 	texture.wrap = Texture.Wrap.CLAMP
 	texture.filter = Texture.Filter.LINEAR
