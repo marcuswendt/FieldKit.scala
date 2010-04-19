@@ -250,51 +250,64 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
 	* Attempts to interpret this String to set this Colours components
 	* @return itself
 */
-	final def :=(s:String) = {
-		if(s != null) {
-		val iter = DECIMAL findAllIn s
-		val list = iter.toList
-
-		var index = 0
-		def next = { 
-		var f = abs(list(index).toFloat)
-		index += 1
-		// normalize values above 1.0
-		if(f > 1.0f) f /= 255f
-		f
+	final def :=(s:String):Colour = {
+		if(s == null) return this
+		
+		// String is a hexadecimal representation of this colour
+		if(s(0) == '#') {
+			val intValue = Integer.parseInt(s.substring(1, s.length), 16)
+			this.:=(intValue)
+			
+		// String is a text description of this colour e.g. r: 255, g: 128, b: 64
+		} else {
+			val iter = DECIMAL findAllIn s
+			val list = iter.toList
+	
+			var index = 0
+			def next = { 
+				var f = abs(list(index).toFloat)
+				index += 1
+				// normalize values above 1.0
+				if(f > 1.0f) f /= 255f
+				f
+			}
+	
+			list.size match {
+				// set all 
+				case 1 =>
+					val f = next
+					this.r = f
+					this.g = f
+					this.b = f
+					this.a = f
+					
+				// set rgb and alpha
+				case 2 =>
+					val f = next
+					this.r = f
+					this.g = f
+					this.b = f
+					this.a = next
+					
+				// set the rgb values
+				case 3 =>
+					this.r = next 
+					this.g = next
+					this.b = next
+					
+				// set rgba independently
+				case 4 =>
+					this.r = next 
+					this.g = next
+					this.b = next
+					this.a = next
+					
+				case _ => throw new Exception("Couldnt parse String '"+ s +"' (matches:"+ list.size +")")
+			}
+			
+			setRGB(r,g,b)
 		}
 
-		list.size match {
-		// set all 
-		case 1 =>
-		val f = next
-		this.r = f
-		this.g = f
-		this.b = f
-		this.a = f
-		// set rgb and alpha
-		case 2 =>
-		val f = next
-		this.r = f
-		this.g = f
-		this.b = f
-		this.a = next
-		// set the rgb values
-		case 3 =>
-		this.r = next 
-		this.g = next
-		this.b = next
-		// set rgba independently
-		case 4 =>
-		this.r = next 
-		this.g = next
-		this.b = next
-		this.a = next
-		case _ => throw new Exception("Couldnt parse String '"+ s +"' (matches:"+ list.size +")")
-		}
-
-		setRGB(r,g,b)
-		}
 		this
 	}
 
