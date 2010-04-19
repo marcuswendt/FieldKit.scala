@@ -27,7 +27,7 @@ object TextureState {
 
 	/** Creates a new <code>TextureState</code> with a single Texture and a blank Image with the given properties */
 	def apply(width:Int, height:Int, alpha:Boolean = true, mipmap:Boolean = true) =
-		new TextureState(Texture(width, height, alpha))
+		new TextureState(Texture(width, height, alpha, mipmap))
 }
 
 /** Applies a texture to an object */

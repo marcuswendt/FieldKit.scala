@@ -70,11 +70,11 @@ class Vec4(var x:Float, var y:Float, var z:Float, var w:Float) extends Vec {
   final def lengthSquared = x*x + y*y + z*z + w*w
   
   /** makes sure this vector does not exceed a certain length */
-  final def clamp(max:Float) = {
+  final def clamp(_max:Float) = {
     val l = length
-    if(l > max) {
+    if(l > _max) {
       this /= l
-      this *= max
+      this *= _max
     }
     this
   }  

@@ -30,7 +30,7 @@ object TextureTest extends Sketch {
 		q.translation.x = width/2
 		q.translation.y = height/2
 		
-		q += TextureState(ImageTexture("res/test/test.jpg"))
+		q += TextureState(ImageTexture("res/test/test.jpg", true))
 //		q += TextureState(Texture("res/test/test.jpg"))
 	}
 	

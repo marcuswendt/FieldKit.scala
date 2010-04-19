@@ -7,6 +7,8 @@
 /* created April 17, 2009 */
 package field.kit.gl.scene.transform
 
+import field.kit._
+
 /**
  * A fast way to create triangles from a given set of vertices
  * 
@@ -18,7 +20,6 @@ trait Triangulator {
   import java.nio.FloatBuffer
   import java.nio.IntBuffer
   
-  private val EPSILON = 0.0001f
   private var orderedVertices:Array[Int] = Array(0)
   var triangleCount = 0
   

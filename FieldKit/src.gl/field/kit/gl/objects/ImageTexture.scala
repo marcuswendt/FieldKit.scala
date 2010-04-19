@@ -20,28 +20,15 @@ import java.nio.IntBuffer
 object ImageTexture {
 	import java.net.URL
 
-	/** Creates a new <code>Texture</code> with an <code>Image</code> loaded from the given path */
-	def apply(file:String) = load(file)
-
-	/** Creates a new <code>Texture</code> with an <code>Image</code> loaded from the given <code>URL</code> */
-	def apply(file:URL) = load(file)
-
 	/** Creates a new <code>Texture</code> with a blank <code>Image</code> of the given dimensions */
-	def apply(width:Int, height:Int, alpha:Boolean) = 
-	create(width, height, alpha)
+	def apply(width:Int, height:Int, alpha:Boolean, createMipMaps:Boolean) = 
+		new ImageTexture(Image(width, height, alpha), createMipMaps)
 
-	def apply(image:Image) = new ImageTexture(image)
-
-	// -- Loading & Creating -----------------------------------------------------
-	/** Creates a new <code>Texture</code> with an <code>Image</code> loaded from the given path */
-	def load(file:String) = new ImageTexture(Image(file))
-
-	/** Creates a new <code>Texture</code> with an <code>Image</code> loaded from the given <code>URL</code> */
-	def load(file:URL) = new ImageTexture(Image(file))
-
-	/** Creates a new <code>Texture</code> with a blank <code>Image</code> of the given dimensions */
-	def create(width:Int, height:Int, alpha:Boolean) =
-		new ImageTexture(Image(width, height, alpha))
+	def apply(path:String, createMipMaps:Boolean) = 
+		new ImageTexture(Image(path), createMipMaps)
+	
+	def apply(image:Image, createMipMaps:Boolean) = 
+		new ImageTexture(image, createMipMaps)
 }
 
 /**
@@ -109,8 +96,7 @@ class ImageTexture(protected var _image:Image,
 
 	/** based on code ported from Processings PGraphicsOpenGL */
 	protected def updateImage {
-		if(_image == null) return
-
+		
 		// simply set texture dimensions to image dimensions, assuming the gpu supports
 		// non power of two textures
 		_width = image.width

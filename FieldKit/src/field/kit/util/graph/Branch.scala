@@ -18,7 +18,7 @@ trait Branch[T <: Node] extends Iterable[T] {
   //import field.kit.util.datatype.collection.ArrayBuffer
 	import scala.collection.mutable.ArrayBuffer
   
-	protected var children:ArrayBuffer[T] = null
+	protected var children:ArrayBuffer[T] = _
  
   /**
    * @return returns the first child which matches the given name

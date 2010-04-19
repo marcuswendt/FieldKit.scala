@@ -46,8 +46,8 @@ object Texture extends Logger {
 	}
 		
 	/** Creates a new <code>ImageTexture</code> with a blank <code>Image</code> of the given dimensions */
-	def apply(width:Int, height:Int, alpha:Boolean) =
-		new ImageTexture(Image(width, height, alpha))
+	def apply(width:Int, height:Int, alpha:Boolean, mipmap:Boolean) =
+		new ImageTexture(Image(width, height, alpha), mipmap)
 
 	// -- Constants --------------------------------------------------------------
 	val UNDEFINED = -1

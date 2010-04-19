@@ -27,10 +27,8 @@ abstract class Shader extends GLObject {
 	def destroy {}
 
 	protected def compile(source:String) {
-		if(source == null) {
+		if(source == null)
 			throw new ShaderCompileException("No source given!")
-			return
-		}
 
 		if(id == GLObject.UNDEFINED) create
 

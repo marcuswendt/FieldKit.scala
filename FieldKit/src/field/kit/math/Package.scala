@@ -64,8 +64,8 @@ trait Package extends Trigonometry with Interpolation with Intersection {
 	final def same(a:Float, b:Float) = (a * b) >= 0
 
 	final def round(value:Float, precision:Int):Float = {
-		val exp = Math.pow(10, precision).toFloat
-		Math.round(value * exp) / exp
+		val _exp = Math.pow(10, precision).toFloat
+		Math.round(value * _exp) / _exp
 	}
 
 	final def clamp(value:Float):Float = clamp(value, 0f, 1f)

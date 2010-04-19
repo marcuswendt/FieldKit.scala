@@ -17,6 +17,7 @@ import com.sun.opengl.util.texture._
 class JOGLTexture(data:TextureData) extends Texture {
 	
 	protected var texture = TextureIO.newTexture(data)
+	needsUpdate = true
 	
 	_width = texture.getWidth
 	_height = texture.getHeight

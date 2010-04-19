@@ -55,7 +55,7 @@ extends Mesh(name) {
   /**
    * initializes the geometry data of this Quad
    */
-  def init(mode:Quad.Value, width:Float, height:Float) {
+  def init(_mode:Quad.Value, width:Float, height:Float) {
     this._width = width
     this._height = height
     
