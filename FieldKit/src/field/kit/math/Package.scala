@@ -1,8 +1,8 @@
 /*                                                                            *\
- **           _____  __  _____  __     ____                                    **
- **          / ___/ / / /____/ / /    /    \    FieldKit                       **
- **         / ___/ /_/ /____/ / /__  /  /  /    (c) 2009, field.io             **
- **        /_/        /____/ /____/ /_____/     http://www.field.io            **
+**           _____  __  _____  __     ____                                    **
+**          / ___/ / / /____/ / /    /    \    FieldKit                       **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
+**        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 24, 2009 */
 package field.kit.math
@@ -21,7 +21,11 @@ object Common extends Package
  * 
  * @author Marcus Wendt
  */
-trait Package extends Trigonometry with Interpolation with Intersection {
+trait Package 
+extends Trigonometry
+with Interpolation
+with Intersection 
+with Randomness {
 	import java.lang.Math
 	
 	final val EPSILON = 1e-6f
@@ -77,14 +81,4 @@ trait Package extends Trigonometry with Interpolation with Intersection {
 		if(result > max) result = max
 		result
 	}
-
-	// -- Randomness -------------------------------------------------------------
-	final val rnd = new scala.util.Random
-	final def random = rnd.nextFloat
-	final def random(min:Float, max:Float) = rnd.nextFloat * (max - min) + min
-	final def random(min:Int, max:Int) = (rnd.nextFloat * (max - min) + min).asInstanceOf[Int]
-	final def random(scale:Float) = rnd.nextFloat * scale
-	final def randomNormal = rnd.nextFloat * 2f - 1f
-	final def flipCoin = if(rnd.nextFloat > 0.5f) true else false
-	final def flipCoin(chance:Float) = if(rnd.nextFloat < chance) true else false
 }

@@ -7,6 +7,8 @@ syntax: glob
 */build/*
 FieldKit/recordings/**
 FieldKit.osgi/*.jar
+*.orig
+
 syntax: regexp
 ^FieldKit/res/export/tmp$
 \.tmp*
