@@ -19,7 +19,7 @@ class CircleConstraint(circle:Circle, isBoundingCircle:Boolean) extends Behaviou
 		val isInside = circle.contains(p)
 		if((isBoundingCircle && !isInside) || 
 		  (!isBoundingCircle && isInside)) {
-			p := (p -= circle).normalise *= circle.radius += circle	
+			p := (p -= circle).normalize *= circle.radius += circle	
 		}
 			
 	}
@@ -39,7 +39,7 @@ class CircleParticleSizeConstraint(circle:Circle) extends Behaviour {
 		
 		if(circle.intersects(pcircle)) {
 			val v = (p -= circle)
-			v.normalise 
+			v.normalize 
 			v *= (circle.radius + pcircle.radius)
 			v += circle
 			p := v

@@ -7,6 +7,10 @@
 /* created April 25, 2010 */
 package field.kit.math
 
+/**
+ * Provides various functions to generate random numbers
+ * @author marcus
+ */
 trait Randomness {
 	import java.util.Random
 	
@@ -28,6 +32,8 @@ trait Randomness {
 	final def randomNormal(r:Random = null):Float = random(r) * 2f - 1f
 		
 	// Boolean
+	final def flipCoin:Boolean = defaultRandom.nextBoolean
+	
 	final def flipCoin(chance:Float = 0.5f, r:Random = null):Boolean = 
 		random(r) < chance
 }

@@ -8,7 +8,8 @@
 package field.kit.math
 
 import field.kit._
-
+import java.util.Random
+	
 /**
  * Companion object to <code>Vec3</code>
  * @author Marcus Wendt
@@ -30,7 +31,7 @@ object Vec3 {
 	* Creates a new random unit vector
 	* @return a new random normalized unit vector.
 	*/
-	def random = new Vec3(randomNormal, randomNormal, randomNormal)
+	def random(r:Random = null) = new Vec3(randomNormal(r), randomNormal(r), randomNormal(r))
 }
 
 /**
@@ -40,7 +41,7 @@ object Vec3 {
 case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	import java.nio.FloatBuffer
 	import Common._
-
+	
 	// zero constructor to allow argument-less inheritance
 	def this() = this(0,0,0)
 
@@ -238,8 +239,8 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	/**
 	* Normalises this vector so that its magnitude = 1.
 	* @return itself
-*/
-	final def normalise = {
+	*/
+	final def normalize = {
 		val l = length
 		if(l != 0)
 			this /= l
@@ -252,7 +253,7 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	* Normalizes the vector to the given length.
 	* @return itself
 	*/
-	final def normaliseTo(len:Float) = {
+	final def normalizeTo(len:Float) = {
 		var mag = sqrt(x * x + y * y + z * z).toFloat
 		if(mag > 0) {
 			mag = len / mag
@@ -262,12 +263,6 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 		}
 		this
 	}
-
-	/** @deprecated */
-	final def normalize = normalise
-	
-	/** @deprecated */
-	final def normalizeTo(len:Float) = normaliseTo(len)
 
 	/** <code>angleBetween</code> returns (in radians) the angle between two vectors.
 	*  It is assumed that both this vector and the given vector are unit vectors (iow, normalized). */
@@ -309,20 +304,34 @@ case class Vec3(var x:Float, var y:Float, var z:Float) extends Vec {
 	}
 
 	/**
-	* Sets this vector
-	*/
-	final def randomise = {
+	 * TODO add comments
+	 * @return
+	 */
+	final def jitter(amount:Float, r:Random = null) = {
+		x += random(r) * amount
+		y += random(r) * amount
+		z += random(r) * amount
+		this
+	}
+	
+	/**
+	 * TODO add comments
+	 * @return
+	 */
+	final def randomize(r:Random = null) = {
 		x = randomNormal
 		y = randomNormal
 		z = randomNormal
 		this
 	}
 
-	final def randomiseTo(len:Float) = {
-		x = randomNormal
-		y = randomNormal
-		z = randomNormal
-		normaliseTo(len)
+	/**
+	 * TODO add comments
+	 * @return
+	 */
+	final def randomizeTo(len:Float, r:Random = null) = {
+		randomize(r)
+		normalizeTo(len)
 	}
 
 	/** checks wether one or several components of this vector are Not a Number or Infinite */

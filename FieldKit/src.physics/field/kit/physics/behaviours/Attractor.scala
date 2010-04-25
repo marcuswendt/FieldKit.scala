@@ -26,7 +26,7 @@ class AttractorPoint(val weight:Float) extends Vec3 with Behaviour {
 	def apply(p:Particle) {
 		tmp := this
 		tmp -= p
-		tmp.normaliseTo(weight)
+		tmp.normalizeTo(weight)
 		p.force += tmp
 	}
 }
@@ -54,7 +54,7 @@ extends Sphere(position, radius) with Behaviour {
 		tmp.z = this.z + cos(rotY) * radius
 		 
 		tmp -= p
-		tmp.normalise
+		tmp.normalize
 		tmp *= weight
 
 		p.force += tmp
