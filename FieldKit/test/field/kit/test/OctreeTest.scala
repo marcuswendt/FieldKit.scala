@@ -174,7 +174,7 @@ object OctreeTest extends Sketch {
 			// add NUM new particles within a sphere of radius DIM2
 			val insertNum = random(NUM).asInstanceOf[Int]
 			for(i <- 0 until insertNum)
-				octree insert (Vec3.random *= random(DIM2))
+				octree insert (Vec3.random() *= random(DIM2))
 
 			numParticles += insertNum
 

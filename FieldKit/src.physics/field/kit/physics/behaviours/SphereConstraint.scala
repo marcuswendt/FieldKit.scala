@@ -38,7 +38,7 @@ extends Sphere with Constraint {
 		val isInside = contains(p)
 		if((isBoundingSphere && !isInside) || (!isBoundingSphere && isInside)) {
 			val s = this.asInstanceOf[Sphere]
-			p := (p -= s).normalise *= radius += s	
+			p := (p -= s).normalize *= radius += s	
 		}
 	}
 }

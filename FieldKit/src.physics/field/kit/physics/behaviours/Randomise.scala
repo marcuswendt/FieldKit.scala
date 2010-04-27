@@ -33,6 +33,6 @@ class RandomSphericalForce(var weight:Float) extends Behaviour {
 	protected val tmp = new Vec3
 	
 	def apply(p:Particle) {
-		p.force += tmp.randomiseTo(weight)
+		p.force += tmp.randomizeTo(weight)
 	}
 } 

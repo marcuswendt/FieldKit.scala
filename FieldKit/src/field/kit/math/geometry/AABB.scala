@@ -102,7 +102,7 @@ class AABB extends BoundingVolume {
 	def size = extent.x * 2f
 	
 	def size_=(value:Float) {
-		extent.normaliseTo(value)
+		extent.normalizeTo(value)
 		updateBounds
 	}
 	
