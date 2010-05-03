@@ -1,7 +1,7 @@
 /*                                                                            *\
 **           _____  __  _____  __     ____                                    **
 **          / ___/ / / /____/ / /    /    \    FieldKit                       **
-**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, field.io             **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 01, 2010 */
@@ -13,6 +13,7 @@ import field.kit.math.geometry._
 
 /**
  * Constrains the particle to the inside or outside of a sphere
+ * @author marcus
  */
 class SphereConstraint(var isBoundingSphere:Boolean) 
 extends Sphere with Constraint {

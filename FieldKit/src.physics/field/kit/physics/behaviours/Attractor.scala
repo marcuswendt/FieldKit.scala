@@ -1,7 +1,7 @@
 /*                                                                            *\
 **           _____  __  _____  __     ____                                    **
 **          / ___/ / / /____/ / /    /    \    FieldKit                       **
-**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, field.io             **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 01, 2010 */
@@ -13,6 +13,7 @@ import field.kit.math.geometry._
 
 /**
  * Drags the particle towards a certain point in space
+ * @author marcus
  */
 class AttractorPoint(val weight:Float) extends Vec3 with Behaviour {
 	protected val tmp = new Vec3
@@ -36,6 +37,7 @@ import field.kit.math.geometry.Sphere
 
 /**
  * An orbital force across the surface of a sphere  
+ * @author marcus
  */
 class AttractorOrbit(position:Vec3, radius:Float)
 extends Sphere(position, radius) with Behaviour {

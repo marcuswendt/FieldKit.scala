@@ -1,7 +1,7 @@
 /*                                                                            *\
 **           _____  __  _____  __     ____                                    **
 **          / ___/ / / /____/ / /    /    \    FieldKit                       **
-**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, field.io             **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created March 01, 2010 */
@@ -14,6 +14,7 @@ import field.kit.math.geometry._
 /**
  * Sets the particle to a random position within a sphere; Thought to be used as
  * Emitter behaviour and therefore clears the particles velocity 
+ * @author marcus
  */
 class RandomiseWithinRadius(var radius:Float) extends Behaviour {
 	

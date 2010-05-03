@@ -1,7 +1,7 @@
 /*                                                                            *\
 **           _____  __  _____  __     ____                                    **
 **          / ___/ / / /____/ / /    /    \    FieldKit                       **
-**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, field.io             **
+**         / ___/ /_/ /____/ / /__  /  /  /    (c) 2010, FIELD                **
 **        /_/        /____/ /____/ /_____/     http://www.field.io            **
 \*                                                                            */
 /* created April 07, 2010 */
@@ -13,6 +13,7 @@ import field.kit.math.geometry._
 
 /**
  * Applies a constant force to each particle
+ * @author marcus
  */
 class Force extends Vec3 with Behaviour {
 	

@@ -75,9 +75,9 @@
 	<property name="system.javac.target" value="1.5" />
 
 	<!-- scala -->
-	<property name="system.scala.home" value="/opt/local/share/scala/" />
+	<property name="system.scala.home" value="../../lib/scala/" />
 	<property name="system.scalac.target" value="jvm-1.5" />
-	<property name="system.scala-library.jar" value="${system.scala.home}lib/scala-library.jar" />
+	<property name="system.scala-library.jar" value="${system.scala.home}scala-library.jar" />
 
 	<!-- ================================================ -->
 	<!-- PATHS & FILES                                    -->
@@ -113,7 +113,7 @@
 	<!-- load scala ant tasks -->
 	<taskdef resource="scala/tools/ant/antlib.xml">
 		<classpath>
-			<pathelement location="${system.scala.home}/lib/scala-compiler.jar" />
+			<pathelement location="${system.scala.home}/scala-compiler.jar" />
 			<pathelement location="${system.scala-library.jar}" />
 		</classpath>
 	</taskdef>
