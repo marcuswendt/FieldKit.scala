@@ -31,32 +31,37 @@ class Capture(width:Int, height:Int, alpha:Boolean, depth:Boolean) extends GLUse
 	var fbo:FrameBuffer = _
 	var depthBuffer:DepthBuffer = _
 
-	// -- Initialise -------------------------------------------------------------
-	fbo = new FrameBuffer
-	fbo.bind
-
-	// create depth buffer
-	if(depth) {
-		depthBuffer = new DepthBuffer(width, height)
-		depthBuffer.bind
-		fbo.init(FrameBuffer.Format.DEPTH, width, height)
-		fbo += depthBuffer
-	}
-
-	// create texture target
-	var texture = ImageTexture(width, height, alpha, false)
+	var texture:Texture = _
 	var textureUnit = 0
-	texture.wrap = Texture.Wrap.CLAMP
-	texture.filter = Texture.Filter.LINEAR
-	texture.bind
-	fbo += texture
-  
-	// check if everything went well
-	fbo.isComplete
-
-	// clean up
-	texture.unbind
-	fbo.unbind
+	
+	init 
+	
+	def init {
+		fbo = new FrameBuffer
+		fbo.bind
+	
+		// create depth buffer
+		if(depth) {
+			depthBuffer = new DepthBuffer(width, height)
+			depthBuffer.bind
+			fbo.init(FrameBuffer.Format.DEPTH, width, height)
+			fbo += depthBuffer
+		}
+	
+		// create texture target
+		texture = ImageTexture(width, height, alpha, false)
+		texture.wrap = Texture.Wrap.CLAMP
+		texture.filter = Texture.Filter.LINEAR
+		texture.bind
+		fbo += texture
+	  
+		// check if everything went well
+		fbo.isComplete
+	
+		// clean up
+		texture.unbind
+		fbo.unbind
+	}
 
 	/**
 	 * Binds the capture's texture

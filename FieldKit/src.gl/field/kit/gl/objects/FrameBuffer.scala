@@ -72,19 +72,23 @@ class FrameBuffer extends GLObject {
   }
   
   def isComplete = {
+	  var _isComplete = false
     status match {
       case GL.GL_FRAMEBUFFER_COMPLETE_EXT => 
-        true
+        _isComplete = true
         
       case GL.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT =>
         warn("GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT")
-        false
+        
       case GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT =>
         warn("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT")
-        false
+        
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT =>
+        warn("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT")
+        
       case _ =>
-        warn("Unknown GL Error")
-        false
+        warn("Unknown GL Error:", status)
     }
+	   _isComplete
   }
 }
