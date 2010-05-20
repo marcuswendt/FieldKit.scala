@@ -15,12 +15,15 @@ import field.kit.math.geometry._
  * Drags the particle towards a certain point in space
  * @author marcus
  */
-class AttractorPoint(val weight:Float) extends Vec3 with Behaviour {
+class AttractorPoint extends Vec3 with Behaviour {
+	
+	var weight = 1f
 	protected val tmp = new Vec3
 	
 	def this(v:Vec3, weight:Float) {
-		this(weight)
+		this()
 		this := v
+		this.weight = weight
 		this
 	}
 	
