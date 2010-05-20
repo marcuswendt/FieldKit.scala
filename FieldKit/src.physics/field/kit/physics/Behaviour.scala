@@ -56,7 +56,7 @@ trait Behavioural {
 	 * Adds the given Behaviour to this Behavioural
 	 */
 	def +=(b:Behaviour) {
-		if(behaviours == null) behaviours = new ArrayBuffer[Behaviour](6)
+		initBehaviourBuffer
 		behaviours += b
 	}
 	
@@ -87,7 +87,7 @@ trait Behavioural {
 	 * Adds the given Constraint to this Behavioural
 	 */
 	def +=(c:Constraint) {
-		if(constraints == null) constraints = new ArrayBuffer[Constraint](6)
+		initConstraintBuffer
 		constraints += c
 	}
 
@@ -115,20 +115,41 @@ trait Behavioural {
 	 * Adds the given BehaviourSet to this Behavioural
 	 */
 	def +=(s:BehaviourSet) {
-		if(s.constraints == null) return
-		if(constraints == null) constraints = new ArrayBuffer[Constraint](6)
-		s.constraints foreach { constraints += _ }
+		if(s.behaviours != null) {
+			initBehaviourBuffer
+			s.behaviours foreach { behaviours += _ }
+		}
+		
+		if(s.constraints != null) {
+			initConstraintBuffer
+			s.constraints foreach { constraints += _ }
+		}
 	}
 	
 	def add(s:BehaviourSet) = this += s
 	
 	def -=(s:BehaviourSet) {
-		if(s.constraints == null) return
-		if(constraints == null) return
-		s.constraints foreach { constraints -= _ }
+		if(s.behaviours != null && behaviours != null)
+			s.behaviours foreach { behaviours -= _ }
+		
+		if(s.constraints != null && constraints != null)
+			s.constraints foreach { constraints -= _ }
 	}
 	
 	def remove(s:BehaviourSet) = this -= s
+	
+	
+	// -- Utilities ------------------------------------------------------------
+	
+	protected def initBehaviourBuffer {
+		if(behaviours == null) 
+			behaviours = new ArrayBuffer[Behaviour](6)
+	}
+	
+	protected def initConstraintBuffer {
+		if(constraints == null)
+			constraints = new ArrayBuffer[Constraint](6)
+	}
 }
 
 /**

@@ -584,7 +584,6 @@
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Capture.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/Package.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Capture.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/objects/ImageTexture.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/util/Capture.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.gl/field/kit/gl/Renderable.scala
-/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/behaviours/SphereConstraint.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/math/geometry/BoundingVolume.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/behaviours/SphereConstraint.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/behaviours/SphereConstraint.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src/field/kit/util/Logger.scala
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/behaviours/SphereConstraint.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/behaviours/SphereConstraint.scala
@@ -1122,6 +1121,7 @@
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.p5/field/kit/p5/Recorder.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/p5/Recorder.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.p5/field/kit/p5/Recorder.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/p5/Recorder$.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/BehaviourSet$$anonfun$unapply$1.class
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Behavioural$$anonfun$$minus$eq$2.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Behavioural$class.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/BehaviourSet.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Constraint.class
@@ -1129,6 +1129,7 @@
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/BehaviourSet$$anonfun$apply$2.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/BehaviourSet$$anonfun$unapply$2.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Behavioural$$anonfun$$minus$eq$1.class
+/Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Behavioural$$anonfun$$plus$eq$2.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Behavioural.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/Behaviour.class
 /Users/marcus/Documents/Development/FieldKit/FieldKit/src.physics/field/kit/physics/Behaviour.scala -> /Users/marcus/Documents/Development/FieldKit/FieldKit/bin/field/kit/physics/BehaviourSet$$anonfun$apply$1.class
