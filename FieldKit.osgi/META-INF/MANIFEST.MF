@@ -9,8 +9,7 @@ Bundle-ClassPath: FieldKit.jar,
  gluegen-rt.jar,
  jogl.jar,
  controlP5.jar,
- jna.jar,
- scala-library.jar
+ jna.jar
 Export-Package: 
  com.sun.gluegen.runtime,
  com.sun.jna,
@@ -60,3 +59,4 @@ Export-Package:
 Bundle-Vendor: FIELD.IO
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Require-Bundle: scala.library;bundle-version="2.8.0";visibility:=reexport
