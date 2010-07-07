@@ -5,10 +5,5 @@ syntax: glob
 *.DS_Store
 */.manager/*
 *build/*
-FieldKit/recordings/**
-FieldKit.osgi/*.jar
-*.orig
-
-syntax: regexp
-^FieldKit/res/export/tmp$
-\.tmp*
+*recordings*
+res/export/tmp*
