@@ -31,7 +31,7 @@ object PointCloud {
 		vec4 position = gl_ProjectionMatrix * gl_ModelViewMatrix * vertex;
 		gl_Position = position;
 		gl_PointSize = InSize;
-		gl_FrontColor = colour;
+		gl_FrontColor = InColour;
 	}
 	"""
 		

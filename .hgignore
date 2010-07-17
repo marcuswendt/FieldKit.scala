@@ -1,13 +1,14 @@
 syntax: glob
+
+*.orig
 .metadata/*
-*Icon*
-*/bin*
 *.DS_Store
 */.manager/*
-*build/*
+*Icon*
+bin/*
+build/*
 FieldKit/recordings/**
 FieldKit.osgi/*.jar
-*.orig
 
 syntax: regexp
 ^FieldKit/res/export/tmp$
