@@ -72,12 +72,35 @@ abstract class Curve(var capacity:Int) {
 	/** 
 	* calculates a point on the curve based on the time, where time is [0, 1]. 
 	* How the point is calculated is defined by the subclass. 
-*/
+	*/
 	def point(time:Float):Unit = point(time, Vec3())
 
 	/** 
 	* calculates a point on the curve based on the time, where time is [0, 1]. 
 	* How the point is calculated is defined by the subclass. 
-*/
+	*/
 	def point(time:Float, result:Object):Unit
+	
+	/** @return the closest point on this curve to the given point */
+	def closestTo(p:Vec3, resolution:Int, result:Vec3 = null) = {
+		val r = if(result==null) new Vec3 else result
+		
+		var i=0
+		var distClosest = Float.MaxValue
+		
+		// TODO make this a member to avoid mem leaks? 
+		val tmp = new Vec3
+
+		// go through all curve points and look for closest match
+		while(i < resolution) {
+			point(i/ resolution.toFloat, tmp)
+			val dist = tmp.distanceSquared(p)
+			if(dist < distClosest) {
+				r := tmp
+				distClosest = dist 
+			}
+			i += 1
+		}
+		r
+	}
 }

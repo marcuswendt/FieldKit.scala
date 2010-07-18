@@ -42,6 +42,12 @@ object PointCloud {
 	uniform sampler2D tex0;
 	
 	void main() {
+		vec2 tc =  gl_TexCoord[0].st;
+		vec2 center = vec2(0.5,0.5);
+		float dist = distance(center, tc);
+		if(dist > 0.5)
+			discard;
+					
 		//gl_FragColor = gl_Color * texture2D(tex0, gl_TexCoord[0].st);
 		gl_FragColor = gl_Color;
 	}
