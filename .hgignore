@@ -7,9 +7,8 @@ syntax: glob
 *Icon*
 bin/*
 build/*
-
-recordings/**
 res/export/tmp*
+recordings*
 
 syntax: regexp
 \.tmp*
