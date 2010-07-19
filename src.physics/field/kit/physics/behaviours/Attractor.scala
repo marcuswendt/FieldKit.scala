@@ -18,6 +18,17 @@ import field.kit.math.geometry._
 class AttractorPoint extends Vec3 with Behaviour {
 	
 	var weight = 1f
+	range = 100f
+	
+	def range_=(v:Float) {
+		range_ = v
+		rangeSq = v * v
+	}
+	def range = range_
+	
+	protected var range_ = 0f
+	protected var rangeSq = 0f
+	
 	protected val tmp = new Vec3
 	
 	def this(v:Vec3, weight:Float) {
@@ -28,10 +39,17 @@ class AttractorPoint extends Vec3 with Behaviour {
 	}
 	
 	def apply(p:Particle) {
-		tmp := this
-		tmp -= p
-		tmp.normalizeTo(weight)
-		p.force += tmp
+		// create vector from particle to curve point
+		val delta = (tmp := this) -= p
+		
+		// check if particle is in range of the attractor
+		val distSq = delta.lengthSquared
+		
+		if(distSq < rangeSq) {
+			val dist = sqrt(distSq)
+			// normalize and inverse proportional weight
+			p.force += (delta /= dist) *= ((1.0f - dist/ range) * weight)
+		}
 	}
 }
 

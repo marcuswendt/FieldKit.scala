@@ -15,9 +15,7 @@ import field.kit.math.geometry._
  * without loosing velocity.
  * @author marcus
  */
-class BoxWrap extends AABB with Behaviour {
-	
-	var isBounding = false
+class BoxWrap extends AABB with Constraint {
 	
 	/** whether the particles velocity should be cleared when it was wrapped */
 	var clearVelocity = true

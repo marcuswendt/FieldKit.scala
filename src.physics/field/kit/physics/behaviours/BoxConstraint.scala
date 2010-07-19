@@ -11,19 +11,58 @@ import field.kit.physics._
 import field.kit.math.geometry._
 
 /**
- * Constrains the particle to the inside or outside of a circle
+ * Keeps a particle inside the given AABB volume by wrapping it around its edges 
  * @author marcus
  */
-class BoxConstraint extends AABB with Behaviour {
+class BoxConstraint extends AABB with Constraint {
 	
-	var isBounding = false
+	/** whether the particles velocity should be cleared when it was wrapped */
+	var clearVelocity = true
 	
+	def this(box:AABB) {
+		this()
+		this := box
+	}
+
 	def apply(p:Particle) {
-//		val isInside = contains(p)
-//		if((isBounding && !isInside) || 
-//		  (!isBounding && isInside)) {
-//			p := (p -= circle).normalise *= circle.radius += circle	
-//		}
-//			
+		var wrapped = false
+		
+		if(p.x < min.x) {
+			p.prev.x += max.x - p.x
+			p.x = max.x
+			wrapped = true
+			
+		} else if(p.x > max.x) {
+			p.prev.x += min.x - p.x
+			p.x = min.x
+			wrapped = true
+		}
+	
+	    if(p.y < min.y) {
+	    	p.prev.y += max.y - p.y
+	    	p.y = max.y
+	    	wrapped = true
+	    	
+	    } else if(p.y > max.y) {
+	    	p.prev.y += min.y - p.y
+	    	p.y = min.y
+	    	wrapped = true
+	    }
+	
+	    if(p.z < min.z) {
+	    	p.prev.z += max.z - p.z
+	    	p.z = max.z
+	    	wrapped = true
+	    	
+	    } else if(p.z > max.z) {
+	    	p.prev.z += min.z - p.z
+	    	p.z = min.z
+	    	wrapped = true
+	    }
+	    
+	    if(wrapped) {
+	    	if(clearVelocity)
+				p.clearVelocity
+	    }
 	}
 }
