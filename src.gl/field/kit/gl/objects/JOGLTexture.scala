@@ -25,7 +25,6 @@ class JOGLTexture(data:TextureData) extends Texture {
 	def bind {
 		texture.enable()
 		texture.bind()
-		
 		if(needsUpdate) update
 	}
 	
