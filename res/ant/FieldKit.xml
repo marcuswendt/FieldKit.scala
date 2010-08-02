@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- =======================================================================
 	build script for the FieldKit library distribution
 	ANT_OPTS="-Xmx1G" ant -f FieldKit.xml
@@ -58,6 +57,30 @@
 	<property name="jar.file" value="${library.dir}/${project.jar}" />
 	<property name="zip.file" value="${build.dir}/${dist.name}.zip" />
 
+
+	<!-- == INIT ===================== -->	
+	<!-- additional tasks -->
+	<taskdef resource="scala/tools/ant/antlib.xml">
+		<classpath>
+			<pathelement location="${scala-compiler.jar}" />
+			<pathelement location="${scala-library.jar}" />
+		</classpath>
+	</taskdef>
+
+	<!-- paths -->
+	<path id="classpath">
+		<pathelement location="${scala-library.jar}" />
+		<pathelement location="${build.dir}" />
+		<path refid="project.classpath" />
+	</path>
+
+	<!-- directories -->
+	<delete dir="${tmp.dir}" />
+	<mkdir dir="${build.dir}" />
+	<mkdir dir="${tmp.dir}" />
+
+	<pathconvert property="classpath.string" refid="classpath" />
+	<echo>classpath: ${classpath.string}</echo>
 	
 	<!-- == CLEAN ========================================================== -->
 	<target name="clean">
@@ -66,41 +89,9 @@
 		<delete file="${zip.file}" />
 	</target>
 
-	<!-- == INIT =========================================================== -->
-	<target name="check-init">
-		<condition property="is.initialised">
-			<isset property="initialised" />
-		</condition>
-	</target>
-
-	<target name="init" depends="check-init" unless="is.initialised">
-		<!-- additional tasks -->
-		<taskdef resource="scala/tools/ant/antlib.xml">
-			<classpath>
-				<pathelement location="${scala-compiler.jar}" />
-				<pathelement location="${scala-library.jar}" />
-			</classpath>
-		</taskdef>
-
-		<!-- paths -->
-		<path id="classpath">
-			<pathelement location="${scala-library.jar}" />
-			<pathelement location="${build.dir}" />
-			<path refid="project.classpath" />
-		</path>
-
-		<!-- directories -->
-		<delete dir="${tmp.dir}" />
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${tmp.dir}" />
-
-		<pathconvert property="classpath.string" refid="classpath" />
-		<echo>classpath: ${classpath.string}</echo>
-		<property name="initialised" value="true" />
-	</target>
 
 	<!-- == COMPILE ======================================================== -->
-	<target name="compile" depends="init">
+	<target name="compile">
 
 		<!-- copy sources into one folder -->
 		<property name="src.tmp" value="${tmp.dir}/src" />
@@ -113,7 +104,6 @@
 		<!-- compile scala sources -->
 		<scalac target="${scalac.target}" srcdir="${src.tmp}" destdir="${tmp.dir}">
 			<classpath refid="classpath" />
-			<sourcepath refid="sourcepath" />
 		</scalac>
 
 		<!-- compile java sources -->
@@ -147,7 +137,7 @@
 		<available file="${zip.file}" property="zip.file.present" />
 	</target>
 
-	<target name="dist" depends="check-dist, init" unless="zip.file.present" description="adds examples, source and references to a library">
+	<target name="dist" depends="check-dist" unless="zip.file.present" description="adds examples, source and references to a library">
 		<!-- run subtargets -->
 		<antcall target="reference" />
 		<antcall target="source" />
@@ -175,7 +165,7 @@
 		<available file="${jar.file}" property="jar.file.present" />
 	</target>
 
-	<target name="build" depends="check-jar, init" unless="jar.file.present" description="builds the acutal library .jar">
+	<target name="build" depends="check-jar" unless="jar.file.present" description="builds the acutal library .jar">
 		<echo>-----------------------------------------------------------</echo>
 		<echo>building ${dist.name}</echo>
 		<echo>-----------------------------------------------------------</echo>
@@ -201,7 +191,7 @@
 	</target>
 
 	<!-- ** reference ****************************************************** -->
-	<target name="reference" depends="init">
+	<target name="reference">
 		<property name="reference.dir" location="${dist.dir}/reference" />
 		<mkdir dir="${reference.dir}" />
 
