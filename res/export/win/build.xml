@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="OSX" default="dist">
+	<description>Builds a MS Windows .exe</description>
+
+	<target name="dist">
+		<echo>-----------------------------------</echo>
+		<echo>Building MS Windows Distribution...</echo>
+		<echo>-----------------------------------</echo>
+
+		<!-- prepare -->
+		<echo>preparing directories...</echo>
+		<property name="dist.dir" value="${build.dir}/${build.name}-WIN" />
+		<property name="dist.tmp" value="${dist.dir}/tmp/" />
+
+		<property name="dist.exe" value="${dist.dir}/${build.name}.exe" />
+		<property name="dist.jar" value="${dist.tmp}/${build.name}.jar" />
+		
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.tmp}" />
+		
+		<!-- ==== create far jar ==== -->
+		<echo>creating fat jar</echo>
+		
+		<!-- extract all library .jars -->
+		<echo>extracting all libraries</echo>
+		<unzip dest="${dist.tmp}">
+			<patternset>
+				<exclude name="**test**" />
+				<exclude name="**Test**" />
+			</patternset>
+			<fileset refid="libraries.jar" />
+		</unzip>
+
+		<!-- remove any existing manifests -->
+		<delete dir="${dist.tmp}/META-INF" />
+		<delete file="${dist.tmp}/library.properties" />
+
+		<!-- create new 'fat' .jar -->
+		<echo>creating jar file</echo>
+		<jar jarfile="${dist.jar}" basedir="${dist.tmp}" index="true" filesetmanifest="skip">
+			<manifest>
+				<attribute name="Project" value="${project.name}" />
+				<attribute name="Version" value="${project.version}" />
+				<attribute name="Built-By" value="${project.author}" />
+				<attribute name="Build-Date" value="${system.now}" />
+				<attribute name="Main-Class" value="${project.main}" />
+			</manifest>
+
+			<fileset dir="${dist.tmp}" />
+			<fileset dir="${tmp.bin}" />
+			<fileset refid="data.internal" />
+		</jar>
+	
+		<!-- create windows .exe -->
+		<property name="launch4j.dir" location="lib/launch4j/" />
+		<taskdef name="launch4j" 
+		     classname="net.sf.launch4j.ant.Launch4jTask"
+		     classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+     
+		<launch4j>
+			<config headerType="console"
+				jar="${dist.jar}" outfile="${dist.exe}" 
+				errTitle="${project.name}" 
+				chdir="." customProcName="true" icon="win/application.ico">
+			<!-- <jre path="jre/" /> -->
+			<jre minVersion="1.6.0" />
+			</config>
+		</launch4j>
+		
+		<!-- copy natives -->
+		<copy todir="${dist.dir}" flatten="true">
+			<fileset dir="${tmp.lib}">
+				<include name="*.dll" />
+			</fileset>
+		</copy>
+		
+		<!-- copy external data -->
+		<available file="${data.external.dir}" type="dir" property="data.external.present" />
+		<if>
+			<equals arg1="${data.external.present}" arg2="true" />
+			<then>
+				<copy todir="${dist.dir}/">
+					<fileset refid="data.external" />
+				</copy>
+			</then>
+		</if>
+		
+		<!-- clean up -->
+		<delete dir="${dist.tmp}" />
+	</target>
+
+</project>

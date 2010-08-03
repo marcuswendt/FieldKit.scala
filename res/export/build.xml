@@ -32,7 +32,7 @@
 
 	<!-- DISTRIBUTIONS -->
 	<property name="dist.osx" value="true" />
-	<property name="dist.win" value="false" />
+	<property name="dist.win" value="true" />
 	<property name="dist.lin" value="false" />
 	<property name="dist.src" value="false" />
 
@@ -105,10 +105,6 @@
 			<pathelement location="lib/ant-contrib.jar" />
 		</classpath>
 	</taskdef>
-
-	<!-- Pack/Unpack200 Tasks -->
-	<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar" />
-	<taskdef name="unpack200" classname="com.sun.tools.apache.ant.pack200.Unpack200Task" classpath="lib/Pack200Task.jar" />
 
 	<!-- load scala ant tasks -->
 	<taskdef resource="scala/tools/ant/antlib.xml">
@@ -221,7 +217,8 @@
 		<echo>Build ${build.dir}</echo>
 		<echo>Tmp ${tmp.dir}</echo>
 		<echo>-----------------------------------------------------------</echo>
-
+		<echo> </echo>
+		
 		<echo>preparing...</echo>
 		<antcall target="init" />
 		
@@ -254,7 +251,10 @@
 			</then>
 		</if>
 
-		<echo>done</echo>
+		<echo>===========================================================</echo>
+		<echo>Done.</echo>
+		<echo>===========================================================</echo>
+		<echo> </echo>
 	</target>
 
 	<!-- ================================================ -->
