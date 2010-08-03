@@ -32,7 +32,7 @@
 
 	<!-- DISTRIBUTIONS -->
 	<property name="dist.osx" value="true" />
-	<property name="dist.win" value="true" />
+	<property name="dist.win" value="false" />
 	<property name="dist.lin" value="false" />
 	<property name="dist.src" value="false" />
 
@@ -43,7 +43,7 @@
 
 	<!-- LIBRARIES -->
 	<property name="libraries.dir" value="${project.dir}/lib" />
-	<property name="libraries.includes" value="**.*" />
+	<property name="libraries.includes" value="**" />
 	<property name="libraries.excludes" value="" />
 	
 	<!-- DATA -->
