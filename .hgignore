@@ -1,10 +1,18 @@
 syntax: glob
 
+# mercurial
 *.orig
-.metadata/*
+
+# osx
 *.DS_Store
-*/.manager/*
 *Icon*
+
+# eclipse
+.metadata/*
+.scala_dependencies
+*/.manager/*
+
+# building
 bin/*
 build/*
 res/export/tmp*
