@@ -10,7 +10,7 @@ syntax: glob
 .manager*
 .scala_dependencies*
 
-bin/*
+bin/field/*
 build/*
 res/export/tmp*
 recordings*
