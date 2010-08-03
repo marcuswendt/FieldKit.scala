@@ -53,7 +53,6 @@
 		</jar>
 	
 		<!-- create windows .exe -->
-		<!--
 		<property name="launch4j.dir" location="lib/launch4j/" />
 		<taskdef name="launch4j" 
 		     classname="net.sf.launch4j.ant.Launch4jTask"
@@ -67,7 +66,6 @@
 			<jre minVersion="1.6.0" />
 			</config>
 		</launch4j>
-		-->
 		
 		<!-- copy natives -->
 		<copy todir="${dist.dir}" flatten="true">
