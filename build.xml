@@ -6,7 +6,7 @@
 	 ANT_OPTS="-Xmx1G" ant p5libs
 	 ANT_OPTS="-Xmx1G" ant dist
 	 ======================================================================= -->
-<project name="FieldKit">
+<project name="FieldKit" default="dist">
 
 	<property name="build.dir" location="build" />
 	<property name="ant.dir" value="res/ant" />

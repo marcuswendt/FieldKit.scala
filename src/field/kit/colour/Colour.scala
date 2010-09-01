@@ -151,7 +151,6 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
 		if(this.v < 0f) this.v *= -1
 		if(this.v > 1f) this.v %= 1f
 
-
 		val rgb = Colour.hsvToRGB(h,s,v)
 		this.r = rgb._1
 		this.g = rgb._2
@@ -249,15 +248,19 @@ class Colour(var r:Float, var g:Float, var b:Float, var a:Float) extends Logger 
 	/**
 	* Attempts to interpret this String to set this Colours components
 	* @return itself
-*/
+	*/
 	final def :=(s:String):Colour = {
 		if(s == null) return this
 		
 		// String is a hexadecimal representation of this colour
 		if(s(0) == '#') {
-			val intValue = Integer.parseInt(s.substring(1, s.length), 16)
-			this.:=(intValue)
+			val intValue = Integer.parseInt(s.substring(1, s.length), 16)			
+			fromRGB(intValue)
 			
+			// REMINDER: 
+			// Cant do this because it would interpret the hex-color as greyscale when it only contains blue
+			// this.:=(intValue)
+
 		// String is a text description of this colour e.g. r: 255, g: 128, b: 64
 		} else {
 			val iter = DECIMAL findAllIn s
