@@ -82,4 +82,36 @@ class ColourTest extends TestCase {
     assertEquals(c.b, 0.0, 0)
     assertEquals(c.a, 1.0, 0)
   }
+  
+  def testHueShift = {
+	  var c: Colour = null
+	  
+	  // blue to red shift
+	  c = Colour("#0000FF")
+	  assertEquals(c.r, 0.0, 0)
+	  assertEquals(c.g, 0.0, 0)
+	  assertEquals(c.b, 1.0, 0)
+	  assertEquals(c.a, 1.0, 0)
+	  
+	  c.shiftHue(0.333f)
+	  
+	  assertEquals(c.r, 1.0, 0)
+	  assertEquals(c.g, 0.0, 0)
+	  assertEquals(c.b, 0.0, 0.01)
+	  assertEquals(c.a, 1.0, 0)
+	  
+	  // green to blue shift
+	  c = Colour("#00FF00")
+	  assertEquals(0.0, c.r, 0)
+	  assertEquals(1.0, c.g, 0)
+	  assertEquals(0.0, c.b, 0)
+	  assertEquals(1.0, c.a, 0)
+	  
+	  c.shiftHue(0.333f)
+	  
+	  assertEquals(0.0, c.r, 0)
+	  assertEquals(0.0, c.g, 0.01)
+	  assertEquals(1.0, c.b, 0)
+	  assertEquals(1.0, c.a, 0)
+  }
 }

@@ -73,7 +73,7 @@ object Colour {
 		(h,s,v)
 	}
 
-		/** Converts a HSV colour to a RGB triplet */
+	/** Converts a HSV colour to a RGB triplet */
 	final def hsvToRGB(_h:Float, s:Float, v:Float) = {
 		if(java.lang.Float.compare(s, 0.0f) == 0) {
 			(v,v,v)
@@ -86,12 +86,13 @@ object Colour {
 			val q = v * (1 - s * f)
 			val t = v * (1 - s * (1 - f))
 
-		i match {
-			case 0 => (v, t, p)
-			case 1 => (q, v, p)
-			case 2 => (p, v, t)
-			case 3 => (t, p, v)
-			case _ => (v, p, q)
+			i match {
+				case 0 => (v, t, p)
+				case 1 => (q, v, p)
+				case 2 => (p, v, t)
+				case 3 => (p, q, v)
+				case 4 => (t, p, v)
+				case _ => (v, p, q)
 			}
 		}
 	}
